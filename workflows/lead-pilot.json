@@ -1,0 +1,353 @@
+{
+  "name": "Lead Pilot — LazyScale",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-pilot",
+        "options": {}
+      },
+      "id": "a1b2c3d4-1111-1111-1111-111111111111",
+      "name": "Lead Capture Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [240, 300],
+      "webhookId": "lead-pilot"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "name",
+              "name": "name",
+              "value": "={{ $json.body?.name || $json.name || 'Unknown' }}",
+              "type": "string"
+            },
+            {
+              "id": "email",
+              "name": "email",
+              "value": "={{ $json.body?.email || $json.email || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "company",
+              "name": "company",
+              "value": "={{ $json.body?.company || $json.company || 'Not provided' }}",
+              "type": "string"
+            },
+            {
+              "id": "message",
+              "name": "message",
+              "value": "={{ $json.body?.message || $json.message || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "source",
+              "name": "source",
+              "value": "={{ $json.body?.source || $json.source || 'website' }}",
+              "type": "string"
+            },
+            {
+              "id": "timestamp",
+              "name": "timestamp",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1b2c3d4-2222-2222-2222-222222222222",
+      "name": "Normalize Lead Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.openai.com/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $credentials.httpHeaderAuth.value }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"gpt-4o-mini\",\n  \"temperature\": 0.3,\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are a lead qualification assistant. Analyze the incoming lead and return a JSON object with these fields:\\n\\n- score: number 1-10 (10 = most qualified)\\n- tier: \\\"hot\\\" (8-10), \\\"warm\\\" (5-7), or \\\"cold\\\" (1-4)\\n- reason: one sentence explaining the score\\n- suggested_reply: a short, friendly, personalized follow-up message (2-3 sentences max) that acknowledges what they said and suggests a next step\\n\\nScoring criteria:\\n- Has company name: +2\\n- Message mentions specific pain point: +3\\n- Message mentions budget/timeline: +2\\n- Message is detailed (>20 words): +1\\n- Has business email domain (not gmail/yahoo): +2\\n\\nReturn ONLY valid JSON, no markdown.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"New lead:\\nName: {{ $json.name }}\\nEmail: {{ $json.email }}\\nCompany: {{ $json.company }}\\nMessage: {{ $json.message }}\\nSource: {{ $json.source }}\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "id": "a1b2c3d4-3333-3333-3333-333333333333",
+      "name": "AI Qualify Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [720, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "OpenAI API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\nlet aiResponse;\n\ntry {\n  const content = input.choices[0].message.content;\n  aiResponse = JSON.parse(content);\n} catch (e) {\n  aiResponse = {\n    score: 5,\n    tier: \"warm\",\n    reason: \"Could not parse AI response, defaulting to warm\",\n    suggested_reply: \"Thanks for reaching out! I'd love to learn more about what you're working on. Would you be open to a quick 15-minute call this week?\"\n  };\n}\n\nconst leadData = $('Normalize Lead Data').first().json;\n\nreturn [{\n  json: {\n    ...leadData,\n    ai_score: aiResponse.score,\n    ai_tier: aiResponse.tier,\n    ai_reason: aiResponse.reason,\n    ai_reply: aiResponse.suggested_reply\n  }\n}];"
+      },
+      "id": "a1b2c3d4-4444-4444-4444-444444444444",
+      "name": "Parse AI Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [960, 300]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "rules": [
+            {
+              "conditions": {
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.ai_tier }}",
+                    "rightValue": "hot",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "conditions": {
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.ai_tier }}",
+                    "rightValue": "warm",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "conditions": {
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.ai_tier }}",
+                    "rightValue": "cold",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "id": "a1b2c3d4-5555-5555-5555-555555555555",
+      "name": "Route by Score",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [1200, 300]
+    },
+    {
+      "parameters": {
+        "channel": "#leads",
+        "text": "=:fire: *HOT LEAD (Score: {{ $json.ai_score }}/10)*\n\n*Name:* {{ $json.name }}\n*Email:* {{ $json.email }}\n*Company:* {{ $json.company }}\n*Source:* {{ $json.source }}\n\n*Message:*\n> {{ $json.message }}\n\n*AI Analysis:* {{ $json.ai_reason }}\n\n*Suggested Reply:*\n{{ $json.ai_reply }}\n\n:clock1: Received: {{ $json.timestamp }}"
+      },
+      "id": "a1b2c3d4-6666-6666-6666-666666666666",
+      "name": "Slack Hot Lead",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [1460, 120],
+      "credentials": {
+        "slackApi": {
+          "id": "",
+          "name": "Slack"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "channel": "#leads",
+        "text": "=:large_yellow_circle: *WARM LEAD (Score: {{ $json.ai_score }}/10)*\n\n*Name:* {{ $json.name }}\n*Email:* {{ $json.email }}\n*Company:* {{ $json.company }}\n\n*Message:*\n> {{ $json.message }}\n\n*AI Analysis:* {{ $json.ai_reason }}\n\n_Auto follow-up email scheduled._"
+      },
+      "id": "a1b2c3d4-7777-7777-7777-777777777777",
+      "name": "Slack Warm Lead",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [1460, 300],
+      "credentials": {
+        "slackApi": {
+          "id": "",
+          "name": "Slack"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "hello@lazyscale.ai",
+        "toEmail": "={{ $json.email }}",
+        "subject": "=Re: {{ $json.company }} — quick follow-up",
+        "text": "={{ $json.ai_reply }}\n\nIf you'd like to chat, here's my calendar: https://cal.com/lazy_scale/lazy-scale/15min\n\nBest,\nLazyScale Team"
+      },
+      "id": "a1b2c3d4-8888-8888-8888-888888888888",
+      "name": "Email Instant (Hot)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1720, 120],
+      "credentials": {
+        "smtp": {
+          "id": "",
+          "name": "SMTP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 30,
+        "unit": "minutes"
+      },
+      "id": "a1b2c3d4-9999-9999-9999-999999999999",
+      "name": "Wait 30min",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1460, 480]
+    },
+    {
+      "parameters": {
+        "fromEmail": "hello@lazyscale.ai",
+        "toEmail": "={{ $json.email }}",
+        "subject": "=Hey {{ $json.name }} — saw your message",
+        "text": "={{ $json.ai_reply }}\n\nIf you'd like to chat, grab a time here: https://cal.com/lazy_scale/lazy-scale/15min\n\nCheers,\nLazyScale Team"
+      },
+      "id": "a1b2c3d4-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+      "name": "Email Delayed (Warm)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1720, 480],
+      "credentials": {
+        "smtp": {
+          "id": "",
+          "name": "SMTP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 3,
+        "unit": "days"
+      },
+      "id": "a1b2c3d4-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+      "name": "Wait 3 Days",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1460, 660]
+    },
+    {
+      "parameters": {
+        "fromEmail": "hello@lazyscale.ai",
+        "toEmail": "={{ $json.email }}",
+        "subject": "=Following up — {{ $json.name }}",
+        "text": "=Hey {{ $json.name }},\n\nJust checking in — I reached out a few days ago about how we could help {{ $json.company }} automate some of the repetitive work your team is doing.\n\nNo pressure at all. If you're curious, here's a quick 15-min slot: https://cal.com/lazy_scale/lazy-scale/15min\n\nIf the timing isn't right, totally understand. Just reply \"not now\" and I'll check back later.\n\nBest,\nLazyScale Team"
+      },
+      "id": "a1b2c3d4-cccc-cccc-cccc-cccccccccccc",
+      "name": "Email 3-Day Follow-Up",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1720, 660],
+      "credentials": {
+        "smtp": {
+          "id": "",
+          "name": "SMTP"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Lead Capture Webhook": {
+      "main": [
+        [
+          { "node": "Normalize Lead Data", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Normalize Lead Data": {
+      "main": [
+        [
+          { "node": "AI Qualify Lead", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "AI Qualify Lead": {
+      "main": [
+        [
+          { "node": "Parse AI Response", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Parse AI Response": {
+      "main": [
+        [
+          { "node": "Route by Score", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Route by Score": {
+      "main": [
+        [
+          { "node": "Slack Hot Lead", "type": "main", "index": 0 }
+        ],
+        [
+          { "node": "Slack Warm Lead", "type": "main", "index": 0 }
+        ],
+        [
+          { "node": "Wait 3 Days", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Slack Hot Lead": {
+      "main": [
+        [
+          { "node": "Email Instant (Hot)", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Slack Warm Lead": {
+      "main": [
+        [
+          { "node": "Wait 30min", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Wait 30min": {
+      "main": [
+        [
+          { "node": "Email Delayed (Warm)", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Wait 3 Days": {
+      "main": [
+        [
+          { "node": "Email 3-Day Follow-Up", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
