@@ -174,27 +174,62 @@
     padding: 120px 0 80px;
     text-align: center;
     position: relative;
+    overflow: hidden;
   }
 
   @keyframes hero-enter { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  .hero > * { animation: hero-enter 0.8s cubic-bezier(0.4, 0, 0.2, 1) both; }
-  .hero > *:nth-child(1) { animation-delay: 0.1s; }
-  .hero > *:nth-child(2) { animation-delay: 0.2s; }
-  .hero > *:nth-child(3) { animation-delay: 0.3s; }
-  .hero > *:nth-child(4) { animation-delay: 0.4s; }
-  .hero > *:nth-child(5) { animation-delay: 0.5s; }
+  .hero-content > * { animation: hero-enter 0.8s cubic-bezier(0.4, 0, 0.2, 1) both; }
+  .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+  .hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+  .hero-content > *:nth-child(5) { animation-delay: 0.5s; }
+  .hero-content { position: relative; z-index: 2; }
 
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: -50px; left: 50%; transform: translateX(-50%);
-    width: 800px; height: 500px;
-    background: radial-gradient(ellipse at 50% 40%, rgba(124,58,237,0.04) 0%, transparent 60%);
-    pointer-events: none;
-    z-index: 0;
+  .hero-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+
+  @keyframes orb-1 { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(60px, -40px) scale(1.1); } 66% { transform: translate(-30px, 30px) scale(0.95); } }
+  @keyframes orb-2 { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(-50px, 50px) scale(1.05); } 66% { transform: translate(40px, -20px) scale(0.9); } }
+  @keyframes orb-3 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, -60px); } }
+  @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+  .hero-orb {
+    position: absolute; border-radius: 50%; opacity: 0.5;
+    animation-timing-function: ease-in-out; animation-iteration-count: infinite;
   }
+  .hero-orb-1 { width: 400px; height: 400px; top: -80px; right: -100px; background: radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 70%); animation: orb-1 12s infinite; }
+  .hero-orb-2 { width: 300px; height: 300px; bottom: -60px; left: -80px; background: radial-gradient(circle, rgba(124,58,237,0.05) 0%, transparent 70%); animation: orb-2 15s infinite; }
+  .hero-orb-3 { width: 200px; height: 200px; top: 40%; left: 60%; background: radial-gradient(circle, rgba(167,139,250,0.04) 0%, transparent 70%); animation: orb-3 10s infinite; }
 
-  .hero > * { position: relative; z-index: 1; }
+  .hero-shape {
+    position: absolute; opacity: 0.08; animation-timing-function: linear; animation-iteration-count: infinite;
+  }
+  .hero-shape-1 { width: 60px; height: 60px; border: 2px solid var(--accent); border-radius: 12px; top: 15%; left: 8%; animation: spin-slow 20s infinite, float 6s ease-in-out infinite; }
+  .hero-shape-2 { width: 40px; height: 40px; border: 2px solid var(--accent); border-radius: 50%; top: 25%; right: 12%; animation: float 5s ease-in-out infinite 1s; }
+  .hero-shape-3 { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; top: 60%; left: 15%; animation: float 4s ease-in-out infinite 0.5s; }
+  .hero-shape-4 { width: 50px; height: 50px; border: 2px solid var(--accent); border-radius: 14px; bottom: 20%; right: 8%; animation: spin-slow 25s infinite reverse, float 7s ease-in-out infinite; transform-origin: center; }
+  .hero-shape-5 { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; top: 35%; right: 20%; animation: float 3.5s ease-in-out infinite 0.8s; }
+  .hero-shape-6 { width: 12px; height: 12px; background: var(--accent); border-radius: 3px; bottom: 35%; left: 10%; animation: spin-slow 15s infinite, float 5s ease-in-out infinite 1.5s; }
+
+  .hero-line {
+    position: absolute; width: 1px; background: linear-gradient(180deg, transparent, rgba(124,58,237,0.08), transparent);
+    animation: float 8s ease-in-out infinite;
+  }
+  .hero-line-1 { height: 120px; top: 10%; left: 20%; animation-delay: 0s; }
+  .hero-line-2 { height: 80px; top: 30%; right: 18%; animation-delay: 2s; }
+  .hero-line-3 { height: 100px; bottom: 15%; left: 30%; animation-delay: 4s; }
+
+  /* rotating words */
+  .hero-rotate { display: inline-block; position: relative; overflow: hidden; vertical-align: bottom; height: 1.1em; }
+  .hero-rotate-words { display: flex; flex-direction: column; animation: rotate-words 8s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+  .hero-rotate-words span { height: 1.1em; display: flex; align-items: center; }
+  @keyframes rotate-words {
+    0%, 20% { transform: translateY(0); }
+    25%, 45% { transform: translateY(-1.1em); }
+    50%, 70% { transform: translateY(-2.2em); }
+    75%, 95% { transform: translateY(-3.3em); }
+    100% { transform: translateY(-4.4em); }
+  }
 
   .hero-tag {
     display: inline-flex; align-items: center; gap: 8px;
@@ -701,20 +736,36 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-tag">Now accepting early clients</div>
-    <h1>We automate the stuff you keep saying you'll <em>hire someone</em> for</h1>
-    <p class="hero-sub">AI workflows that handle your leads, content, and ops. Built for startups that move fast and hire slow.</p>
-    <div class="hero-ctas">
-      <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-dark btn-lg">Book a Free Call</a>
-      <a href="#workflows" class="btn btn-ghost btn-lg">See What We Automate</a>
+    <div class="hero-bg">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-orb hero-orb-3"></div>
+      <div class="hero-shape hero-shape-1"></div>
+      <div class="hero-shape hero-shape-2"></div>
+      <div class="hero-shape hero-shape-3"></div>
+      <div class="hero-shape hero-shape-4"></div>
+      <div class="hero-shape hero-shape-5"></div>
+      <div class="hero-shape hero-shape-6"></div>
+      <div class="hero-line hero-line-1"></div>
+      <div class="hero-line hero-line-2"></div>
+      <div class="hero-line hero-line-3"></div>
     </div>
-    <div class="hero-proof">
-      <span class="hero-proof-label">Trusted by early-stage teams</span>
-      <div class="hero-stats">
-        <div class="hero-stat"><strong>12hrs</strong><span>Saved / week</span></div>
-        <div class="hero-stat"><strong>48hr</strong><span>Setup time</span></div>
-        <div class="hero-stat"><strong>3x</strong><span>Faster replies</span></div>
-        <div class="hero-stat"><strong>₹0</strong><span>Upfront cost</span></div>
+    <div class="hero-content">
+      <div class="hero-tag">Now accepting early clients</div>
+      <h1>We automate your <div class="hero-rotate"><div class="hero-rotate-words"><span><em>leads</em></span><span><em>content</em></span><span><em>hiring</em></span><span><em>ops</em></span><span><em>leads</em></span></div></div></h1>
+      <p class="hero-sub">AI workflows that handle the repetitive work. Built for startups that move fast and hire slow.</p>
+      <div class="hero-ctas">
+        <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-dark btn-lg">Book a Free Call</a>
+        <a href="#workflows" class="btn btn-ghost btn-lg">See What We Automate</a>
+      </div>
+      <div class="hero-proof">
+        <span class="hero-proof-label">Trusted by early-stage teams</span>
+        <div class="hero-stats">
+          <div class="hero-stat"><strong>12hrs</strong><span>Saved / week</span></div>
+          <div class="hero-stat"><strong>48hr</strong><span>Setup time</span></div>
+          <div class="hero-stat"><strong>3x</strong><span>Faster replies</span></div>
+          <div class="hero-stat"><strong>₹0</strong><span>Upfront cost</span></div>
+        </div>
       </div>
     </div>
   </section>
