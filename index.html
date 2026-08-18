@@ -781,6 +781,54 @@
     .demo-play-circle { width: 56px; height: 56px; }
   }
 
+  /* ─── AUDIT FORM ─── */
+  .audit-section {
+    background: var(--bg-raised); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  }
+  .audit-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+    max-width: var(--max-w); margin: 0 auto; align-items: center;
+  }
+  .audit-left h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 800; color: var(--text-primary); line-height: 1.2; margin-bottom: 16px; }
+  .audit-left p { color: var(--text-secondary); font-size: 16px; line-height: 1.6; margin-bottom: 20px; }
+  .audit-perks { list-style: none; padding: 0; }
+  .audit-perks li { color: var(--text-secondary); font-size: 15px; padding: 6px 0; display: flex; align-items: center; gap: 10px; }
+  .audit-perks li::before { content: '✓'; color: var(--accent); font-weight: 700; font-size: 16px; }
+  .audit-form {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 32px; box-shadow: var(--shadow-md);
+  }
+  .audit-form-title { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 24px; text-align: center; }
+  .audit-field { margin-bottom: 16px; }
+  .audit-field label { display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .audit-field input, .audit-field select, .audit-field textarea {
+    width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--bg); color: var(--text-primary); font-size: 15px; font-family: inherit;
+    transition: border-color 0.2s;
+  }
+  .audit-field input:focus, .audit-field select:focus, .audit-field textarea:focus {
+    outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow-strong);
+  }
+  .audit-field textarea { resize: vertical; min-height: 80px; }
+  .audit-submit {
+    width: 100%; padding: 14px; border: none; border-radius: var(--radius-sm); cursor: pointer;
+    background: var(--accent); color: #fff; font-size: 16px; font-weight: 700; font-family: inherit;
+    transition: all 0.2s; margin-top: 8px;
+  }
+  .audit-submit:hover { background: var(--accent-mid); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(124,58,237,0.3); }
+  .audit-submit:active { transform: translateY(0); }
+  .audit-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .audit-success {
+    text-align: center; padding: 40px 20px; display: none;
+  }
+  .audit-success.show { display: block; }
+  .audit-success-icon { font-size: 48px; margin-bottom: 16px; }
+  .audit-success h3 { font-size: 22px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+  .audit-success p { color: var(--text-secondary); font-size: 15px; }
+  @media (max-width: 768px) {
+    .audit-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+
   /* ─── PERF: skip rendering off-screen sections ─── */
   section:not(.hero) { content-visibility: auto; contain-intrinsic-size: auto 600px; }
 
@@ -997,6 +1045,39 @@
           <li>Invoices sent on schedule, reminders automated</li>
           <li>No VA needed — AI handles the repetitive work</li>
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FREE AUDIT -->
+  <section class="audit-section fade-up" id="audit">
+    <div class="audit-grid">
+      <div class="audit-left">
+        <div class="section-label">Free Automation Audit</div>
+        <h2>Find out what you should automate first</h2>
+        <p>Tell us about your startup in 2 minutes. We'll reply within 24 hours with a personalized report — what to automate, which tools to use, and how much time you'll save.</p>
+        <ul class="audit-perks">
+          <li>100% free, no strings attached</li>
+          <li>Personalized to your stack and workflow</li>
+          <li>Actionable recommendations, not a sales pitch</li>
+          <li>Reply within 24 hours</li>
+        </ul>
+      </div>
+      <div>
+        <div class="audit-form" id="audit-form">
+          <div class="audit-form-title">Get Your Free Audit</div>
+          <div class="audit-field"><label>Your Name</label><input type="text" id="audit-name" placeholder="Rahul Sharma" required></div>
+          <div class="audit-field"><label>Email</label><input type="email" id="audit-email" placeholder="rahul@startup.com" required></div>
+          <div class="audit-field"><label>Startup Name</label><input type="text" id="audit-startup" placeholder="Your company name"></div>
+          <div class="audit-field"><label>Team Size</label><select id="audit-team"><option value="">Select...</option><option>Just me</option><option>2-5</option><option>6-15</option><option>16-50</option><option>50+</option></select></div>
+          <div class="audit-field"><label>What takes too long?</label><textarea id="audit-pain" placeholder="e.g. Following up on leads, writing social posts, onboarding customers, updating CRM..."></textarea></div>
+          <button class="audit-submit" id="audit-btn" onclick="submitAudit()">Get My Free Audit</button>
+        </div>
+        <div class="audit-success" id="audit-success">
+          <div class="audit-success-icon">&#10003;</div>
+          <h3>We've got it!</h3>
+          <p>Check your inbox within 24 hours for your personalized automation audit. We'll show you exactly what to automate and how much time you'll save.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -1381,6 +1462,34 @@ function playDemo() {
     demoTimer = setTimeout(showSlide, interval);
   }
   showSlide();
+}
+
+// Audit form submission
+function submitAudit() {
+  const name = document.getElementById('audit-name').value.trim();
+  const email = document.getElementById('audit-email').value.trim();
+  const startup = document.getElementById('audit-startup').value.trim();
+  const team = document.getElementById('audit-team').value;
+  const pain = document.getElementById('audit-pain').value.trim();
+
+  if (!name || !email) { alert('Please fill in your name and email.'); return; }
+  if (!email.includes('@')) { alert('Please enter a valid email.'); return; }
+
+  const btn = document.getElementById('audit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  const body = `New Automation Audit Request\n\nName: ${name}\nEmail: ${email}\nStartup: ${startup || 'Not specified'}\nTeam Size: ${team || 'Not specified'}\nPain Points: ${pain || 'Not specified'}`;
+
+  const mailtoLink = `mailto:divyanshus2404@gmail.com?subject=${encodeURIComponent('Free Audit Request — ' + (startup || name))}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailtoLink;
+
+  setTimeout(() => {
+    document.getElementById('audit-form').style.display = 'none';
+    document.getElementById('audit-success').classList.add('show');
+    btn.disabled = false;
+    btn.textContent = 'Get My Free Audit';
+  }, 1000);
 }
 
 // Scroll progress bar + back-to-top + active nav
