@@ -683,71 +683,96 @@
 
   .hero h1 em { background: linear-gradient(90deg, #7C3AED, #A78BFA, #7C3AED); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradient-shift 4s ease infinite; }
 
-  /* ─── DEMO ─── */
-  .demo-container { max-width: 640px; margin: 0 auto; text-align: center; }
-  .demo-screen {
-    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
-    overflow: hidden; box-shadow: var(--shadow-lg); text-align: left;
+  /* ─── DEMO VIDEO ─── */
+  .demo-container { max-width: 800px; margin: 0 auto; text-align: center; }
+  .demo-video {
+    position: relative; width: 100%; aspect-ratio: 16/9; background: #0a0a0f;
+    border-radius: var(--radius); overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    cursor: pointer; user-select: none;
   }
-  .demo-topbar {
-    display: flex; align-items: center; gap: 6px; padding: 12px 16px;
-    background: var(--bg-raised); border-bottom: 1px solid var(--border);
+  .demo-video-inner {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; padding: 40px;
+    z-index: 2;
   }
-  .demo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border-hover); }
-  .demo-dot:first-child { background: #EF4444; }
-  .demo-dot:nth-child(2) { background: #F59E0B; }
-  .demo-dot:nth-child(3) { background: #22C55E; }
-  .demo-title { margin-left: 12px; font-size: 13px; color: var(--text-muted); font-weight: 500; }
-  .demo-body { padding: 24px; min-height: 280px; position: relative; }
-  .demo-step { opacity: 0; transform: translateY(16px); transition: all 0.5s cubic-bezier(0.4,0,0.2,1); margin-bottom: 16px; display: none; }
-  .demo-step.active { opacity: 1; transform: translateY(0); display: block; }
-  .demo-notif {
-    display: flex; gap: 12px; padding: 16px; border-radius: var(--radius-sm);
-    border: 1px solid var(--border); background: var(--bg);
+  .demo-video-bg {
+    position: absolute; inset: 0; z-index: 0; overflow: hidden;
   }
-  .demo-notif-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
-  .demo-notif strong { font-size: 14px; color: var(--text-primary); }
-  .demo-notif-sub { font-size: 13px; color: var(--text-secondary); }
-  .demo-notif-msg { font-size: 13px; color: var(--text-muted); font-style: italic; display: block; margin-top: 4px; }
-  .demo-notif-slack { border-color: rgba(54,197,240,0.3); }
-  .demo-notif-email { border-color: rgba(124,58,237,0.3); }
-  .demo-ai-card {
-    padding: 20px; border-radius: var(--radius-sm); background: var(--accent-light);
-    border: 1px solid var(--border-accent);
+  .demo-video-bg::before {
+    content: ''; position: absolute; width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,58,237,0.15), transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%,-50%); animation: demo-pulse 4s ease-in-out infinite;
   }
-  .demo-ai-header { font-size: 14px; font-weight: 600; color: var(--accent); display: flex; align-items: center; gap: 8px; }
-  .demo-ai-icon { font-size: 18px; }
-  .demo-ai-progress { height: 4px; background: var(--border); border-radius: 2px; margin: 12px 0; overflow: hidden; }
-  .demo-ai-bar { height: 100%; width: 0%; background: var(--accent); border-radius: 2px; transition: width 1.5s ease-in-out; }
-  .demo-ai-card.done .demo-ai-bar { width: 100%; }
-  .demo-ai-result { display: none; }
-  .demo-ai-card.done .demo-ai-result { display: block; }
-  .demo-ai-card.done .demo-ai-header::after { content: ' ✓ Done'; color: #22C55E; font-size: 13px; }
-  .demo-ai-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
-  .demo-ai-row:last-child { border: none; }
-  .demo-ai-row strong { color: var(--text-primary); }
-  .demo-score { color: #22C55E !important; }
-  .demo-tier { color: #EF4444 !important; }
-  .demo-done { text-align: center; padding: 32px 16px; }
-  .demo-done-check {
-    width: 56px; height: 56px; border-radius: 50%; background: #22C55E; color: #fff;
-    font-size: 28px; font-weight: 700; display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 16px; animation: demo-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  .demo-video-bg::after {
+    content: ''; position: absolute; width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(167,139,250,0.06), transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%,-50%); animation: demo-pulse 6s ease-in-out infinite 1s;
   }
-  @keyframes demo-pop { from { transform: scale(0); } to { transform: scale(1); } }
-  .demo-done-text { font-size: 18px; font-weight: 700; color: var(--text-primary); }
-  .demo-done-sub { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
-  .demo-caption {
-    padding: 12px 16px; background: var(--bg-raised); border-top: 1px solid var(--border);
-    font-size: 13px; color: var(--text-secondary); min-height: 40px; text-align: center;
+  @keyframes demo-pulse { 0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; } 50% { transform: translate(-50%,-50%) scale(1.3); opacity: 1; } }
+  .demo-slide {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; padding: 40px; z-index: 2;
+    opacity: 0; transition: opacity 0.6s ease;
   }
-  .demo-play-btn {
-    margin-top: 24px; gap: 8px; display: inline-flex; align-items: center; font-size: 16px; padding: 14px 32px;
+  .demo-slide.active { opacity: 1; }
+  .demo-slide-title {
+    font-size: clamp(24px, 4vw, 42px); font-weight: 800; color: #fff;
+    line-height: 1.2; text-align: center; letter-spacing: -1px;
+    transform: translateY(30px); opacity: 0;
+    transition: all 0.7s cubic-bezier(0.4,0,0.2,1);
   }
-  .demo-play-btn.playing { opacity: 0.6; pointer-events: none; }
+  .demo-slide.active .demo-slide-title { transform: translateY(0); opacity: 1; }
+  .demo-slide-sub {
+    font-size: clamp(14px, 2vw, 18px); color: rgba(255,255,255,0.5);
+    margin-top: 12px; text-align: center; font-weight: 400;
+    transform: translateY(20px); opacity: 0;
+    transition: all 0.7s cubic-bezier(0.4,0,0.2,1) 0.2s;
+  }
+  .demo-slide.active .demo-slide-sub { transform: translateY(0); opacity: 1; }
+  .demo-slide-accent { color: #A78BFA; }
+  .demo-slide-green { color: #22C55E; }
+  .demo-slide-red { color: #EF4444; }
+  .demo-slide-emoji { font-size: clamp(36px, 5vw, 56px); margin-bottom: 16px;
+    transform: scale(0); transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.1s; }
+  .demo-slide.active .demo-slide-emoji { transform: scale(1); }
+  .demo-slide-stat {
+    font-size: clamp(48px, 8vw, 80px); font-weight: 900; color: #A78BFA;
+    letter-spacing: -3px; line-height: 1;
+    transform: scale(0.5); opacity: 0;
+    transition: all 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.15s;
+  }
+  .demo-slide.active .demo-slide-stat { transform: scale(1); opacity: 1; }
+  .demo-progress-bar {
+    position: absolute; bottom: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, #7C3AED, #A78BFA);
+    z-index: 5; width: 0%; transition: width 0.3s linear;
+  }
+  .demo-play-overlay {
+    position: absolute; inset: 0; z-index: 10; display: flex;
+    flex-direction: column; align-items: center; justify-content: center;
+    background: rgba(10,10,15,0.7); transition: opacity 0.4s;
+  }
+  .demo-play-overlay.hidden { opacity: 0; pointer-events: none; }
+  .demo-play-circle {
+    width: 72px; height: 72px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3);
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    background: rgba(124,58,237,0.2); backdrop-filter: blur(10px);
+    transition: all 0.3s; margin-bottom: 12px;
+  }
+  .demo-play-circle:hover { background: rgba(124,58,237,0.4); border-color: rgba(255,255,255,0.5); transform: scale(1.08); }
+  .demo-play-circle svg { fill: #fff; margin-left: 4px; }
+  .demo-play-label { color: rgba(255,255,255,0.6); font-size: 14px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
+  .demo-mute-btn {
+    position: absolute; top: 16px; right: 16px; z-index: 6;
+    width: 36px; height: 36px; border-radius: 50%; border: none; cursor: pointer;
+    background: rgba(255,255,255,0.1); color: #fff; font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .demo-video:hover .demo-mute-btn { opacity: 1; }
   @media (max-width: 640px) {
-    .demo-body { padding: 16px; min-height: 240px; }
-    .demo-done { padding: 24px 12px; }
+    .demo-slide { padding: 24px; }
+    .demo-play-circle { width: 56px; height: 56px; }
   }
 
   /* ─── PERF: skip rendering off-screen sections ─── */
@@ -905,55 +930,31 @@
     <div class="section-header section-header-center">
       <div class="section-label">See It In Action</div>
       <h2 class="section-title">Watch a workflow run — live</h2>
-      <p class="section-desc">Hit play. Watch AI handle a lead from capture to reply in seconds.</p>
+      <p class="section-desc">Hit play. Watch AI handle a lead in real time — with narration.</p>
     </div>
     <div class="demo-container">
-      <div class="demo-screen">
-        <div class="demo-topbar"><span class="demo-dot"></span><span class="demo-dot"></span><span class="demo-dot"></span><span class="demo-title">LazyScale — Lead Pilot</span></div>
-        <div class="demo-body">
-          <div class="demo-step demo-step-1">
-            <div class="demo-notif demo-notif-lead">
-              <div class="demo-notif-icon">📩</div>
-              <div><strong>New Lead</strong><br><span class="demo-notif-sub">Rahul Sharma — rahul@techstartup.in</span><br><span class="demo-notif-msg">"We need to automate our sales pipeline"</span></div>
-            </div>
+      <div class="demo-video" id="demo-video">
+        <div class="demo-video-bg"></div>
+        <div class="demo-slide" data-voice="Your startup is growing fast."><div class="demo-slide-title">Your startup is<br><span class="demo-slide-accent">growing fast.</span></div></div>
+        <div class="demo-slide" data-voice="But behind the scenes, you're drowning in manual work."><div class="demo-slide-title">But behind the scenes?</div><div class="demo-slide-sub">You're drowning in <span class="demo-slide-accent">manual work.</span></div></div>
+        <div class="demo-slide" data-voice="Copy-pasting leads. Writing posts at midnight. Forgetting follow-ups."><div class="demo-slide-emoji">😩</div><div class="demo-slide-title">Copy-pasting leads.<br>Writing posts at midnight.<br><span class="demo-slide-red">Forgetting follow-ups.</span></div></div>
+        <div class="demo-slide" data-voice="Meet LazyScale."><div class="demo-slide-stat">LazyScale</div><div class="demo-slide-sub">AI automation for startups</div></div>
+        <div class="demo-slide" data-voice="A lead comes in through your website. Rahul Sharma, tech startup, wants to automate sales."><div class="demo-slide-emoji">📩</div><div class="demo-slide-title">A lead comes in.</div><div class="demo-slide-sub">Rahul Sharma — "Automate our sales pipeline"</div></div>
+        <div class="demo-slide" data-voice="AI kicks in. Reads the message. Scores the lead. 9 out of 10. Hot."><div class="demo-slide-emoji">🤖</div><div class="demo-slide-title">AI qualifies instantly.</div><div class="demo-slide-stat">9<span style="font-size:50%;opacity:0.5">/10</span></div><div class="demo-slide-sub"><span class="demo-slide-red">🔥 Hot Lead</span></div></div>
+        <div class="demo-slide" data-voice="Your team gets a Slack notification. Hot lead alert. Everyone sees it."><div class="demo-slide-emoji">💬</div><div class="demo-slide-title">Slack pinged.<br><span class="demo-slide-accent">#leads</span> channel.</div><div class="demo-slide-sub">Your team sees it instantly.</div></div>
+        <div class="demo-slide" data-voice="AI has already sent a personalized reply. With your booking link. No delay."><div class="demo-slide-emoji">✉️</div><div class="demo-slide-title">Auto-reply <span class="demo-slide-green">sent.</span></div><div class="demo-slide-sub">Personalized. With your booking link.</div></div>
+        <div class="demo-slide" data-voice="Done. Forty-seven seconds. Zero manual work."><div class="demo-slide-stat" style="color:#22C55E">47s</div><div class="demo-slide-title">Zero manual work.</div></div>
+        <div class="demo-slide" data-voice="No new apps. No code. Live in 48 hours. Starting at just 4,999 rupees a month."><div class="demo-slide-title">No code. No new apps.<br>Live in <span class="demo-slide-accent">48 hours.</span></div><div class="demo-slide-sub">Starting at ₹4,999/mo</div></div>
+        <div class="demo-slide" data-voice="Book a free call. Let's automate your grind."><div class="demo-slide-stat">Let's go.</div><div class="demo-slide-sub" style="margin-top:16px"><a href="https://cal.com/lazy_scale/15min" target="_blank" style="color:#A78BFA;text-decoration:underline;font-size:18px">Book a free call →</a></div></div>
+        <div class="demo-progress-bar" id="demo-progress"></div>
+        <div class="demo-play-overlay" id="demo-overlay">
+          <div class="demo-play-circle" onclick="playDemo()">
+            <svg width="28" height="28" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           </div>
-          <div class="demo-step demo-step-2">
-            <div class="demo-ai-card">
-              <div class="demo-ai-header"><span class="demo-ai-icon">🤖</span> AI Qualifying...</div>
-              <div class="demo-ai-progress"><div class="demo-ai-bar"></div></div>
-              <div class="demo-ai-result">
-                <div class="demo-ai-row"><span>Score</span><strong class="demo-score">9/10</strong></div>
-                <div class="demo-ai-row"><span>Tier</span><strong class="demo-tier">🔥 Hot Lead</strong></div>
-                <div class="demo-ai-row"><span>Reason</span><span class="demo-reason">Specific pain point + business email</span></div>
-              </div>
-            </div>
-          </div>
-          <div class="demo-step demo-step-3">
-            <div class="demo-notif demo-notif-slack">
-              <div class="demo-notif-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M14.5 2a2.5 2.5 0 00-2.5 2.5V10h5.5A2.5 2.5 0 0014.5 2z" fill="#E01E5A"/><path d="M2 14.5A2.5 2.5 0 004.5 17H10v-5.5A2.5 2.5 0 002 14.5z" fill="#36C5F0"/><path d="M9.5 22a2.5 2.5 0 002.5-2.5V14H6.5A2.5 2.5 0 009.5 22z" fill="#2EB67D"/><path d="M22 9.5A2.5 2.5 0 0019.5 7H14v5.5A2.5 2.5 0 0022 9.5z" fill="#ECB22E"/></svg></div>
-              <div><strong>#leads</strong><br><span class="demo-notif-sub">🔥 HOT LEAD (9/10) — Rahul Sharma</span><br><span class="demo-notif-msg">"Wants to automate sales pipeline"</span></div>
-            </div>
-          </div>
-          <div class="demo-step demo-step-4">
-            <div class="demo-notif demo-notif-email">
-              <div class="demo-notif-icon">✉️</div>
-              <div><strong>Auto-Reply Sent</strong><br><span class="demo-notif-sub">To: rahul@techstartup.in</span><br><span class="demo-notif-msg">"Hi Rahul, thanks for reaching out! I'd love to chat about automating your sales pipeline. Here's a link to book a quick call..."</span></div>
-            </div>
-          </div>
-          <div class="demo-step demo-step-5">
-            <div class="demo-done">
-              <div class="demo-done-check">✓</div>
-              <div class="demo-done-text">Lead handled in <strong>47 seconds</strong></div>
-              <div class="demo-done-sub">Zero manual work. Zero copy-paste. Zero delay.</div>
-            </div>
-          </div>
+          <div class="demo-play-label">Play Demo</div>
         </div>
-        <div class="demo-caption" id="demo-caption"></div>
+        <button class="demo-mute-btn" id="demo-mute" onclick="toggleDemoMute(event)" title="Toggle sound">🔊</button>
       </div>
-      <button class="btn btn-primary demo-play-btn" id="demo-play" onclick="playDemo()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        Play Demo
-      </button>
     </div>
   </section>
 
@@ -1295,61 +1296,55 @@ if (heroStats) statsObserver.observe(heroStats);
 
 calcROI();
 
-function playDemo() {
-  const btn = document.getElementById('demo-play');
-  const caption = document.getElementById('demo-caption');
-  btn.classList.add('playing');
-  btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Playing...';
+let demoMuted = false;
+function toggleDemoMute(e) {
+  e.stopPropagation();
+  demoMuted = !demoMuted;
+  document.getElementById('demo-mute').textContent = demoMuted ? '🔇' : '🔊';
+  if (demoMuted) window.speechSynthesis.cancel();
+}
 
-  document.querySelectorAll('.demo-step').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
-  const aiCard = document.querySelector('.demo-ai-card');
-  if (aiCard) { aiCard.classList.remove('done'); }
-
-  const steps = [
-    { el: '.demo-step-1', caption: 'A new lead just submitted the contact form...', voice: 'A new lead just came in through your website. Rahul Sharma from a tech startup wants to automate his sales pipeline.', delay: 0 },
-    { el: '.demo-step-2', caption: 'AI is analyzing the lead in real-time...', voice: 'LazyScale AI kicks in instantly. It reads the message, scores the lead, and qualifies it automatically.', delay: 4500, aiBar: true },
-    { el: '.demo-step-2-done', caption: 'Lead scored 9 out of 10 — Hot lead detected!', voice: 'Score: 9 out of 10. Hot lead. Specific pain point plus a business email. This one is serious.', delay: 10000 },
-    { el: '.demo-step-3', caption: 'Your team gets notified on Slack instantly...', voice: 'Your team gets a Slack notification in the leads channel. Hot lead alert. Everyone sees it instantly.', delay: 15500 },
-    { el: '.demo-step-4', caption: 'AI drafts and sends a personalized reply...', voice: 'Meanwhile, AI has already drafted and sent a personalized reply with your booking link. No copy-paste. No delay.', delay: 20500 },
-    { el: '.demo-step-5', caption: 'Done. Lead handled in 47 seconds. Zero manual work.', voice: 'Done. Lead captured, qualified, team notified, and reply sent. Forty-seven seconds. Zero manual work. This is LazyScale.', delay: 26000 },
-  ];
-
-  const synth = window.speechSynthesis;
-  synth.cancel();
-
-  function speak(text) {
-    if (!synth) return;
+function demoSpeak(text) {
+  try {
+    if (demoMuted || !window.speechSynthesis) return;
+    const synth = window.speechSynthesis;
     const utter = new SpeechSynthesisUtterance(text);
-    utter.rate = 0.95;
-    utter.pitch = 1.0;
+    utter.rate = 0.92; utter.pitch = 1.0;
     const voices = synth.getVoices();
-    const preferred = voices.find(v => v.name.includes('Google') && v.lang.startsWith('en')) ||
-                      voices.find(v => v.lang.startsWith('en-') && !v.name.includes('Zira')) ||
-                      voices[0];
-    if (preferred) utter.voice = preferred;
+    const pref = voices.find(v => v.name.includes('Google') && v.lang.startsWith('en')) ||
+                 voices.find(v => v.lang.startsWith('en-') && !v.name.includes('Zira')) || voices[0];
+    if (pref) utter.voice = pref;
     synth.speak(utter);
+  } catch(e) {}
+}
+
+function playDemo() {
+  const slides = document.querySelectorAll('.demo-slide');
+  const overlay = document.getElementById('demo-overlay');
+  const progress = document.getElementById('demo-progress');
+  const total = slides.length;
+  const interval = 4000;
+  let idx = 0;
+
+  try { window.speechSynthesis.cancel(); } catch(e) {}
+  overlay.classList.add('hidden');
+  slides.forEach(s => s.classList.remove('active'));
+
+  function showSlide() {
+    slides.forEach(s => s.classList.remove('active'));
+    if (idx >= total) {
+      overlay.classList.remove('hidden');
+      progress.style.width = '0%';
+      return;
+    }
+    slides[idx].classList.add('active');
+    var voice = slides[idx].dataset.voice;
+    if (voice) demoSpeak(voice);
+    progress.style.width = ((idx + 1) / total * 100) + '%';
+    idx++;
+    setTimeout(showSlide, interval);
   }
-
-  steps.forEach((step, i) => {
-    setTimeout(() => {
-      if (step.el === '.demo-step-2-done') {
-        if (aiCard) aiCard.classList.add('done');
-      } else {
-        const el = document.querySelector(step.el);
-        if (el) { el.style.display = 'block'; requestAnimationFrame(() => el.classList.add('active')); }
-      }
-      if (step.aiBar && aiCard) {
-        setTimeout(() => aiCard.classList.add('done'), 1500);
-      }
-      caption.textContent = step.caption;
-      speak(step.voice);
-    }, step.delay);
-  });
-
-  setTimeout(() => {
-    btn.classList.remove('playing');
-    btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Replay Demo';
-  }, 34000);
+  showSlide();
 }
 
 // Scroll progress bar + back-to-top + active nav
