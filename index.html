@@ -171,10 +171,17 @@
     content: '';
     position: absolute;
     top: -100px; left: 50%; transform: translateX(-50%);
-    width: 800px; height: 600px;
-    background: radial-gradient(circle, var(--accent-glow-strong) 0%, transparent 60%);
+    width: 1000px; height: 700px;
+    background: radial-gradient(ellipse at 50% 30%, rgba(124,58,237,0.08) 0%, rgba(124,58,237,0.03) 40%, transparent 70%);
     pointer-events: none;
     z-index: 0;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: 60px; right: 10%; width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 70%);
+    pointer-events: none; z-index: 0; border-radius: 50%;
   }
 
   .hero > * { position: relative; z-index: 1; }
@@ -193,6 +200,13 @@
     0%, 100% { opacity: 1; }
     50% { opacity: 0.4; }
   }
+
+  @keyframes cta-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(124,58,237,0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(124,58,237,0); }
+  }
+
+  .nav-cta { animation: cta-glow 2.5s infinite; }
 
   .hero h1 {
     font-size: clamp(36px, 6.5vw, 68px);
@@ -230,8 +244,9 @@
   /* ─── LOGOS ─── */
   .logos { padding: 60px 0; text-align: center; }
   .logos-label { font-size: 12px; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; font-weight: 600; margin-bottom: 28px; }
-  .logos-row { display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap; opacity: 0.35; }
-  .logos-row span { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; color: var(--text-primary); }
+  .logos-row { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+  .logos-row span { font-size: 13px; font-weight: 600; color: var(--text-muted); background: var(--bg-card); border: 1px solid var(--border); padding: 8px 20px; border-radius: 100px; letter-spacing: 0.2px; transition: all var(--transition); }
+  .logos-row span:hover { border-color: var(--border-accent); color: var(--text-primary); }
 
   /* ─── SECTIONS ─── */
   section { padding: 100px 0; }
@@ -302,38 +317,6 @@
 
   .how-card h3 { font-size: 17px; font-weight: 650; margin-bottom: 8px; letter-spacing: -0.2px; }
   .how-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
-
-  /* ─── RESULTS ─── */
-  .results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-
-  .result-card {
-    background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 32px 26px;
-    display: flex; flex-direction: column; gap: 20px;
-    box-shadow: var(--shadow-sm);
-  }
-
-  .result-metric {
-    font-size: 44px; font-weight: 850; letter-spacing: -2.5px;
-    color: var(--accent); line-height: 1; font-variant-numeric: tabular-nums;
-  }
-
-  .result-card h4 { font-size: 16px; font-weight: 650; letter-spacing: -0.2px; }
-  .result-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
-
-  .result-source {
-    display: flex; align-items: center; gap: 10px;
-    padding-top: 16px; border-top: 1px solid var(--border); margin-top: auto;
-  }
-
-  .result-avatar {
-    width: 32px; height: 32px; border-radius: 50%; background: var(--accent-light);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px; font-weight: 700; color: var(--accent);
-  }
-
-  .result-source-text span { display: block; font-size: 13px; font-weight: 600; }
-  .result-source-text em { font-style: normal; font-size: 12px; color: var(--text-muted); }
 
   /* ─── BEFORE/AFTER ─── */
   .ba-grid { display: grid; grid-template-columns: 1fr 60px 1fr; gap: 0; align-items: stretch; }
@@ -447,11 +430,15 @@
     display: flex; flex-direction: column; transition: all 0.3s;
     box-shadow: var(--shadow-sm);
   }
+  .price-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--border-hover); }
 
   .price-card.featured {
     border-color: var(--accent); position: relative;
     box-shadow: 0 0 0 1px var(--accent), 0 12px 48px var(--accent-glow-strong);
+    transform: scale(1.04);
+    background: linear-gradient(180deg, var(--bg-card) 0%, color-mix(in srgb, var(--accent-light) 30%, var(--bg-card)) 100%);
   }
+  .price-card.featured:hover { transform: scale(1.06); box-shadow: 0 0 0 2px var(--accent), 0 20px 60px rgba(124,58,237,0.18); }
 
   .price-card.featured::before {
     content: 'Most Popular'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
@@ -501,31 +488,6 @@
   .dfy-step strong { display: block; font-size: 14px; font-weight: 640; margin-bottom: 3px; }
   .dfy-step span { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
 
-  /* ─── TESTIMONIALS ─── */
-  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-
-  .testimonial {
-    background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 28px 24px;
-    box-shadow: var(--shadow-sm);
-  }
-
-  .testimonial-text {
-    font-size: 15px; color: var(--text-secondary); line-height: 1.7;
-    margin-bottom: 20px; font-style: italic;
-  }
-
-  .testimonial-author { display: flex; align-items: center; gap: 12px; }
-
-  .testimonial-avatar {
-    width: 36px; height: 36px; border-radius: 50%; background: var(--accent-light);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 15px; font-weight: 700; color: var(--accent);
-  }
-
-  .testimonial-name { font-size: 13px; font-weight: 640; }
-  .testimonial-role { font-size: 12px; color: var(--text-muted); }
-
   /* ─── STACK ─── */
   .stack-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
 
@@ -539,30 +501,6 @@
 
   .stack-chip:hover { border-color: var(--border-accent); color: var(--text-primary); }
   .stack-chip span { font-size: 18px; }
-
-  /* ─── BLOG ─── */
-  .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .blog-card {
-    background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: var(--radius); overflow: hidden;
-    transition: all 0.3s; text-decoration: none; color: inherit;
-    display: flex; flex-direction: column; box-shadow: var(--shadow-sm);
-  }
-  .blog-card:hover { border-color: var(--border-accent); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-  .blog-thumb {
-    height: 160px; background: var(--accent-light);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 48px;
-  }
-  .blog-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
-  .blog-tag {
-    display: inline-block; font-size: 11px; font-weight: 650; color: var(--accent);
-    background: var(--accent-light); padding: 3px 10px; border-radius: 100px;
-    letter-spacing: 0.4px; text-transform: uppercase; margin-bottom: 12px; width: fit-content;
-  }
-  .blog-card h3 { font-size: 17px; font-weight: 650; letter-spacing: -0.3px; margin-bottom: 8px; line-height: 1.35; }
-  .blog-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px; flex: 1; }
-  .blog-meta { font-size: 12px; color: var(--text-muted); margin-top: auto; }
 
   /* ─── CONTACT ─── */
   .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
@@ -676,13 +614,13 @@
 
   /* ─── RESPONSIVE ─── */
   @media (max-width: 900px) {
-    .workflows-grid, .how-grid, .pricing-grid, .blog-grid { grid-template-columns: 1fr 1fr; }
+    .workflows-grid, .how-grid, .pricing-grid { grid-template-columns: 1fr 1fr; }
     .faq-grid { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
   }
 
   @media (max-width: 640px) {
-    .workflows-grid, .how-grid, .pricing-grid, .blog-grid { grid-template-columns: 1fr; }
+    .workflows-grid, .how-grid, .pricing-grid { grid-template-columns: 1fr; }
     .dfy { grid-template-columns: 1fr; padding: 32px 24px; gap: 36px; }
     .hero-stats { gap: 24px; }
     .footer-grid { grid-template-columns: 1fr; gap: 32px; }
@@ -716,7 +654,7 @@
       <a href="#dfy" class="nav-link">Done-For-You</a>
       <a href="#contact" class="nav-link">Contact</a>
       <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" id="theme-btn">🌙</button>
-      <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-dark">Book a Call</a>
+      <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-dark nav-cta">Book a Call</a>
     </div>
     <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -802,7 +740,7 @@
     </div>
     <div class="ba-grid">
       <div class="ba-col before">
-        <h3><span class="ba-icon">😤</span> Before LazyScale</h3>
+        <h3><svg width="22" height="22" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2M9 9h.01M15 9h.01"/></svg> Before LazyScale</h3>
         <ul class="ba-list">
           <li>Leads sit in your inbox for 2-3 days</li>
           <li>Copy-pasting data between 5 different tools</li>
@@ -815,7 +753,7 @@
       </div>
       <div class="ba-divider">→</div>
       <div class="ba-col after">
-        <h3><span class="ba-icon">🚀</span> After LazyScale</h3>
+        <h3><svg width="22" height="22" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> After LazyScale</h3>
         <ul class="ba-list">
           <li>Leads qualified and replied to in under 2 minutes</li>
           <li>Data flows automatically between all your tools</li>
@@ -1008,7 +946,13 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <div class="logo">Lazy<span>Scale</span></div>
-        <p>We automate the stuff you keep saying you'll hire someone for. Built for startups that move fast.</p>
+        <p>AI automation agency for startups. We handle the repetitive work so you can focus on growth.</p>
+        <div style="display:flex;gap:12px;margin-top:20px;">
+          <a href="#" aria-label="Twitter" style="width:36px;height:36px;border-radius:10px;background:var(--bg-raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all 0.2s;"><svg width="16" height="16" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 4l11.733 16H20L8.267 4z"/><path d="M4 20l6.768-6.768M15.232 10.232L20 4"/></svg></a>
+          <a href="#" aria-label="LinkedIn" style="width:36px;height:36px;border-radius:10px;background:var(--bg-raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all 0.2s;"><svg width="16" height="16" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="https://wa.me/917668229271" aria-label="WhatsApp" style="width:36px;height:36px;border-radius:10px;background:var(--bg-raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all 0.2s;"><svg width="16" height="16" fill="var(--text-muted)" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+          <a href="mailto:hello@lazyscale.ai" aria-label="Email" style="width:36px;height:36px;border-radius:10px;background:var(--bg-raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all 0.2s;"><svg width="16" height="16" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg></a>
+        </div>
       </div>
       <div class="footer-col"><h4>Product</h4><a href="#workflows">Workflows</a><a href="#pricing">Pricing</a><a href="#dfy">Done-For-You</a><a href="#roi">ROI Calculator</a></div>
       <div class="footer-col"><h4>Company</h4><a href="#contact">Contact</a><a href="#faq">FAQ</a></div>
