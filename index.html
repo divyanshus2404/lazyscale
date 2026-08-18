@@ -15,52 +15,52 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23f4f4f5'/><rect x='1' y='1' width='30' height='30' rx='7' fill='none' stroke='%23e4e4e7'/><path d='M8 10h5v14H8z' fill='%231a1a2e'/><path d='M13 18h4v6h-4z' fill='%237c3aed' opacity='.6'/><path d='M17 14h4v10h-4z' fill='%237c3aed' opacity='.8'/><path d='M21 10h4v14h-4z' fill='%237c3aed'/><path d='M14 20q4-3 10-8l1 1.5-10 8z' fill='%237c3aed'/><path d='M24 12l2 0-1-3z' fill='%237c3aed'/></svg>">
 <style>
   :root {
-    --bg: #F7F7F5;
-    --bg-raised: #EEEDEA;
+    --bg: #FAFAFA;
+    --bg-raised: #F0F0ED;
     --bg-card: #FFFFFF;
-    --bg-card-hover: #F8F8F6;
-    --text-primary: #1A1A2E;
-    --text-secondary: #4A4A60;
-    --text-muted: #7E7E96;
+    --bg-card-hover: #FAFAF8;
+    --text-primary: #111118;
+    --text-secondary: #52525B;
+    --text-muted: #A1A1AA;
     --accent: #7C3AED;
     --accent-mid: #6D28D9;
     --accent-dim: #5B21B6;
-    --accent-light: #EDE9FE;
-    --accent-glow: rgba(124, 58, 237, 0.06);
-    --accent-glow-strong: rgba(124, 58, 237, 0.12);
-    --border: rgba(0,0,0,0.1);
-    --border-hover: rgba(0,0,0,0.18);
-    --border-accent: rgba(124, 58, 237, 0.25);
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
-    --shadow-lg: 0 12px 40px rgba(0,0,0,0.1);
-    --radius: 16px;
+    --accent-light: #F3F0FF;
+    --accent-glow: rgba(124, 58, 237, 0.04);
+    --accent-glow-strong: rgba(124, 58, 237, 0.08);
+    --border: rgba(0,0,0,0.06);
+    --border-hover: rgba(0,0,0,0.12);
+    --border-accent: rgba(124, 58, 237, 0.2);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 20px rgba(0,0,0,0.06);
+    --shadow-lg: 0 16px 48px rgba(0,0,0,0.08);
+    --radius: 14px;
     --radius-sm: 10px;
     --radius-xs: 6px;
-    --max-w: 1120px;
-    --transition: 0.2s ease;
+    --max-w: 1080px;
+    --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   :root[data-theme="dark"] {
-    --bg: #0B0B14;
-    --bg-raised: #13131F;
-    --bg-card: #1A1A2E;
-    --bg-card-hover: #22223A;
-    --text-primary: #EDEDF0;
-    --text-secondary: #9494A8;
-    --text-muted: #5E5E74;
+    --bg: #09090B;
+    --bg-raised: #18181B;
+    --bg-card: #1C1C22;
+    --bg-card-hover: #27272A;
+    --text-primary: #FAFAFA;
+    --text-secondary: #A1A1AA;
+    --text-muted: #52525B;
     --accent: #A78BFA;
     --accent-mid: #8B5CF6;
     --accent-dim: #7C3AED;
-    --accent-light: rgba(167,139,250,0.12);
-    --accent-glow: rgba(167, 139, 250, 0.08);
-    --accent-glow-strong: rgba(167, 139, 250, 0.16);
-    --border: rgba(255,255,255,0.07);
-    --border-hover: rgba(255,255,255,0.12);
-    --border-accent: rgba(167, 139, 250, 0.25);
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.3);
-    --shadow-lg: 0 12px 40px rgba(0,0,0,0.4);
+    --accent-light: rgba(167,139,250,0.1);
+    --accent-glow: rgba(167, 139, 250, 0.06);
+    --accent-glow-strong: rgba(167, 139, 250, 0.12);
+    --border: rgba(255,255,255,0.06);
+    --border-hover: rgba(255,255,255,0.1);
+    --border-accent: rgba(167, 139, 250, 0.2);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 20px rgba(0,0,0,0.4);
+    --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
   }
 
   html { scroll-behavior: smooth; }
@@ -82,9 +82,9 @@
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
     padding: 0 28px;
-    background: color-mix(in srgb, var(--bg) 85%, transparent);
-    backdrop-filter: blur(24px) saturate(1.4);
-    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    background: color-mix(in srgb, var(--bg) 80%, transparent);
+    backdrop-filter: blur(20px) saturate(1.3);
+    -webkit-backdrop-filter: blur(20px) saturate(1.3);
     border-bottom: 1px solid var(--border);
     height: 64px;
   }
@@ -162,10 +162,18 @@
 
   /* ─── HERO ─── */
   .hero {
-    padding: 140px 0 80px;
+    padding: 160px 0 100px;
     text-align: center;
     position: relative;
   }
+
+  @keyframes hero-enter { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .hero > * { animation: hero-enter 0.8s cubic-bezier(0.4, 0, 0.2, 1) both; }
+  .hero > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero > *:nth-child(3) { animation-delay: 0.3s; }
+  .hero > *:nth-child(4) { animation-delay: 0.4s; }
+  .hero > *:nth-child(5) { animation-delay: 0.5s; }
 
   .hero::before {
     content: '';
@@ -214,7 +222,7 @@
     text-wrap: balance; max-width: 820px; margin: 0 auto 24px;
   }
 
-  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero h1 em { font-style: normal; }
 
   .hero-sub {
     font-size: 18px; color: var(--text-secondary); max-width: 500px;
@@ -242,14 +250,16 @@
   .hero-stat span { font-size: 12px; color: var(--text-muted); letter-spacing: 0.8px; text-transform: uppercase; font-weight: 550; }
 
   /* ─── LOGOS ─── */
-  .logos { padding: 60px 0; text-align: center; }
-  .logos-label { font-size: 12px; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; font-weight: 600; margin-bottom: 28px; }
-  .logos-row { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
-  .logos-row span { font-size: 13px; font-weight: 600; color: var(--text-muted); background: var(--bg-card); border: 1px solid var(--border); padding: 8px 20px; border-radius: 100px; letter-spacing: 0.2px; transition: all var(--transition); }
+  .logos { padding: 60px 0; text-align: center; overflow: hidden; }
+  .logos-label { font-size: 12px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; margin-bottom: 28px; }
+  .logos-row { display: flex; align-items: center; gap: 12px; width: max-content; animation: marquee 25s linear infinite; }
+  .logos-row:hover { animation-play-state: paused; }
+  @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  .logos-row span { font-size: 13px; font-weight: 600; color: var(--text-muted); background: var(--bg-card); border: 1px solid var(--border); padding: 8px 20px; border-radius: 100px; letter-spacing: 0.2px; transition: all var(--transition); white-space: nowrap; }
   .logos-row span:hover { border-color: var(--border-accent); color: var(--text-primary); }
 
   /* ─── SECTIONS ─── */
-  section { padding: 100px 0; }
+  section { padding: 120px 0; }
 
   .section-label {
     font-size: 12px; font-weight: 650; letter-spacing: 1.5px;
@@ -282,8 +292,9 @@
     background: var(--accent); opacity: 0; transition: opacity 0.3s;
   }
 
-  .wf-card:hover { border-color: var(--border-accent); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .wf-card:hover { border-color: var(--border-accent); transform: translateY(-4px); box-shadow: var(--shadow-lg); }
   .wf-card:hover::after { opacity: 1; }
+  .wf-card:hover .wf-icon { animation: float 2s ease-in-out infinite; }
 
   .wf-icon {
     width: 48px; height: 48px; border-radius: 12px; background: var(--accent-light);
@@ -606,8 +617,20 @@
   .whatsapp-btn { position: fixed; bottom: 24px; right: 24px; z-index: 1001; width: 56px; height: 56px; border-radius: 50%; background: #25D366; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(37,211,102,0.35); transition: transform 0.2s, box-shadow 0.2s; }
   .whatsapp-btn:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(37,211,102,0.45); }
   /* ─── SCROLL ANIMATIONS ─── */
-  .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
   .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  .stagger-1 { transition-delay: 0.05s; }
+  .stagger-2 { transition-delay: 0.1s; }
+  .stagger-3 { transition-delay: 0.15s; }
+  .stagger-4 { transition-delay: 0.2s; }
+  .stagger-5 { transition-delay: 0.25s; }
+  .stagger-6 { transition-delay: 0.3s; }
+
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+  .hero h1 em { background: linear-gradient(90deg, #7C3AED, #A78BFA, #7C3AED); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradient-shift 4s ease infinite; }
 
   /* ─── PERF: skip rendering off-screen sections ─── */
   section { content-visibility: auto; contain-intrinsic-size: auto 600px; }
@@ -696,24 +719,25 @@
   <div class="logos">
     <div class="logos-label">Built for teams that use</div>
     <div class="logos-row">
-      <span>Slack</span><span>Notion</span><span>Gmail</span><span>HubSpot</span><span>Stripe</span><span>Airtable</span><span>Cal.com</span>
+      <span>Slack</span><span>Notion</span><span>Gmail</span><span>HubSpot</span><span>Stripe</span><span>Airtable</span><span>Cal.com</span><span>WhatsApp</span><span>Shopify</span><span>Linear</span>
+      <span>Slack</span><span>Notion</span><span>Gmail</span><span>HubSpot</span><span>Stripe</span><span>Airtable</span><span>Cal.com</span><span>WhatsApp</span><span>Shopify</span><span>Linear</span>
     </div>
   </div>
 
   <!-- WORKFLOWS -->
   <section id="workflows" class="fade-up">
-    <div class="section-header">
+    <div class="section-header section-header-center">
       <div class="section-label">Workflows</div>
       <h2 class="section-title">Pick what you need automated</h2>
       <p class="section-desc">Each workflow plugs into your existing tools. Live in 48 hours. No new apps to learn.</p>
     </div>
     <div class="workflows-grid">
-      <div class="wf-card"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><h3>Lead Pilot</h3><p>AI captures leads from your site, socials, and DMs. Qualifies them, scores them, and sends hot ones to your Slack. Follows up automatically if they go quiet.</p><span class="wf-tag">Sales</span></div>
-      <div class="wf-card"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><h3>Content Engine</h3><p>Drop a voice note or rough idea. Get a week of social posts, a newsletter draft, and a blog outline — auto-scheduled across your platforms.</p><span class="wf-tag">Marketing</span></div>
-      <div class="wf-card"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg></div><h3>Ops Autopilot</h3><p>Customer onboarding, invoice reminders, meeting-to-task pipelines, CRM updates. The unsexy work that eats your entire day — gone.</p><span class="wf-tag">Operations</span></div>
-      <div class="wf-card"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg></div><h3>Inbox Zero</h3><p>AI triages your email and DMs. Drafts replies for routine stuff, flags the important ones, archives the noise. You just approve and send.</p><span class="wf-tag">Communication</span></div>
-      <div class="wf-card"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div><h3>Report Builder</h3><p>Weekly dashboards from your tools — revenue, signups, churn, social reach. Delivered to your inbox or Slack every Monday morning.</p><span class="wf-tag">Analytics</span></div>
-      <div class="wf-card"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><h3>Hiring Pipeline</h3><p>Screen applicants, schedule interviews, send rejections and offers. Your hiring process on rails — no more lost candidates in a spreadsheet.</p><span class="wf-tag">HR</span></div>
+      <div class="wf-card fade-up stagger-1"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><h3>Lead Pilot</h3><p>AI captures leads from your site, socials, and DMs. Qualifies them, scores them, and sends hot ones to your Slack.</p><span class="wf-tag">Sales</span></div>
+      <div class="wf-card fade-up stagger-2"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><h3>Content Engine</h3><p>Drop a voice note or rough idea. Get a week of social posts and a newsletter draft — auto-scheduled across your platforms.</p><span class="wf-tag">Marketing</span></div>
+      <div class="wf-card fade-up stagger-3"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg></div><h3>Ops Autopilot</h3><p>Customer onboarding, invoice reminders, meeting-to-task pipelines, CRM updates. The unsexy work — gone.</p><span class="wf-tag">Operations</span></div>
+      <div class="wf-card fade-up stagger-4"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg></div><h3>Inbox Zero</h3><p>AI triages your email and DMs. Drafts replies for routine stuff, flags the important ones, archives the noise.</p><span class="wf-tag">Communication</span></div>
+      <div class="wf-card fade-up stagger-5"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div><h3>Report Builder</h3><p>Weekly dashboards from your tools — revenue, signups, churn, social reach. Delivered to Slack every Monday.</p><span class="wf-tag">Analytics</span></div>
+      <div class="wf-card fade-up stagger-6"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><h3>Hiring Pipeline</h3><p>Screen applicants, schedule interviews, send rejections and offers. Your hiring process on rails.</p><span class="wf-tag">HR</span></div>
     </div>
   </section>
 
@@ -725,9 +749,9 @@
       <p class="section-desc">Three steps. No code. No bloated onboarding. Just tell us what's eating your time.</p>
     </div>
     <div class="how-grid">
-      <div class="how-card"><div class="how-num">01</div><h3>Tell us what's manual</h3><p>Quick 15-minute call or async message. Walk us through the repetitive stuff your team does every day. We map the workflow.</p></div>
-      <div class="how-card"><div class="how-num">02</div><h3>We build and connect</h3><p>We wire AI into your existing stack — Slack, Gmail, Notion, your CRM. No migrations, no new dashboards, no training.</p></div>
-      <div class="how-card"><div class="how-num">03</div><h3>It runs, you review</h3><p>The workflow goes live. You stay in the loop with approvals and a clean dashboard — but the grunt work is off your plate.</p></div>
+      <div class="how-card fade-up stagger-1"><div class="how-num">01</div><h3>Tell us what's manual</h3><p>Quick 15-minute call or async message. Walk us through the repetitive stuff your team does every day.</p></div>
+      <div class="how-card fade-up stagger-2"><div class="how-num">02</div><h3>We build and connect</h3><p>We wire AI into your existing stack — Slack, Gmail, Notion, your CRM. No migrations, no training.</p></div>
+      <div class="how-card fade-up stagger-3"><div class="how-num">03</div><h3>It runs, you review</h3><p>The workflow goes live. You stay in the loop with approvals — but the grunt work is off your plate.</p></div>
     </div>
   </section>
 
@@ -1034,8 +1058,37 @@ function toggleTheme() {
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+}, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+function countUp(el, target, suffix, duration) {
+  let start = 0;
+  const step = target / (duration / 16);
+  const tick = () => {
+    start += step;
+    if (start >= target) { el.textContent = target + suffix; return; }
+    el.textContent = Math.floor(start) + suffix;
+    requestAnimationFrame(tick);
+  };
+  tick();
+}
+
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const stats = entry.target.querySelectorAll('.hero-stat strong');
+      if (stats[0] && !stats[0].dataset.animated) {
+        countUp(stats[0], 12, 'hrs', 1200);
+        countUp(stats[1], 48, 'hr', 1200);
+        countUp(stats[2], 3, 'x', 800);
+        stats.forEach(s => s.dataset.animated = '1');
+      }
+      statsObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+const heroStats = document.querySelector('.hero-stats');
+if (heroStats) statsObserver.observe(heroStats);
 
 calcROI();
 </script>
