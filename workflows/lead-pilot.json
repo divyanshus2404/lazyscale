@@ -7,88 +7,51 @@
         "path": "lead-pilot",
         "options": {}
       },
-      "id": "a1b2c3d4-1111-1111-1111-111111111111",
-      "name": "Lead Capture Webhook",
+      "id": "a1111111-1111-1111-1111-111111111111",
+      "name": "Webhook",
       "type": "n8n-nodes-base.webhook",
-      "typeVersion": 1.1,
+      "typeVersion": 1,
       "position": [240, 300],
       "webhookId": "lead-pilot"
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "name",
-              "name": "name",
-              "value": "={{ $json.body?.name || $json.name || 'Unknown' }}",
-              "type": "string"
-            },
-            {
-              "id": "email",
-              "name": "email",
-              "value": "={{ $json.body?.email || $json.email || '' }}",
-              "type": "string"
-            },
-            {
-              "id": "company",
-              "name": "company",
-              "value": "={{ $json.body?.company || $json.company || 'Not provided' }}",
-              "type": "string"
-            },
-            {
-              "id": "message",
-              "name": "message",
-              "value": "={{ $json.body?.message || $json.message || '' }}",
-              "type": "string"
-            },
-            {
-              "id": "source",
-              "name": "source",
-              "value": "={{ $json.body?.source || $json.source || 'website' }}",
-              "type": "string"
-            },
-            {
-              "id": "timestamp",
-              "name": "timestamp",
-              "value": "={{ new Date().toISOString() }}",
-              "type": "string"
-            }
+        "values": {
+          "string": [
+            { "name": "name", "value": "={{ $json.body.name || $json.name || 'Unknown' }}" },
+            { "name": "email", "value": "={{ $json.body.email || $json.email || '' }}" },
+            { "name": "company", "value": "={{ $json.body.company || $json.company || 'Not provided' }}" },
+            { "name": "message", "value": "={{ $json.body.message || $json.message || '' }}" },
+            { "name": "source", "value": "={{ $json.body.source || $json.source || 'website' }}" },
+            { "name": "timestamp", "value": "={{ new Date().toISOString() }}" }
           ]
         },
         "options": {}
       },
-      "id": "a1b2c3d4-2222-2222-2222-222222222222",
-      "name": "Normalize Lead Data",
+      "id": "a2222222-2222-2222-2222-222222222222",
+      "name": "Set Lead Data",
       "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
+      "typeVersion": 1,
       "position": [480, 300]
     },
     {
       "parameters": {
+        "method": "POST",
         "url": "https://api.openai.com/v1/chat/completions",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $credentials.httpHeaderAuth.value }}"
-            },
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            }
-          ]
-        },
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
         "sendBody": true,
+        "bodyParametersUi": {
+          "parameter": []
+        },
         "specifyBody": "json",
-        "jsonBody": "={\n  \"model\": \"gpt-4o-mini\",\n  \"temperature\": 0.3,\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are a lead qualification assistant. Analyze the incoming lead and return a JSON object with these fields:\\n\\n- score: number 1-10 (10 = most qualified)\\n- tier: \\\"hot\\\" (8-10), \\\"warm\\\" (5-7), or \\\"cold\\\" (1-4)\\n- reason: one sentence explaining the score\\n- suggested_reply: a short, friendly, personalized follow-up message (2-3 sentences max) that acknowledges what they said and suggests a next step\\n\\nScoring criteria:\\n- Has company name: +2\\n- Message mentions specific pain point: +3\\n- Message mentions budget/timeline: +2\\n- Message is detailed (>20 words): +1\\n- Has business email domain (not gmail/yahoo): +2\\n\\nReturn ONLY valid JSON, no markdown.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"New lead:\\nName: {{ $json.name }}\\nEmail: {{ $json.email }}\\nCompany: {{ $json.company }}\\nMessage: {{ $json.message }}\\nSource: {{ $json.source }}\"\n    }\n  ]\n}",
+        "jsonBody": "={\n  \"model\": \"gpt-4o-mini\",\n  \"temperature\": 0.3,\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are a lead qualification assistant. Analyze the incoming lead and return a JSON object with: score (1-10), tier (hot/warm/cold), reason (one sentence), suggested_reply (2-3 sentences). Scoring: company name +2, specific pain point +3, budget/timeline +2, detailed message +1, business email +2. Return ONLY valid JSON.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Name: {{ $json.name }}\\nEmail: {{ $json.email }}\\nCompany: {{ $json.company }}\\nMessage: {{ $json.message }}\"\n    }\n  ]\n}",
         "options": {}
       },
-      "id": "a1b2c3d4-3333-3333-3333-333333333333",
-      "name": "AI Qualify Lead",
+      "id": "a3333333-3333-3333-3333-333333333333",
+      "name": "AI Qualify",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "typeVersion": 3,
       "position": [720, 300],
       "credentials": {
         "httpHeaderAuth": {
@@ -99,79 +62,58 @@
     },
     {
       "parameters": {
-        "jsCode": "const input = $input.first().json;\nlet aiResponse;\n\ntry {\n  const content = input.choices[0].message.content;\n  aiResponse = JSON.parse(content);\n} catch (e) {\n  aiResponse = {\n    score: 5,\n    tier: \"warm\",\n    reason: \"Could not parse AI response, defaulting to warm\",\n    suggested_reply: \"Thanks for reaching out! I'd love to learn more about what you're working on. Would you be open to a quick 15-minute call this week?\"\n  };\n}\n\nconst leadData = $('Normalize Lead Data').first().json;\n\nreturn [{\n  json: {\n    ...leadData,\n    ai_score: aiResponse.score,\n    ai_tier: aiResponse.tier,\n    ai_reason: aiResponse.reason,\n    ai_reply: aiResponse.suggested_reply\n  }\n}];"
+        "jsCode": "const input = $input.first().json;\nlet ai;\ntry {\n  ai = JSON.parse(input.choices[0].message.content);\n} catch(e) {\n  ai = { score:5, tier:'warm', reason:'Parse error', suggested_reply:'Thanks for reaching out! Would you be open to a quick call?' };\n}\nconst lead = $('Set Lead Data').first().json;\nreturn [{json:{...lead, ai_score:ai.score, ai_tier:ai.tier, ai_reason:ai.reason, ai_reply:ai.suggested_reply}}];"
       },
-      "id": "a1b2c3d4-4444-4444-4444-444444444444",
-      "name": "Parse AI Response",
+      "id": "a4444444-4444-4444-4444-444444444444",
+      "name": "Parse Response",
       "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
+      "typeVersion": 1,
       "position": [960, 300]
     },
     {
       "parameters": {
-        "rules": {
-          "rules": [
+        "conditions": {
+          "string": [
             {
-              "conditions": {
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.ai_tier }}",
-                    "rightValue": "hot",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "conditions": {
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.ai_tier }}",
-                    "rightValue": "warm",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "conditions": {
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.ai_tier }}",
-                    "rightValue": "cold",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    }
-                  }
-                ]
-              }
+              "value1": "={{ $json.ai_tier }}",
+              "value2": "hot"
             }
           ]
         }
       },
-      "id": "a1b2c3d4-5555-5555-5555-555555555555",
-      "name": "Route by Score",
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3,
+      "id": "a5555555-5555-5555-5555-555555555555",
+      "name": "Is Hot?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
       "position": [1200, 300]
     },
     {
       "parameters": {
-        "channel": "#leads",
-        "text": "=:fire: *HOT LEAD (Score: {{ $json.ai_score }}/10)*\n\n*Name:* {{ $json.name }}\n*Email:* {{ $json.email }}\n*Company:* {{ $json.company }}\n*Source:* {{ $json.source }}\n\n*Message:*\n> {{ $json.message }}\n\n*AI Analysis:* {{ $json.ai_reason }}\n\n*Suggested Reply:*\n{{ $json.ai_reply }}\n\n:clock1: Received: {{ $json.timestamp }}"
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.ai_tier }}",
+              "value2": "warm"
+            }
+          ]
+        }
       },
-      "id": "a1b2c3d4-6666-6666-6666-666666666666",
-      "name": "Slack Hot Lead",
+      "id": "a6666666-6666-6666-6666-666666666666",
+      "name": "Is Warm?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1440, 460]
+    },
+    {
+      "parameters": {
+        "channel": "#leads",
+        "text": "=:fire: *HOT LEAD ({{ $json.ai_score }}/10)*\n*{{ $json.name }}* ({{ $json.email }})\nCompany: {{ $json.company }}\n> {{ $json.message }}\nAI: {{ $json.ai_reason }}\nReply: {{ $json.ai_reply }}"
+      },
+      "id": "a7777777-7777-7777-7777-777777777777",
+      "name": "Slack Hot",
       "type": "n8n-nodes-base.slack",
-      "typeVersion": 2.2,
-      "position": [1460, 120],
+      "typeVersion": 2.1,
+      "position": [1440, 140],
       "credentials": {
         "slackApi": {
           "id": "",
@@ -182,13 +124,13 @@
     {
       "parameters": {
         "channel": "#leads",
-        "text": "=:large_yellow_circle: *WARM LEAD (Score: {{ $json.ai_score }}/10)*\n\n*Name:* {{ $json.name }}\n*Email:* {{ $json.email }}\n*Company:* {{ $json.company }}\n\n*Message:*\n> {{ $json.message }}\n\n*AI Analysis:* {{ $json.ai_reason }}\n\n_Auto follow-up email scheduled._"
+        "text": "=:large_yellow_circle: *WARM LEAD ({{ $json.ai_score }}/10)*\n*{{ $json.name }}* ({{ $json.email }})\n> {{ $json.message }}\nAI: {{ $json.ai_reason }}"
       },
-      "id": "a1b2c3d4-7777-7777-7777-777777777777",
-      "name": "Slack Warm Lead",
+      "id": "a8888888-8888-8888-8888-888888888888",
+      "name": "Slack Warm",
       "type": "n8n-nodes-base.slack",
-      "typeVersion": 2.2,
-      "position": [1460, 300],
+      "typeVersion": 2.1,
+      "position": [1700, 300],
       "credentials": {
         "slackApi": {
           "id": "",
@@ -200,14 +142,14 @@
       "parameters": {
         "fromEmail": "hello@lazyscale.ai",
         "toEmail": "={{ $json.email }}",
-        "subject": "=Re: {{ $json.company }} — quick follow-up",
-        "text": "={{ $json.ai_reply }}\n\nIf you'd like to chat, here's my calendar: https://cal.com/lazy_scale/lazy-scale/15min\n\nBest,\nLazyScale Team"
+        "subject": "=Re: {{ $json.company }}",
+        "text": "={{ $json.ai_reply }}\n\nBook a call: https://cal.com/lazy_scale/15min\n\n— LazyScale"
       },
-      "id": "a1b2c3d4-8888-8888-8888-888888888888",
-      "name": "Email Instant (Hot)",
+      "id": "a9999999-9999-9999-9999-999999999999",
+      "name": "Email Hot",
       "type": "n8n-nodes-base.emailSend",
-      "typeVersion": 2.1,
-      "position": [1720, 120],
+      "typeVersion": 2,
+      "position": [1700, 140],
       "credentials": {
         "smtp": {
           "id": "",
@@ -220,24 +162,24 @@
         "amount": 30,
         "unit": "minutes"
       },
-      "id": "a1b2c3d4-9999-9999-9999-999999999999",
-      "name": "Wait 30min",
+      "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+      "name": "Wait 30m",
       "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [1460, 480]
+      "typeVersion": 1,
+      "position": [1700, 460]
     },
     {
       "parameters": {
         "fromEmail": "hello@lazyscale.ai",
         "toEmail": "={{ $json.email }}",
-        "subject": "=Hey {{ $json.name }} — saw your message",
-        "text": "={{ $json.ai_reply }}\n\nIf you'd like to chat, grab a time here: https://cal.com/lazy_scale/lazy-scale/15min\n\nCheers,\nLazyScale Team"
+        "subject": "=Hey {{ $json.name }}",
+        "text": "={{ $json.ai_reply }}\n\nGrab a time: https://cal.com/lazy_scale/15min\n\n— LazyScale"
       },
-      "id": "a1b2c3d4-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
-      "name": "Email Delayed (Warm)",
+      "id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+      "name": "Email Warm",
       "type": "n8n-nodes-base.emailSend",
-      "typeVersion": 2.1,
-      "position": [1720, 480],
+      "typeVersion": 2,
+      "position": [1940, 460],
       "credentials": {
         "smtp": {
           "id": "",
@@ -250,24 +192,24 @@
         "amount": 3,
         "unit": "days"
       },
-      "id": "a1b2c3d4-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
-      "name": "Wait 3 Days",
+      "id": "cccccccc-cccc-cccc-cccc-cccccccccccc",
+      "name": "Wait 3d",
       "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [1460, 660]
+      "typeVersion": 1,
+      "position": [1700, 620]
     },
     {
       "parameters": {
         "fromEmail": "hello@lazyscale.ai",
         "toEmail": "={{ $json.email }}",
         "subject": "=Following up — {{ $json.name }}",
-        "text": "=Hey {{ $json.name }},\n\nJust checking in — I reached out a few days ago about how we could help {{ $json.company }} automate some of the repetitive work your team is doing.\n\nNo pressure at all. If you're curious, here's a quick 15-min slot: https://cal.com/lazy_scale/lazy-scale/15min\n\nIf the timing isn't right, totally understand. Just reply \"not now\" and I'll check back later.\n\nBest,\nLazyScale Team"
+        "text": "=Hey {{ $json.name }},\n\nJust checking in about automating some work for {{ $json.company }}.\n\nNo pressure — grab a slot if curious: https://cal.com/lazy_scale/15min\n\n— LazyScale"
       },
-      "id": "a1b2c3d4-cccc-cccc-cccc-cccccccccccc",
-      "name": "Email 3-Day Follow-Up",
+      "id": "dddddddd-dddd-dddd-dddd-dddddddddddd",
+      "name": "Email Cold Follow-Up",
       "type": "n8n-nodes-base.emailSend",
-      "typeVersion": 2.1,
-      "position": [1720, 660],
+      "typeVersion": 2,
+      "position": [1940, 620],
       "credentials": {
         "smtp": {
           "id": "",
@@ -277,72 +219,79 @@
     }
   ],
   "connections": {
-    "Lead Capture Webhook": {
+    "Webhook": {
       "main": [
         [
-          { "node": "Normalize Lead Data", "type": "main", "index": 0 }
+          { "node": "Set Lead Data", "type": "main", "index": 0 }
         ]
       ]
     },
-    "Normalize Lead Data": {
+    "Set Lead Data": {
       "main": [
         [
-          { "node": "AI Qualify Lead", "type": "main", "index": 0 }
+          { "node": "AI Qualify", "type": "main", "index": 0 }
         ]
       ]
     },
-    "AI Qualify Lead": {
+    "AI Qualify": {
       "main": [
         [
-          { "node": "Parse AI Response", "type": "main", "index": 0 }
+          { "node": "Parse Response", "type": "main", "index": 0 }
         ]
       ]
     },
-    "Parse AI Response": {
+    "Parse Response": {
       "main": [
         [
-          { "node": "Route by Score", "type": "main", "index": 0 }
+          { "node": "Is Hot?", "type": "main", "index": 0 }
         ]
       ]
     },
-    "Route by Score": {
+    "Is Hot?": {
       "main": [
         [
-          { "node": "Slack Hot Lead", "type": "main", "index": 0 }
+          { "node": "Slack Hot", "type": "main", "index": 0 }
         ],
         [
-          { "node": "Slack Warm Lead", "type": "main", "index": 0 }
+          { "node": "Is Warm?", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Is Warm?": {
+      "main": [
+        [
+          { "node": "Slack Warm", "type": "main", "index": 0 }
         ],
         [
-          { "node": "Wait 3 Days", "type": "main", "index": 0 }
+          { "node": "Wait 3d", "type": "main", "index": 0 }
         ]
       ]
     },
-    "Slack Hot Lead": {
+    "Slack Hot": {
       "main": [
         [
-          { "node": "Email Instant (Hot)", "type": "main", "index": 0 }
+          { "node": "Email Hot", "type": "main", "index": 0 }
         ]
       ]
     },
-    "Slack Warm Lead": {
+    "Slack Warm": {
       "main": [
         [
-          { "node": "Wait 30min", "type": "main", "index": 0 }
+          { "node": "Wait 30m", "type": "main", "index": 0 }
         ]
       ]
     },
-    "Wait 30min": {
+    "Wait 30m": {
       "main": [
         [
-          { "node": "Email Delayed (Warm)", "type": "main", "index": 0 }
+          { "node": "Email Warm", "type": "main", "index": 0 }
         ]
       ]
     },
-    "Wait 3 Days": {
+    "Wait 3d": {
       "main": [
         [
-          { "node": "Email 3-Day Follow-Up", "type": "main", "index": 0 }
+          { "node": "Email Cold Follow-Up", "type": "main", "index": 0 }
         ]
       ]
     }
