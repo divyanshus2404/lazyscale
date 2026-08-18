@@ -783,50 +783,109 @@
 
   /* ─── AUDIT FORM ─── */
   .audit-section {
-    background: var(--bg-raised); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, #1a1a2e 0%, #16162a 50%, #0f0f1a 100%);
+    position: relative; overflow: hidden;
   }
+  .audit-section::before {
+    content: ''; position: absolute; width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,58,237,0.15), transparent 70%);
+    top: -100px; right: -100px; animation: audit-glow 6s ease-in-out infinite;
+  }
+  .audit-section::after {
+    content: ''; position: absolute; width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(167,139,250,0.08), transparent 70%);
+    bottom: -150px; left: -100px; animation: audit-glow 8s ease-in-out infinite 2s;
+  }
+  @keyframes audit-glow { 0%,100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.2); opacity: 1; } }
   .audit-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
     max-width: var(--max-w); margin: 0 auto; align-items: center;
+    position: relative; z-index: 1;
   }
-  .audit-left h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 800; color: var(--text-primary); line-height: 1.2; margin-bottom: 16px; }
-  .audit-left p { color: var(--text-secondary); font-size: 16px; line-height: 1.6; margin-bottom: 20px; }
+  .audit-badge {
+    display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px;
+    background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 100px; font-size: 13px; font-weight: 600; color: #A78BFA;
+    margin-bottom: 20px; letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .audit-badge-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: #22C55E;
+    animation: audit-dot-pulse 2s ease-in-out infinite;
+  }
+  @keyframes audit-dot-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .audit-left h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; color: #fff; line-height: 1.15; margin-bottom: 16px; }
+  .audit-left h2 span { background: linear-gradient(135deg, #A78BFA, #7C3AED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .audit-left p { color: rgba(255,255,255,0.6); font-size: 16px; line-height: 1.7; margin-bottom: 28px; }
   .audit-perks { list-style: none; padding: 0; }
-  .audit-perks li { color: var(--text-secondary); font-size: 15px; padding: 6px 0; display: flex; align-items: center; gap: 10px; }
-  .audit-perks li::before { content: '✓'; color: var(--accent); font-weight: 700; font-size: 16px; }
+  .audit-perks li {
+    color: rgba(255,255,255,0.7); font-size: 15px; padding: 10px 0; display: flex; align-items: center; gap: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    opacity: 0; transform: translateX(-20px);
+  }
+  .audit-perks li.visible { opacity: 1; transform: translateX(0); transition: all 0.5s cubic-bezier(0.4,0,0.2,1); }
+  .audit-perks li:last-child { border-bottom: none; }
+  .audit-perks li::before {
+    content: ''; width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+    background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3);
+    display: flex; align-items: center; justify-content: center;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2322C55E' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: center;
+  }
   .audit-form {
-    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 32px; box-shadow: var(--shadow-md);
+    background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+    padding: 36px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    transform: translateY(20px); opacity: 0;
+    transition: all 0.8s cubic-bezier(0.4,0,0.2,1);
   }
-  .audit-form-title { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 24px; text-align: center; }
+  .audit-form.visible { transform: translateY(0); opacity: 1; }
+  .audit-form-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 24px; text-align: center; }
   .audit-field { margin-bottom: 16px; }
-  .audit-field label { display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .audit-field label { display: block; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.5); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.8px; }
   .audit-field input, .audit-field select, .audit-field textarea {
-    width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm);
-    background: var(--bg); color: var(--text-primary); font-size: 15px; font-family: inherit;
-    transition: border-color 0.2s;
+    width: 100%; padding: 12px 14px; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+    background: rgba(255,255,255,0.05); color: #fff; font-size: 15px; font-family: inherit;
+    transition: all 0.25s;
   }
+  .audit-field input::placeholder, .audit-field textarea::placeholder { color: rgba(255,255,255,0.25); }
+  .audit-field select { color: rgba(255,255,255,0.5); }
+  .audit-field select option { background: #1a1a2e; color: #fff; }
   .audit-field input:focus, .audit-field select:focus, .audit-field textarea:focus {
-    outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow-strong);
+    outline: none; border-color: rgba(124,58,237,0.6); background: rgba(124,58,237,0.08);
+    box-shadow: 0 0 0 3px rgba(124,58,237,0.15);
   }
   .audit-field textarea { resize: vertical; min-height: 80px; }
   .audit-submit {
-    width: 100%; padding: 14px; border: none; border-radius: var(--radius-sm); cursor: pointer;
-    background: var(--accent); color: #fff; font-size: 16px; font-weight: 700; font-family: inherit;
-    transition: all 0.2s; margin-top: 8px;
+    width: 100%; padding: 14px; border: none; border-radius: 10px; cursor: pointer;
+    background: linear-gradient(135deg, #7C3AED, #6D28D9); color: #fff;
+    font-size: 16px; font-weight: 700; font-family: inherit;
+    transition: all 0.3s; margin-top: 8px; position: relative; overflow: hidden;
   }
-  .audit-submit:hover { background: var(--accent-mid); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(124,58,237,0.3); }
+  .audit-submit::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: translateX(-100%); transition: transform 0.6s;
+  }
+  .audit-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.4); }
+  .audit-submit:hover::after { transform: translateX(100%); }
   .audit-submit:active { transform: translateY(0); }
   .audit-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
   .audit-success {
     text-align: center; padding: 40px 20px; display: none;
   }
-  .audit-success.show { display: block; }
-  .audit-success-icon { font-size: 48px; margin-bottom: 16px; }
-  .audit-success h3 { font-size: 22px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
-  .audit-success p { color: var(--text-secondary); font-size: 15px; }
+  .audit-success.show { display: flex; flex-direction: column; align-items: center; }
+  .audit-success-icon {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: rgba(34,197,94,0.15); border: 2px solid rgba(34,197,94,0.3);
+    display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+    animation: audit-check-pop 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes audit-check-pop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+  .audit-success h3 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .audit-success p { color: rgba(255,255,255,0.6); font-size: 15px; max-width: 320px; }
   @media (max-width: 768px) {
     .audit-grid { grid-template-columns: 1fr; gap: 32px; }
+    .audit-section::before, .audit-section::after { display: none; }
   }
 
   /* ─── PERF: skip rendering off-screen sections ─── */
@@ -1053,8 +1112,8 @@
   <section class="audit-section fade-up" id="audit">
     <div class="audit-grid">
       <div class="audit-left">
-        <div class="section-label">Free Automation Audit</div>
-        <h2>Find out what you should automate first</h2>
+        <div class="audit-badge"><span class="audit-badge-dot"></span> Free — Limited Spots</div>
+        <h2>Find out what you should <span>automate first</span></h2>
         <p>Tell us about your startup in 2 minutes. We'll reply within 24 hours with a personalized report — what to automate, which tools to use, and how much time you'll save.</p>
         <ul class="audit-perks">
           <li>100% free, no strings attached</li>
@@ -1075,7 +1134,7 @@
           <button class="audit-submit" type="submit">Get My Free Audit</button>
         </form>
         <div class="audit-success" id="audit-success">
-          <div class="audit-success-icon">&#10003;</div>
+          <div class="audit-success-icon"><svg width="28" height="28" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
           <h3>We've got it!</h3>
           <p>Check your inbox within 24 hours for your personalized automation audit. We'll show you exactly what to automate and how much time you'll save.</p>
         </div>
@@ -1492,6 +1551,21 @@ function handleAudit(e) {
     btn.textContent = 'Get My Free Audit';
   });
 }
+
+// Audit section scroll animations
+const auditObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const form = e.target.querySelector('.audit-form');
+    if (form) form.classList.add('visible');
+    e.target.querySelectorAll('.audit-perks li').forEach((li, i) => {
+      setTimeout(() => li.classList.add('visible'), 150 * i);
+    });
+    auditObs.unobserve(e.target);
+  });
+}, { threshold: 0.2 });
+const auditSection = document.getElementById('audit');
+if (auditSection) auditObs.observe(auditSection);
 
 // Scroll progress bar + back-to-top + active nav
 const progressBar = document.getElementById('scroll-progress');
