@@ -762,14 +762,16 @@
   .demo-play-circle:hover { background: rgba(124,58,237,0.4); border-color: rgba(255,255,255,0.5); transform: scale(1.08); }
   .demo-play-circle svg { fill: #fff; margin-left: 4px; }
   .demo-play-label { color: rgba(255,255,255,0.6); font-size: 14px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
-  .demo-mute-btn {
-    position: absolute; top: 16px; right: 16px; z-index: 6;
+  .demo-ctrl-btn {
+    position: absolute; z-index: 6;
     width: 36px; height: 36px; border-radius: 50%; border: none; cursor: pointer;
     background: rgba(255,255,255,0.1); color: #fff; font-size: 16px;
     display: flex; align-items: center; justify-content: center;
     opacity: 0; transition: opacity 0.3s;
   }
-  .demo-video:hover .demo-mute-btn { opacity: 1; }
+  .demo-mute-btn { top: 16px; right: 16px; }
+  .demo-pause-btn { top: 16px; right: 60px; }
+  .demo-video:hover .demo-ctrl-btn { opacity: 1; }
   @media (max-width: 640px) {
     .demo-slide { padding: 24px; }
     .demo-play-circle { width: 56px; height: 56px; }
@@ -953,7 +955,8 @@
           </div>
           <div class="demo-play-label">Play Demo</div>
         </div>
-        <button class="demo-mute-btn" id="demo-mute" onclick="toggleDemoMute(event)" title="Toggle sound">🔊</button>
+        <button class="demo-ctrl-btn demo-pause-btn" id="demo-pause" onclick="toggleDemoPause(event)" title="Pause/Resume" style="display:none">⏸</button>
+        <button class="demo-ctrl-btn demo-mute-btn" id="demo-mute" onclick="toggleDemoMute(event)" title="Toggle sound">🔊</button>
       </div>
     </div>
   </section>
@@ -1297,11 +1300,28 @@ if (heroStats) statsObserver.observe(heroStats);
 calcROI();
 
 let demoMuted = false;
+let demoPaused = false;
+let demoTimer = null;
+let demoState = null;
+
 function toggleDemoMute(e) {
   e.stopPropagation();
   demoMuted = !demoMuted;
   document.getElementById('demo-mute').textContent = demoMuted ? '🔇' : '🔊';
-  if (demoMuted) window.speechSynthesis.cancel();
+  if (demoMuted) try { window.speechSynthesis.cancel(); } catch(e) {}
+}
+
+function toggleDemoPause(e) {
+  e.stopPropagation();
+  demoPaused = !demoPaused;
+  document.getElementById('demo-pause').textContent = demoPaused ? '▶' : '⏸';
+  if (demoPaused) {
+    clearTimeout(demoTimer);
+    try { window.speechSynthesis.pause(); } catch(e) {}
+  } else {
+    try { window.speechSynthesis.resume(); } catch(e) {}
+    if (demoState) demoTimer = setTimeout(demoState.next, demoState.remaining);
+  }
 }
 
 function demoSpeak(text) {
@@ -1322,10 +1342,15 @@ function playDemo() {
   const slides = document.querySelectorAll('.demo-slide');
   const overlay = document.getElementById('demo-overlay');
   const progress = document.getElementById('demo-progress');
+  const pauseBtn = document.getElementById('demo-pause');
   const total = slides.length;
   const interval = 4000;
   let idx = 0;
 
+  demoPaused = false;
+  clearTimeout(demoTimer);
+  pauseBtn.style.display = 'flex';
+  pauseBtn.textContent = '⏸';
   try { window.speechSynthesis.cancel(); } catch(e) {}
   overlay.classList.add('hidden');
   slides.forEach(s => s.classList.remove('active'));
@@ -1335,6 +1360,8 @@ function playDemo() {
     if (idx >= total) {
       overlay.classList.remove('hidden');
       progress.style.width = '0%';
+      pauseBtn.style.display = 'none';
+      demoState = null;
       return;
     }
     slides[idx].classList.add('active');
@@ -1342,7 +1369,8 @@ function playDemo() {
     if (voice) demoSpeak(voice);
     progress.style.width = ((idx + 1) / total * 100) + '%';
     idx++;
-    setTimeout(showSlide, interval);
+    demoState = { next: showSlide, remaining: interval };
+    demoTimer = setTimeout(showSlide, interval);
   }
   showSlide();
 }
