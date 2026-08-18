@@ -783,7 +783,7 @@
         <div class="hero-stat"><strong>12hrs</strong><span>Saved / week</span></div>
         <div class="hero-stat"><strong>48hr</strong><span>Setup time</span></div>
         <div class="hero-stat"><strong>3x</strong><span>Faster replies</span></div>
-        <div class="hero-stat"><strong>$0</strong><span>Upfront cost</span></div>
+        <div class="hero-stat"><strong>₹0</strong><span>Upfront cost</span></div>
       </div>
     </div>
   </section>
@@ -879,8 +879,8 @@
         </div>
         <div class="roi-field">
           <label>Your hourly rate (or team cost)</label>
-          <input type="range" id="roi-rate" min="20" max="200" value="50" step="5" oninput="calcROI()">
-          <div class="roi-value"><span>$20</span><strong id="roi-rate-val">$50</strong><span>$200</span></div>
+          <input type="range" id="roi-rate" min="500" max="15000" value="2000" step="500" oninput="calcROI()">
+          <div class="roi-value"><span>₹500</span><strong id="roi-rate-val">₹2,000</strong><span>₹15,000</span></div>
         </div>
         <div class="roi-field">
           <label>Team members doing this work</label>
@@ -891,8 +891,8 @@
       <div class="roi-results">
         <h3>Your estimated savings</h3>
         <div class="roi-stat-row"><span class="roi-stat-label">Hours saved / month</span><span class="roi-stat-value" id="roi-saved-hours">128 hrs</span></div>
-        <div class="roi-stat-row"><span class="roi-stat-label">Money saved / month</span><span class="roi-stat-value highlight" id="roi-saved-money">$6,400</span></div>
-        <div class="roi-stat-row"><span class="roi-stat-label">Annual savings</span><span class="roi-stat-value" id="roi-saved-annual">$76,800</span></div>
+        <div class="roi-stat-row"><span class="roi-stat-label">Money saved / month</span><span class="roi-stat-value highlight" id="roi-saved-money">₹2,56,000</span></div>
+        <div class="roi-stat-row"><span class="roi-stat-label">Annual savings</span><span class="roi-stat-value" id="roi-saved-annual">₹30,72,000</span></div>
         <div class="roi-stat-row"><span class="roi-stat-label">ROI vs. Growth plan</span><span class="roi-stat-value highlight" id="roi-ratio">4.3x</span></div>
         <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-primary roi-cta" style="width:100%;justify-content:center;">Get These Savings →</a>
       </div>
@@ -916,7 +916,7 @@
       <div class="price-card">
         <div class="price-name">Starter</div>
         <div class="price-desc">One workflow, fully managed</div>
-        <div class="price-amount" data-monthly="$499" data-annual="$399">$499<span>/mo</span></div>
+        <div class="price-amount" data-monthly="₹39,999" data-annual="₹32,999">₹39,999<span>/mo</span></div>
         <div class="price-note">Billed monthly</div>
         <ul class="price-features"><li>1 automation workflow</li><li>1,000 AI actions / month</li><li>Notion dashboard</li><li>Email support</li><li>48-hour setup</li></ul>
         <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-ghost">Get Started</a>
@@ -924,7 +924,7 @@
       <div class="price-card featured">
         <div class="price-name">Growth</div>
         <div class="price-desc">For teams ready to scale</div>
-        <div class="price-amount" data-monthly="$1,499" data-annual="$1,199">$1,499<span>/mo</span></div>
+        <div class="price-amount" data-monthly="₹1,19,999" data-annual="₹99,999">₹1,19,999<span>/mo</span></div>
         <div class="price-note">Billed monthly</div>
         <ul class="price-features"><li>3 automation workflows</li><li>10,000 AI actions / month</li><li>Analytics dashboard</li><li>Priority Slack support</li><li>Monthly optimization call</li><li>Custom branding</li></ul>
         <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-primary">Get Started</a>
@@ -932,7 +932,7 @@
       <div class="price-card">
         <div class="price-name">Scale</div>
         <div class="price-desc">Full autopilot operations</div>
-        <div class="price-amount" data-monthly="$3,999" data-annual="$3,199">$3,999<span>/mo</span></div>
+        <div class="price-amount" data-monthly="₹2,99,999" data-annual="₹2,49,999">₹2,99,999<span>/mo</span></div>
         <div class="price-note">Billed monthly</div>
         <ul class="price-features"><li>Unlimited workflows</li><li>50,000 AI actions / month</li><li>Custom integrations</li><li>Dedicated Slack channel</li><li>Weekly strategy calls</li><li>Priority SLA</li></ul>
         <a href="https://cal.com/lazy_scale/30min" target="_blank" class="btn btn-ghost">Talk to Us</a>
@@ -947,7 +947,7 @@
         <div class="section-label">Done-For-You</div>
         <h3>Want us to handle the whole thing?</h3>
         <p>For teams that want a fully custom AI system — built, deployed, and maintained by us. You describe the problem, we ship the solution.</p>
-        <div class="dfy-price">Starting at <strong>$1,500</strong> one-time · Retainers from <strong>$2,000/mo</strong></div>
+        <div class="dfy-price">Starting at <strong>₹1,25,000</strong> one-time · Retainers from <strong>₹1,50,000/mo</strong></div>
         <a href="https://cal.com/lazy_scale/30min" target="_blank" class="btn btn-dark">Book a Discovery Call</a>
       </div>
       <ul class="dfy-steps">
@@ -1101,15 +1101,15 @@ function calcROI() {
   const rate = +document.getElementById('roi-rate').value;
   const team = +document.getElementById('roi-team').value;
   document.getElementById('roi-hours-val').textContent = hours + ' hrs';
-  document.getElementById('roi-rate-val').textContent = '$' + rate;
+  document.getElementById('roi-rate-val').textContent = '₹' + rate.toLocaleString('en-IN');
   document.getElementById('roi-team-val').textContent = team;
   const savedHours = Math.round(hours * team * 4 * 0.8);
   const savedMoney = savedHours * rate;
   const annual = savedMoney * 12;
-  const roi = (savedMoney / 1499).toFixed(1);
+  const roi = (savedMoney / 119999).toFixed(1);
   document.getElementById('roi-saved-hours').textContent = savedHours.toLocaleString() + ' hrs';
-  document.getElementById('roi-saved-money').textContent = '$' + savedMoney.toLocaleString();
-  document.getElementById('roi-saved-annual').textContent = '$' + annual.toLocaleString();
+  document.getElementById('roi-saved-money').textContent = '₹' + savedMoney.toLocaleString('en-IN');
+  document.getElementById('roi-saved-annual').textContent = '₹' + annual.toLocaleString('en-IN');
   document.getElementById('roi-ratio').textContent = roi + 'x';
 }
 
