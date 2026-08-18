@@ -1064,15 +1064,16 @@
         </ul>
       </div>
       <div>
-        <div class="audit-form" id="audit-form">
+        <form class="audit-form" id="audit-form" action="https://formspree.io/f/mjybpkov" method="POST" onsubmit="handleAudit(event)">
+          <input type="hidden" name="_subject" value="Free Automation Audit Request">
           <div class="audit-form-title">Get Your Free Audit</div>
-          <div class="audit-field"><label>Your Name</label><input type="text" id="audit-name" placeholder="Rahul Sharma" required></div>
-          <div class="audit-field"><label>Email</label><input type="email" id="audit-email" placeholder="rahul@startup.com" required></div>
-          <div class="audit-field"><label>Startup Name</label><input type="text" id="audit-startup" placeholder="Your company name"></div>
-          <div class="audit-field"><label>Team Size</label><select id="audit-team"><option value="">Select...</option><option>Just me</option><option>2-5</option><option>6-15</option><option>16-50</option><option>50+</option></select></div>
-          <div class="audit-field"><label>What takes too long?</label><textarea id="audit-pain" placeholder="e.g. Following up on leads, writing social posts, onboarding customers, updating CRM..."></textarea></div>
-          <button class="audit-submit" id="audit-btn" onclick="submitAudit()">Get My Free Audit</button>
-        </div>
+          <div class="audit-field"><label>Your Name</label><input type="text" name="name" placeholder="Rahul Sharma" required></div>
+          <div class="audit-field"><label>Email</label><input type="email" name="email" placeholder="rahul@startup.com" required></div>
+          <div class="audit-field"><label>Startup Name</label><input type="text" name="startup" placeholder="Your company name"></div>
+          <div class="audit-field"><label>Team Size</label><select name="team_size"><option value="">Select...</option><option>Just me</option><option>2-5</option><option>6-15</option><option>16-50</option><option>50+</option></select></div>
+          <div class="audit-field"><label>What takes too long?</label><textarea name="pain_points" placeholder="e.g. Following up on leads, writing social posts, onboarding customers, updating CRM..."></textarea></div>
+          <button class="audit-submit" type="submit">Get My Free Audit</button>
+        </form>
         <div class="audit-success" id="audit-success">
           <div class="audit-success-icon">&#10003;</div>
           <h3>We've got it!</h3>
@@ -1464,32 +1465,32 @@ function playDemo() {
   showSlide();
 }
 
-// Audit form submission
-function submitAudit() {
-  const name = document.getElementById('audit-name').value.trim();
-  const email = document.getElementById('audit-email').value.trim();
-  const startup = document.getElementById('audit-startup').value.trim();
-  const team = document.getElementById('audit-team').value;
-  const pain = document.getElementById('audit-pain').value.trim();
-
-  if (!name || !email) { alert('Please fill in your name and email.'); return; }
-  if (!email.includes('@')) { alert('Please enter a valid email.'); return; }
-
-  const btn = document.getElementById('audit-btn');
+// Audit form submission via Formspree
+function handleAudit(e) {
+  e.preventDefault();
+  const form = document.getElementById('audit-form');
+  const btn = form.querySelector('.audit-submit');
   btn.disabled = true;
   btn.textContent = 'Sending...';
 
-  const body = `New Automation Audit Request\n\nName: ${name}\nEmail: ${email}\nStartup: ${startup || 'Not specified'}\nTeam Size: ${team || 'Not specified'}\nPain Points: ${pain || 'Not specified'}`;
-
-  const mailtoLink = `mailto:divyanshus2404@gmail.com?subject=${encodeURIComponent('Free Audit Request — ' + (startup || name))}&body=${encodeURIComponent(body)}`;
-  window.location.href = mailtoLink;
-
-  setTimeout(() => {
-    document.getElementById('audit-form').style.display = 'none';
-    document.getElementById('audit-success').classList.add('show');
+  fetch(form.action, {
+    method: 'POST',
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
+  }).then(r => {
+    if (r.ok) {
+      form.style.display = 'none';
+      document.getElementById('audit-success').classList.add('show');
+    } else {
+      alert('Something went wrong. Please try again.');
+      btn.disabled = false;
+      btn.textContent = 'Get My Free Audit';
+    }
+  }).catch(() => {
+    alert('Network error. Please try again.');
     btn.disabled = false;
     btn.textContent = 'Get My Free Audit';
-  }, 1000);
+  });
 }
 
 // Scroll progress bar + back-to-top + active nav
