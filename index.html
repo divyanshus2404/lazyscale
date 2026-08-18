@@ -6,29 +6,33 @@
 <meta property="og:title" content="LazyScale — AI Automation for Startups">
 <meta property="og:description" content="We automate the stuff you keep saying you'll hire someone for. AI workflows for leads, content, and ops.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://divyanshus2404.github.io/lazyscale/">
-<meta property="og:image" content="https://divyanshus2404.github.io/lazyscale/og-image.png">
+<meta property="og:url" content="https://lazyscale.vercel.app">
+<meta property="og:image" content="https://lazyscale.vercel.app/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="LazyScale — AI Automation for Startups">
 <meta name="twitter:description" content="AI workflows that handle your leads, content, and ops. Built for startups that move fast.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2308080C'/><path d='M16 6l3 8h8l-6.5 5 2.5 8L16 22l-7 5 2.5-8L5 14h8z' fill='%23B4FF39'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23f4f4f5'/><rect x='1' y='1' width='30' height='30' rx='7' fill='none' stroke='%23e4e4e7'/><path d='M8 10h5v14H8z' fill='%231a1a2e'/><path d='M13 18h4v6h-4z' fill='%237c3aed' opacity='.6'/><path d='M17 14h4v10h-4z' fill='%237c3aed' opacity='.8'/><path d='M21 10h4v14h-4z' fill='%237c3aed'/><path d='M14 20q4-3 10-8l1 1.5-10 8z' fill='%237c3aed'/><path d='M24 12l2 0-1-3z' fill='%237c3aed'/></svg>">
 <style>
   :root {
-    --bg: #08080C;
-    --bg-raised: #111118;
-    --bg-card: #16161F;
-    --bg-card-hover: #1C1C27;
-    --text-primary: #E8E6E3;
-    --text-secondary: #8A8892;
-    --text-muted: #55535E;
-    --accent: #B4FF39;
-    --accent-mid: #8BCC2A;
-    --accent-dim: #5A8A10;
-    --accent-glow: rgba(180, 255, 57, 0.07);
-    --accent-glow-strong: rgba(180, 255, 57, 0.14);
-    --border: rgba(255,255,255,0.06);
-    --border-hover: rgba(255,255,255,0.1);
-    --border-accent: rgba(180, 255, 57, 0.18);
+    --bg: #F7F7F5;
+    --bg-raised: #EEEDEA;
+    --bg-card: #FFFFFF;
+    --bg-card-hover: #F8F8F6;
+    --text-primary: #1A1A2E;
+    --text-secondary: #4A4A60;
+    --text-muted: #7E7E96;
+    --accent: #7C3AED;
+    --accent-mid: #6D28D9;
+    --accent-dim: #5B21B6;
+    --accent-light: #EDE9FE;
+    --accent-glow: rgba(124, 58, 237, 0.06);
+    --accent-glow-strong: rgba(124, 58, 237, 0.12);
+    --border: rgba(0,0,0,0.1);
+    --border-hover: rgba(0,0,0,0.18);
+    --border-accent: rgba(124, 58, 237, 0.25);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.1);
     --radius: 16px;
     --radius-sm: 10px;
     --radius-xs: 6px;
@@ -36,60 +40,26 @@
     --transition: 0.2s ease;
   }
 
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) {
-      --bg: #F5F4F1;
-      --bg-raised: #ECEAE6;
-      --bg-card: #FFFFFF;
-      --bg-card-hover: #FAFAF8;
-      --text-primary: #18181F;
-      --text-secondary: #65636F;
-      --text-muted: #9895A1;
-      --accent: #4A8C00;
-      --accent-mid: #3D7300;
-      --accent-dim: #2E5800;
-      --accent-glow: rgba(74, 140, 0, 0.06);
-      --accent-glow-strong: rgba(74, 140, 0, 0.12);
-      --border: rgba(0,0,0,0.07);
-      --border-hover: rgba(0,0,0,0.12);
-      --border-accent: rgba(74, 140, 0, 0.2);
-    }
-  }
-
-  :root[data-theme="light"] {
-    --bg: #F5F4F1;
-    --bg-raised: #ECEAE6;
-    --bg-card: #FFFFFF;
-    --bg-card-hover: #FAFAF8;
-    --text-primary: #18181F;
-    --text-secondary: #65636F;
-    --text-muted: #9895A1;
-    --accent: #4A8C00;
-    --accent-mid: #3D7300;
-    --accent-dim: #2E5800;
-    --accent-glow: rgba(74, 140, 0, 0.06);
-    --accent-glow-strong: rgba(74, 140, 0, 0.12);
-    --border: rgba(0,0,0,0.07);
-    --border-hover: rgba(0,0,0,0.12);
-    --border-accent: rgba(74, 140, 0, 0.2);
-  }
-
   :root[data-theme="dark"] {
-    --bg: #08080C;
-    --bg-raised: #111118;
-    --bg-card: #16161F;
-    --bg-card-hover: #1C1C27;
-    --text-primary: #E8E6E3;
-    --text-secondary: #8A8892;
-    --text-muted: #55535E;
-    --accent: #B4FF39;
-    --accent-mid: #8BCC2A;
-    --accent-dim: #5A8A10;
-    --accent-glow: rgba(180, 255, 57, 0.07);
-    --accent-glow-strong: rgba(180, 255, 57, 0.14);
-    --border: rgba(255,255,255,0.06);
-    --border-hover: rgba(255,255,255,0.1);
-    --border-accent: rgba(180, 255, 57, 0.18);
+    --bg: #0B0B14;
+    --bg-raised: #13131F;
+    --bg-card: #1A1A2E;
+    --bg-card-hover: #22223A;
+    --text-primary: #EDEDF0;
+    --text-secondary: #9494A8;
+    --text-muted: #5E5E74;
+    --accent: #A78BFA;
+    --accent-mid: #8B5CF6;
+    --accent-dim: #7C3AED;
+    --accent-light: rgba(167,139,250,0.12);
+    --accent-glow: rgba(167, 139, 250, 0.08);
+    --accent-glow-strong: rgba(167, 139, 250, 0.16);
+    --border: rgba(255,255,255,0.07);
+    --border-hover: rgba(255,255,255,0.12);
+    --border-accent: rgba(167, 139, 250, 0.25);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.3);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.4);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -110,7 +80,7 @@
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
     padding: 0 28px;
-    background: color-mix(in srgb, var(--bg) 80%, transparent);
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
     backdrop-filter: blur(24px) saturate(1.4);
     -webkit-backdrop-filter: blur(24px) saturate(1.4);
     border-bottom: 1px solid var(--border);
@@ -123,17 +93,25 @@
     height: 100%;
   }
 
-  .logo { display: flex; align-items: center; gap: 10px; font-size: 21px; font-weight: 750; letter-spacing: -0.7px; color: var(--text-primary); text-decoration: none; }
+  .logo { display: flex; align-items: center; gap: 0; font-size: 21px; font-weight: 750; letter-spacing: -0.7px; color: var(--text-primary); text-decoration: none; }
   .logo span { color: var(--accent); }
-  .logo svg { width: 32px; height: 32px; flex-shrink: 0; }
+  .logo svg { width: 30px; height: 30px; flex-shrink: 0; margin-right: 8px; }
 
-  .nav-links { display: flex; gap: 8px; align-items: center; }
+  .nav-links { display: flex; gap: 4px; align-items: center; }
 
   .nav-link {
     color: var(--text-secondary); text-decoration: none; font-size: 14px;
     font-weight: 500; padding: 7px 14px; border-radius: 8px; transition: all var(--transition);
   }
   .nav-link:hover { color: var(--text-primary); background: var(--accent-glow); }
+
+  .theme-toggle {
+    width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--border);
+    background: var(--bg-card); cursor: pointer; display: flex; align-items: center;
+    justify-content: center; font-size: 18px; transition: all var(--transition);
+    margin-left: 4px;
+  }
+  .theme-toggle:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
 
   .btn {
     display: inline-flex; align-items: center; gap: 8px;
@@ -142,8 +120,14 @@
     transition: all var(--transition);
   }
 
-  .btn-primary { background: var(--accent); color: var(--bg); }
-  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 28px var(--accent-glow-strong); }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 28px var(--accent-glow-strong); filter: brightness(1.08); }
+
+  .btn-dark {
+    background: var(--text-primary); color: var(--bg);
+    border: none;
+  }
+  .btn-dark:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); opacity: 0.9; }
 
   .btn-ghost {
     background: transparent; color: var(--text-primary);
@@ -184,9 +168,9 @@
   .hero::before {
     content: '';
     position: absolute;
-    top: 0; left: 50%; transform: translateX(-50%);
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, var(--accent-glow-strong) 0%, transparent 70%);
+    top: -100px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 600px;
+    background: radial-gradient(circle, var(--accent-glow-strong) 0%, transparent 60%);
     pointer-events: none;
     z-index: 0;
   }
@@ -195,7 +179,7 @@
 
   .hero-tag {
     display: inline-flex; align-items: center; gap: 8px;
-    background: var(--accent-glow); border: 1px solid var(--border-accent);
+    background: var(--accent-light); border: 1px solid var(--border-accent);
     padding: 6px 18px; border-radius: 100px;
     font-size: 13px; font-weight: 550; color: var(--accent); letter-spacing: 0.2px;
     margin-bottom: 28px;
@@ -242,18 +226,9 @@
   .hero-stat span { font-size: 12px; color: var(--text-muted); letter-spacing: 0.8px; text-transform: uppercase; font-weight: 550; }
 
   /* ─── LOGOS ─── */
-  .logos {
-    padding: 60px 0;
-    text-align: center;
-  }
-
+  .logos { padding: 60px 0; text-align: center; }
   .logos-label { font-size: 12px; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; font-weight: 600; margin-bottom: 28px; }
-
-  .logos-row {
-    display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap;
-    opacity: 0.4;
-  }
-
+  .logos-row { display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap; opacity: 0.35; }
   .logos-row span { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; color: var(--text-primary); }
 
   /* ─── SECTIONS ─── */
@@ -276,14 +251,13 @@
   .section-header-center .section-desc { margin: 0 auto; }
 
   /* ─── WORKFLOWS ─── */
-  .workflows-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
-  }
+  .workflows-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 
   .wf-card {
     background: var(--bg-card); border: 1px solid var(--border);
     border-radius: var(--radius); padding: 32px 26px;
     transition: all 0.3s ease; position: relative; overflow: hidden;
+    box-shadow: var(--shadow-sm);
   }
 
   .wf-card::after {
@@ -291,11 +265,11 @@
     background: var(--accent); opacity: 0; transition: opacity 0.3s;
   }
 
-  .wf-card:hover { border-color: var(--border-accent); transform: translateY(-2px); box-shadow: 0 12px 40px var(--accent-glow); }
+  .wf-card:hover { border-color: var(--border-accent); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
   .wf-card:hover::after { opacity: 1; }
 
   .wf-icon {
-    width: 48px; height: 48px; border-radius: 12px; background: var(--accent-glow);
+    width: 48px; height: 48px; border-radius: 12px; background: var(--accent-light);
     display: flex; align-items: center; justify-content: center;
     font-size: 22px; margin-bottom: 20px;
   }
@@ -305,7 +279,7 @@
 
   .wf-tag {
     display: inline-block; font-size: 11px; font-weight: 650; color: var(--accent);
-    background: var(--accent-glow); padding: 4px 12px; border-radius: 100px;
+    background: var(--accent-light); padding: 4px 12px; border-radius: 100px;
     letter-spacing: 0.4px; text-transform: uppercase;
   }
 
@@ -313,13 +287,13 @@
   .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 
   .how-card {
-    padding: 36px 28px; background: var(--bg-raised);
+    padding: 36px 28px; background: var(--bg-card);
     border-radius: var(--radius); border: 1px solid var(--border);
-    position: relative;
+    position: relative; box-shadow: var(--shadow-sm);
   }
 
   .how-num {
-    font-size: 56px; font-weight: 850; color: var(--accent); opacity: 0.12;
+    font-size: 56px; font-weight: 850; color: var(--accent); opacity: 0.15;
     letter-spacing: -3px; line-height: 1; margin-bottom: 12px;
     font-variant-numeric: tabular-nums;
   }
@@ -334,6 +308,7 @@
     background: var(--bg-card); border: 1px solid var(--border);
     border-radius: var(--radius); padding: 32px 26px;
     display: flex; flex-direction: column; gap: 20px;
+    box-shadow: var(--shadow-sm);
   }
 
   .result-metric {
@@ -350,7 +325,7 @@
   }
 
   .result-avatar {
-    width: 32px; height: 32px; border-radius: 50%; background: var(--accent-glow);
+    width: 32px; height: 32px; border-radius: 50%; background: var(--accent-light);
     display: flex; align-items: center; justify-content: center;
     font-size: 14px; font-weight: 700; color: var(--accent);
   }
@@ -362,26 +337,24 @@
   .ba-grid { display: grid; grid-template-columns: 1fr 60px 1fr; gap: 0; align-items: stretch; }
   .ba-col {
     background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 36px 28px;
+    border-radius: var(--radius); padding: 36px 28px; box-shadow: var(--shadow-sm);
   }
   .ba-col.before { border-right: none; border-radius: var(--radius) 0 0 var(--radius); }
-  .ba-col.after { border-left: none; border-radius: 0 var(--radius) var(--radius) 0; border-color: var(--border-accent); }
+  .ba-col.after { border-left: none; border-radius: 0 var(--radius) var(--radius) 0; border-color: var(--border-accent); background: var(--accent-light); }
   .ba-divider {
     display: flex; align-items: center; justify-content: center;
     background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
     font-size: 24px; color: var(--accent); font-weight: 800;
   }
   .ba-col h3 { font-size: 18px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
-  .ba-col h3 .ba-icon { font-size: 20px; }
   .ba-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
   .ba-list li {
     font-size: 14px; color: var(--text-secondary); line-height: 1.6;
     display: flex; align-items: flex-start; gap: 10px;
   }
   .ba-list li::before { flex-shrink: 0; font-size: 14px; }
-  .ba-col.before .ba-list li::before { content: '✗'; color: #FF6B6B; font-weight: 700; }
+  .ba-col.before .ba-list li::before { content: '✗'; color: #EF4444; font-weight: 700; }
   .ba-col.after .ba-list li::before { content: '✓'; color: var(--accent); font-weight: 700; }
-  .ba-col.after { background: var(--bg-raised); }
 
   @media (max-width: 640px) {
     .ba-grid { grid-template-columns: 1fr; }
@@ -395,6 +368,7 @@
     background: var(--bg-card); border: 1px solid var(--border);
     border-radius: 20px; padding: 48px;
     display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start;
+    box-shadow: var(--shadow-md);
   }
   .roi-inputs { display: flex; flex-direction: column; gap: 28px; }
   .roi-field label {
@@ -409,7 +383,7 @@
   }
   .roi-field input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%;
-    background: var(--accent); cursor: pointer; border: 2px solid var(--bg);
+    background: var(--accent); cursor: pointer; border: 3px solid var(--bg-card);
     box-shadow: 0 2px 8px var(--accent-glow-strong);
   }
   .roi-field .roi-value {
@@ -418,7 +392,7 @@
   }
   .roi-field .roi-value strong { color: var(--accent); font-size: 18px; font-weight: 750; }
   .roi-results {
-    background: var(--bg-raised); border: 1px solid var(--border-accent);
+    background: var(--accent-light); border: 1px solid var(--border-accent);
     border-radius: var(--radius); padding: 36px;
     display: flex; flex-direction: column; gap: 24px;
   }
@@ -444,22 +418,22 @@
   .pricing-toggle span.active { color: var(--text-primary); }
 
   .toggle-switch {
-    width: 48px; height: 26px; background: var(--bg-card); border: 1px solid var(--border);
+    width: 48px; height: 26px; background: var(--bg-raised); border: 1px solid var(--border);
     border-radius: 100px; cursor: pointer; position: relative; transition: all var(--transition);
   }
 
   .toggle-switch::after {
     content: ''; position: absolute; top: 3px; left: 3px;
-    width: 18px; height: 18px; border-radius: 50%; background: var(--text-secondary);
+    width: 18px; height: 18px; border-radius: 50%; background: var(--text-muted);
     transition: all 0.25s;
   }
 
   .toggle-switch.on { background: var(--accent); border-color: var(--accent); }
-  .toggle-switch.on::after { left: 25px; background: var(--bg); }
+  .toggle-switch.on::after { left: 25px; background: #fff; }
 
   .save-badge {
     font-size: 11px; font-weight: 650; color: var(--accent);
-    background: var(--accent-glow); padding: 3px 10px; border-radius: 100px;
+    background: var(--accent-light); padding: 3px 10px; border-radius: 100px;
     letter-spacing: 0.3px;
   }
 
@@ -469,25 +443,24 @@
     background: var(--bg-card); border: 1px solid var(--border);
     border-radius: var(--radius); padding: 36px 28px;
     display: flex; flex-direction: column; transition: all 0.3s;
+    box-shadow: var(--shadow-sm);
   }
 
   .price-card.featured {
     border-color: var(--accent); position: relative;
-    box-shadow: 0 0 0 1px var(--accent), 0 12px 48px var(--accent-glow);
+    box-shadow: 0 0 0 1px var(--accent), 0 12px 48px var(--accent-glow-strong);
   }
 
   .price-card.featured::before {
     content: 'Most Popular'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-    background: var(--accent); color: var(--bg); font-size: 11px; font-weight: 700;
+    background: var(--accent); color: #fff; font-size: 11px; font-weight: 700;
     padding: 4px 16px; border-radius: 100px; letter-spacing: 0.5px; text-transform: uppercase;
   }
 
   .price-name { font-size: 16px; font-weight: 650; margin-bottom: 4px; }
   .price-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5; }
-
   .price-amount { font-size: 40px; font-weight: 850; letter-spacing: -2.5px; margin-bottom: 4px; }
   .price-amount span { font-size: 14px; font-weight: 500; color: var(--text-muted); letter-spacing: 0; }
-
   .price-note { font-size: 12px; color: var(--text-muted); margin-bottom: 28px; }
 
   .price-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; flex: 1; }
@@ -501,9 +474,10 @@
 
   /* ─── DFY ─── */
   .dfy {
-    background: var(--bg-raised); border: 1px solid var(--border);
+    background: var(--bg-card); border: 1px solid var(--border);
     border-radius: 20px; padding: 56px;
     display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start;
+    box-shadow: var(--shadow-md);
   }
 
   .dfy h3 { font-size: 30px; font-weight: 750; letter-spacing: -1.2px; margin-bottom: 14px; line-height: 1.15; }
@@ -513,12 +487,11 @@
   .dfy-price strong { color: var(--text-primary); font-weight: 700; }
 
   .dfy-steps { list-style: none; display: flex; flex-direction: column; gap: 20px; }
-
   .dfy-step { display: flex; gap: 16px; align-items: flex-start; }
 
   .dfy-step-icon {
     width: 40px; height: 40px; border-radius: var(--radius-sm);
-    background: var(--accent-glow); border: 1px solid var(--border-accent);
+    background: var(--accent-light); border: 1px solid var(--border-accent);
     display: flex; align-items: center; justify-content: center;
     font-size: 18px; flex-shrink: 0;
   }
@@ -532,6 +505,7 @@
   .testimonial {
     background: var(--bg-card); border: 1px solid var(--border);
     border-radius: var(--radius); padding: 28px 24px;
+    box-shadow: var(--shadow-sm);
   }
 
   .testimonial-text {
@@ -542,7 +516,7 @@
   .testimonial-author { display: flex; align-items: center; gap: 12px; }
 
   .testimonial-avatar {
-    width: 36px; height: 36px; border-radius: 50%; background: var(--accent-glow);
+    width: 36px; height: 36px; border-radius: 50%; background: var(--accent-light);
     display: flex; align-items: center; justify-content: center;
     font-size: 15px; font-weight: 700; color: var(--accent);
   }
@@ -551,16 +525,14 @@
   .testimonial-role { font-size: 12px; color: var(--text-muted); }
 
   /* ─── STACK ─── */
-  .stack-grid {
-    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
-  }
+  .stack-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
 
   .stack-chip {
     display: flex; align-items: center; gap: 8px;
     background: var(--bg-card); border: 1px solid var(--border);
     border-radius: 100px; padding: 10px 20px;
     font-size: 14px; font-weight: 550; color: var(--text-secondary);
-    transition: all var(--transition);
+    transition: all var(--transition); box-shadow: var(--shadow-sm);
   }
 
   .stack-chip:hover { border-color: var(--border-accent); color: var(--text-primary); }
@@ -572,18 +544,18 @@
     background: var(--bg-card); border: 1px solid var(--border);
     border-radius: var(--radius); overflow: hidden;
     transition: all 0.3s; text-decoration: none; color: inherit;
-    display: flex; flex-direction: column;
+    display: flex; flex-direction: column; box-shadow: var(--shadow-sm);
   }
-  .blog-card:hover { border-color: var(--border-accent); transform: translateY(-2px); box-shadow: 0 12px 40px var(--accent-glow); }
+  .blog-card:hover { border-color: var(--border-accent); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
   .blog-thumb {
-    height: 160px; background: var(--bg-raised);
+    height: 160px; background: var(--accent-light);
     display: flex; align-items: center; justify-content: center;
     font-size: 48px;
   }
   .blog-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
   .blog-tag {
     display: inline-block; font-size: 11px; font-weight: 650; color: var(--accent);
-    background: var(--accent-glow); padding: 3px 10px; border-radius: 100px;
+    background: var(--accent-light); padding: 3px 10px; border-radius: 100px;
     letter-spacing: 0.4px; text-transform: uppercase; margin-bottom: 12px; width: fit-content;
   }
   .blog-card h3 { font-size: 17px; font-weight: 650; letter-spacing: -0.3px; margin-bottom: 8px; line-height: 1.35; }
@@ -591,9 +563,7 @@
   .blog-meta { font-size: 12px; color: var(--text-muted); margin-top: auto; }
 
   /* ─── CONTACT ─── */
-  .contact-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start;
-  }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
   .contact-form { display: flex; flex-direction: column; gap: 20px; }
   .contact-field { display: flex; flex-direction: column; gap: 6px; }
   .contact-field label { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
@@ -607,34 +577,29 @@
   .contact-field textarea { resize: vertical; min-height: 120px; }
   .contact-info { display: flex; flex-direction: column; gap: 24px; }
   .contact-info-card {
-    background: var(--bg-raised); border: 1px solid var(--border);
+    background: var(--bg-card); border: 1px solid var(--border);
     border-radius: var(--radius); padding: 24px;
-    display: flex; gap: 16px; align-items: flex-start;
+    display: flex; gap: 16px; align-items: flex-start; box-shadow: var(--shadow-sm);
   }
   .contact-info-icon {
     width: 44px; height: 44px; border-radius: var(--radius-sm);
-    background: var(--accent-glow); border: 1px solid var(--border-accent);
+    background: var(--accent-light); border: 1px solid var(--border-accent);
     display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
   }
   .contact-info-card h4 { font-size: 15px; font-weight: 640; margin-bottom: 4px; }
   .contact-info-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.55; }
   .contact-success {
     display: none; text-align: center; padding: 48px 24px;
-    background: var(--bg-raised); border: 1px solid var(--border-accent);
+    background: var(--accent-light); border: 1px solid var(--border-accent);
     border-radius: var(--radius);
   }
   .contact-success.show { display: block; }
   .contact-success .check { font-size: 48px; margin-bottom: 16px; }
 
-  @media (max-width: 640px) {
-    .contact-grid { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 640px) { .contact-grid { grid-template-columns: 1fr; } }
 
   /* ─── FAQ ─── */
-  .faq-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px;
-  }
-
+  .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; }
   .faq-item { border-bottom: 1px solid var(--border); }
 
   .faq-q {
@@ -646,10 +611,8 @@
 
   .faq-q:hover { color: var(--accent); }
   .faq-q:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
-
   .faq-arrow { font-size: 16px; color: var(--text-muted); transition: transform 0.25s; flex-shrink: 0; }
   .faq-item.open .faq-arrow { transform: rotate(45deg); }
-
   .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
   .faq-item.open .faq-a { max-height: 200px; }
   .faq-a p { padding-bottom: 20px; font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
@@ -674,7 +637,6 @@
   }
 
   .final-cta p { color: var(--text-secondary); font-size: 17px; margin-bottom: 36px; max-width: 440px; margin-left: auto; margin-right: auto; line-height: 1.7; }
-
   .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
   /* ─── FOOTER ─── */
@@ -686,7 +648,6 @@
   }
 
   .footer-brand p { font-size: 14px; color: var(--text-muted); line-height: 1.65; margin-top: 12px; max-width: 280px; }
-
   .footer-col h4 { font-size: 12px; font-weight: 650; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; }
   .footer-col a { display: block; font-size: 14px; color: var(--text-secondary); text-decoration: none; padding: 4px 0; transition: color var(--transition); }
   .footer-col a:hover { color: var(--text-primary); }
@@ -702,29 +663,27 @@
   .footer-bottom-links a:hover { color: var(--text-secondary); }
 
   /* ─── CHAT WIDGET ─── */
-  .chat-widget {
-    position: fixed; bottom: 24px; right: 24px; z-index: 1001;
-  }
+  .chat-widget { position: fixed; bottom: 24px; right: 24px; z-index: 1001; }
   .chat-btn {
     width: 56px; height: 56px; border-radius: 50%;
     background: var(--accent); border: none; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 4px 20px var(--accent-glow-strong);
-    transition: all 0.3s; font-size: 24px;
+    transition: all 0.3s; font-size: 24px; color: #fff;
   }
   .chat-btn:hover { transform: scale(1.08); }
   .chat-popup {
     display: none; position: absolute; bottom: 72px; right: 0;
     width: 340px; background: var(--bg-card); border: 1px solid var(--border);
     border-radius: var(--radius); overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    box-shadow: var(--shadow-lg);
   }
   .chat-popup.open { display: block; }
   .chat-header {
-    background: var(--accent); color: var(--bg); padding: 16px 20px;
+    background: var(--accent); color: #fff; padding: 16px 20px;
     font-size: 15px; font-weight: 650; display: flex; justify-content: space-between; align-items: center;
   }
-  .chat-close { background: none; border: none; color: var(--bg); font-size: 20px; cursor: pointer; }
+  .chat-close { background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; }
   .chat-body { padding: 20px; }
   .chat-msg {
     background: var(--bg-raised); padding: 12px 16px; border-radius: 12px 12px 12px 4px;
@@ -740,14 +699,11 @@
   .chat-send {
     width: 36px; height: 36px; border-radius: 50%; background: var(--accent);
     border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
-    font-size: 16px; color: var(--bg); flex-shrink: 0;
+    font-size: 16px; color: #fff; flex-shrink: 0;
   }
 
   /* ─── SCROLL ANIMATIONS ─── */
-  .fade-up {
-    opacity: 0; transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
+  .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
   .fade-up.visible { opacity: 1; transform: translateY(0); }
 
   /* ─── RESPONSIVE ─── */
@@ -775,12 +731,16 @@
 <nav>
   <div class="nav-inner">
     <a href="#" class="logo">
-      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-        <rect width="32" height="32" rx="7" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-opacity="0.15"/>
-        <path d="M10 22V11l4 4 4-4v11" stroke="#B4FF39" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <path d="M22 13l-4 4" stroke="#B4FF39" stroke-width="2.2" stroke-linecap="round"/>
+      <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+        <rect width="30" height="30" rx="7" fill="#f4f4f5" stroke="#e4e4e7"/>
+        <path d="M7 8h5.5v15H7z" fill="#1a1a2e" rx="1"/>
+        <rect x="12.5" y="16" width="4" height="7" rx="0.8" fill="#7c3aed" opacity=".55"/>
+        <rect x="16.5" y="12" width="4" height="11" rx="0.8" fill="#7c3aed" opacity=".75"/>
+        <rect x="20.5" y="8" width="4" height="15" rx="0.8" fill="#7c3aed"/>
+        <path d="M13 19q5-4 10-7.5" stroke="#7c3aed" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M22 10.5l1.8 0.3-0.3-2" stroke="#7c3aed" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      lazy<span>scale</span>
+      Lazy<span>Scale</span>
     </a>
     <div class="nav-links">
       <a href="#workflows" class="nav-link">Workflows</a>
@@ -789,7 +749,8 @@
       <a href="#dfy" class="nav-link">Done-For-You</a>
       <a href="#blog" class="nav-link">Blog</a>
       <a href="#contact" class="nav-link">Contact</a>
-      <a href="https://cal.com/lazy_scale/lazy-scale/15min" target="_blank" class="btn btn-primary">Book a Call</a>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" id="theme-btn">🌙</button>
+      <a href="https://cal.com/lazy_scale/lazy-scale/15min" target="_blank" class="btn btn-dark">Book a Call</a>
     </div>
     <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -804,7 +765,7 @@
   <a href="#dfy" onclick="this.parentElement.classList.remove('open')">Done-For-You</a>
   <a href="#blog" onclick="this.parentElement.classList.remove('open')">Blog</a>
   <a href="#contact" onclick="this.parentElement.classList.remove('open')">Contact</a>
-  <a href="https://cal.com/lazy_scale/lazy-scale/15min" target="_blank" class="btn btn-primary" onclick="this.parentElement.classList.remove('open')">Book a Call</a>
+  <a href="https://cal.com/lazy_scale/lazy-scale/15min" target="_blank" class="btn btn-dark" onclick="this.parentElement.classList.remove('open')">Book a Call</a>
 </div>
 
 <div class="container">
@@ -815,7 +776,7 @@
     <h1>We automate the stuff you keep saying you'll <em>hire someone</em> for</h1>
     <p class="hero-sub">AI workflows that handle your leads, content, and ops. Built for startups that move fast and hire slow.</p>
     <div class="hero-ctas">
-      <a href="https://cal.com/lazy_scale/lazy-scale/15min" target="_blank" class="btn btn-primary btn-lg">Book a Free Call</a>
+      <a href="https://cal.com/lazy_scale/lazy-scale/15min" target="_blank" class="btn btn-dark btn-lg">Book a Free Call</a>
       <a href="#workflows" class="btn btn-ghost btn-lg">See What We Automate</a>
     </div>
     <div class="hero-proof">
@@ -845,42 +806,12 @@
       <p class="section-desc">Each workflow plugs into your existing tools. Live in 48 hours. No new apps to learn.</p>
     </div>
     <div class="workflows-grid">
-      <div class="wf-card">
-        <div class="wf-icon">⚡</div>
-        <h3>Lead Pilot</h3>
-        <p>AI captures leads from your site, socials, and DMs. Qualifies them, scores them, and sends hot ones to your Slack. Follows up automatically if they go quiet.</p>
-        <span class="wf-tag">Sales</span>
-      </div>
-      <div class="wf-card">
-        <div class="wf-icon">✍️</div>
-        <h3>Content Engine</h3>
-        <p>Drop a voice note or rough idea. Get a week of social posts, a newsletter draft, and a blog outline — auto-scheduled across your platforms.</p>
-        <span class="wf-tag">Marketing</span>
-      </div>
-      <div class="wf-card">
-        <div class="wf-icon">🔄</div>
-        <h3>Ops Autopilot</h3>
-        <p>Customer onboarding, invoice reminders, meeting-to-task pipelines, CRM updates. The unsexy work that eats your entire day — gone.</p>
-        <span class="wf-tag">Operations</span>
-      </div>
-      <div class="wf-card">
-        <div class="wf-icon">📩</div>
-        <h3>Inbox Zero</h3>
-        <p>AI triages your email and DMs. Drafts replies for routine stuff, flags the important ones, archives the noise. You just approve and send.</p>
-        <span class="wf-tag">Communication</span>
-      </div>
-      <div class="wf-card">
-        <div class="wf-icon">📊</div>
-        <h3>Report Builder</h3>
-        <p>Weekly dashboards from your tools — revenue, signups, churn, social reach. Delivered to your inbox or Slack every Monday morning.</p>
-        <span class="wf-tag">Analytics</span>
-      </div>
-      <div class="wf-card">
-        <div class="wf-icon">🤝</div>
-        <h3>Hiring Pipeline</h3>
-        <p>Screen applicants, schedule interviews, send rejections and offers. Your hiring process on rails — no more lost candidates in a spreadsheet.</p>
-        <span class="wf-tag">HR</span>
-      </div>
+      <div class="wf-card"><div class="wf-icon">⚡</div><h3>Lead Pilot</h3><p>AI captures leads from your site, socials, and DMs. Qualifies them, scores them, and sends hot ones to your Slack. Follows up automatically if they go quiet.</p><span class="wf-tag">Sales</span></div>
+      <div class="wf-card"><div class="wf-icon">✍️</div><h3>Content Engine</h3><p>Drop a voice note or rough idea. Get a week of social posts, a newsletter draft, and a blog outline — auto-scheduled across your platforms.</p><span class="wf-tag">Marketing</span></div>
+      <div class="wf-card"><div class="wf-icon">🔄</div><h3>Ops Autopilot</h3><p>Customer onboarding, invoice reminders, meeting-to-task pipelines, CRM updates. The unsexy work that eats your entire day — gone.</p><span class="wf-tag">Operations</span></div>
+      <div class="wf-card"><div class="wf-icon">📩</div><h3>Inbox Zero</h3><p>AI triages your email and DMs. Drafts replies for routine stuff, flags the important ones, archives the noise. You just approve and send.</p><span class="wf-tag">Communication</span></div>
+      <div class="wf-card"><div class="wf-icon">📊</div><h3>Report Builder</h3><p>Weekly dashboards from your tools — revenue, signups, churn, social reach. Delivered to your inbox or Slack every Monday morning.</p><span class="wf-tag">Analytics</span></div>
+      <div class="wf-card"><div class="wf-icon">🤝</div><h3>Hiring Pipeline</h3><p>Screen applicants, schedule interviews, send rejections and offers. Your hiring process on rails — no more lost candidates in a spreadsheet.</p><span class="wf-tag">HR</span></div>
     </div>
   </section>
 
@@ -892,21 +823,9 @@
       <p class="section-desc">Three steps. No code. No bloated onboarding. Just tell us what's eating your time.</p>
     </div>
     <div class="how-grid">
-      <div class="how-card">
-        <div class="how-num">01</div>
-        <h3>Tell us what's manual</h3>
-        <p>Quick 15-minute call or async message. Walk us through the repetitive stuff your team does every day. We map the workflow.</p>
-      </div>
-      <div class="how-card">
-        <div class="how-num">02</div>
-        <h3>We build and connect</h3>
-        <p>We wire AI into your existing stack — Slack, Gmail, Notion, your CRM. No migrations, no new dashboards, no training.</p>
-      </div>
-      <div class="how-card">
-        <div class="how-num">03</div>
-        <h3>It runs, you review</h3>
-        <p>The workflow goes live. You stay in the loop with approvals and a clean dashboard — but the grunt work is off your plate.</p>
-      </div>
+      <div class="how-card"><div class="how-num">01</div><h3>Tell us what's manual</h3><p>Quick 15-minute call or async message. Walk us through the repetitive stuff your team does every day. We map the workflow.</p></div>
+      <div class="how-card"><div class="how-num">02</div><h3>We build and connect</h3><p>We wire AI into your existing stack — Slack, Gmail, Notion, your CRM. No migrations, no new dashboards, no training.</p></div>
+      <div class="how-card"><div class="how-num">03</div><h3>It runs, you review</h3><p>The workflow goes live. You stay in the loop with approvals and a clean dashboard — but the grunt work is off your plate.</p></div>
     </div>
   </section>
 
@@ -917,42 +836,9 @@
       <h2 class="section-title">What our early clients are seeing</h2>
     </div>
     <div class="results-grid">
-      <div class="result-card">
-        <div class="result-metric">40%</div>
-        <h4>Higher response rate on leads</h4>
-        <p>AI follows up within minutes, not days. Leads that used to ghost now book calls because the reply came while they still cared.</p>
-        <div class="result-source">
-          <div class="result-avatar">R</div>
-          <div class="result-source-text">
-            <span>Riya K.</span>
-            <em>Founder, D2C brand</em>
-          </div>
-        </div>
-      </div>
-      <div class="result-card">
-        <div class="result-metric">15hrs</div>
-        <h4>Saved per week on content</h4>
-        <p>One voice memo on Monday turns into a week of scheduled posts, a newsletter, and two blog drafts — all in the founder's voice.</p>
-        <div class="result-source">
-          <div class="result-avatar">A</div>
-          <div class="result-source-text">
-            <span>Arjun M.</span>
-            <em>Solo founder, SaaS</em>
-          </div>
-        </div>
-      </div>
-      <div class="result-card">
-        <div class="result-metric">$4k</div>
-        <h4>Saved monthly on ops</h4>
-        <p>Replaced a part-time VA and two Zapier plans. Onboarding emails, invoice follow-ups, and CRM updates now run untouched.</p>
-        <div class="result-source">
-          <div class="result-avatar">S</div>
-          <div class="result-source-text">
-            <span>Sara L.</span>
-            <em>COO, 8-person startup</em>
-          </div>
-        </div>
-      </div>
+      <div class="result-card"><div class="result-metric">40%</div><h4>Higher response rate on leads</h4><p>AI follows up within minutes, not days. Leads that used to ghost now book calls because the reply came while they still cared.</p><div class="result-source"><div class="result-avatar">R</div><div class="result-source-text"><span>Riya K.</span><em>Founder, D2C brand</em></div></div></div>
+      <div class="result-card"><div class="result-metric">15hrs</div><h4>Saved per week on content</h4><p>One voice memo on Monday turns into a week of scheduled posts, a newsletter, and two blog drafts — all in the founder's voice.</p><div class="result-source"><div class="result-avatar">A</div><div class="result-source-text"><span>Arjun M.</span><em>Solo founder, SaaS</em></div></div></div>
+      <div class="result-card"><div class="result-metric">$4k</div><h4>Saved monthly on ops</h4><p>Replaced a part-time VA and two Zapier plans. Onboarding emails, invoice follow-ups, and CRM updates now run untouched.</p><div class="result-source"><div class="result-avatar">S</div><div class="result-source-text"><span>Sara L.</span><em>COO, 8-person startup</em></div></div></div>
     </div>
   </section>
 
@@ -1019,22 +905,10 @@
       </div>
       <div class="roi-results">
         <h3>Your estimated savings</h3>
-        <div class="roi-stat-row">
-          <span class="roi-stat-label">Hours saved / month</span>
-          <span class="roi-stat-value" id="roi-saved-hours">128 hrs</span>
-        </div>
-        <div class="roi-stat-row">
-          <span class="roi-stat-label">Money saved / month</span>
-          <span class="roi-stat-value highlight" id="roi-saved-money">$6,400</span>
-        </div>
-        <div class="roi-stat-row">
-          <span class="roi-stat-label">Annual savings</span>
-          <span class="roi-stat-value" id="roi-saved-annual">$76,800</span>
-        </div>
-        <div class="roi-stat-row">
-          <span class="roi-stat-label">ROI vs. Growth plan</span>
-          <span class="roi-stat-value highlight" id="roi-ratio">4.3x</span>
-        </div>
+        <div class="roi-stat-row"><span class="roi-stat-label">Hours saved / month</span><span class="roi-stat-value" id="roi-saved-hours">128 hrs</span></div>
+        <div class="roi-stat-row"><span class="roi-stat-label">Money saved / month</span><span class="roi-stat-value highlight" id="roi-saved-money">$6,400</span></div>
+        <div class="roi-stat-row"><span class="roi-stat-label">Annual savings</span><span class="roi-stat-value" id="roi-saved-annual">$76,800</span></div>
+        <div class="roi-stat-row"><span class="roi-stat-label">ROI vs. Growth plan</span><span class="roi-stat-value highlight" id="roi-ratio">4.3x</span></div>
         <a href="https://cal.com/lazy_scale/lazy-scale/15min" target="_blank" class="btn btn-primary roi-cta" style="width:100%;justify-content:center;">Get These Savings →</a>
       </div>
     </div>
@@ -1059,13 +933,7 @@
         <div class="price-desc">One workflow, fully managed</div>
         <div class="price-amount" data-monthly="$499" data-annual="$399">$499<span>/mo</span></div>
         <div class="price-note">Billed monthly</div>
-        <ul class="price-features">
-          <li>1 automation workflow</li>
-          <li>1,000 AI actions / month</li>
-          <li>Notion dashboard</li>
-          <li>Email support</li>
-          <li>48-hour setup</li>
-        </ul>
+        <ul class="price-features"><li>1 automation workflow</li><li>1,000 AI actions / month</li><li>Notion dashboard</li><li>Email support</li><li>48-hour setup</li></ul>
         <a href="https://cal.com/lazy_scale/lazy-scale/15min" target="_blank" class="btn btn-ghost">Get Started</a>
       </div>
       <div class="price-card featured">
@@ -1073,14 +941,7 @@
         <div class="price-desc">For teams ready to scale</div>
         <div class="price-amount" data-monthly="$1,499" data-annual="$1,199">$1,499<span>/mo</span></div>
         <div class="price-note">Billed monthly</div>
-        <ul class="price-features">
-          <li>3 automation workflows</li>
-          <li>10,000 AI actions / month</li>
-          <li>Analytics dashboard</li>
-          <li>Priority Slack support</li>
-          <li>Monthly optimization call</li>
-          <li>Custom branding</li>
-        </ul>
+        <ul class="price-features"><li>3 automation workflows</li><li>10,000 AI actions / month</li><li>Analytics dashboard</li><li>Priority Slack support</li><li>Monthly optimization call</li><li>Custom branding</li></ul>
         <a href="https://cal.com/lazy_scale/lazy-scale/15min" target="_blank" class="btn btn-primary">Get Started</a>
       </div>
       <div class="price-card">
@@ -1088,14 +949,7 @@
         <div class="price-desc">Full autopilot operations</div>
         <div class="price-amount" data-monthly="$3,999" data-annual="$3,199">$3,999<span>/mo</span></div>
         <div class="price-note">Billed monthly</div>
-        <ul class="price-features">
-          <li>Unlimited workflows</li>
-          <li>50,000 AI actions / month</li>
-          <li>Custom integrations</li>
-          <li>Dedicated Slack channel</li>
-          <li>Weekly strategy calls</li>
-          <li>Priority SLA</li>
-        </ul>
+        <ul class="price-features"><li>Unlimited workflows</li><li>50,000 AI actions / month</li><li>Custom integrations</li><li>Dedicated Slack channel</li><li>Weekly strategy calls</li><li>Priority SLA</li></ul>
         <a href="https://cal.com/lazy_scale/lazy-scale/30min" target="_blank" class="btn btn-ghost">Talk to Us</a>
       </div>
     </div>
@@ -1109,37 +963,13 @@
         <h3>Want us to handle the whole thing?</h3>
         <p>For teams that want a fully custom AI system — built, deployed, and maintained by us. You describe the problem, we ship the solution.</p>
         <div class="dfy-price">Starting at <strong>$1,500</strong> one-time · Retainers from <strong>$2,000/mo</strong></div>
-        <a href="https://cal.com/lazy_scale/lazy-scale/30min" target="_blank" class="btn btn-primary">Book a Discovery Call</a>
+        <a href="https://cal.com/lazy_scale/lazy-scale/30min" target="_blank" class="btn btn-dark">Book a Discovery Call</a>
       </div>
       <ul class="dfy-steps">
-        <li class="dfy-step">
-          <div class="dfy-step-icon">🔍</div>
-          <div>
-            <strong>Discovery & Audit</strong>
-            <span>We map every repetitive process in your business and find what to kill first.</span>
-          </div>
-        </li>
-        <li class="dfy-step">
-          <div class="dfy-step-icon">🛠️</div>
-          <div>
-            <strong>Custom Build</strong>
-            <span>AI workflows trained on your data, your tone, your rules — wired into your stack.</span>
-          </div>
-        </li>
-        <li class="dfy-step">
-          <div class="dfy-step-icon">🚀</div>
-          <div>
-            <strong>Launch & Monitor</strong>
-            <span>We deploy, test, and watch everything for 30 days. Anything breaks, we fix it.</span>
-          </div>
-        </li>
-        <li class="dfy-step">
-          <div class="dfy-step-icon">📈</div>
-          <div>
-            <strong>Ongoing Optimization</strong>
-            <span>Monthly retainer for prompt tuning, new workflows, and keeping the system sharp.</span>
-          </div>
-        </li>
+        <li class="dfy-step"><div class="dfy-step-icon">🔍</div><div><strong>Discovery & Audit</strong><span>We map every repetitive process in your business and find what to kill first.</span></div></li>
+        <li class="dfy-step"><div class="dfy-step-icon">🛠️</div><div><strong>Custom Build</strong><span>AI workflows trained on your data, your tone, your rules — wired into your stack.</span></div></li>
+        <li class="dfy-step"><div class="dfy-step-icon">🚀</div><div><strong>Launch & Monitor</strong><span>We deploy, test, and watch everything for 30 days. Anything breaks, we fix it.</span></div></li>
+        <li class="dfy-step"><div class="dfy-step-icon">📈</div><div><strong>Ongoing Optimization</strong><span>Monthly retainer for prompt tuning, new workflows, and keeping the system sharp.</span></div></li>
       </ul>
     </div>
   </section>
@@ -1151,27 +981,9 @@
       <h2 class="section-title">Don't take our word for it</h2>
     </div>
     <div class="testimonials-grid">
-      <div class="testimonial">
-        <p class="testimonial-text">"I was spending 3 hours a day on lead follow-ups. Now I spend zero. LazyScale set the whole thing up in two days and I haven't touched it since."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">P</div>
-          <div><div class="testimonial-name">Priya D.</div><div class="testimonial-role">Founder, EdTech startup</div></div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p class="testimonial-text">"We replaced our social media manager with their Content Engine. Same quality, posted on time, and it actually sounds like us. Wild."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">M</div>
-          <div><div class="testimonial-name">Marcus T.</div><div class="testimonial-role">Co-founder, FinTech app</div></div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p class="testimonial-text">"The ops autopilot alone saved us from hiring an ops person. Onboarding, invoicing, CRM — all automated. Best money we spend every month."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">J</div>
-          <div><div class="testimonial-name">Jess W.</div><div class="testimonial-role">CEO, 5-person agency</div></div>
-        </div>
-      </div>
+      <div class="testimonial"><p class="testimonial-text">"I was spending 3 hours a day on lead follow-ups. Now I spend zero. LazyScale set the whole thing up in two days and I haven't touched it since."</p><div class="testimonial-author"><div class="testimonial-avatar">P</div><div><div class="testimonial-name">Priya D.</div><div class="testimonial-role">Founder, EdTech startup</div></div></div></div>
+      <div class="testimonial"><p class="testimonial-text">"We replaced our social media manager with their Content Engine. Same quality, posted on time, and it actually sounds like us. Wild."</p><div class="testimonial-author"><div class="testimonial-avatar">M</div><div><div class="testimonial-name">Marcus T.</div><div class="testimonial-role">Co-founder, FinTech app</div></div></div></div>
+      <div class="testimonial"><p class="testimonial-text">"The ops autopilot alone saved us from hiring an ops person. Onboarding, invoicing, CRM — all automated. Best money we spend every month."</p><div class="testimonial-author"><div class="testimonial-avatar">J</div><div><div class="testimonial-name">Jess W.</div><div class="testimonial-role">CEO, 5-person agency</div></div></div></div>
     </div>
   </section>
 
@@ -1183,22 +995,7 @@
       <p class="section-desc">No migrations. No new tools. We wire AI into the apps you already use.</p>
     </div>
     <div class="stack-grid">
-      <div class="stack-chip"><span>💬</span> Slack</div>
-      <div class="stack-chip"><span>📧</span> Gmail</div>
-      <div class="stack-chip"><span>📝</span> Notion</div>
-      <div class="stack-chip"><span>📊</span> Airtable</div>
-      <div class="stack-chip"><span>💳</span> Stripe</div>
-      <div class="stack-chip"><span>📱</span> WhatsApp</div>
-      <div class="stack-chip"><span>📅</span> Cal.com</div>
-      <div class="stack-chip"><span>🔗</span> HubSpot</div>
-      <div class="stack-chip"><span>🛒</span> Shopify</div>
-      <div class="stack-chip"><span>📬</span> Mailchimp</div>
-      <div class="stack-chip"><span>🎯</span> Linear</div>
-      <div class="stack-chip"><span>💻</span> Discord</div>
-      <div class="stack-chip"><span>🐦</span> Twitter/X</div>
-      <div class="stack-chip"><span>📸</span> Instagram</div>
-      <div class="stack-chip"><span>🔄</span> Zapier</div>
-      <div class="stack-chip"><span>📂</span> Google Sheets</div>
+      <div class="stack-chip"><span>💬</span> Slack</div><div class="stack-chip"><span>📧</span> Gmail</div><div class="stack-chip"><span>📝</span> Notion</div><div class="stack-chip"><span>📊</span> Airtable</div><div class="stack-chip"><span>💳</span> Stripe</div><div class="stack-chip"><span>📱</span> WhatsApp</div><div class="stack-chip"><span>📅</span> Cal.com</div><div class="stack-chip"><span>🔗</span> HubSpot</div><div class="stack-chip"><span>🛒</span> Shopify</div><div class="stack-chip"><span>📬</span> Mailchimp</div><div class="stack-chip"><span>🎯</span> Linear</div><div class="stack-chip"><span>💻</span> Discord</div><div class="stack-chip"><span>🐦</span> Twitter/X</div><div class="stack-chip"><span>📸</span> Instagram</div><div class="stack-chip"><span>🔄</span> Zapier</div><div class="stack-chip"><span>📂</span> Google Sheets</div>
     </div>
   </section>
 
@@ -1210,33 +1007,9 @@
       <p class="section-desc">Guides, case studies, and automation playbooks for startup founders.</p>
     </div>
     <div class="blog-grid">
-      <a href="#" class="blog-card">
-        <div class="blog-thumb">⚡</div>
-        <div class="blog-body">
-          <span class="blog-tag">Guide</span>
-          <h3>5 Workflows Every Startup Should Automate First</h3>
-          <p>Stop doing these five things manually. Here's the exact automation stack that saves our clients 15+ hours per week.</p>
-          <div class="blog-meta">Aug 15, 2026 · 6 min read</div>
-        </div>
-      </a>
-      <a href="#" class="blog-card">
-        <div class="blog-thumb">🤖</div>
-        <div class="blog-body">
-          <span class="blog-tag">Case Study</span>
-          <h3>How a 3-Person SaaS Cut Lead Response Time by 90%</h3>
-          <p>From 6-hour response times to under 2 minutes. Here's how Lead Pilot transformed their sales pipeline.</p>
-          <div class="blog-meta">Aug 10, 2026 · 4 min read</div>
-        </div>
-      </a>
-      <a href="#" class="blog-card">
-        <div class="blog-thumb">💡</div>
-        <div class="blog-body">
-          <span class="blog-tag">Playbook</span>
-          <h3>The Founder's Guide to AI-Powered Content</h3>
-          <p>Turn one idea into a week of content across every platform. Our exact process for content automation.</p>
-          <div class="blog-meta">Aug 5, 2026 · 8 min read</div>
-        </div>
-      </a>
+      <a href="#" class="blog-card"><div class="blog-thumb">⚡</div><div class="blog-body"><span class="blog-tag">Guide</span><h3>5 Workflows Every Startup Should Automate First</h3><p>Stop doing these five things manually. Here's the exact automation stack that saves our clients 15+ hours per week.</p><div class="blog-meta">Aug 15, 2026 · 6 min read</div></div></a>
+      <a href="#" class="blog-card"><div class="blog-thumb">🤖</div><div class="blog-body"><span class="blog-tag">Case Study</span><h3>How a 3-Person SaaS Cut Lead Response Time by 90%</h3><p>From 6-hour response times to under 2 minutes. Here's how Lead Pilot transformed their sales pipeline.</p><div class="blog-meta">Aug 10, 2026 · 4 min read</div></div></a>
+      <a href="#" class="blog-card"><div class="blog-thumb">💡</div><div class="blog-body"><span class="blog-tag">Playbook</span><h3>The Founder's Guide to AI-Powered Content</h3><p>Turn one idea into a week of content across every platform. Our exact process for content automation.</p><div class="blog-meta">Aug 5, 2026 · 8 min read</div></div></a>
     </div>
   </section>
 
@@ -1248,40 +1021,16 @@
     </div>
     <div class="faq-grid">
       <div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">What tools do you integrate with?<span class="faq-arrow">+</span></button>
-          <div class="faq-a"><p>Slack, Gmail, Notion, Airtable, HubSpot, Calendly, Stripe, Shopify, WhatsApp, and more. If you use it, we can probably wire into it.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">How long does setup take?<span class="faq-arrow">+</span></button>
-          <div class="faq-a"><p>Most workflows go live in 48 hours. Complex custom builds take 1–2 weeks. Either way, you'll see a working demo before we ship.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">What if I want to cancel?<span class="faq-arrow">+</span></button>
-          <div class="faq-a"><p>Cancel anytime. No contracts, no exit fees. Your workflows keep running — you just won't get updates or support from us.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">Do I need technical knowledge?<span class="faq-arrow">+</span></button>
-          <div class="faq-a"><p>Zero. You tell us what you want automated in plain English. We handle setup, integrations, maintenance — everything technical.</p></div>
-        </div>
+        <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')">What tools do you integrate with?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Slack, Gmail, Notion, Airtable, HubSpot, Calendly, Stripe, Shopify, WhatsApp, and more. If you use it, we can probably wire into it.</p></div></div>
+        <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')">How long does setup take?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Most workflows go live in 48 hours. Complex custom builds take 1–2 weeks. Either way, you'll see a working demo before we ship.</p></div></div>
+        <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')">What if I want to cancel?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Cancel anytime. No contracts, no exit fees. Your workflows keep running — you just won't get updates or support from us.</p></div></div>
+        <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')">Do I need technical knowledge?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Zero. You tell us what you want automated in plain English. We handle setup, integrations, maintenance — everything technical.</p></div></div>
       </div>
       <div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">Will the AI make mistakes?<span class="faq-arrow">+</span></button>
-          <div class="faq-a"><p>Every workflow has a human-in-the-loop option. For sensitive actions (sending emails, payments), you approve first. Low-stakes tasks run fully autonomous.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">What counts as an "AI action"?<span class="faq-arrow">+</span></button>
-          <div class="faq-a"><p>Each time the AI processes something — qualifies a lead, drafts an email, updates your CRM — that's one action. Most startups on Growth never hit the cap.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">Can I switch plans later?<span class="faq-arrow">+</span></button>
-          <div class="faq-a"><p>Yes, upgrade or downgrade anytime. Changes take effect on your next billing cycle. No penalties.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">Is my data safe?<span class="faq-arrow">+</span></button>
-          <div class="faq-a"><p>We never store your customer data. Workflows process in real-time and pass data directly between your tools. We use encrypted connections and follow SOC 2 practices.</p></div>
-        </div>
+        <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')">Will the AI make mistakes?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Every workflow has a human-in-the-loop option. For sensitive actions (sending emails, payments), you approve first. Low-stakes tasks run fully autonomous.</p></div></div>
+        <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')">What counts as an "AI action"?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Each time the AI processes something — qualifies a lead, drafts an email, updates your CRM — that's one action. Most startups on Growth never hit the cap.</p></div></div>
+        <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')">Can I switch plans later?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Yes, upgrade or downgrade anytime. Changes take effect on your next billing cycle. No penalties.</p></div></div>
+        <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')">Is my data safe?<span class="faq-arrow">+</span></button><div class="faq-a"><p>We never store your customer data. Workflows process in real-time and pass data directly between your tools. We use encrypted connections and follow SOC 2 practices.</p></div></div>
       </div>
     </div>
   </section>
@@ -1296,19 +1045,10 @@
     <div class="contact-grid">
       <div>
         <form class="contact-form" id="contact-form" onsubmit="handleContact(event)">
-          <div class="contact-field">
-            <label for="c-name">Name</label>
-            <input type="text" id="c-name" placeholder="Your name" required>
-          </div>
-          <div class="contact-field">
-            <label for="c-email">Email</label>
-            <input type="email" id="c-email" placeholder="you@company.com" required>
-          </div>
-          <div class="contact-field">
-            <label for="c-message">Message</label>
-            <textarea id="c-message" placeholder="Tell us about your project or question..." required></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Send Message</button>
+          <div class="contact-field"><label for="c-name">Name</label><input type="text" id="c-name" placeholder="Your name" required></div>
+          <div class="contact-field"><label for="c-email">Email</label><input type="email" id="c-email" placeholder="you@company.com" required></div>
+          <div class="contact-field"><label for="c-message">Message</label><textarea id="c-message" placeholder="Tell us about your project or question..." required></textarea></div>
+          <button type="submit" class="btn btn-dark" style="width:100%;justify-content:center;">Send Message</button>
         </form>
         <div class="contact-success" id="contact-success">
           <div class="check">✓</div>
@@ -1317,27 +1057,9 @@
         </div>
       </div>
       <div class="contact-info">
-        <div class="contact-info-card">
-          <div class="contact-info-icon">📧</div>
-          <div>
-            <h4>Email us</h4>
-            <p>hello@lazyscale.ai</p>
-          </div>
-        </div>
-        <div class="contact-info-card">
-          <div class="contact-info-icon">📅</div>
-          <div>
-            <h4>Book a call</h4>
-            <p>Free 15-minute strategy call to see what we'd automate for you.</p>
-          </div>
-        </div>
-        <div class="contact-info-card">
-          <div class="contact-info-icon">⚡</div>
-          <div>
-            <h4>Response time</h4>
-            <p>We reply within 24 hours. Hot leads get a response in under 2 minutes (yes, that's automated).</p>
-          </div>
-        </div>
+        <div class="contact-info-card"><div class="contact-info-icon">📧</div><div><h4>Email us</h4><p>hello@lazyscale.ai</p></div></div>
+        <div class="contact-info-card"><div class="contact-info-icon">📅</div><div><h4>Book a call</h4><p>Free 15-minute strategy call to see what we'd automate for you.</p></div></div>
+        <div class="contact-info-card"><div class="contact-info-icon">⚡</div><div><h4>Response time</h4><p>We reply within 24 hours. Hot leads get a response in under 2 minutes (yes, that's automated).</p></div></div>
       </div>
     </div>
   </section>
@@ -1347,7 +1069,7 @@
     <h2>Stop doing work a machine should do</h2>
     <p>Book a 15-minute call. We'll tell you exactly what we'd automate and what it'll save you. No pitch deck, just answers.</p>
     <div class="cta-buttons">
-      <a href="https://cal.com/lazy_scale/lazy-scale/15min" target="_blank" class="btn btn-primary btn-lg">Book Your Free Call</a>
+      <a href="https://cal.com/lazy_scale/lazy-scale/15min" target="_blank" class="btn btn-dark btn-lg">Book Your Free Call</a>
       <a href="https://cal.com/lazy_scale/lazy-scale/30min" target="_blank" class="btn btn-ghost btn-lg">See a Demo First</a>
     </div>
   </section>
@@ -1359,36 +1081,16 @@
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <div class="logo">lazy<span>scale</span></div>
+        <div class="logo">Lazy<span>Scale</span></div>
         <p>We automate the stuff you keep saying you'll hire someone for. Built for startups that move fast.</p>
       </div>
-      <div class="footer-col">
-        <h4>Product</h4>
-        <a href="#workflows">Workflows</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#dfy">Done-For-You</a>
-        <a href="#results">Results</a>
-      </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <a href="#blog">Blog</a>
-        <a href="#contact">Contact</a>
-        <a href="#faq">FAQ</a>
-      </div>
-      <div class="footer-col">
-        <h4>Connect</h4>
-        <a href="#">Twitter / X</a>
-        <a href="#">LinkedIn</a>
-        <a href="#">Discord</a>
-        <a href="mailto:hello@lazyscale.ai">hello@lazyscale.ai</a>
-      </div>
+      <div class="footer-col"><h4>Product</h4><a href="#workflows">Workflows</a><a href="#pricing">Pricing</a><a href="#dfy">Done-For-You</a><a href="#results">Results</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="#blog">Blog</a><a href="#contact">Contact</a><a href="#faq">FAQ</a></div>
+      <div class="footer-col"><h4>Connect</h4><a href="#">Twitter / X</a><a href="#">LinkedIn</a><a href="#">Discord</a><a href="mailto:hello@lazyscale.ai">hello@lazyscale.ai</a></div>
     </div>
     <div class="footer-bottom">
       <span>&copy; 2026 LazyScale. All rights reserved.</span>
-      <div class="footer-bottom-links">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-      </div>
+      <div class="footer-bottom-links"><a href="#">Privacy</a><a href="#">Terms</a></div>
     </div>
   </div>
 </footer>
@@ -1396,10 +1098,7 @@
 <!-- CHAT WIDGET -->
 <div class="chat-widget">
   <div class="chat-popup" id="chat-popup">
-    <div class="chat-header">
-      <span>LazyScale</span>
-      <button class="chat-close" onclick="document.getElementById('chat-popup').classList.remove('open')">×</button>
-    </div>
+    <div class="chat-header"><span>LazyScale</span><button class="chat-close" onclick="document.getElementById('chat-popup').classList.remove('open')">×</button></div>
     <div class="chat-body">
       <div class="chat-msg">Hey! 👋 Got a question about automation? Drop it here and we'll get back to you fast.</div>
       <div class="chat-input-row">
@@ -1418,8 +1117,7 @@ function toggleBilling() {
   document.getElementById('toggle-monthly').classList.toggle('active', !isAnnual);
   document.getElementById('toggle-annual').classList.toggle('active', isAnnual);
   document.querySelectorAll('.price-amount').forEach(el => {
-    const price = isAnnual ? el.dataset.annual : el.dataset.monthly;
-    el.innerHTML = price + '<span>/mo</span>';
+    el.innerHTML = (isAnnual ? el.dataset.annual : el.dataset.monthly) + '<span>/mo</span>';
   });
   document.querySelectorAll('.price-note').forEach(el => {
     el.textContent = isAnnual ? 'Billed annually' : 'Billed monthly';
@@ -1433,12 +1131,10 @@ function calcROI() {
   document.getElementById('roi-hours-val').textContent = hours + ' hrs';
   document.getElementById('roi-rate-val').textContent = '$' + rate;
   document.getElementById('roi-team-val').textContent = team;
-  const automatedPct = 0.8;
-  const savedHours = Math.round(hours * team * 4 * automatedPct);
+  const savedHours = Math.round(hours * team * 4 * 0.8);
   const savedMoney = savedHours * rate;
   const annual = savedMoney * 12;
-  const planCost = 1499;
-  const roi = (savedMoney / planCost).toFixed(1);
+  const roi = (savedMoney / 1499).toFixed(1);
   document.getElementById('roi-saved-hours').textContent = savedHours.toLocaleString() + ' hrs';
   document.getElementById('roi-saved-money').textContent = '$' + savedMoney.toLocaleString();
   document.getElementById('roi-saved-annual').textContent = '$' + annual.toLocaleString();
@@ -1457,7 +1153,7 @@ function sendChat() {
   if (!msg) return;
   const body = document.querySelector('.chat-body');
   const div = document.createElement('div');
-  div.style.cssText = 'background:var(--accent-glow);padding:12px 16px;border-radius:12px 12px 4px 12px;font-size:14px;color:var(--text-primary);margin-bottom:16px;text-align:right;';
+  div.style.cssText = 'background:var(--accent-light);padding:12px 16px;border-radius:12px 12px 4px 12px;font-size:14px;color:var(--text-primary);margin-bottom:16px;text-align:right;';
   div.textContent = msg;
   body.insertBefore(div, body.lastElementChild);
   input.value = '';
@@ -1469,14 +1165,27 @@ function sendChat() {
   }, 800);
 }
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+function toggleTheme() {
+  const root = document.documentElement;
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('theme-btn').textContent = isDark ? '🌙' : '☀️';
+  localStorage.setItem('theme', isDark ? 'light' : 'dark');
+}
 
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('theme-btn').textContent = '☀️';
+    });
+  }
+})();
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
 calcROI();
