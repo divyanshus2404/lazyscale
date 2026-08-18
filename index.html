@@ -12,6 +12,46 @@
 <meta name="twitter:title" content="LazyScale — AI Automation for Startups">
 <meta name="twitter:description" content="AI workflows that handle your leads, content, and ops. Built for startups that move fast.">
 <meta name="twitter:image" content="https://lazyscale.vercel.app/og-image.png">
+<link rel="canonical" href="https://lazyscale.vercel.app/">
+<meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#09090B" media="(prefers-color-scheme: dark)">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://lazyscale.vercel.app/#org",
+      "name": "LazyScale",
+      "url": "https://lazyscale.vercel.app/",
+      "description": "AI automation agency building workflows for leads, content, and ops — built for Indian startups.",
+      "email": "divyanshus2404@gmail.com",
+      "areaServed": "IN"
+    },
+    {
+      "@type": "Service",
+      "name": "AI Workflow Automation",
+      "provider": { "@id": "https://lazyscale.vercel.app/#org" },
+      "description": "Done-for-you AI workflows for lead follow-up, content, and internal ops. Live in 48 hours.",
+      "offers": [
+        { "@type": "Offer", "name": "Starter", "price": "4999", "priceCurrency": "INR" },
+        { "@type": "Offer", "name": "Growth", "price": "14999", "priceCurrency": "INR" },
+        { "@type": "Offer", "name": "Scale", "price": "39999", "priceCurrency": "INR" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What tools do you integrate with?", "acceptedAnswer": { "@type": "Answer", "text": "Slack, Gmail, Notion, Airtable, HubSpot, Calendly, Stripe, Shopify, WhatsApp, and more." } },
+        { "@type": "Question", "name": "How long does setup take?", "acceptedAnswer": { "@type": "Answer", "text": "Most workflows go live in 48 hours. Complex custom builds take 1-2 weeks." } },
+        { "@type": "Question", "name": "What if I want to cancel?", "acceptedAnswer": { "@type": "Answer", "text": "Cancel anytime. No contracts, no exit fees." } },
+        { "@type": "Question", "name": "Do I need technical knowledge?", "acceptedAnswer": { "@type": "Answer", "text": "Zero. You describe what you want automated in plain English and we handle everything technical." } },
+        { "@type": "Question", "name": "Is my data safe?", "acceptedAnswer": { "@type": "Answer", "text": "We never store your customer data. Workflows process in real-time over encrypted connections." } }
+      ]
+    }
+  ]
+}
+</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23f4f4f5'/><rect x='1' y='1' width='30' height='30' rx='7' fill='none' stroke='%23e4e4e7'/><path d='M8 10h5v14H8z' fill='%231a1a2e'/><path d='M13 18h4v6h-4z' fill='%237c3aed' opacity='.6'/><path d='M17 14h4v10h-4z' fill='%237c3aed' opacity='.8'/><path d='M21 10h4v14h-4z' fill='%237c3aed'/><path d='M14 20q4-3 10-8l1 1.5-10 8z' fill='%237c3aed'/><path d='M24 12l2 0-1-3z' fill='%237c3aed'/></svg>">
 <style>
   :root {
@@ -783,17 +823,17 @@
 
   /* ─── AUDIT FORM ─── */
   .audit-section {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16162a 50%, #0f0f1a 100%);
+    background: var(--bg-raised); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
     position: relative; overflow: hidden;
   }
   .audit-section::before {
     content: ''; position: absolute; width: 500px; height: 500px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(124,58,237,0.15), transparent 70%);
+    background: radial-gradient(circle, var(--accent-glow-strong), transparent 70%);
     top: -100px; right: -100px; animation: audit-glow 6s ease-in-out infinite;
   }
   .audit-section::after {
     content: ''; position: absolute; width: 400px; height: 400px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(167,139,250,0.08), transparent 70%);
+    background: radial-gradient(circle, var(--accent-glow), transparent 70%);
     bottom: -150px; left: -100px; animation: audit-glow 8s ease-in-out infinite 2s;
   }
   @keyframes audit-glow { 0%,100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.2); opacity: 1; } }
@@ -804,8 +844,8 @@
   }
   .audit-badge {
     display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px;
-    background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.3);
-    border-radius: 100px; font-size: 13px; font-weight: 600; color: #A78BFA;
+    background: var(--accent-light); border: 1px solid var(--border-accent);
+    border-radius: 100px; font-size: 13px; font-weight: 600; color: var(--accent);
     margin-bottom: 20px; letter-spacing: 0.5px; text-transform: uppercase;
   }
   .audit-badge-dot {
@@ -813,60 +853,57 @@
     animation: audit-dot-pulse 2s ease-in-out infinite;
   }
   @keyframes audit-dot-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-  .audit-left h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; color: #fff; line-height: 1.15; margin-bottom: 16px; }
-  .audit-left h2 span { background: linear-gradient(135deg, #A78BFA, #7C3AED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .audit-left p { color: rgba(255,255,255,0.6); font-size: 16px; line-height: 1.7; margin-bottom: 28px; }
+  .audit-left h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; color: var(--text-primary); line-height: 1.15; margin-bottom: 16px; }
+  .audit-left h2 span { color: var(--accent); }
+  .audit-left p { color: var(--text-secondary); font-size: 16px; line-height: 1.7; margin-bottom: 28px; }
   .audit-perks { list-style: none; padding: 0; }
   .audit-perks li {
-    color: rgba(255,255,255,0.7); font-size: 15px; padding: 10px 0; display: flex; align-items: center; gap: 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    color: var(--text-secondary); font-size: 15px; padding: 10px 0; display: flex; align-items: center; gap: 12px;
+    border-bottom: 1px solid var(--border);
     opacity: 0; transform: translateX(-20px);
   }
   .audit-perks li.visible { opacity: 1; transform: translateX(0); transition: all 0.5s cubic-bezier(0.4,0,0.2,1); }
   .audit-perks li:last-child { border-bottom: none; }
   .audit-perks li::before {
     content: ''; width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
-    background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3);
+    background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25);
     display: flex; align-items: center; justify-content: center;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2322C55E' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
     background-repeat: no-repeat; background-position: center;
   }
   .audit-form {
-    background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
-    padding: 36px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+    padding: 36px; box-shadow: var(--shadow-lg);
     transform: translateY(20px); opacity: 0;
     transition: all 0.8s cubic-bezier(0.4,0,0.2,1);
   }
   .audit-form.visible { transform: translateY(0); opacity: 1; }
-  .audit-form-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 24px; text-align: center; }
+  .audit-form-title { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 24px; text-align: center; }
   .audit-field { margin-bottom: 16px; }
-  .audit-field label { display: block; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.5); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.8px; }
+  .audit-field label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.8px; }
   .audit-field input, .audit-field select, .audit-field textarea {
-    width: 100%; padding: 12px 14px; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
-    background: rgba(255,255,255,0.05); color: #fff; font-size: 15px; font-family: inherit;
+    width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px;
+    background: var(--bg); color: var(--text-primary); font-size: 15px; font-family: inherit;
     transition: all 0.25s;
   }
-  .audit-field input::placeholder, .audit-field textarea::placeholder { color: rgba(255,255,255,0.25); }
-  .audit-field select { color: rgba(255,255,255,0.5); }
-  .audit-field select option { background: #1a1a2e; color: #fff; }
+  .audit-field input::placeholder, .audit-field textarea::placeholder { color: var(--text-muted); }
   .audit-field input:focus, .audit-field select:focus, .audit-field textarea:focus {
-    outline: none; border-color: rgba(124,58,237,0.6); background: rgba(124,58,237,0.08);
-    box-shadow: 0 0 0 3px rgba(124,58,237,0.15);
+    outline: none; border-color: var(--accent); background: var(--accent-glow);
+    box-shadow: 0 0 0 3px var(--accent-glow-strong);
   }
   .audit-field textarea { resize: vertical; min-height: 80px; }
   .audit-submit {
     width: 100%; padding: 14px; border: none; border-radius: 10px; cursor: pointer;
-    background: linear-gradient(135deg, #7C3AED, #6D28D9); color: #fff;
+    background: var(--accent); color: #fff;
     font-size: 16px; font-weight: 700; font-family: inherit;
     transition: all 0.3s; margin-top: 8px; position: relative; overflow: hidden;
   }
   .audit-submit::after {
     content: ''; position: absolute; inset: 0;
-    background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1), transparent);
+    background: linear-gradient(135deg, transparent, rgba(255,255,255,0.15), transparent);
     transform: translateX(-100%); transition: transform 0.6s;
   }
-  .audit-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.4); }
+  .audit-submit:hover { background: var(--accent-mid); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.3); }
   .audit-submit:hover::after { transform: translateX(100%); }
   .audit-submit:active { transform: translateY(0); }
   .audit-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
@@ -876,13 +913,13 @@
   .audit-success.show { display: flex; flex-direction: column; align-items: center; }
   .audit-success-icon {
     width: 64px; height: 64px; border-radius: 50%;
-    background: rgba(34,197,94,0.15); border: 2px solid rgba(34,197,94,0.3);
+    background: rgba(34,197,94,0.1); border: 2px solid rgba(34,197,94,0.25);
     display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
     animation: audit-check-pop 0.5s cubic-bezier(0.34,1.56,0.64,1);
   }
   @keyframes audit-check-pop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
-  .audit-success h3 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 8px; }
-  .audit-success p { color: rgba(255,255,255,0.6); font-size: 15px; max-width: 320px; }
+  .audit-success h3 { font-size: 22px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+  .audit-success p { color: var(--text-secondary); font-size: 15px; max-width: 320px; }
   @media (max-width: 768px) {
     .audit-grid { grid-template-columns: 1fr; gap: 32px; }
     .audit-section::before, .audit-section::after { display: none; }
@@ -918,8 +955,68 @@
     *, *::before, *::after { animation-duration: 0.01s !important; transition-duration: 0.01s !important; }
     .fade-up { opacity: 1; transform: none; }
   }
+
+  /* ─── SHARED FORM UX ─── */
+  .req { color: var(--accent); font-weight: 700; }
+  .form-hint {
+    font-size: 13px; color: var(--text-muted); text-align: center;
+    margin: -14px 0 22px; line-height: 1.5;
+  }
+  .form-hint-legal { margin: 14px 0 0; font-size: 12px; }
+
+  /* honeypot — hidden from humans, visible to bots */
+  .hp-field {
+    position: absolute; left: -9999px; width: 1px; height: 1px;
+    overflow: hidden; opacity: 0; pointer-events: none;
+  }
+
+  .form-error {
+    font-size: 14px; color: #DC2626; background: rgba(220,38,38,0.07);
+    border: 1px solid rgba(220,38,38,0.25); border-radius: 10px;
+    padding: 10px 14px; margin: 4px 0 12px; line-height: 1.5;
+  }
+  .form-error[hidden] { display: none; }
+
+  /* inline validation — only after the user has interacted */
+  .audit-field input:user-invalid, .audit-field textarea:user-invalid,
+  .contact-field input:user-invalid, .contact-field textarea:user-invalid {
+    border-color: rgba(220,38,38,0.55);
+  }
+  .audit-field input:user-invalid:focus, .contact-field input:user-invalid:focus,
+  .audit-field textarea:user-invalid:focus, .contact-field textarea:user-invalid:focus {
+    box-shadow: 0 0 0 3px rgba(220,38,38,0.12);
+  }
+  .audit-field input:user-valid, .contact-field input:user-valid {
+    border-color: rgba(34,197,94,0.4);
+  }
+
+  /* submit spinner */
+  .spinner {
+    display: none; width: 16px; height: 16px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
+    animation: spin 0.7s linear infinite; margin-left: 10px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  button.is-loading .spinner { display: inline-block; vertical-align: middle; }
+  button.is-loading { cursor: wait; }
+  .audit-submit { display: inline-flex; align-items: center; justify-content: center; }
+
+  /* ─── GLOBAL FOCUS + SKIP LINK ─── */
+  a:focus-visible, button:focus-visible, input:focus-visible,
+  select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  .skip-link {
+    position: absolute; left: 50%; top: 0; transform: translate(-50%, -120%);
+    z-index: 999; background: var(--accent); color: #fff;
+    padding: 10px 20px; border-radius: 0 0 10px 10px;
+    font-size: 14px; font-weight: 600; text-decoration: none;
+    transition: transform 0.2s;
+  }
+  .skip-link:focus { transform: translate(-50%, 0); }
 </style>
 
+<a href="#demo" class="skip-link">Skip to main content</a>
 <div class="scroll-progress" id="scroll-progress"></div>
 <!-- NAV -->
 <nav>
@@ -1127,14 +1224,33 @@
         <form class="audit-form" id="audit-form" action="https://formspree.io/f/mjybpkov" method="POST" onsubmit="handleAudit(event)">
           <input type="hidden" name="_subject" value="Free Automation Audit Request">
           <div class="audit-form-title">Get Your Free Audit</div>
-          <div class="audit-field"><label>Your Name</label><input type="text" name="name" placeholder="Rahul Sharma" required></div>
-          <div class="audit-field"><label>Email</label><input type="email" name="email" placeholder="rahul@startup.com" required></div>
-          <div class="audit-field"><label>Startup Name</label><input type="text" name="startup" placeholder="Your company name"></div>
-          <div class="audit-field"><label>Team Size</label><select name="team_size"><option value="">Select...</option><option>Just me</option><option>2-5</option><option>6-15</option><option>16-50</option><option>50+</option></select></div>
-          <div class="audit-field"><label>What takes too long?</label><textarea name="pain_points" placeholder="e.g. Following up on leads, writing social posts, onboarding customers, updating CRM..."></textarea></div>
-          <button class="audit-submit" type="submit">Get My Free Audit</button>
+          <p class="form-hint">Takes about 2 minutes. No spam, ever.</p>
+          <div class="audit-field">
+            <label for="a-name">Your Name <span class="req">*</span></label>
+            <input type="text" name="name" id="a-name" placeholder="Rahul Sharma" autocomplete="name" required>
+          </div>
+          <div class="audit-field">
+            <label for="a-email">Email <span class="req">*</span></label>
+            <input type="email" name="email" id="a-email" placeholder="rahul@startup.com" autocomplete="email" required>
+          </div>
+          <div class="audit-field">
+            <label for="a-startup">Startup Name</label>
+            <input type="text" name="startup" id="a-startup" placeholder="Your company name" autocomplete="organization">
+          </div>
+          <div class="audit-field">
+            <label for="a-team">Team Size</label>
+            <select name="team_size" id="a-team"><option value="">Select...</option><option>Just me</option><option>2-5</option><option>6-15</option><option>16-50</option><option>50+</option></select>
+          </div>
+          <div class="audit-field">
+            <label for="a-pain">What takes too long?</label>
+            <textarea name="pain_points" id="a-pain" rows="3" placeholder="e.g. Following up on leads, writing social posts, onboarding customers, updating CRM..."></textarea>
+          </div>
+          <div class="hp-field" aria-hidden="true"><label for="a-hp">Leave this empty</label><input type="text" name="_gotcha" id="a-hp" tabindex="-1" autocomplete="off"></div>
+          <p class="form-error" id="audit-error" role="alert" hidden></p>
+          <button class="audit-submit" type="submit"><span class="btn-label">Get My Free Audit</span><span class="spinner" aria-hidden="true"></span></button>
+          <p class="form-hint form-hint-legal">We'll only use your email to send the audit.</p>
         </form>
-        <div class="audit-success" id="audit-success">
+        <div class="audit-success" id="audit-success" role="status" aria-live="polite">
           <div class="audit-success-icon"><svg width="28" height="28" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
           <h3>We've got it!</h3>
           <p>Check your inbox within 24 hours for your personalized automation audit. We'll show you exactly what to automate and how much time you'll save.</p>
@@ -1260,16 +1376,16 @@
     </div>
     <div class="faq-grid">
       <div>
-        <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')">What tools do you integrate with?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Slack, Gmail, Notion, Airtable, HubSpot, Calendly, Stripe, Shopify, WhatsApp, and more. If you use it, we can probably wire into it.</p></div></div>
-        <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')">How long does setup take?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Most workflows go live in 48 hours. Complex custom builds take 1–2 weeks. Either way, you'll see a working demo before we ship.</p></div></div>
-        <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')">What if I want to cancel?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Cancel anytime. No contracts, no exit fees. Your workflows keep running — you just won't get updates or support from us.</p></div></div>
-        <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')">Do I need technical knowledge?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Zero. You tell us what you want automated in plain English. We handle setup, integrations, maintenance — everything technical.</p></div></div>
+        <div class="faq-item"><button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">What tools do you integrate with?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Slack, Gmail, Notion, Airtable, HubSpot, Calendly, Stripe, Shopify, WhatsApp, and more. If you use it, we can probably wire into it.</p></div></div>
+        <div class="faq-item"><button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">How long does setup take?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Most workflows go live in 48 hours. Complex custom builds take 1–2 weeks. Either way, you'll see a working demo before we ship.</p></div></div>
+        <div class="faq-item"><button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">What if I want to cancel?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Cancel anytime. No contracts, no exit fees. Your workflows keep running — you just won't get updates or support from us.</p></div></div>
+        <div class="faq-item"><button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Do I need technical knowledge?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Zero. You tell us what you want automated in plain English. We handle setup, integrations, maintenance — everything technical.</p></div></div>
       </div>
       <div>
-        <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')">Will the AI make mistakes?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Every workflow has a human-in-the-loop option. For sensitive actions (sending emails, payments), you approve first. Low-stakes tasks run fully autonomous.</p></div></div>
-        <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')">What counts as an "AI action"?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Each time the AI processes something — qualifies a lead, drafts an email, updates your CRM — that's one action. Most startups on Growth never hit the cap.</p></div></div>
-        <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')">Can I switch plans later?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Yes, upgrade or downgrade anytime. Changes take effect on your next billing cycle. No penalties.</p></div></div>
-        <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')">Is my data safe?<span class="faq-arrow">+</span></button><div class="faq-a"><p>We never store your customer data. Workflows process in real-time and pass data directly between your tools. We use encrypted connections and follow SOC 2 practices.</p></div></div>
+        <div class="faq-item"><button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Will the AI make mistakes?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Every workflow has a human-in-the-loop option. For sensitive actions (sending emails, payments), you approve first. Low-stakes tasks run fully autonomous.</p></div></div>
+        <div class="faq-item"><button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">What counts as an "AI action"?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Each time the AI processes something — qualifies a lead, drafts an email, updates your CRM — that's one action. Most startups on Growth never hit the cap.</p></div></div>
+        <div class="faq-item"><button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Can I switch plans later?<span class="faq-arrow">+</span></button><div class="faq-a"><p>Yes, upgrade or downgrade anytime. Changes take effect on your next billing cycle. No penalties.</p></div></div>
+        <div class="faq-item"><button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Is my data safe?<span class="faq-arrow">+</span></button><div class="faq-a"><p>We never store your customer data. Workflows process in real-time and pass data directly between your tools. We use encrypted connections and follow SOC 2 practices.</p></div></div>
       </div>
     </div>
   </section>
@@ -1284,13 +1400,15 @@
     <div class="contact-grid">
       <div>
         <form class="contact-form" id="contact-form" action="https://formspree.io/f/mjybpkov" method="POST" onsubmit="handleContact(event)">
-          <div class="contact-field"><label for="c-name">Name</label><input type="text" name="name" id="c-name" placeholder="Your name" required></div>
-          <div class="contact-field"><label for="c-email">Email</label><input type="email" name="email" id="c-email" placeholder="you@company.com" required></div>
-          <div class="contact-field"><label for="c-message">Message</label><textarea name="message" id="c-message" placeholder="Tell us about your project or question..." required></textarea></div>
+          <div class="contact-field"><label for="c-name">Name <span class="req">*</span></label><input type="text" name="name" id="c-name" placeholder="Your name" autocomplete="name" required></div>
+          <div class="contact-field"><label for="c-email">Email <span class="req">*</span></label><input type="email" name="email" id="c-email" placeholder="you@company.com" autocomplete="email" required></div>
+          <div class="contact-field"><label for="c-message">Message <span class="req">*</span></label><textarea name="message" id="c-message" rows="5" placeholder="Tell us about your project or question..." required></textarea></div>
           <input type="hidden" name="_subject" value="New LazyScale Lead">
-          <button type="submit" class="btn btn-dark" style="width:100%;justify-content:center;">Send Message</button>
+          <div class="hp-field" aria-hidden="true"><label for="c-hp">Leave this empty</label><input type="text" name="_gotcha" id="c-hp" tabindex="-1" autocomplete="off"></div>
+          <p class="form-error" id="contact-error" role="alert" hidden></p>
+          <button type="submit" class="btn btn-dark" style="width:100%;justify-content:center;"><span class="btn-label">Send Message</span><span class="spinner" aria-hidden="true"></span></button>
         </form>
-        <div class="contact-success" id="contact-success">
+        <div class="contact-success" id="contact-success" role="status" aria-live="polite">
           <div class="check">✓</div>
           <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;">Message sent!</h3>
           <p style="color:var(--text-secondary);font-size:15px;">We'll get back to you within 24 hours.</p>
@@ -1378,16 +1496,12 @@ function calcROI() {
 
 function handleContact(e) {
   e.preventDefault();
-  const form = document.getElementById('contact-form');
-  const btn = form.querySelector('button[type="submit"]');
-  btn.textContent = 'Sending...';
-  btn.disabled = true;
-  fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
-    .then(r => {
-      if (r.ok) { form.style.display = 'none'; document.getElementById('contact-success').classList.add('show'); }
-      else { btn.textContent = 'Try again'; btn.disabled = false; }
-    })
-    .catch(() => { btn.textContent = 'Try again'; btn.disabled = false; });
+  submitForm({
+    formId: 'contact-form',
+    errorId: 'contact-error',
+    successId: 'contact-success',
+    idleLabel: 'Send Message'
+  });
 }
 
 
@@ -1526,30 +1640,74 @@ function playDemo() {
 }
 
 // Audit form submission via Formspree
-function handleAudit(e) {
-  e.preventDefault();
-  const form = document.getElementById('audit-form');
-  const btn = form.querySelector('.audit-submit');
+// FAQ accordion — one open at a time, keeps aria-expanded in sync
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => {
+    el.classList.remove('open');
+    el.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+  });
+  if (!isOpen) {
+    item.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+}
+
+// Shared Formspree submit handler with inline errors + spinner
+function submitForm({ formId, errorId, successId, idleLabel }) {
+  const form = document.getElementById(formId);
+  const btn = form.querySelector('button[type="submit"]');
+  const label = btn.querySelector('.btn-label');
+  const errorBox = document.getElementById(errorId);
+
+  const setError = msg => {
+    errorBox.textContent = msg;
+    errorBox.hidden = false;
+  };
+  const reset = () => {
+    btn.disabled = false;
+    btn.classList.remove('is-loading');
+    if (label) label.textContent = idleLabel;
+  };
+
+  errorBox.hidden = true;
   btn.disabled = true;
-  btn.textContent = 'Sending...';
+  btn.classList.add('is-loading');
+  if (label) label.textContent = 'Sending';
 
   fetch(form.action, {
     method: 'POST',
     body: new FormData(form),
     headers: { 'Accept': 'application/json' }
-  }).then(r => {
+  }).then(async r => {
     if (r.ok) {
       form.style.display = 'none';
-      document.getElementById('audit-success').classList.add('show');
-    } else {
-      alert('Something went wrong. Please try again.');
-      btn.disabled = false;
-      btn.textContent = 'Get My Free Audit';
+      const success = document.getElementById(successId);
+      success.classList.add('show');
+      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
     }
+    // Formspree returns field-level errors in JSON
+    const data = await r.json().catch(() => null);
+    const detail = data && data.errors && data.errors.length
+      ? data.errors.map(x => x.message).join('. ')
+      : 'Something went wrong. Please try again, or email us directly.';
+    setError(detail);
+    reset();
   }).catch(() => {
-    alert('Network error. Please try again.');
-    btn.disabled = false;
-    btn.textContent = 'Get My Free Audit';
+    setError("Couldn't reach the server. Check your connection and try again.");
+    reset();
+  });
+}
+
+function handleAudit(e) {
+  e.preventDefault();
+  submitForm({
+    formId: 'audit-form',
+    errorId: 'audit-error',
+    successId: 'audit-success',
+    idleLabel: 'Get My Free Audit'
   });
 }
 
