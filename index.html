@@ -710,38 +710,13 @@
   }
   @keyframes demo-pulse { 0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; } 50% { transform: translate(-50%,-50%) scale(1.3); opacity: 1; } }
   .demo-slide {
-    position: absolute; inset: 0; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; padding: 40px; z-index: 2;
-    opacity: 0; transition: opacity 0.6s ease;
+    position: absolute; inset: 0; z-index: 2;
+    opacity: 0; transition: opacity 0.3s ease;
   }
-  .demo-slide.active { opacity: 1; }
-  .demo-slide-title {
-    font-size: clamp(24px, 4vw, 42px); font-weight: 800; color: #fff;
-    line-height: 1.2; text-align: center; letter-spacing: -1px;
-    transform: translateY(30px); opacity: 0;
-    transition: all 0.7s cubic-bezier(0.4,0,0.2,1);
+  .demo-slide.active { opacity: 1; z-index: 3; }
+  .demo-slide img {
+    width: 100%; height: 100%; object-fit: cover;
   }
-  .demo-slide.active .demo-slide-title { transform: translateY(0); opacity: 1; }
-  .demo-slide-sub {
-    font-size: clamp(14px, 2vw, 18px); color: rgba(255,255,255,0.5);
-    margin-top: 12px; text-align: center; font-weight: 400;
-    transform: translateY(20px); opacity: 0;
-    transition: all 0.7s cubic-bezier(0.4,0,0.2,1) 0.2s;
-  }
-  .demo-slide.active .demo-slide-sub { transform: translateY(0); opacity: 1; }
-  .demo-slide-accent { color: #A78BFA; }
-  .demo-slide-green { color: #22C55E; }
-  .demo-slide-red { color: #EF4444; }
-  .demo-slide-emoji { font-size: clamp(36px, 5vw, 56px); margin-bottom: 16px;
-    transform: scale(0); transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.1s; }
-  .demo-slide.active .demo-slide-emoji { transform: scale(1); }
-  .demo-slide-stat {
-    font-size: clamp(48px, 8vw, 80px); font-weight: 900; color: #A78BFA;
-    letter-spacing: -3px; line-height: 1;
-    transform: scale(0.5); opacity: 0;
-    transition: all 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.15s;
-  }
-  .demo-slide.active .demo-slide-stat { transform: scale(1); opacity: 1; }
   .demo-progress-bar {
     position: absolute; bottom: 0; left: 0; height: 3px;
     background: linear-gradient(90deg, #7C3AED, #A78BFA);
@@ -771,7 +746,6 @@
   }
   .demo-video:hover .demo-mute-btn { opacity: 1; }
   @media (max-width: 640px) {
-    .demo-slide { padding: 24px; }
     .demo-play-circle { width: 56px; height: 56px; }
   }
 
@@ -935,17 +909,18 @@
     <div class="demo-container">
       <div class="demo-video" id="demo-video">
         <div class="demo-video-bg"></div>
-        <div class="demo-slide" data-voice="Your startup is growing fast."><div class="demo-slide-title">Your startup is<br><span class="demo-slide-accent">growing fast.</span></div></div>
-        <div class="demo-slide" data-voice="But behind the scenes, you're drowning in manual work."><div class="demo-slide-title">But behind the scenes?</div><div class="demo-slide-sub">You're drowning in <span class="demo-slide-accent">manual work.</span></div></div>
-        <div class="demo-slide" data-voice="Copy-pasting leads. Writing posts at midnight. Forgetting follow-ups."><div class="demo-slide-emoji">😩</div><div class="demo-slide-title">Copy-pasting leads.<br>Writing posts at midnight.<br><span class="demo-slide-red">Forgetting follow-ups.</span></div></div>
-        <div class="demo-slide" data-voice="Meet LazyScale."><div class="demo-slide-stat">LazyScale</div><div class="demo-slide-sub">AI automation for startups</div></div>
-        <div class="demo-slide" data-voice="A lead comes in through your website. Rahul Sharma, tech startup, wants to automate sales."><div class="demo-slide-emoji">📩</div><div class="demo-slide-title">A lead comes in.</div><div class="demo-slide-sub">Rahul Sharma — "Automate our sales pipeline"</div></div>
-        <div class="demo-slide" data-voice="AI kicks in. Reads the message. Scores the lead. 9 out of 10. Hot."><div class="demo-slide-emoji">🤖</div><div class="demo-slide-title">AI qualifies instantly.</div><div class="demo-slide-stat">9<span style="font-size:50%;opacity:0.5">/10</span></div><div class="demo-slide-sub"><span class="demo-slide-red">🔥 Hot Lead</span></div></div>
-        <div class="demo-slide" data-voice="Your team gets a Slack notification. Hot lead alert. Everyone sees it."><div class="demo-slide-emoji">💬</div><div class="demo-slide-title">Slack pinged.<br><span class="demo-slide-accent">#leads</span> channel.</div><div class="demo-slide-sub">Your team sees it instantly.</div></div>
-        <div class="demo-slide" data-voice="AI has already sent a personalized reply. With your booking link. No delay."><div class="demo-slide-emoji">✉️</div><div class="demo-slide-title">Auto-reply <span class="demo-slide-green">sent.</span></div><div class="demo-slide-sub">Personalized. With your booking link.</div></div>
-        <div class="demo-slide" data-voice="Done. Forty-seven seconds. Zero manual work."><div class="demo-slide-stat" style="color:#22C55E">47s</div><div class="demo-slide-title">Zero manual work.</div></div>
-        <div class="demo-slide" data-voice="No new apps. No code. Live in 48 hours. Starting at just 4,999 rupees a month."><div class="demo-slide-title">No code. No new apps.<br>Live in <span class="demo-slide-accent">48 hours.</span></div><div class="demo-slide-sub">Starting at ₹4,999/mo</div></div>
-        <div class="demo-slide" data-voice="Book a free call. Let's automate your grind."><div class="demo-slide-stat">Let's go.</div><div class="demo-slide-sub" style="margin-top:16px"><a href="https://cal.com/lazy_scale/15min" target="_blank" style="color:#A78BFA;text-decoration:underline;font-size:18px">Book a free call →</a></div></div>
+        <audio id="demo-audio" src="demo/voiceover.mp3" preload="auto"></audio>
+        <div class="demo-slide"><img src="demo/01-growing.png" alt="Your startup is growing fast"></div>
+        <div class="demo-slide"><img src="demo/02-drowning.png" alt="Drowning in manual work"></div>
+        <div class="demo-slide"><img src="demo/03-pain.png" alt="Copy-pasting leads, midnight posts, missed follow-ups"></div>
+        <div class="demo-slide"><img src="demo/04-lazyscale.png" alt="Meet LazyScale"></div>
+        <div class="demo-slide"><img src="demo/05-lead.png" alt="A lead comes in"></div>
+        <div class="demo-slide"><img src="demo/06-scoring.png" alt="AI scores the lead 9/10"></div>
+        <div class="demo-slide"><img src="demo/07-slack.png" alt="Slack notification - hot lead alert"></div>
+        <div class="demo-slide"><img src="demo/08-reply.png" alt="AI auto-reply with booking link"></div>
+        <div class="demo-slide"><img src="demo/09-done.png" alt="Done in 47 seconds"></div>
+        <div class="demo-slide"><img src="demo/10-pricing.png" alt="Starting at 4999 per month"></div>
+        <div class="demo-slide"><img src="demo/11-cta.png" alt="Book a free call"></div>
         <div class="demo-progress-bar" id="demo-progress"></div>
         <div class="demo-play-overlay" id="demo-overlay">
           <div class="demo-play-circle" onclick="playDemo()">
@@ -1297,25 +1272,13 @@ if (heroStats) statsObserver.observe(heroStats);
 calcROI();
 
 let demoMuted = false;
+const demoAudio = document.getElementById('demo-audio');
+
 function toggleDemoMute(e) {
   e.stopPropagation();
   demoMuted = !demoMuted;
   document.getElementById('demo-mute').textContent = demoMuted ? '🔇' : '🔊';
-  if (demoMuted) window.speechSynthesis.cancel();
-}
-
-function demoSpeak(text) {
-  try {
-    if (demoMuted || !window.speechSynthesis) return;
-    const synth = window.speechSynthesis;
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.rate = 0.92; utter.pitch = 1.0;
-    const voices = synth.getVoices();
-    const pref = voices.find(v => v.name.includes('Google') && v.lang.startsWith('en')) ||
-                 voices.find(v => v.lang.startsWith('en-') && !v.name.includes('Zira')) || voices[0];
-    if (pref) utter.voice = pref;
-    synth.speak(utter);
-  } catch(e) {}
+  if (demoAudio) demoAudio.muted = demoMuted;
 }
 
 function playDemo() {
@@ -1323,23 +1286,28 @@ function playDemo() {
   const overlay = document.getElementById('demo-overlay');
   const progress = document.getElementById('demo-progress');
   const total = slides.length;
-  const interval = 4000;
+  const duration = demoAudio ? demoAudio.duration : 44;
+  const interval = (duration / total) * 1000;
   let idx = 0;
 
-  try { window.speechSynthesis.cancel(); } catch(e) {}
   overlay.classList.add('hidden');
   slides.forEach(s => s.classList.remove('active'));
+
+  if (demoAudio) {
+    demoAudio.currentTime = 0;
+    demoAudio.muted = demoMuted;
+    demoAudio.play().catch(() => {});
+  }
 
   function showSlide() {
     slides.forEach(s => s.classList.remove('active'));
     if (idx >= total) {
       overlay.classList.remove('hidden');
       progress.style.width = '0%';
+      if (demoAudio) demoAudio.pause();
       return;
     }
     slides[idx].classList.add('active');
-    var voice = slides[idx].dataset.voice;
-    if (voice) demoSpeak(voice);
     progress.style.width = ((idx + 1) / total * 100) + '%';
     idx++;
     setTimeout(showSlide, interval);
