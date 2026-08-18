@@ -1,4 +1,17 @@
-<title>LazyScale</title>
+<title>LazyScale — AI Automation for Startups</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="LazyScale automates leads, content, and ops for startups. AI workflows that save 12+ hours per week. Live in 48 hours.">
+<meta name="keywords" content="AI automation, startup automation, n8n workflows, lead generation, content automation">
+<meta property="og:title" content="LazyScale — AI Automation for Startups">
+<meta property="og:description" content="We automate the stuff you keep saying you'll hire someone for. AI workflows for leads, content, and ops.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://divyanshus2404.github.io/lazyscale/">
+<meta property="og:image" content="https://divyanshus2404.github.io/lazyscale/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LazyScale — AI Automation for Startups">
+<meta name="twitter:description" content="AI workflows that handle your leads, content, and ops. Built for startups that move fast.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2308080C'/><path d='M16 6l3 8h8l-6.5 5 2.5 8L16 22l-7 5 2.5-8L5 14h8z' fill='%23B4FF39'/></svg>">
 <style>
   :root {
     --bg: #08080C;
@@ -110,8 +123,9 @@
     height: 100%;
   }
 
-  .logo { font-size: 21px; font-weight: 750; letter-spacing: -0.7px; color: var(--text-primary); text-decoration: none; }
+  .logo { display: flex; align-items: center; gap: 10px; font-size: 21px; font-weight: 750; letter-spacing: -0.7px; color: var(--text-primary); text-decoration: none; }
   .logo span { color: var(--accent); }
+  .logo svg { width: 32px; height: 32px; flex-shrink: 0; }
 
   .nav-links { display: flex; gap: 8px; align-items: center; }
 
@@ -344,6 +358,82 @@
   .result-source-text span { display: block; font-size: 13px; font-weight: 600; }
   .result-source-text em { font-style: normal; font-size: 12px; color: var(--text-muted); }
 
+  /* ─── BEFORE/AFTER ─── */
+  .ba-grid { display: grid; grid-template-columns: 1fr 60px 1fr; gap: 0; align-items: stretch; }
+  .ba-col {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 36px 28px;
+  }
+  .ba-col.before { border-right: none; border-radius: var(--radius) 0 0 var(--radius); }
+  .ba-col.after { border-left: none; border-radius: 0 var(--radius) var(--radius) 0; border-color: var(--border-accent); }
+  .ba-divider {
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    font-size: 24px; color: var(--accent); font-weight: 800;
+  }
+  .ba-col h3 { font-size: 18px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+  .ba-col h3 .ba-icon { font-size: 20px; }
+  .ba-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .ba-list li {
+    font-size: 14px; color: var(--text-secondary); line-height: 1.6;
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .ba-list li::before { flex-shrink: 0; font-size: 14px; }
+  .ba-col.before .ba-list li::before { content: '✗'; color: #FF6B6B; font-weight: 700; }
+  .ba-col.after .ba-list li::before { content: '✓'; color: var(--accent); font-weight: 700; }
+  .ba-col.after { background: var(--bg-raised); }
+
+  @media (max-width: 640px) {
+    .ba-grid { grid-template-columns: 1fr; }
+    .ba-col.before, .ba-col.after { border-radius: var(--radius); border: 1px solid var(--border); }
+    .ba-col.after { border-color: var(--border-accent); }
+    .ba-divider { padding: 12px; border: none; }
+  }
+
+  /* ─── ROI CALCULATOR ─── */
+  .roi-calc {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 20px; padding: 48px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start;
+  }
+  .roi-inputs { display: flex; flex-direction: column; gap: 28px; }
+  .roi-field label {
+    display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px;
+    color: var(--text-secondary);
+  }
+  .roi-field input[type="range"] {
+    width: 100%; height: 6px; border-radius: 3px;
+    -webkit-appearance: none; appearance: none;
+    background: var(--border);
+    outline: none;
+  }
+  .roi-field input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%;
+    background: var(--accent); cursor: pointer; border: 2px solid var(--bg);
+    box-shadow: 0 2px 8px var(--accent-glow-strong);
+  }
+  .roi-field .roi-value {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 8px; font-size: 13px; color: var(--text-muted);
+  }
+  .roi-field .roi-value strong { color: var(--accent); font-size: 18px; font-weight: 750; }
+  .roi-results {
+    background: var(--bg-raised); border: 1px solid var(--border-accent);
+    border-radius: var(--radius); padding: 36px;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+  .roi-results h3 { font-size: 16px; font-weight: 650; color: var(--accent); margin-bottom: 4px; }
+  .roi-stat-row { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .roi-stat-row:last-child { border-bottom: none; }
+  .roi-stat-label { font-size: 14px; color: var(--text-secondary); }
+  .roi-stat-value { font-size: 24px; font-weight: 800; letter-spacing: -1px; color: var(--text-primary); }
+  .roi-stat-value.highlight { color: var(--accent); font-size: 32px; }
+  .roi-cta { margin-top: 8px; }
+
+  @media (max-width: 640px) {
+    .roi-calc { grid-template-columns: 1fr; padding: 28px; }
+  }
+
   /* ─── PRICING ─── */
   .pricing-toggle {
     display: flex; align-items: center; justify-content: center; gap: 12px;
@@ -476,6 +566,70 @@
   .stack-chip:hover { border-color: var(--border-accent); color: var(--text-primary); }
   .stack-chip span { font-size: 18px; }
 
+  /* ─── BLOG ─── */
+  .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .blog-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    transition: all 0.3s; text-decoration: none; color: inherit;
+    display: flex; flex-direction: column;
+  }
+  .blog-card:hover { border-color: var(--border-accent); transform: translateY(-2px); box-shadow: 0 12px 40px var(--accent-glow); }
+  .blog-thumb {
+    height: 160px; background: var(--bg-raised);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px;
+  }
+  .blog-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+  .blog-tag {
+    display: inline-block; font-size: 11px; font-weight: 650; color: var(--accent);
+    background: var(--accent-glow); padding: 3px 10px; border-radius: 100px;
+    letter-spacing: 0.4px; text-transform: uppercase; margin-bottom: 12px; width: fit-content;
+  }
+  .blog-card h3 { font-size: 17px; font-weight: 650; letter-spacing: -0.3px; margin-bottom: 8px; line-height: 1.35; }
+  .blog-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px; flex: 1; }
+  .blog-meta { font-size: 12px; color: var(--text-muted); margin-top: auto; }
+
+  /* ─── CONTACT ─── */
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start;
+  }
+  .contact-form { display: flex; flex-direction: column; gap: 20px; }
+  .contact-field { display: flex; flex-direction: column; gap: 6px; }
+  .contact-field label { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+  .contact-field input, .contact-field textarea {
+    background: var(--bg-raised); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 12px 16px;
+    font-size: 15px; color: var(--text-primary); font-family: inherit;
+    transition: border-color var(--transition); outline: none;
+  }
+  .contact-field input:focus, .contact-field textarea:focus { border-color: var(--accent); }
+  .contact-field textarea { resize: vertical; min-height: 120px; }
+  .contact-info { display: flex; flex-direction: column; gap: 24px; }
+  .contact-info-card {
+    background: var(--bg-raised); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px;
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .contact-info-icon {
+    width: 44px; height: 44px; border-radius: var(--radius-sm);
+    background: var(--accent-glow); border: 1px solid var(--border-accent);
+    display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+  }
+  .contact-info-card h4 { font-size: 15px; font-weight: 640; margin-bottom: 4px; }
+  .contact-info-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.55; }
+  .contact-success {
+    display: none; text-align: center; padding: 48px 24px;
+    background: var(--bg-raised); border: 1px solid var(--border-accent);
+    border-radius: var(--radius);
+  }
+  .contact-success.show { display: block; }
+  .contact-success .check { font-size: 48px; margin-bottom: 16px; }
+
+  @media (max-width: 640px) {
+    .contact-grid { grid-template-columns: 1fr; }
+  }
+
   /* ─── FAQ ─── */
   .faq-grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px;
@@ -547,15 +701,64 @@
   .footer-bottom-links a { color: var(--text-muted); text-decoration: none; }
   .footer-bottom-links a:hover { color: var(--text-secondary); }
 
+  /* ─── CHAT WIDGET ─── */
+  .chat-widget {
+    position: fixed; bottom: 24px; right: 24px; z-index: 1001;
+  }
+  .chat-btn {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--accent); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px var(--accent-glow-strong);
+    transition: all 0.3s; font-size: 24px;
+  }
+  .chat-btn:hover { transform: scale(1.08); }
+  .chat-popup {
+    display: none; position: absolute; bottom: 72px; right: 0;
+    width: 340px; background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .chat-popup.open { display: block; }
+  .chat-header {
+    background: var(--accent); color: var(--bg); padding: 16px 20px;
+    font-size: 15px; font-weight: 650; display: flex; justify-content: space-between; align-items: center;
+  }
+  .chat-close { background: none; border: none; color: var(--bg); font-size: 20px; cursor: pointer; }
+  .chat-body { padding: 20px; }
+  .chat-msg {
+    background: var(--bg-raised); padding: 12px 16px; border-radius: 12px 12px 12px 4px;
+    font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px;
+  }
+  .chat-input-row { display: flex; gap: 8px; }
+  .chat-input {
+    flex: 1; background: var(--bg-raised); border: 1px solid var(--border);
+    border-radius: 100px; padding: 10px 16px; font-size: 14px;
+    color: var(--text-primary); font-family: inherit; outline: none;
+  }
+  .chat-input:focus { border-color: var(--accent); }
+  .chat-send {
+    width: 36px; height: 36px; border-radius: 50%; background: var(--accent);
+    border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: var(--bg); flex-shrink: 0;
+  }
+
+  /* ─── SCROLL ANIMATIONS ─── */
+  .fade-up {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
   /* ─── RESPONSIVE ─── */
   @media (max-width: 900px) {
-    .workflows-grid, .how-grid, .pricing-grid, .results-grid, .testimonials-grid { grid-template-columns: 1fr 1fr; }
+    .workflows-grid, .how-grid, .pricing-grid, .results-grid, .testimonials-grid, .blog-grid { grid-template-columns: 1fr 1fr; }
     .faq-grid { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
   }
 
   @media (max-width: 640px) {
-    .workflows-grid, .how-grid, .pricing-grid, .results-grid, .testimonials-grid { grid-template-columns: 1fr; }
+    .workflows-grid, .how-grid, .pricing-grid, .results-grid, .testimonials-grid, .blog-grid { grid-template-columns: 1fr; }
     .dfy { grid-template-columns: 1fr; padding: 32px 24px; gap: 36px; }
     .hero-stats { gap: 24px; }
     .footer-grid { grid-template-columns: 1fr; gap: 32px; }
@@ -564,19 +767,28 @@
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01s !important; transition-duration: 0.01s !important; }
+    .fade-up { opacity: 1; transform: none; }
   }
 </style>
 
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a href="#" class="logo">lazy<span>scale</span></a>
+    <a href="#" class="logo">
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="7" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-opacity="0.15"/>
+        <path d="M10 22V11l4 4 4-4v11" stroke="#B4FF39" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M22 13l-4 4" stroke="#B4FF39" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+      lazy<span>scale</span>
+    </a>
     <div class="nav-links">
       <a href="#workflows" class="nav-link">Workflows</a>
       <a href="#results" class="nav-link">Results</a>
       <a href="#pricing" class="nav-link">Pricing</a>
       <a href="#dfy" class="nav-link">Done-For-You</a>
-      <a href="#faq" class="nav-link">FAQ</a>
+      <a href="#blog" class="nav-link">Blog</a>
+      <a href="#contact" class="nav-link">Contact</a>
       <a href="https://cal.com/lazy_scale/lazy-scale/15min" target="_blank" class="btn btn-primary">Book a Call</a>
     </div>
     <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menu">
@@ -590,7 +802,8 @@
   <a href="#results" onclick="this.parentElement.classList.remove('open')">Results</a>
   <a href="#pricing" onclick="this.parentElement.classList.remove('open')">Pricing</a>
   <a href="#dfy" onclick="this.parentElement.classList.remove('open')">Done-For-You</a>
-  <a href="#faq" onclick="this.parentElement.classList.remove('open')">FAQ</a>
+  <a href="#blog" onclick="this.parentElement.classList.remove('open')">Blog</a>
+  <a href="#contact" onclick="this.parentElement.classList.remove('open')">Contact</a>
   <a href="https://cal.com/lazy_scale/lazy-scale/15min" target="_blank" class="btn btn-primary" onclick="this.parentElement.classList.remove('open')">Book a Call</a>
 </div>
 
@@ -625,7 +838,7 @@
   </div>
 
   <!-- WORKFLOWS -->
-  <section id="workflows">
+  <section id="workflows" class="fade-up">
     <div class="section-header">
       <div class="section-label">Workflows</div>
       <h2 class="section-title">Pick what you need automated</h2>
@@ -672,7 +885,7 @@
   </section>
 
   <!-- HOW IT WORKS -->
-  <section>
+  <section class="fade-up">
     <div class="section-header section-header-center">
       <div class="section-label">How It Works</div>
       <h2 class="section-title">Live in 48 hours, not 48 days</h2>
@@ -698,7 +911,7 @@
   </section>
 
   <!-- RESULTS -->
-  <section id="results">
+  <section id="results" class="fade-up">
     <div class="section-header section-header-center">
       <div class="section-label">Results</div>
       <h2 class="section-title">What our early clients are seeing</h2>
@@ -743,8 +956,92 @@
     </div>
   </section>
 
+  <!-- BEFORE / AFTER -->
+  <section class="fade-up">
+    <div class="section-header section-header-center">
+      <div class="section-label">The Difference</div>
+      <h2 class="section-title">Manual chaos vs. LazyScale</h2>
+      <p class="section-desc">Here's what a typical week looks like — before and after automation.</p>
+    </div>
+    <div class="ba-grid">
+      <div class="ba-col before">
+        <h3><span class="ba-icon">😤</span> Before LazyScale</h3>
+        <ul class="ba-list">
+          <li>Leads sit in your inbox for 2-3 days</li>
+          <li>Copy-pasting data between 5 different tools</li>
+          <li>Spending 3 hours writing social posts</li>
+          <li>Manually sending follow-up emails</li>
+          <li>Forgetting to update CRM after calls</li>
+          <li>Invoices sent late, payments delayed</li>
+          <li>Hiring a VA just to do repetitive clicks</li>
+        </ul>
+      </div>
+      <div class="ba-divider">→</div>
+      <div class="ba-col after">
+        <h3><span class="ba-icon">🚀</span> After LazyScale</h3>
+        <ul class="ba-list">
+          <li>Leads qualified and replied to in under 2 minutes</li>
+          <li>Data flows automatically between all your tools</li>
+          <li>Week of content generated from one voice memo</li>
+          <li>Follow-ups triggered automatically based on lead score</li>
+          <li>CRM updated in real-time after every interaction</li>
+          <li>Invoices sent on schedule, reminders automated</li>
+          <li>No VA needed — AI handles the repetitive work</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROI CALCULATOR -->
+  <section class="fade-up">
+    <div class="section-header section-header-center">
+      <div class="section-label">ROI Calculator</div>
+      <h2 class="section-title">See how much you'd save</h2>
+      <p class="section-desc">Drag the sliders to estimate your savings with LazyScale.</p>
+    </div>
+    <div class="roi-calc">
+      <div class="roi-inputs">
+        <div class="roi-field">
+          <label>Hours spent on manual tasks per week</label>
+          <input type="range" id="roi-hours" min="5" max="60" value="20" oninput="calcROI()">
+          <div class="roi-value"><span>5 hrs</span><strong id="roi-hours-val">20 hrs</strong><span>60 hrs</span></div>
+        </div>
+        <div class="roi-field">
+          <label>Your hourly rate (or team cost)</label>
+          <input type="range" id="roi-rate" min="20" max="200" value="50" step="5" oninput="calcROI()">
+          <div class="roi-value"><span>$20</span><strong id="roi-rate-val">$50</strong><span>$200</span></div>
+        </div>
+        <div class="roi-field">
+          <label>Team members doing this work</label>
+          <input type="range" id="roi-team" min="1" max="10" value="2" oninput="calcROI()">
+          <div class="roi-value"><span>1</span><strong id="roi-team-val">2</strong><span>10</span></div>
+        </div>
+      </div>
+      <div class="roi-results">
+        <h3>Your estimated savings</h3>
+        <div class="roi-stat-row">
+          <span class="roi-stat-label">Hours saved / month</span>
+          <span class="roi-stat-value" id="roi-saved-hours">128 hrs</span>
+        </div>
+        <div class="roi-stat-row">
+          <span class="roi-stat-label">Money saved / month</span>
+          <span class="roi-stat-value highlight" id="roi-saved-money">$6,400</span>
+        </div>
+        <div class="roi-stat-row">
+          <span class="roi-stat-label">Annual savings</span>
+          <span class="roi-stat-value" id="roi-saved-annual">$76,800</span>
+        </div>
+        <div class="roi-stat-row">
+          <span class="roi-stat-label">ROI vs. Growth plan</span>
+          <span class="roi-stat-value highlight" id="roi-ratio">4.3x</span>
+        </div>
+        <a href="https://cal.com/lazy_scale/lazy-scale/15min" target="_blank" class="btn btn-primary roi-cta" style="width:100%;justify-content:center;">Get These Savings →</a>
+      </div>
+    </div>
+  </section>
+
   <!-- PRICING -->
-  <section id="pricing">
+  <section id="pricing" class="fade-up">
     <div class="section-header section-header-center">
       <div class="section-label">Pricing</div>
       <h2 class="section-title">Pay for what you automate</h2>
@@ -805,7 +1102,7 @@
   </section>
 
   <!-- DFY -->
-  <section id="dfy">
+  <section id="dfy" class="fade-up">
     <div class="dfy">
       <div>
         <div class="section-label">Done-For-You</div>
@@ -848,7 +1145,7 @@
   </section>
 
   <!-- TESTIMONIALS -->
-  <section>
+  <section class="fade-up">
     <div class="section-header section-header-center">
       <div class="section-label">What Founders Say</div>
       <h2 class="section-title">Don't take our word for it</h2>
@@ -879,7 +1176,7 @@
   </section>
 
   <!-- INTEGRATIONS -->
-  <section>
+  <section class="fade-up">
     <div class="section-header section-header-center">
       <div class="section-label">Integrations</div>
       <h2 class="section-title">We plug into your existing stack</h2>
@@ -905,8 +1202,46 @@
     </div>
   </section>
 
+  <!-- BLOG -->
+  <section id="blog" class="fade-up">
+    <div class="section-header section-header-center">
+      <div class="section-label">Blog</div>
+      <h2 class="section-title">Learn how to automate smarter</h2>
+      <p class="section-desc">Guides, case studies, and automation playbooks for startup founders.</p>
+    </div>
+    <div class="blog-grid">
+      <a href="#" class="blog-card">
+        <div class="blog-thumb">⚡</div>
+        <div class="blog-body">
+          <span class="blog-tag">Guide</span>
+          <h3>5 Workflows Every Startup Should Automate First</h3>
+          <p>Stop doing these five things manually. Here's the exact automation stack that saves our clients 15+ hours per week.</p>
+          <div class="blog-meta">Aug 15, 2026 · 6 min read</div>
+        </div>
+      </a>
+      <a href="#" class="blog-card">
+        <div class="blog-thumb">🤖</div>
+        <div class="blog-body">
+          <span class="blog-tag">Case Study</span>
+          <h3>How a 3-Person SaaS Cut Lead Response Time by 90%</h3>
+          <p>From 6-hour response times to under 2 minutes. Here's how Lead Pilot transformed their sales pipeline.</p>
+          <div class="blog-meta">Aug 10, 2026 · 4 min read</div>
+        </div>
+      </a>
+      <a href="#" class="blog-card">
+        <div class="blog-thumb">💡</div>
+        <div class="blog-body">
+          <span class="blog-tag">Playbook</span>
+          <h3>The Founder's Guide to AI-Powered Content</h3>
+          <p>Turn one idea into a week of content across every platform. Our exact process for content automation.</p>
+          <div class="blog-meta">Aug 5, 2026 · 8 min read</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
   <!-- FAQ -->
-  <section id="faq">
+  <section id="faq" class="fade-up">
     <div class="section-header section-header-center">
       <div class="section-label">FAQ</div>
       <h2 class="section-title">Questions we get a lot</h2>
@@ -951,8 +1286,64 @@
     </div>
   </section>
 
+  <!-- CONTACT -->
+  <section id="contact" class="fade-up">
+    <div class="section-header section-header-center">
+      <div class="section-label">Contact</div>
+      <h2 class="section-title">Get in touch</h2>
+      <p class="section-desc">Have a question or want to discuss a custom project? Drop us a message.</p>
+    </div>
+    <div class="contact-grid">
+      <div>
+        <form class="contact-form" id="contact-form" onsubmit="handleContact(event)">
+          <div class="contact-field">
+            <label for="c-name">Name</label>
+            <input type="text" id="c-name" placeholder="Your name" required>
+          </div>
+          <div class="contact-field">
+            <label for="c-email">Email</label>
+            <input type="email" id="c-email" placeholder="you@company.com" required>
+          </div>
+          <div class="contact-field">
+            <label for="c-message">Message</label>
+            <textarea id="c-message" placeholder="Tell us about your project or question..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Send Message</button>
+        </form>
+        <div class="contact-success" id="contact-success">
+          <div class="check">✓</div>
+          <h3 style="font-size:20px;font-weight:700;margin-bottom:8px;">Message sent!</h3>
+          <p style="color:var(--text-secondary);font-size:15px;">We'll get back to you within 24 hours.</p>
+        </div>
+      </div>
+      <div class="contact-info">
+        <div class="contact-info-card">
+          <div class="contact-info-icon">📧</div>
+          <div>
+            <h4>Email us</h4>
+            <p>hello@lazyscale.ai</p>
+          </div>
+        </div>
+        <div class="contact-info-card">
+          <div class="contact-info-icon">📅</div>
+          <div>
+            <h4>Book a call</h4>
+            <p>Free 15-minute strategy call to see what we'd automate for you.</p>
+          </div>
+        </div>
+        <div class="contact-info-card">
+          <div class="contact-info-icon">⚡</div>
+          <div>
+            <h4>Response time</h4>
+            <p>We reply within 24 hours. Hot leads get a response in under 2 minutes (yes, that's automated).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- FINAL CTA -->
-  <section id="cta" class="final-cta">
+  <section id="cta" class="final-cta fade-up">
     <h2>Stop doing work a machine should do</h2>
     <p>Book a 15-minute call. We'll tell you exactly what we'd automate and what it'll save you. No pitch deck, just answers.</p>
     <div class="cta-buttons">
@@ -980,10 +1371,9 @@
       </div>
       <div class="footer-col">
         <h4>Company</h4>
-        <a href="#">About</a>
-        <a href="#">Blog</a>
-        <a href="#">Careers</a>
-        <a href="#">Contact</a>
+        <a href="#blog">Blog</a>
+        <a href="#contact">Contact</a>
+        <a href="#faq">FAQ</a>
       </div>
       <div class="footer-col">
         <h4>Connect</h4>
@@ -1003,6 +1393,24 @@
   </div>
 </footer>
 
+<!-- CHAT WIDGET -->
+<div class="chat-widget">
+  <div class="chat-popup" id="chat-popup">
+    <div class="chat-header">
+      <span>LazyScale</span>
+      <button class="chat-close" onclick="document.getElementById('chat-popup').classList.remove('open')">×</button>
+    </div>
+    <div class="chat-body">
+      <div class="chat-msg">Hey! 👋 Got a question about automation? Drop it here and we'll get back to you fast.</div>
+      <div class="chat-input-row">
+        <input type="text" class="chat-input" id="chat-input" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChat()">
+        <button class="chat-send" onclick="sendChat()">→</button>
+      </div>
+    </div>
+  </div>
+  <button class="chat-btn" onclick="document.getElementById('chat-popup').classList.toggle('open')" aria-label="Chat">💬</button>
+</div>
+
 <script>
 function toggleBilling() {
   const toggle = document.getElementById('billing-toggle');
@@ -1017,4 +1425,59 @@ function toggleBilling() {
     el.textContent = isAnnual ? 'Billed annually' : 'Billed monthly';
   });
 }
+
+function calcROI() {
+  const hours = +document.getElementById('roi-hours').value;
+  const rate = +document.getElementById('roi-rate').value;
+  const team = +document.getElementById('roi-team').value;
+  document.getElementById('roi-hours-val').textContent = hours + ' hrs';
+  document.getElementById('roi-rate-val').textContent = '$' + rate;
+  document.getElementById('roi-team-val').textContent = team;
+  const automatedPct = 0.8;
+  const savedHours = Math.round(hours * team * 4 * automatedPct);
+  const savedMoney = savedHours * rate;
+  const annual = savedMoney * 12;
+  const planCost = 1499;
+  const roi = (savedMoney / planCost).toFixed(1);
+  document.getElementById('roi-saved-hours').textContent = savedHours.toLocaleString() + ' hrs';
+  document.getElementById('roi-saved-money').textContent = '$' + savedMoney.toLocaleString();
+  document.getElementById('roi-saved-annual').textContent = '$' + annual.toLocaleString();
+  document.getElementById('roi-ratio').textContent = roi + 'x';
+}
+
+function handleContact(e) {
+  e.preventDefault();
+  document.getElementById('contact-form').style.display = 'none';
+  document.getElementById('contact-success').classList.add('show');
+}
+
+function sendChat() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  const body = document.querySelector('.chat-body');
+  const div = document.createElement('div');
+  div.style.cssText = 'background:var(--accent-glow);padding:12px 16px;border-radius:12px 12px 4px 12px;font-size:14px;color:var(--text-primary);margin-bottom:16px;text-align:right;';
+  div.textContent = msg;
+  body.insertBefore(div, body.lastElementChild);
+  input.value = '';
+  setTimeout(() => {
+    const reply = document.createElement('div');
+    reply.className = 'chat-msg';
+    reply.textContent = "Thanks! We'll get back to you shortly. Or book a call for an instant answer: cal.com/lazy_scale";
+    body.insertBefore(reply, body.lastElementChild);
+  }, 800);
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+calcROI();
 </script>
