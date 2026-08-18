@@ -1001,10 +1001,11 @@
     </div>
     <div class="contact-grid">
       <div>
-        <form class="contact-form" id="contact-form" onsubmit="handleContact(event)">
-          <div class="contact-field"><label for="c-name">Name</label><input type="text" id="c-name" placeholder="Your name" required></div>
-          <div class="contact-field"><label for="c-email">Email</label><input type="email" id="c-email" placeholder="you@company.com" required></div>
-          <div class="contact-field"><label for="c-message">Message</label><textarea id="c-message" placeholder="Tell us about your project or question..." required></textarea></div>
+        <form class="contact-form" id="contact-form" action="https://formspree.io/f/mjybpkov" method="POST" onsubmit="handleContact(event)">
+          <div class="contact-field"><label for="c-name">Name</label><input type="text" name="name" id="c-name" placeholder="Your name" required></div>
+          <div class="contact-field"><label for="c-email">Email</label><input type="email" name="email" id="c-email" placeholder="you@company.com" required></div>
+          <div class="contact-field"><label for="c-message">Message</label><textarea name="message" id="c-message" placeholder="Tell us about your project or question..." required></textarea></div>
+          <input type="hidden" name="_subject" value="New LazyScale Lead">
           <button type="submit" class="btn btn-dark" style="width:100%;justify-content:center;">Send Message</button>
         </form>
         <div class="contact-success" id="contact-success">
@@ -1100,8 +1101,16 @@ function calcROI() {
 
 function handleContact(e) {
   e.preventDefault();
-  document.getElementById('contact-form').style.display = 'none';
-  document.getElementById('contact-success').classList.add('show');
+  const form = document.getElementById('contact-form');
+  const btn = form.querySelector('button[type="submit"]');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
+    .then(r => {
+      if (r.ok) { form.style.display = 'none'; document.getElementById('contact-success').classList.add('show'); }
+      else { btn.textContent = 'Try again'; btn.disabled = false; }
+    })
+    .catch(() => { btn.textContent = 'Try again'; btn.disabled = false; });
 }
 
 function sendChat() {
