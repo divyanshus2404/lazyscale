@@ -1,16 +1,16 @@
 <title>LazyScale — AI Automation for Startups</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="LazyScale automates leads, content, and ops for startups. AI workflows that save 12+ hours per week. Live in 48 hours.">
+<meta name="description" content="LazyScale answers every lead in under 60 seconds — on WhatsApp, Instagram, email and your website. AI automation built for Indian startups. Live in 48 hours.">
 <meta name="keywords" content="AI automation, startup automation, n8n workflows, lead generation, content automation">
 <meta property="og:title" content="LazyScale — AI Automation for Startups">
-<meta property="og:description" content="We automate the stuff you keep saying you'll hire someone for. AI workflows for leads, content, and ops.">
+<meta property="og:description" content="Never lose another lead to a slow reply. AI that answers every enquiry in under a minute, on the channels your customers actually use.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://lazyscale.vercel.app">
 <meta property="og:image" content="https://lazyscale.vercel.app/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="LazyScale — AI Automation for Startups">
-<meta name="twitter:description" content="AI workflows that handle your leads, content, and ops. Built for startups that move fast.">
+<meta name="twitter:description" content="Every enquiry answered in under 60 seconds — WhatsApp, Instagram, email and web. Built for Indian startups.">
 <meta name="twitter:image" content="https://lazyscale.vercel.app/og-image.png">
 <link rel="canonical" href="https://lazyscale.vercel.app/">
 <meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)">
@@ -24,7 +24,7 @@
       "@id": "https://lazyscale.vercel.app/#org",
       "name": "LazyScale",
       "url": "https://lazyscale.vercel.app/",
-      "description": "AI automation agency building workflows for leads, content, and ops — built for Indian startups.",
+      "description": "AI automation agency specialising in speed-to-lead and WhatsApp automation for Indian startups.",
       "email": "divyanshus2404@gmail.com",
       "areaServed": "IN"
     },
@@ -32,7 +32,7 @@
       "@type": "Service",
       "name": "AI Workflow Automation",
       "provider": { "@id": "https://lazyscale.vercel.app/#org" },
-      "description": "Done-for-you AI workflows for lead follow-up, content, and internal ops. Live in 48 hours.",
+      "description": "Done-for-you AI workflows for instant lead response and WhatsApp customer communication. Live in 48 hours.",
       "offers": [
         { "@type": "Offer", "name": "Starter", "price": "4999", "priceCurrency": "INR" },
         { "@type": "Offer", "name": "Growth", "price": "14999", "priceCurrency": "INR" },
@@ -1149,6 +1149,68 @@
     .flow-foot { gap: var(--s5); }
   }
 
+  /* ─── HEADLINE WORKFLOWS ─── */
+  .wf-lead {
+    display: grid; grid-template-columns: 1fr 1fr; gap: var(--s5);
+    max-width: var(--max-w); margin: 0 auto var(--s8);
+  }
+  .wf-hero-card {
+    position: relative; display: flex; gap: var(--s4);
+    background: var(--bg-card); border: 1px solid var(--border-accent);
+    border-radius: var(--r-lg); padding: var(--s6);
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  }
+  .wf-hero-card:hover {
+    transform: translateY(-3px); box-shadow: var(--shadow-lg);
+    border-color: var(--accent);
+  }
+  .wf-hero-rank {
+    flex-shrink: 0; font-size: 13px; font-weight: 800; letter-spacing: 0.5px;
+    color: var(--accent); background: var(--accent-light);
+    border: 1px solid var(--border-accent); border-radius: var(--r-pill);
+    height: 30px; min-width: 38px; display: grid; place-items: center;
+  }
+  .wf-hero-body { flex: 1; }
+  .wf-hero-body h3 {
+    font-size: 23px; font-weight: 750; letter-spacing: -0.5px;
+    color: var(--text-primary); margin-bottom: 6px;
+  }
+  .wf-hero-line {
+    font-size: 15.5px; font-weight: 620; color: var(--accent);
+    margin-bottom: 12px; line-height: 1.5;
+  }
+  .wf-hero-body p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px; }
+  .wf-hero-points { list-style: none; padding: 0; margin: 0 0 16px; }
+  .wf-hero-points li {
+    position: relative; padding-left: 24px; margin-bottom: 8px;
+    font-size: 14.5px; color: var(--text-secondary); line-height: 1.55;
+  }
+  .wf-hero-points li::before {
+    content: ''; position: absolute; left: 0; top: 7px;
+    width: 13px; height: 13px; border-radius: 50%;
+    background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='9' viewBox='0 0 24 24' fill='none' stroke='%2322C55E' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: center;
+  }
+  .wf-hero-why {
+    font-size: 14px !important; color: var(--text-secondary) !important;
+    background: var(--bg-raised); border-radius: var(--r-sm);
+    padding: 12px 14px; margin-bottom: 0 !important; line-height: 1.6;
+  }
+  .wf-hero-why strong { color: var(--text-primary); }
+
+  .wf-also { max-width: var(--max-w); margin: 0 auto; }
+  .wf-also h4 {
+    font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
+    color: var(--text-muted); text-align: center; margin-bottom: var(--s5);
+  }
+
+  @media (max-width: 900px) {
+    .wf-lead { grid-template-columns: 1fr; gap: var(--s4); margin-bottom: var(--s7); }
+    .wf-hero-card { padding: var(--s5); }
+  }
+
   /* ─── WORKFLOW BUILDER ─── */
   .bld { max-width: 860px; margin: 0 auto; }
   .bld-step { margin-bottom: var(--s6); }
@@ -1408,8 +1470,8 @@
     </div>
     <div class="hero-content">
       <div class="hero-tag">Now accepting early clients</div>
-      <h1>We automate your <span class="hero-rotate"><span class="hero-rotate-words"><span><em>leads</em></span><span><em>content</em></span><span><em>hiring</em></span><span><em>ops</em></span><span><em>leads</em></span></span></span></h1>
-      <p class="hero-sub">AI workflows that handle the repetitive work. Built for startups that move fast and hire slow.</p>
+      <h1>Never lose another lead to a <span class="hero-rotate"><span class="hero-rotate-words"><span><em>slow reply</em></span><span><em>missed DM</em></span><span><em>busy day</em></span><span><em>full inbox</em></span><span><em>slow reply</em></span></span></span></h1>
+      <p class="hero-sub">AI that answers every enquiry in under a minute — on WhatsApp, Instagram, email and your website. Built for Indian startups.</p>
       <div class="hero-ctas">
         <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-dark btn-lg">Book a Free Call</a>
         <a href="#workflows" class="btn btn-ghost btn-lg">See What We Automate</a>
@@ -1509,17 +1571,56 @@
   <!-- WORKFLOWS -->
   <section id="workflows" class="fade-up">
     <div class="section-header section-header-center">
-      <div class="section-label">Workflows</div>
-      <h2 class="section-title">Pick what you need automated</h2>
-      <p class="section-desc">Each workflow plugs into your existing tools. Live in 48 hours. No new apps to learn.</p>
+      <div class="section-label">What We Build</div>
+      <h2 class="section-title">Two things we do better than anyone</h2>
+      <p class="section-desc">We could automate anything. We've chosen to be excellent at the two that make startups money — speed of reply, and the channel your customers actually use.</p>
     </div>
-    <div class="workflows-grid">
-      <div class="wf-card fade-up stagger-1"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><h3>Lead Pilot</h3><p>AI captures leads from your site, socials, and DMs. Qualifies them, scores them, and sends hot ones to your Slack.</p><span class="wf-tag">Sales</span></div>
-      <div class="wf-card fade-up stagger-2"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div><h3>Content Engine</h3><p>Drop a voice note or rough idea. Get a week of social posts and a newsletter draft — auto-scheduled across your platforms.</p><span class="wf-tag">Marketing</span></div>
-      <div class="wf-card fade-up stagger-3"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg></div><h3>Ops Autopilot</h3><p>Customer onboarding, invoice reminders, meeting-to-task pipelines, CRM updates. The unsexy work — gone.</p><span class="wf-tag">Operations</span></div>
-      <div class="wf-card fade-up stagger-4"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg></div><h3>Inbox Zero</h3><p>AI triages your email and DMs. Drafts replies for routine stuff, flags the important ones, archives the noise.</p><span class="wf-tag">Communication</span></div>
-      <div class="wf-card fade-up stagger-5"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div><h3>Report Builder</h3><p>Weekly dashboards from your tools — revenue, signups, churn, social reach. Delivered to Slack every Monday.</p><span class="wf-tag">Analytics</span></div>
-      <div class="wf-card fade-up stagger-6"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><h3>Hiring Pipeline</h3><p>Screen applicants, schedule interviews, send rejections and offers. Your hiring process on rails.</p><span class="wf-tag">HR</span></div>
+
+    <div class="wf-lead">
+      <article class="wf-hero-card fade-up">
+        <div class="wf-hero-rank">01</div>
+        <div class="wf-hero-body">
+          <h3>Speed-to-Lead</h3>
+          <p class="wf-hero-line">Every enquiry answered in under 60 seconds — whatever time it lands.</p>
+          <p>Leads arrive scattered across your website, WhatsApp, Instagram DMs, IndiaMART and someone's personal phone. We pull them into one pipeline, qualify and score each one against your criteria, alert your team, and send a genuine first reply before the lead has finished comparing you to a competitor.</p>
+          <ul class="wf-hero-points">
+            <li>One inbox for every channel your leads use</li>
+            <li>Scored and prioritised, so you call the right person first</li>
+            <li>Instant personalised reply, with your booking link</li>
+            <li>Nothing sits unanswered overnight or over a weekend</li>
+          </ul>
+          <p class="wf-hero-why"><strong>Why this first:</strong> replying in under five minutes rather than thirty transforms how many leads convert. It is the most reliably profitable automation we build.</p>
+        </div>
+      </article>
+
+      <article class="wf-hero-card fade-up">
+        <div class="wf-hero-rank">02</div>
+        <div class="wf-hero-body">
+          <h3>WhatsApp Autopilot</h3>
+          <p class="wf-hero-line">Your business, running properly on the channel India actually uses.</p>
+          <p>Most automation agencies treat WhatsApp as an afterthought because they were built for markets where nobody uses it. Your customers message you there and expect an answer there. We handle enquiries, order and delivery updates, appointment reminders, payment nudges and the same fifteen questions you answer every single day.</p>
+          <ul class="wf-hero-points">
+            <li>Capture and reply to leads from Click-to-WhatsApp ads</li>
+            <li>Order, booking and delivery updates sent automatically</li>
+            <li>Routine questions deflected, real ones escalated to a human</li>
+            <li>Official WhatsApp Business API — not a browser hack that gets you banned</li>
+          </ul>
+          <p class="wf-hero-why"><strong>Why this matters:</strong> your customers already live here. Being fast and organised on WhatsApp is a bigger advantage in India than anything you can do on email.</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="wf-also">
+      <h4>We also build, usually as a second project</h4>
+      <div class="workflows-grid">
+        <div class="wf-card fade-up"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></div><h3>Quotes &amp; Proposals</h3><p>Enquiry in, drafted quote out. Priced from your rate card, sent once you approve, then followed up until they reply.</p><span class="wf-tag">Sales</span></div>
+        <div class="wf-card fade-up"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><h3>Payment Chasing</h3><p>Polite, escalating reminders tied to invoice ageing. Gets you paid in weeks instead of quarters, without the awkward call.</p><span class="wf-tag">Finance</span></div>
+        <div class="wf-card fade-up"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg></div><h3>Inbox Triage</h3><p>Sorts your email, drafts replies to the routine two-thirds, and flags the ones that genuinely need you.</p><span class="wf-tag">Support</span></div>
+        <div class="wf-card fade-up"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></div><h3>Client Onboarding</h3><p>Deal won, and everything that should follow just happens — workspace, documents, kickoff booked, missing details chased.</p><span class="wf-tag">Operations</span></div>
+        <div class="wf-card fade-up"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div><h3>Weekly MIS</h3><p>Monday morning numbers pulled from your tools, with a written summary and anything unusual called out.</p><span class="wf-tag">Analytics</span></div>
+        <div class="wf-card fade-up"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><h3>Hiring Screen</h3><p>Applications screened against your criteria, shortlist to Slack, interviews booked, rejections sent kindly.</p><span class="wf-tag">HR</span></div>
+      </div>
+    </div>
     </div>
   </section>
 
@@ -2143,12 +2244,12 @@ function handleAudit(e) {
                    ['AI', 'Qualifies and scores the lead'],
                    ['Notify', 'Alerts your team in ' + t.notify],
                    ['Act', 'Sends a reply and logs it to ' + t.store]] },
-    { k: 'content',    n: 'Content & social',   i: '✍️', hrs: 5,
-      wf: 'Content Engine',
-      steps: t => [['Trigger', 'You drop a note or voice memo'],
-                   ['AI', 'Drafts a week of posts in your voice'],
-                   ['Review', 'You approve in ' + t.notify],
-                   ['Act', 'Schedules to ' + t.social]] },
+    { k: 'whatsapp',   n: 'WhatsApp enquiries', i: '📱', hrs: 6,
+      wf: 'WhatsApp Autopilot',
+      steps: t => [['Trigger', 'Customer messages your WhatsApp'],
+                   ['AI', 'Answers routine questions instantly'],
+                   ['Escalate', 'Anything real goes to ' + t.notify],
+                   ['Act', 'Logs the conversation to ' + t.store]] },
     { k: 'support',    n: 'Customer support',   i: '💬', hrs: 7,
       wf: 'Inbox Zero',
       steps: t => [['Trigger', 'Message lands in ' + t.mail],
@@ -2161,12 +2262,12 @@ function handleAudit(e) {
                    ['AI', 'Builds a tailored onboarding plan'],
                    ['Act', 'Creates the workspace in ' + t.store],
                    ['Follow-up', 'Chases missing details automatically']] },
-    { k: 'reporting',  n: 'Reports & dashboards', i: '📈', hrs: 3,
-      wf: 'Report Builder',
-      steps: t => [['Trigger', 'Every Monday, 9am'],
-                   ['Collect', 'Pulls numbers from ' + t.store + ' and ' + t.pay],
-                   ['AI', 'Writes the summary and flags outliers'],
-                   ['Act', 'Posts the dashboard to ' + t.notify]] },
+    { k: 'invoicing',  n: 'Chasing payments',   i: '💰', hrs: 3,
+      wf: 'Payment Chasing',
+      steps: t => [['Trigger', 'Invoice passes its due date'],
+                   ['AI', 'Writes a polite, escalating reminder'],
+                   ['Act', 'Sends it and records the response'],
+                   ['Notify', 'Tells you in ' + t.notify + ' when they pay']] },
     { k: 'hiring',     n: 'Hiring & screening', i: '🧑‍💼', hrs: 4,
       wf: 'Hiring Pipeline',
       steps: t => [['Trigger', 'Application arrives in ' + t.mail],
