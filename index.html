@@ -1126,6 +1126,109 @@
     .flow-foot { gap: var(--s5); }
   }
 
+  /* ─── WORKFLOW BUILDER ─── */
+  .bld { max-width: 860px; margin: 0 auto; }
+  .bld-step { margin-bottom: var(--s6); }
+  .bld-q {
+    display: flex; align-items: center; gap: var(--s2); flex-wrap: wrap;
+    font-size: var(--t-body-lg); font-weight: 680; color: var(--text-primary);
+    margin-bottom: var(--s4);
+  }
+  .bld-q em {
+    font-style: normal; font-size: var(--t-xs); font-weight: 600;
+    color: var(--text-muted); background: var(--bg-raised);
+    padding: 3px 9px; border-radius: var(--r-pill);
+  }
+  .bld-num {
+    width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+    background: var(--accent); color: #fff;
+    display: grid; place-items: center; font-size: var(--t-xs); font-weight: 800;
+  }
+  .bld-chips { display: flex; flex-wrap: wrap; gap: var(--s2); }
+  .bld-chip {
+    display: inline-flex; align-items: center; gap: 7px;
+    min-height: 40px; padding: 0 var(--s4);
+    background: var(--bg-card); border: 1.5px solid var(--border);
+    border-radius: var(--r-pill); cursor: pointer;
+    font-family: inherit; font-size: 14px; font-weight: 600; color: var(--text-secondary);
+    transition: all var(--transition);
+  }
+  .bld-chip:hover { border-color: var(--border-hover); transform: translateY(-1px); }
+  .bld-chip[aria-pressed="true"] {
+    background: var(--accent-light); border-color: var(--accent); color: var(--accent);
+  }
+  .bld-chip[disabled] { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .bld-chip-ico { font-size: 15px; line-height: 1; }
+
+  .bld-out { margin-top: var(--s7); }
+  .bld-empty {
+    text-align: center; padding: var(--s8) var(--s5);
+    border: 1.5px dashed var(--border); border-radius: var(--r-lg);
+    color: var(--text-muted);
+  }
+  .bld-empty svg { width: 28px; height: 28px; margin-bottom: var(--s3); opacity: 0.5; }
+  .bld-empty p { font-size: var(--t-body); }
+
+  .bld-wf {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--r-lg); padding: var(--s5);
+    margin-bottom: var(--s4); box-shadow: var(--shadow-sm);
+    animation: bld-in 0.5s cubic-bezier(0.16,1,0.3,1) both;
+  }
+  @keyframes bld-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  .bld-wf-head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--s4); margin-bottom: var(--s5); flex-wrap: wrap;
+  }
+  .bld-wf-name { font-size: var(--t-h3); font-weight: 720; color: var(--text-primary); letter-spacing: -0.3px; }
+  .bld-wf-save {
+    font-size: var(--t-sm); font-weight: 700; color: var(--accent);
+    background: var(--accent-light); border: 1px solid var(--border-accent);
+    padding: 5px 12px; border-radius: var(--r-pill); white-space: nowrap;
+  }
+  /* the generated pipeline */
+  .bld-pipe { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s2); }
+  .bld-node {
+    position: relative; background: var(--bg-raised);
+    border: 1px solid var(--border); border-radius: var(--r-md);
+    padding: var(--s3) var(--s4); animation: bld-in 0.45s cubic-bezier(0.16,1,0.3,1) both;
+  }
+  .bld-node:nth-child(1){animation-delay:.05s} .bld-node:nth-child(2){animation-delay:.15s}
+  .bld-node:nth-child(3){animation-delay:.25s} .bld-node:nth-child(4){animation-delay:.35s}
+  /* arrow between nodes */
+  .bld-node:not(:last-child)::after {
+    content: ''; position: absolute; top: 50%; right: -13px;
+    width: 7px; height: 7px; border-top: 2px solid var(--border-hover);
+    border-right: 2px solid var(--border-hover);
+    transform: translateY(-50%) rotate(45deg); z-index: 1;
+  }
+  .bld-node-k {
+    font-size: 10px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 5px;
+  }
+  .bld-node-t { font-size: 13.5px; font-weight: 640; color: var(--text-primary); line-height: 1.4; }
+
+  .bld-cta {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--s4); flex-wrap: wrap;
+    margin-top: var(--s5); padding: var(--s5);
+    background: var(--accent-light); border: 1px solid var(--border-accent);
+    border-radius: var(--r-lg);
+  }
+  .bld-cta-txt strong { display: block; font-size: var(--t-body-lg); font-weight: 700; color: var(--text-primary); }
+  .bld-cta-txt span { font-size: var(--t-sm); color: var(--text-secondary); }
+
+  @media (max-width: 700px) {
+    .bld-pipe { grid-template-columns: 1fr; gap: var(--s3); }
+    /* arrows point down when stacked */
+    .bld-node:not(:last-child)::after {
+      top: auto; bottom: -11px; right: 50%;
+      transform: translateX(50%) rotate(135deg);
+    }
+    .bld-cta { flex-direction: column; align-items: stretch; text-align: center; }
+    .bld-cta .btn { width: 100%; }
+  }
+
   /* ─── TOUCH TARGETS ─── */
   @media (hover: none) and (pointer: coarse) {
     .footer-col a, .mobile-menu a, .footer-bottom a {
@@ -1443,6 +1546,34 @@
           <li>Invoices sent on schedule, reminders automated</li>
           <li>No VA needed — AI handles the repetitive work</li>
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKFLOW BUILDER -->
+  <section id="builder" class="fade-up">
+    <div class="section-header section-header-center">
+      <div class="section-label">Build Yours</div>
+      <h2 class="section-title">What would we automate for you?</h2>
+      <p class="section-desc">Pick what eats your time and the tools you already use. We'll sketch the workflow we'd build — in about ten seconds.</p>
+    </div>
+
+    <div class="bld">
+      <div class="bld-step">
+        <div class="bld-q"><span class="bld-num">1</span> What eats your time? <em>Pick up to 3</em></div>
+        <div class="bld-chips" id="bld-pains" role="group" aria-label="What takes too long"></div>
+      </div>
+
+      <div class="bld-step">
+        <div class="bld-q"><span class="bld-num">2</span> Which tools do you use? <em>Optional</em></div>
+        <div class="bld-chips" id="bld-tools" role="group" aria-label="Your tools"></div>
+      </div>
+
+      <div class="bld-out" id="bld-out" aria-live="polite">
+        <div class="bld-empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <p>Pick something above and your workflow appears here.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -1951,6 +2082,163 @@ function handleAudit(e) {
     idleLabel: 'Get My Free Audit'
   });
 }
+
+// ─── WORKFLOW BUILDER ───
+// Picks map to workflow templates. Tool choices only swap the labels, so the
+// output stays an honest sketch of what we'd build — never a fake product.
+(() => {
+  const painsEl = document.getElementById('bld-pains');
+  const toolsEl = document.getElementById('bld-tools');
+  const out = document.getElementById('bld-out');
+  if (!painsEl || !toolsEl || !out) return;
+
+  const MAX = 3;
+
+  const TOOLS = [
+    { k: 'slack',    n: 'Slack',       i: '💬', notify: true },
+    { k: 'whatsapp', n: 'WhatsApp',    i: '📱', notify: true },
+    { k: 'gmail',    n: 'Gmail',       i: '📧', mail: true },
+    { k: 'notion',   n: 'Notion',      i: '📝', store: true },
+    { k: 'sheets',   n: 'Sheets',      i: '📊', store: true },
+    { k: 'hubspot',  n: 'HubSpot',     i: '🔗', crm: true },
+    { k: 'airtable', n: 'Airtable',    i: '🗂️', store: true },
+    { k: 'instagram',n: 'Instagram',   i: '📸', social: true },
+    { k: 'shopify',  n: 'Shopify',     i: '🛒', shop: true },
+    { k: 'stripe',   n: 'Stripe',      i: '💳', pay: true }
+  ];
+
+  // hrs = hours/week we typically claw back for this workflow
+  const PAINS = [
+    { k: 'leads',      n: 'Leads & follow-ups', i: '⚡', hrs: 6,
+      wf: 'Lead Pilot',
+      steps: t => [['Trigger', 'New enquiry from your site or ' + t.mail],
+                   ['AI', 'Qualifies and scores the lead'],
+                   ['Notify', 'Alerts your team in ' + t.notify],
+                   ['Act', 'Sends a reply and logs it to ' + t.store]] },
+    { k: 'content',    n: 'Content & social',   i: '✍️', hrs: 5,
+      wf: 'Content Engine',
+      steps: t => [['Trigger', 'You drop a note or voice memo'],
+                   ['AI', 'Drafts a week of posts in your voice'],
+                   ['Review', 'You approve in ' + t.notify],
+                   ['Act', 'Schedules to ' + t.social]] },
+    { k: 'support',    n: 'Customer support',   i: '💬', hrs: 7,
+      wf: 'Inbox Zero',
+      steps: t => [['Trigger', 'Message lands in ' + t.mail],
+                   ['AI', 'Triages and drafts a reply'],
+                   ['Notify', 'Flags anything sensitive in ' + t.notify],
+                   ['Act', 'Sends routine replies, logs the thread']] },
+    { k: 'onboarding', n: 'Client onboarding',  i: '🚀', hrs: 4,
+      wf: 'Onboard Autopilot',
+      steps: t => [['Trigger', 'Deal marked won in ' + t.crm],
+                   ['AI', 'Builds a tailored onboarding plan'],
+                   ['Act', 'Creates the workspace in ' + t.store],
+                   ['Follow-up', 'Chases missing details automatically']] },
+    { k: 'reporting',  n: 'Reports & dashboards', i: '📈', hrs: 3,
+      wf: 'Report Builder',
+      steps: t => [['Trigger', 'Every Monday, 9am'],
+                   ['Collect', 'Pulls numbers from ' + t.store + ' and ' + t.pay],
+                   ['AI', 'Writes the summary and flags outliers'],
+                   ['Act', 'Posts the dashboard to ' + t.notify]] },
+    { k: 'hiring',     n: 'Hiring & screening', i: '🧑‍💼', hrs: 4,
+      wf: 'Hiring Pipeline',
+      steps: t => [['Trigger', 'Application arrives in ' + t.mail],
+                   ['AI', 'Screens against your criteria'],
+                   ['Notify', 'Shortlist posted to ' + t.notify],
+                   ['Act', 'Books interviews, sends rejections']] }
+  ];
+
+  const picked = { pains: new Set(), tools: new Set() };
+
+  function chip(item, group) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'bld-chip';
+    b.setAttribute('aria-pressed', 'false');
+    b.dataset.k = item.k;
+    b.innerHTML = '<span class="bld-chip-ico">' + item.i + '</span>' + item.n;
+    b.addEventListener('click', () => {
+      const set = picked[group];
+      if (set.has(item.k)) set.delete(item.k);
+      else {
+        if (group === 'pains' && set.size >= MAX) return;
+        set.add(item.k);
+      }
+      b.setAttribute('aria-pressed', String(set.has(item.k)));
+      if (group === 'pains') {
+        const full = picked.pains.size >= MAX;
+        painsEl.querySelectorAll('.bld-chip').forEach(c => {
+          c.disabled = full && c.getAttribute('aria-pressed') === 'false';
+        });
+      }
+      render();
+    });
+    return b;
+  }
+
+  PAINS.forEach(p => painsEl.appendChild(chip(p, 'pains')));
+  TOOLS.forEach(t => toolsEl.appendChild(chip(t, 'tools')));
+
+  // resolve a tool label per role, falling back to something sensible
+  function labels() {
+    const chosen = TOOLS.filter(t => picked.tools.has(t.k));
+    const pick = (role, fallback) => (chosen.find(t => t[role]) || {}).n || fallback;
+    return {
+      notify: pick('notify', 'Slack'),
+      mail:   pick('mail', 'your inbox'),
+      store:  pick('store', 'your CRM'),
+      crm:    pick('crm', 'your CRM'),
+      social: pick('social', 'your channels'),
+      pay:    pick('pay', 'your billing tool')
+    };
+  }
+
+  function render() {
+    if (!picked.pains.size) {
+      out.innerHTML = '<div class="bld-empty">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>' +
+        '<p>Pick something above and your workflow appears here.</p></div>';
+      return;
+    }
+    const t = labels();
+    const chosen = PAINS.filter(p => picked.pains.has(p.k));
+    const hrs = chosen.reduce((a, p) => a + p.hrs, 0);
+
+    let html = '';
+    chosen.forEach(p => {
+      html += '<div class="bld-wf"><div class="bld-wf-head">' +
+        '<div class="bld-wf-name">' + p.i + ' ' + p.wf + '</div>' +
+        '<div class="bld-wf-save">~' + p.hrs + ' hrs/week back</div></div><div class="bld-pipe">';
+      p.steps(t).forEach(([k, v]) => {
+        html += '<div class="bld-node"><div class="bld-node-k">' + k + '</div><div class="bld-node-t">' + v + '</div></div>';
+      });
+      html += '</div></div>';
+    });
+
+    html += '<div class="bld-cta"><div class="bld-cta-txt">' +
+      '<strong>That\'s roughly ' + hrs + ' hours a week — about ' + (hrs * 4) + ' a month.</strong>' +
+      '<span>Want us to build it? We\'ll confirm the estimate on your real numbers first.</span>' +
+      '</div><button type="button" class="btn btn-primary btn-lg" id="bld-go">Build this for me →</button></div>';
+
+    out.innerHTML = html;
+
+    document.getElementById('bld-go').addEventListener('click', () => {
+      // hand what they told us straight to the audit form
+      const names = chosen.map(p => p.n.toLowerCase()).join(', ');
+      const tools = TOOLS.filter(x => picked.tools.has(x.k)).map(x => x.n).join(', ');
+      const field = document.getElementById('a-pain');
+      if (field) {
+        field.value = 'Interested in: ' + names +
+          (tools ? '\nTools we use: ' + tools : '') +
+          '\nEstimated ' + hrs + ' hrs/week lost to this.';
+      }
+      const audit = document.getElementById('audit');
+      if (audit) audit.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+      setTimeout(() => { const n = document.getElementById('a-name'); if (n) n.focus({ preventScroll: true }); }, 700);
+    });
+  }
+
+  render();
+})();
 
 // ─── WORKFLOW VISUALISATION ───
 // Steps light up in sequence, the connector fills, then it settles on "done".
