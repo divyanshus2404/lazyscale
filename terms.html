@@ -13,14 +13,14 @@
     --bg: #FAFAFA; --bg-card: #FFFFFF; --bg-raised: #F0F0ED;
     --text-primary: #111118; --text-secondary: #52525B; --text-muted: #A1A1AA;
     --accent: #7C3AED; --accent-light: #F3F0FF;
-    --border: rgba(0,0,0,0.08); --max-w: 760px;
+    --border: rgba(0,0,0,0.08); --border-accent: rgba(124,58,237,0.2);
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #09090B; --bg-card: #1C1C22; --bg-raised: #18181B;
       --text-primary: #FAFAFA; --text-secondary: #A1A1AA; --text-muted: #71717A;
       --accent: #A78BFA; --accent-light: rgba(167,139,250,0.1);
-      --border: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.08); --border-accent: rgba(167,139,250,0.2);
     }
   }
   /* explicit choice from the main site wins over the OS setting */
@@ -28,57 +28,119 @@
     --bg: #09090B; --bg-card: #1C1C22; --bg-raised: #18181B;
     --text-primary: #FAFAFA; --text-secondary: #A1A1AA; --text-muted: #71717A;
     --accent: #A78BFA; --accent-light: rgba(167,139,250,0.1);
-    --border: rgba(255,255,255,0.08);
+    --border: rgba(255,255,255,0.08); --border-accent: rgba(167,139,250,0.2);
   }
   :root[data-theme="light"] {
     --bg: #FAFAFA; --bg-card: #FFFFFF; --bg-raised: #F0F0ED;
     --text-primary: #111118; --text-secondary: #52525B; --text-muted: #A1A1AA;
     --accent: #7C3AED; --accent-light: #F3F0FF;
-    --border: rgba(0,0,0,0.08);
+    --border: rgba(0,0,0,0.08); --border-accent: rgba(124,58,237,0.2);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
   body {
     font-family: -apple-system, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif;
     background: var(--bg); color: var(--text-primary);
     line-height: 1.7; -webkit-font-smoothing: antialiased;
   }
-  .wrap { max-width: var(--max-w); margin: 0 auto; padding: 56px 24px 96px; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 48px 24px 96px; }
   .back {
     display: inline-flex; align-items: center; gap: 8px;
     font-size: 14px; font-weight: 600; color: var(--text-secondary);
-    text-decoration: none; margin-bottom: 40px; transition: color 0.2s;
+    text-decoration: none; margin-bottom: 36px; transition: color 0.2s;
   }
   .back:hover { color: var(--accent); }
-  h1 { font-size: clamp(30px, 5vw, 42px); font-weight: 800; letter-spacing: -1px; line-height: 1.15; }
-  .updated { color: var(--text-muted); font-size: 14px; margin-top: 10px; margin-bottom: 40px; }
-  h2 {
-    font-size: 19px; font-weight: 700; letter-spacing: -0.3px;
-    margin-top: 40px; margin-bottom: 12px; color: var(--text-primary);
+
+  header.doc { max-width: 720px; }
+  h1 { font-size: clamp(32px, 5vw, 44px); font-weight: 800; letter-spacing: -1.2px; line-height: 1.12; }
+  .meta {
+    display: flex; gap: 16px; flex-wrap: wrap; align-items: center;
+    color: var(--text-muted); font-size: 13.5px; margin-top: 12px; margin-bottom: 28px;
   }
+  .pill {
+    background: var(--bg-raised); border: 1px solid var(--border);
+    padding: 3px 10px; border-radius: 100px; font-weight: 600;
+  }
+  .lead {
+    font-size: 16.5px; color: var(--text-secondary);
+    padding: 20px 24px; background: var(--bg-card);
+    border: 1px solid var(--border); border-radius: 14px;
+  }
+  .lead strong { color: var(--text-primary); }
+
+  /* two column: sticky contents + body */
+  .cols { display: grid; grid-template-columns: 220px 1fr; gap: 56px; margin-top: 48px; align-items: start; }
+  nav.toc {
+    position: sticky; top: 24px;
+    /* the list is longer than a short viewport, so let it scroll on its own */
+    max-height: calc(100vh - 48px); overflow-y: auto;
+    scrollbar-width: thin;
+  }
+  nav.toc h2 {
+    font-size: 11px; font-weight: 750; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 12px;
+  }
+  nav.toc ol { list-style: none; counter-reset: toc; }
+  nav.toc li { counter-increment: toc; }
+  nav.toc a {
+    display: block; padding: 5px 0 5px 26px; position: relative;
+    font-size: 13.5px; color: var(--text-secondary); text-decoration: none;
+    border-left: 2px solid transparent; transition: color 0.2s, border-color 0.2s;
+  }
+  nav.toc a::before {
+    content: counter(toc); position: absolute; left: 10px;
+    font-size: 11px; font-weight: 700; color: var(--text-muted);
+  }
+  nav.toc a:hover { color: var(--accent); }
+  nav.toc a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 640; }
+
+  section { scroll-margin-top: 24px; margin-bottom: 40px; }
+  section h2 {
+    font-size: 20px; font-weight: 730; letter-spacing: -0.4px;
+    margin-bottom: 10px; color: var(--text-primary);
+    display: flex; gap: 10px; align-items: baseline;
+  }
+  section h2 .n { color: var(--accent); font-size: 14px; font-weight: 800; flex-shrink: 0; }
+  h3 { font-size: 15.5px; font-weight: 680; color: var(--text-primary); margin: 20px 0 6px; }
   p, li { color: var(--text-secondary); font-size: 15.5px; }
-  p { margin-bottom: 14px; }
-  ul { margin: 0 0 16px 20px; }
-  li { margin-bottom: 8px; }
+  p { margin-bottom: 12px; }
+  ul { margin: 0 0 14px 20px; }
+  li { margin-bottom: 6px; }
   strong { color: var(--text-primary); font-weight: 650; }
   a { color: var(--accent); }
-  .lead {
-    font-size: 17px; color: var(--text-secondary);
-    padding: 20px 24px; background: var(--bg-card);
-    border: 1px solid var(--border); border-radius: 14px; margin-bottom: 8px;
+
+  /* plain-English summary under a heading */
+  .short {
+    font-size: 14px; color: var(--text-secondary);
+    background: var(--accent-light); border: 1px solid var(--border-accent);
+    border-radius: 10px; padding: 10px 14px; margin-bottom: 14px;
   }
-  .note {
-    padding: 16px 20px; background: var(--accent-light);
-    border: 1px solid var(--border); border-radius: 12px;
-    font-size: 15px; margin-bottom: 16px;
-  }
+  .short b { color: var(--text-primary); font-weight: 700; }
+
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--text-primary); font-weight: 650; font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { color: var(--text-secondary); }
+
   .foot {
     margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border);
     font-size: 14px; color: var(--text-muted);
   }
   .foot a { margin-right: 16px; }
+
+  @media (max-width: 880px) {
+    .cols { grid-template-columns: 1fr; gap: 32px; }
+    nav.toc { position: static; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+    nav.toc ol { columns: 2; column-gap: 24px; }
+  }
+  @media (max-width: 520px) { nav.toc ol { columns: 1; } }
+  @media print {
+    nav.toc, .back { display: none; }
+    .cols { grid-template-columns: 1fr; }
+    body { background: #fff; color: #000; }
+  }
 </style>
 <script>
-  // match whichever theme the visitor picked on the main site
   try {
     var t = localStorage.getItem('theme');
     if (t) document.documentElement.setAttribute('data-theme', t);
@@ -89,65 +151,254 @@
 <div class="wrap">
   <a class="back" href="/">← Back to LazyScale</a>
 
-  <h1>Terms of Service</h1>
-  <p class="updated">Last updated 19 August 2026</p>
+  <header class="doc">
+    <h1>Terms of Service</h1>
+    <div class="meta">
+      <span class="pill">Version 1.1</span>
+      <span>Last updated 19 August 2026</span>
+    </div>
+    <p class="lead">
+      These terms cover using this website and engaging LazyScale to build automation for you.
+      The short version: <strong>figures on our site are estimates, not promises</strong>;
+      the real terms of any project live in a written proposal;
+      <strong>you own what we build for you</strong>; and you can cancel a retainer at any time.
+    </p>
+  </header>
 
-  <p class="lead">These terms cover two things: using this website, and engaging LazyScale to build automation for you. The short version — the figures on our site are estimates, the real terms of any project go in a written proposal, and you own what we build for you.</p>
+  <div class="cols">
+    <nav class="toc" aria-label="Contents">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#definitions">Definitions</a></li>
+        <li><a href="#website">Using this website</a></li>
+        <li><a href="#estimates">Estimates are estimates</a></li>
+        <li><a href="#engagement">Proposals and engagement</a></li>
+        <li><a href="#fees">Fees, tax and invoicing</a></li>
+        <li><a href="#usage">Usage limits</a></li>
+        <li><a href="#responsibilities">What we need from you</a></li>
+        <li><a href="#delivery">Delivery and support</a></li>
+        <li><a href="#thirdparty">Third-party tools and AI</a></li>
+        <li><a href="#data">Your data and our role</a></li>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#ownership">Ownership</a></li>
+        <li><a href="#confidentiality">Confidentiality</a></li>
+        <li><a href="#acceptable">Acceptable use</a></li>
+        <li><a href="#cancellation">Cancellation</a></li>
+        <li><a href="#warranties">Warranties and disclaimers</a></li>
+        <li><a href="#liability">Liability</a></li>
+        <li><a href="#forcemajeure">Force majeure</a></li>
+        <li><a href="#disputes">Disputes</a></li>
+        <li><a href="#general">General</a></li>
+        <li><a href="#changes">Changes to these terms</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ol>
+    </nav>
 
-  <h2>1. Who we are</h2>
-  <p>LazyScale builds and maintains AI automation workflows for startups. Contact: <a href="mailto:divyanshus2404@gmail.com">divyanshus2404@gmail.com</a>. In these terms, "we" and "us" mean LazyScale; "you" means the person or business using this site or engaging us.</p>
+    <main>
+      <section id="definitions">
+        <h2><span class="n">1</span> Definitions</h2>
+        <ul>
+          <li><strong>"We", "us", "LazyScale"</strong> — the automation studio operating this website.</li>
+          <li><strong>"You", "Client"</strong> — the person or business using this site or engaging us.</li>
+          <li><strong>"Workflow"</strong> — an automation we build, comprising configuration, prompts, and connections between your tools.</li>
+          <li><strong>"Proposal"</strong> — the written scope, price and timeline we agree before work starts. Also called a statement of work.</li>
+          <li><strong>"AI action"</strong> — one operation where a workflow invokes an AI model on your behalf, such as qualifying a lead or drafting a reply.</li>
+          <li><strong>"Client Data"</strong> — data belonging to you or your customers that passes through a workflow.</li>
+        </ul>
+      </section>
 
-  <h2>2. Using this website</h2>
-  <p>You may browse the site and use its tools freely. Please don't attempt to disrupt it, submit other people's personal data through our forms, or use it to send spam or anything unlawful.</p>
+      <section id="website">
+        <h2><span class="n">2</span> Using this website</h2>
+        <p>Browse the site and use its tools freely. Please don't attempt to disrupt it, submit other people's personal data through our forms, scrape it at a volume that degrades service, or use it for anything unlawful.</p>
+        <p>The site's content, design and code are ours. You may not copy them wholesale, though you're welcome to take inspiration.</p>
+      </section>
 
-  <h2>3. Estimates are estimates</h2>
-  <div class="note">This is the most important clause on this page, so we'd rather it were unambiguous.</div>
-  <p>Our website includes an ROI calculator, a workflow builder, and headline figures such as hours saved per week or speed improvements. <strong>These are illustrative estimates based on typical engagements. They are not promises, guarantees, or contractual commitments.</strong></p>
-  <p>What you actually save depends on your processes, your data, your tools and how you use what we build. We'll give you a realistic estimate for your situation before you commit to anything, and we'll base it on your numbers rather than our averages.</p>
+      <section id="estimates">
+        <h2><span class="n">3</span> Estimates are estimates</h2>
+        <div class="short"><b>In short:</b> the numbers on our website are illustrations, not commitments. We'll give you a real estimate based on your actual figures before you commit to anything.</div>
+        <p>Our website includes an ROI calculator, a workflow builder, and headline figures such as hours saved per week or speed improvements. <strong>These are illustrative estimates drawn from typical engagements. They are not promises, guarantees, warranties, or contractual commitments.</strong></p>
+        <p>What you actually save depends on your processes, your data, your tools and how you use what we build. Nothing on the website forms part of any agreement between us unless it is repeated in a signed Proposal.</p>
+      </section>
 
-  <h2>4. Quotes, pricing and engagement</h2>
-  <p>Prices shown on this site are indicative starting points. They may change, and they don't constitute an offer capable of acceptance. A project only becomes binding when we've both agreed a written proposal or statement of work covering scope, price, and timeline. If anything in that document conflicts with these terms, that document wins.</p>
+      <section id="engagement">
+        <h2><span class="n">4</span> Proposals and engagement</h2>
+        <p>Prices shown on the site are indicative starting points. They may change and do not constitute an offer capable of acceptance.</p>
+        <p>A project becomes binding only when we have both agreed a written Proposal covering scope, price and timeline. <strong>Where a Proposal conflicts with these terms, the Proposal takes precedence</strong> for that engagement.</p>
+        <p>Work outside an agreed scope needs a written variation before we start it. We will not do out-of-scope work and invoice you for it unannounced.</p>
+      </section>
 
-  <h2>5. What we need from you</h2>
-  <p>To build anything useful we'll need your cooperation, specifically:</p>
-  <ul>
-    <li>Accurate information about your processes and requirements</li>
-    <li>Access to the tools and accounts a workflow needs to run</li>
-    <li>Timely feedback and approvals at review points</li>
-    <li>Confirmation that you're entitled to grant us that access</li>
-  </ul>
-  <p>Delays or inaccuracies here will affect timelines, and may affect cost.</p>
+      <section id="fees">
+        <h2><span class="n">5</span> Fees, tax and invoicing</h2>
+        <div class="short"><b>In short:</b> prices exclude GST. Retainers bill monthly in advance, project fees as set out in the Proposal. Invoices are due in 7 days.</div>
+        <h3>Tax</h3>
+        <p>All prices are <strong>exclusive of GST and any other applicable taxes</strong>, which are added at the prevailing rate. Where you are required to withhold tax at source, you'll provide the relevant certificate.</p>
+        <h3>Billing</h3>
+        <ul>
+          <li><strong>Retainers</strong> are invoiced monthly in advance, and renew automatically until cancelled.</li>
+          <li><strong>Project and setup fees</strong> are invoiced as set out in the Proposal, typically part on acceptance and the balance on delivery.</li>
+        </ul>
+        <h3>Payment</h3>
+        <p>Invoices are payable within <strong>7 days</strong> unless the Proposal says otherwise. If an invoice is more than 14 days overdue we may pause work and suspend support after giving you notice. We'll always tell you before pausing anything.</p>
+        <p>Fees already paid for a current billing period are non-refundable, except where we have failed to deliver something we agreed to.</p>
+      </section>
 
-  <h2>6. Third-party tools</h2>
-  <p>Our workflows connect services you already use — Slack, Gmail, Notion, your CRM, and so on. Those remain <strong>your accounts under your own subscriptions</strong>, governed by their providers' terms. You're responsible for their fees. We're not responsible for a third-party service changing its API, pricing, or availability, though we'll tell you promptly and work with you on a fix if it breaks something we built.</p>
-  <p>Where a workflow uses an AI model, output can occasionally be wrong. For anything consequential we'll build in an approval step so a human signs off before an action is taken. You decide which steps those are.</p>
+      <section id="usage">
+        <h2><span class="n">6</span> Usage limits</h2>
+        <p>Plans include a monthly allowance of AI actions. Allowances reset each billing period and do not roll over.</p>
+        <p>If you approach your limit we'll tell you before anything stops. We will not silently throttle a live workflow or bill you for an overage you didn't agree to — we'll offer you the choice of a plan change or a one-off top-up.</p>
+      </section>
 
-  <h2>7. Ownership</h2>
-  <p>Once you've paid for a piece of work, <strong>you own the workflows, prompts and configurations we built specifically for you.</strong> Your data stays yours throughout — we claim no rights over it.</p>
-  <p>We keep ownership of our own pre-existing materials, general methods and know-how, and we remain free to build similar solutions for others without using anything confidential to you.</p>
+      <section id="responsibilities">
+        <h2><span class="n">7</span> What we need from you</h2>
+        <p>To build anything useful we need your cooperation:</p>
+        <ul>
+          <li>Accurate information about your processes and requirements</li>
+          <li>Access to the tools and accounts a workflow needs to run</li>
+          <li>Timely feedback and approvals at review points</li>
+          <li>Confirmation that you are entitled to grant us that access, and that doing so does not breach your agreements with anyone else</li>
+          <li>A named point of contact who can make decisions</li>
+        </ul>
+        <p>Delays or inaccuracies here affect timelines and may affect cost. Where a delay on your side stalls a project for more than 30 days, we may need to reschedule it against our other commitments.</p>
+      </section>
 
-  <h2>8. Confidentiality</h2>
-  <p>We'll keep what you tell us about your business confidential and use it only to do the work. We'd ask the same of anything we share with you about how we build. This survives the end of an engagement.</p>
+      <section id="delivery">
+        <h2><span class="n">8</span> Delivery and support</h2>
+        <div class="short"><b>In short:</b> stated turnaround times assume we have what we need from you. Support levels depend on your plan.</div>
+        <p>Timelines quoted on the site or in a Proposal — including any 48-hour setup — <strong>run from the point we have the access and information listed in section 7</strong>, not from the date you sign.</p>
+        <p>After a workflow goes live we monitor it for <strong>30 days</strong> and fix defects in what we built at no charge. Support channels and response targets depend on your plan and are set out in your Proposal. Any service level commitment applies only if your Proposal expressly includes one.</p>
+        <p>A defect means the workflow not behaving as the Proposal describes. Changes to what it should do are new work, not defects.</p>
+      </section>
 
-  <h2>9. Cancellation</h2>
-  <p>Retainers can be cancelled at any time, with no exit fee. Cancellation takes effect at the end of your current billing period, and fees already paid for that period aren't refunded. Workflows we've built and you've paid for keep running — you simply stop receiving support, monitoring and updates from us. Where practical we'll help you hand over cleanly.</p>
+      <section id="thirdparty">
+        <h2><span class="n">9</span> Third-party tools and AI</h2>
+        <p>Our workflows connect services you already use — Slack, Gmail, Notion, your CRM and so on. Those remain <strong>your accounts under your own subscriptions</strong>, governed by their providers' terms, and their fees are yours to pay.</p>
+        <p>We are not responsible for a third party changing its API, pricing or availability, or suspending your account. If such a change breaks something we built, we'll tell you promptly and work with you on a fix; where that fix is substantial it may be chargeable.</p>
+        <h3>AI output</h3>
+        <p>Workflows may invoke third-party AI models. <strong>AI output can be wrong, and can be wrong in ways that look plausible.</strong> For consequential actions we build in an approval step so a person signs off before anything happens — you decide which steps those are. Where you choose to run a step fully autonomously, you accept the residual risk of doing so.</p>
+        <p>We may use subcontractors and AI providers to deliver the service. We remain responsible to you for their performance.</p>
+      </section>
 
-  <h2>10. Liability</h2>
-  <p>We'll do our work with reasonable skill and care. But to the extent the law allows, <strong>our total liability for any claim is limited to the fees you paid us in the three months before it arose</strong>, and we're not liable for indirect or consequential losses such as lost profits, lost revenue or lost data.</p>
-  <p>Nothing here limits liability for fraud, or for anything that can't lawfully be limited.</p>
+      <section id="data">
+        <h2><span class="n">10</span> Your data and our role</h2>
+        <div class="short"><b>In short:</b> your data is yours. You decide what gets processed and why; we process it to run what you asked us to build.</div>
+        <p>As between us, <strong>Client Data is and remains yours.</strong> You are the controller of it: you decide what is collected and for what purpose. We act on your instructions in operating the workflows we build.</p>
+        <p>Our workflows are designed to pass data between your own tools in real time rather than to accumulate it in a store of ours. Some data is necessarily processed in transit, and logs may briefly retain operational records for debugging.</p>
+        <p>You are responsible for having a lawful basis to process the personal data your workflows touch, and for telling your own customers what you do with it. If we receive a data subject request relating to your data, we'll pass it to you rather than act on it ourselves.</p>
+        <p>How we handle data you give us through this website is covered separately in our <a href="/privacy.html">Privacy Policy</a>.</p>
+      </section>
 
-  <h2>11. Changes to these terms</h2>
-  <p>We may update these terms; the date at the top will change. Continuing to use the site after that means you accept the update. Terms agreed in a signed proposal don't change retroactively.</p>
+      <section id="security">
+        <h2><span class="n">11</span> Security</h2>
+        <p>We use encrypted connections, keep credentials in a password manager rather than in plain text, and limit access to the smallest number of people who need it. We'll tell you without undue delay if we become aware of a breach affecting your data.</p>
+        <p>We keep our practices aligned with recognised security standards. <strong>We do not currently hold a formal SOC 2 or ISO 27001 certification</strong>, and we don't claim one. Where you need certified processors, tell us early so we can scope around it.</p>
+        <p>You're responsible for security on your side: who has access to your tools, and revoking it when people leave.</p>
+      </section>
 
-  <h2>12. Governing law</h2>
-  <p>These terms are governed by the laws of India, and the courts of India have exclusive jurisdiction. If any clause turns out to be unenforceable, the rest stays in effect.</p>
+      <section id="ownership">
+        <h2><span class="n">12</span> Ownership</h2>
+        <div class="short"><b>In short:</b> once you've paid, the workflows we built for you are yours to keep, modify and take elsewhere.</div>
+        <p>On full payment for a piece of work, <strong>you own the workflows, prompts and configurations we built specifically for you</strong>, and you may keep, modify or migrate them freely. We'll provide what you need to run them independently.</p>
+        <p>We keep ownership of our pre-existing materials, internal tooling, general methods and know-how. We may build similar solutions for others, provided we use nothing confidential to you.</p>
+        <p>We'd like to describe our work for you in general terms as a case study. <strong>We will ask first and won't name you without written permission.</strong></p>
+      </section>
 
-  <h2>13. Contact</h2>
-  <p>Questions about these terms: <a href="mailto:divyanshus2404@gmail.com">divyanshus2404@gmail.com</a>.</p>
+      <section id="confidentiality">
+        <h2><span class="n">13</span> Confidentiality</h2>
+        <p>Each of us will keep the other's confidential information private and use it only for the engagement. This covers your business processes, data and plans, and our methods and pricing.</p>
+        <p>It doesn't apply to information that is public through no fault of the receiver, was already known, is independently developed, or must be disclosed by law — in which case we'll tell you first if we're permitted to. These obligations survive the end of the engagement by three years.</p>
+      </section>
 
-  <div class="foot">
-    <a href="/">Home</a><a href="/privacy.html">Privacy Policy</a><a href="mailto:divyanshus2404@gmail.com">Contact</a>
+      <section id="acceptable">
+        <h2><span class="n">14</span> Acceptable use</h2>
+        <p>We won't build, and you may not use our workflows for: unsolicited bulk messaging in breach of applicable law, scraping or processing personal data you have no right to, impersonating a real person or organisation, generating content designed to deceive, or anything unlawful.</p>
+        <p>We may suspend a workflow we reasonably believe is being used this way. We'll tell you why and give you a chance to put it right, except where the law prevents us.</p>
+      </section>
+
+      <section id="cancellation">
+        <h2><span class="n">15</span> Cancellation</h2>
+        <div class="short"><b>In short:</b> cancel any time, no exit fee. Your workflows keep running; you stop getting support and updates.</div>
+        <p>Retainers can be cancelled at any time with no exit fee. Cancellation takes effect at the end of your current billing period, and fees already paid for that period are not refunded.</p>
+        <p><strong>Workflows we built and you have paid for keep running.</strong> You simply stop receiving support, monitoring, optimisation and updates from us. On request we'll hand over documentation and credentials so you or another provider can take over, and we'll remove our own access to your systems within 14 days.</p>
+        <p>We may end an engagement with 30 days' notice, or immediately for non-payment, a breach of section 14, or abusive conduct toward our team. If we terminate for convenience we'll refund the unused portion of anything you've prepaid.</p>
+      </section>
+
+      <section id="warranties">
+        <h2><span class="n">16</span> Warranties and disclaimers</h2>
+        <p>We warrant that we'll perform our work with reasonable skill and care, in line with the Proposal, and that we have the right to grant what we grant you.</p>
+        <p>Beyond that, and to the extent the law allows, the website and the services are provided <strong>as is</strong>. We do not warrant that a workflow will be uninterrupted or error-free, that AI output will be accurate, or that you will achieve any particular commercial result.</p>
+      </section>
+
+      <section id="liability">
+        <h2><span class="n">17</span> Liability</h2>
+        <p>To the extent the law allows, <strong>our total aggregate liability for all claims is limited to the fees you paid us in the three months before the claim arose.</strong></p>
+        <p>Neither of us is liable for indirect or consequential loss, including lost profits, lost revenue, lost business, lost goodwill or lost or corrupted data, even if the loss was foreseeable.</p>
+        <p>Nothing here limits liability for death or personal injury caused by negligence, for fraud or fraudulent misrepresentation, or for anything else that cannot lawfully be limited.</p>
+      </section>
+
+      <section id="forcemajeure">
+        <h2><span class="n">18</span> Force majeure</h2>
+        <p>Neither of us is liable for a delay or failure caused by something genuinely outside our reasonable control — including outages at a major infrastructure or AI provider, network failure, natural disaster, or government action. The affected party will tell the other promptly and do what it reasonably can to limit the impact.</p>
+      </section>
+
+      <section id="disputes">
+        <h2><span class="n">19</span> Disputes</h2>
+        <p>If something goes wrong, <strong>talk to us first.</strong> Email the details and we'll try to resolve it in good faith within 30 days. Most problems are a misunderstanding about scope and are cheaper to fix by conversation than by lawyers.</p>
+        <p>If that fails, these terms are governed by the laws of India and the courts at our registered place of business have exclusive jurisdiction.</p>
+      </section>
+
+      <section id="general">
+        <h2><span class="n">20</span> General</h2>
+        <ul>
+          <li><strong>Assignment.</strong> Neither of us may assign this agreement without the other's written consent, except to a successor of substantially the whole business.</li>
+          <li><strong>Notices.</strong> Notices go by email to the addresses we've been using, and are treated as received the next business day.</li>
+          <li><strong>Independent contractors.</strong> We are your supplier, not your employee, agent or partner.</li>
+          <li><strong>No waiver.</strong> Not enforcing a term once doesn't waive it later.</li>
+          <li><strong>Severability.</strong> If a clause is unenforceable, the rest stays in effect.</li>
+          <li><strong>Entire agreement.</strong> These terms plus your Proposal are the whole agreement, and replace earlier discussions.</li>
+          <li><strong>Third parties.</strong> No one outside this agreement has rights under it.</li>
+        </ul>
+      </section>
+
+      <section id="changes">
+        <h2><span class="n">21</span> Changes to these terms</h2>
+        <p>We may update these terms; the version and date at the top will change. Continuing to use the website after that means you accept the update.</p>
+        <p><strong>For active clients, the terms in force when you signed your Proposal continue to apply to that engagement.</strong> We'll give you 30 days' notice by email before any change affects an ongoing retainer.</p>
+      </section>
+
+      <section id="contact">
+        <h2><span class="n">22</span> Contact</h2>
+        <p>Questions about these terms, or anything else: <a href="mailto:divyanshus2404@gmail.com">divyanshus2404@gmail.com</a>. We aim to reply within one business day.</p>
+      </section>
+
+      <div class="foot">
+        <a href="/">Home</a><a href="/privacy.html">Privacy Policy</a><a href="mailto:divyanshus2404@gmail.com">Contact</a>
+      </div>
+    </main>
   </div>
 </div>
+
+<script>
+  // highlight the contents entry for the section you're reading
+  (function () {
+    var links = [].slice.call(document.querySelectorAll('nav.toc a'));
+    var map = {};
+    var targets = links.map(function (a) {
+      var el = document.getElementById(a.getAttribute('href').slice(1));
+      if (el) map[el.id] = a;
+      return el;
+    }).filter(Boolean);
+    if (!targets.length || !('IntersectionObserver' in window)) return;
+
+    var seen = {};
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { seen[e.target.id] = e.isIntersecting; });
+      var current = null;
+      targets.forEach(function (t) { if (seen[t.id] && !current) current = t.id; });
+      links.forEach(function (a) { a.classList.remove('active'); });
+      if (current && map[current]) map[current].classList.add('active');
+    }, { rootMargin: '-10% 0px -70% 0px' });
+    targets.forEach(function (t) { obs.observe(t); });
+  })();
+</script>
 </body>
 </html>
