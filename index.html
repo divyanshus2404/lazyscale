@@ -903,7 +903,30 @@
   }
   @keyframes audit-check-pop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
   .audit-success h3 { font-size: 22px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
-  .audit-success p { color: var(--text-secondary); font-size: 15px; max-width: 320px; }
+  .audit-success p { color: var(--text-secondary); font-size: 15px; max-width: 360px; }
+  .audit-next {
+    text-align: left; margin: 20px 0 4px; padding: 0; list-style: none;
+    counter-reset: nxt; max-width: 400px;
+  }
+  .audit-next li {
+    counter-increment: nxt; position: relative;
+    padding: 0 0 14px 34px; font-size: 14.5px;
+    color: var(--text-secondary); line-height: 1.6;
+  }
+  .audit-next li::before {
+    content: counter(nxt); position: absolute; left: 0; top: 0;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--accent-light); color: var(--accent);
+    border: 1px solid var(--border-accent);
+    display: grid; place-items: center; font-size: 11px; font-weight: 800;
+  }
+  .audit-next li strong { color: var(--text-primary); font-weight: 650; }
+  .audit-next-note {
+    font-size: 13px !important; color: var(--text-muted) !important;
+    padding-top: 14px; margin-top: 6px; border-top: 1px solid var(--border);
+    max-width: 400px !important;
+  }
+  .audit-next-cta { margin-top: 18px; }
   @media (max-width: 768px) {
     .audit-grid { grid-template-columns: 1fr; gap: 32px; }
     .audit-section::before, .audit-section::after { display: none; }
@@ -1628,8 +1651,15 @@
         </form>
         <div class="audit-success" id="audit-success" role="status" aria-live="polite">
           <div class="audit-success-icon"><svg width="28" height="28" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
-          <h3>We've got it!</h3>
-          <p>Check your inbox within 24 hours for your personalized automation audit. We'll show you exactly what to automate and how much time you'll save.</p>
+          <h3>Got it — you're on the list</h3>
+          <p>Here's exactly what happens next, so nothing's a mystery.</p>
+          <ol class="audit-next">
+            <li><strong>We read it properly.</strong> A person goes through your answers — this isn't a template blast.</li>
+            <li><strong>Your audit lands within 24 hours.</strong> What to automate first, which tools we'd wire together, and a realistic estimate of the time it saves.</li>
+            <li><strong>No pitch unless you want one.</strong> If the honest answer is "you don't need us yet", we'll say that.</li>
+          </ol>
+          <p class="audit-next-note">It'll come from <strong>divyanshus2404@gmail.com</strong> — worth whitelisting so it doesn't land in promotions.</p>
+          <a href="https://cal.com/lazy_scale/15min" target="_blank" rel="noopener" class="btn btn-primary btn-lg audit-next-cta">Don't want to wait? Book a call →</a>
         </div>
       </div>
     </div>
