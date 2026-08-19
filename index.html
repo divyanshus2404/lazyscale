@@ -1316,8 +1316,8 @@
 
   /* ─── TESTIMONIALS ─── */
   .quotes {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s4);
-    max-width: var(--max-w); margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: var(--s4); max-width: var(--max-w); margin: 0 auto;
   }
   .quote-card {
     display: flex; flex-direction: column; justify-content: space-between;
@@ -1336,6 +1336,12 @@
     font-size: 46px; line-height: 1; color: var(--accent); opacity: 0.25;
     font-family: Georgia, serif;
   }
+  .quote-card blockquote[data-needs-quote] {
+    color: #B45309; background: rgba(245,158,11,0.08);
+    border: 1px dashed rgba(245,158,11,0.4); border-radius: var(--r-sm);
+    padding: var(--s3); font-size: 13px; font-weight: 650;
+  }
+  .quote-card blockquote[data-needs-quote]::before { display: none; }
   .quote-card figcaption { display: flex; align-items: center; gap: var(--s3); }
   .quote-avatar {
     width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
@@ -1941,9 +1947,11 @@
     TESTIMONIALS — hidden until you have real quotes.
 
     TO ENABLE: delete the word `hidden` from the <section> tag below.
-    Only put a card here once that person has actually used something you built
-    or sent you real feedback. Replace the quote, name, role and initials.
-    Delete any card you can't fill. Two real ones beat four invented ones.
+    Each card has a real name already. Replace the placeholder blockquote with
+    what that person actually said, and remove the data-needs-quote attribute.
+    Fill in their real Role, Company too.
+    Delete any card you can't fill honestly — the grid reflows for 2, 3 or 4.
+    Two real quotes beat four invented ones.
   -->
   <section id="testimonials" class="fade-up" hidden>
     <div class="section-header section-header-center">
@@ -1953,24 +1961,31 @@
     </div>
     <div class="quotes">
       <figure class="quote-card fade-up">
-        <blockquote>Replace with a real quote. Keep it specific — what changed, and by how much.</blockquote>
+        <blockquote data-needs-quote>PASTE AKSHAT'S REAL WORDS HERE</blockquote>
         <figcaption>
           <span class="quote-avatar" aria-hidden="true">AK</span>
-          <span class="quote-who"><strong>Name</strong><span>Role, Company</span></span>
+          <span class="quote-who"><strong>Akshat Khandelwal</strong><span>Role, Company</span></span>
         </figcaption>
       </figure>
       <figure class="quote-card fade-up">
-        <blockquote>Replace with a real quote.</blockquote>
+        <blockquote data-needs-quote>PASTE ADITYA'S REAL WORDS HERE</blockquote>
         <figcaption>
           <span class="quote-avatar" aria-hidden="true">AS</span>
-          <span class="quote-who"><strong>Name</strong><span>Role, Company</span></span>
+          <span class="quote-who"><strong>Aditya Soni</strong><span>Role, Company</span></span>
         </figcaption>
       </figure>
       <figure class="quote-card fade-up">
-        <blockquote>Replace with a real quote.</blockquote>
+        <blockquote data-needs-quote>PASTE ADITYA'S REAL WORDS HERE</blockquote>
         <figcaption>
           <span class="quote-avatar" aria-hidden="true">AP</span>
-          <span class="quote-who"><strong>Name</strong><span>Role, Company</span></span>
+          <span class="quote-who"><strong>Aditya Pathak</strong><span>Role, Company</span></span>
+        </figcaption>
+      </figure>
+      <figure class="quote-card fade-up">
+        <blockquote data-needs-quote>PASTE SAMBHAV'S REAL WORDS HERE</blockquote>
+        <figcaption>
+          <span class="quote-avatar" aria-hidden="true">SJ</span>
+          <span class="quote-who"><strong>Sambhav Jindal</strong><span>Role, Company</span></span>
         </figcaption>
       </figure>
     </div>
