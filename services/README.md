@@ -91,6 +91,14 @@ in four steps on a call, it is not ready to quote — do a paid discovery instea
 
 ---
 
+## What can be automated
+
+A recognition list for sales calls, organised by business function and marked with
+whether each is worth selling, worth taking as a second project, or worth declining.
+See [`AUTOMATION-CATALOGUE.md`](AUTOMATION-CATALOGUE.md).
+
+---
+
 ## What we do not build
 
 These are refusals, not negotiations. Every one of them has ended someone's agency.
