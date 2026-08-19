@@ -795,104 +795,6 @@
 
   .hero h1 em { background: linear-gradient(90deg, #7C3AED, #A78BFA, #7C3AED); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradient-shift 4s ease infinite; }
 
-  /* ─── DEMO VIDEO ─── */
-  .demo-container { max-width: 900px; margin: 0 auto; text-align: center; }
-  .demo-video {
-    position: relative; width: 100%; aspect-ratio: 16/9; background: #0a0a0f;
-    border-radius: var(--radius); overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    cursor: pointer; user-select: none;
-  }
-  .demo-video-inner {
-    position: absolute; inset: 0; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; padding: 40px;
-    z-index: 2;
-  }
-  .demo-video-bg {
-    position: absolute; inset: 0; z-index: 0; overflow: hidden;
-  }
-  .demo-video-bg::before {
-    content: ''; position: absolute; width: 300px; height: 300px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(124,58,237,0.15), transparent 70%);
-    top: 50%; left: 50%; transform: translate(-50%,-50%); animation: demo-pulse 4s ease-in-out infinite;
-  }
-  .demo-video-bg::after {
-    content: ''; position: absolute; width: 500px; height: 500px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(167,139,250,0.06), transparent 70%);
-    top: 50%; left: 50%; transform: translate(-50%,-50%); animation: demo-pulse 6s ease-in-out infinite 1s;
-  }
-  @keyframes demo-pulse { 0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; } 50% { transform: translate(-50%,-50%) scale(1.3); opacity: 1; } }
-  .demo-slide {
-    position: absolute; inset: 0; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; padding: 40px; z-index: 2;
-    opacity: 0; transition: opacity 0.6s ease;
-  }
-  .demo-slide.active { opacity: 1; }
-  .demo-slide-title {
-    font-size: clamp(24px, 4vw, 42px); font-weight: 800; color: #fff;
-    line-height: 1.2; text-align: center; letter-spacing: -1px;
-    transform: translateY(30px); opacity: 0;
-    transition: all 0.7s cubic-bezier(0.4,0,0.2,1);
-  }
-  .demo-slide.active .demo-slide-title { transform: translateY(0); opacity: 1; }
-  .demo-slide-sub {
-    font-size: clamp(14px, 2vw, 18px); color: rgba(255,255,255,0.5);
-    margin-top: 12px; text-align: center; font-weight: 400;
-    transform: translateY(20px); opacity: 0;
-    transition: all 0.7s cubic-bezier(0.4,0,0.2,1) 0.2s;
-  }
-  .demo-slide.active .demo-slide-sub { transform: translateY(0); opacity: 1; }
-  .demo-slide-accent { color: #A78BFA; }
-  .demo-slide-green { color: #22C55E; }
-  .demo-slide-red { color: #EF4444; }
-  .demo-slide-emoji { font-size: clamp(36px, 5vw, 56px); margin-bottom: 16px;
-    transform: scale(0); transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.1s; }
-  .demo-slide.active .demo-slide-emoji { transform: scale(1); }
-  .demo-slide-stat {
-    font-size: clamp(48px, 8vw, 80px); font-weight: 900; color: #A78BFA;
-    letter-spacing: -3px; line-height: 1;
-    transform: scale(0.5); opacity: 0;
-    transition: all 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.15s;
-  }
-  .demo-slide.active .demo-slide-stat { transform: scale(1); opacity: 1; }
-  .demo-progress-bar {
-    position: absolute; bottom: 0; left: 0; height: 3px;
-    background: linear-gradient(90deg, #7C3AED, #A78BFA);
-    z-index: 5; width: 0%; transition: width 0.3s linear;
-  }
-  .demo-play-overlay {
-    position: absolute; inset: 0; z-index: 10; display: flex;
-    flex-direction: column; align-items: center; justify-content: center;
-    background: rgba(10,10,15,0.7); transition: opacity 0.4s;
-  }
-  .demo-play-overlay.hidden { opacity: 0; pointer-events: none; }
-  .demo-play-circle {
-    width: 72px; height: 72px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3);
-    display: flex; align-items: center; justify-content: center; cursor: pointer;
-    background: rgba(124,58,237,0.2); backdrop-filter: blur(10px);
-    transition: all 0.3s; margin-bottom: 12px;
-  }
-  .demo-play-circle:hover { background: rgba(124,58,237,0.4); border-color: rgba(255,255,255,0.5); transform: scale(1.08); }
-  .demo-play-circle svg { fill: #fff; margin-left: 4px; }
-  .demo-play-label { color: rgba(255,255,255,0.6); font-size: 14px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
-  .demo-ctrl-btn {
-    position: absolute; z-index: 8;
-    width: 38px; height: 38px; border-radius: var(--r-sm); border: 1px solid rgba(255,255,255,0.12); cursor: pointer;
-    background: rgba(0,0,0,0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    color: #fff; font-size: 0;
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; transition: all 0.25s ease;
-  }
-  .demo-ctrl-btn:hover { background: rgba(124,58,237,0.4); border-color: rgba(167,139,250,0.4); transform: scale(1.08); }
-  .demo-ctrl-btn:active { transform: scale(0.95); }
-  .demo-ctrl-btn svg { width: 18px; height: 18px; fill: #fff; }
-  .demo-mute-btn { top: 16px; right: 16px; }
-  .demo-pause-btn { top: 16px; right: 62px; }
-  .demo-video:hover .demo-ctrl-btn { opacity: 1; }
-  @media (max-width: 640px) {
-    .demo-slide { padding: 24px; }
-    .demo-play-circle { width: 56px; height: 56px; }
-  }
-
   /* ─── AUDIT FORM ─── */
   .audit-section {
     background: var(--bg-raised); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
@@ -1104,6 +1006,126 @@
   }
   .skip-link:focus { transform: translate(-50%, 0); }
 
+  /* ─── WORKFLOW VISUALISATION ─── */
+  .flow { max-width: 1100px; margin: 0 auto; }
+  .flow-track {
+    position: relative; display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: var(--s5); padding-top: var(--s6);
+  }
+  /* connector runs behind the nodes */
+  .flow-line {
+    position: absolute; top: calc(var(--s6) + 26px); left: 12.5%; right: 12.5%;
+    height: 2px; background: var(--border); border-radius: 2px; overflow: hidden;
+  }
+  .flow-line-fill {
+    display: block; height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-mid));
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .flow-step { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .flow-node {
+    width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--bg-card); border: 2px solid var(--border);
+    color: var(--text-muted); position: relative; z-index: 2;
+    transition: border-color 0.4s, color 0.4s, box-shadow 0.4s, transform 0.4s;
+  }
+  .flow-node svg { width: 22px; height: 22px; }
+  .flow-step.on .flow-node {
+    border-color: var(--accent); color: var(--accent);
+    box-shadow: 0 0 0 6px var(--accent-glow-strong);
+    transform: scale(1.06);
+  }
+  .flow-step.done .flow-node { border-color: var(--accent); color: var(--accent); }
+
+  .flow-meta { margin-top: var(--s3); }
+  .flow-time {
+    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.6px;
+    color: var(--text-muted); background: var(--bg-raised);
+    padding: 2px 8px; border-radius: var(--r-pill); margin-bottom: var(--s2);
+    transition: color 0.4s, background 0.4s;
+  }
+  .flow-step.on .flow-time, .flow-step.done .flow-time { color: var(--accent); background: var(--accent-light); }
+  .flow-meta h4 { font-size: var(--t-body); font-weight: 680; color: var(--text-primary); }
+  .flow-meta p { font-size: var(--t-sm); color: var(--text-muted); margin-top: 2px; line-height: 1.5; }
+
+  .flow-card {
+    margin-top: var(--s4); width: 100%; text-align: left;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--r-md); padding: var(--s3) var(--s4);
+    box-shadow: var(--shadow-sm);
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s, border-color 0.4s;
+  }
+  .flow-step.on .flow-card, .flow-step.done .flow-card { opacity: 1; transform: translateY(0); }
+  .flow-step.on .flow-card { border-color: var(--border-accent); box-shadow: var(--shadow-md); }
+
+  .flow-card-head {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: var(--s2);
+  }
+  .flow-hash { color: var(--accent); font-weight: 800; }
+  .flow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+  .flow-dot-hot { background: #F97316; }
+  .flow-dot-ok { background: #22C55E; }
+  .flow-card-body strong { display: block; font-size: 13.5px; font-weight: 650; color: var(--text-primary); }
+  .flow-card-body span { display: block; font-size: 12.5px; color: var(--text-secondary); margin-top: 3px; line-height: 1.5; }
+
+  .flow-score { display: flex; align-items: baseline; gap: 3px; }
+  .flow-score b { font-size: 26px; font-weight: 800; color: var(--text-primary); line-height: 1; }
+  .flow-score i { font-style: normal; font-size: 13px; color: var(--text-muted); }
+  .flow-score em {
+    font-style: normal; margin-left: auto; font-size: 11px; font-weight: 700;
+    color: #EA580C; background: rgba(249,115,22,0.1);
+    padding: 2px 8px; border-radius: var(--r-pill);
+  }
+  .flow-bar { margin-top: var(--s2); height: 4px; background: var(--bg-raised); border-radius: 2px; overflow: hidden; }
+  .flow-bar span {
+    display: block; height: 100%; width: 0;
+    background: linear-gradient(90deg, #F97316, #EA580C); border-radius: 2px;
+    transition: width 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s;
+  }
+  .flow-step:not(.on):not(.done) .flow-bar span { width: 0 !important; }
+
+  .flow-foot {
+    display: flex; align-items: center; justify-content: center; gap: var(--s7);
+    margin-top: var(--s7); padding-top: var(--s5);
+    border-top: 1px solid var(--border); flex-wrap: wrap;
+  }
+  .flow-foot-stat { text-align: center; }
+  .flow-foot-stat strong { display: block; font-size: 22px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; }
+  .flow-foot-stat span { font-size: var(--t-sm); color: var(--text-muted); }
+  .flow-replay {
+    display: inline-flex; align-items: center; gap: var(--s2);
+    height: var(--ctl-h); padding: 0 var(--s4);
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-pill);
+    font-family: inherit; font-size: var(--t-sm); font-weight: 650; color: var(--text-secondary);
+    cursor: pointer; transition: all var(--transition);
+  }
+  .flow-replay svg { width: 15px; height: 15px; }
+  .flow-replay:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+
+  @media (max-width: 860px) {
+    .flow-track { grid-template-columns: 1fr; gap: var(--s6); padding-top: var(--s4); }
+    /* connector becomes vertical down the left rail */
+    .flow-line { top: 0; bottom: 0; left: 25px; right: auto; width: 2px; height: auto; }
+    .flow-line-fill {
+      width: 100% !important; height: 0;
+      background: linear-gradient(180deg, var(--accent), var(--accent-mid));
+      transition: height 0.6s cubic-bezier(0.4,0,0.2,1);
+    }
+    /* node occupies its own column and spans both rows; text and card stack beside it */
+    .flow-step {
+      display: grid; grid-template-columns: auto 1fr;
+      column-gap: var(--s4); align-items: start; text-align: left;
+    }
+    .flow-node { grid-row: 1 / span 2; }
+    .flow-meta { grid-column: 2; margin-top: 0; }
+    .flow-card { grid-column: 2; margin-top: var(--s3); }
+    .flow-foot { gap: var(--s5); }
+  }
+
   /* ─── TOUCH TARGETS ─── */
   @media (hover: none) and (pointer: coarse) {
     .footer-col a, .mobile-menu a, .footer-bottom a {
@@ -1291,34 +1313,71 @@
   <section class="fade-up" id="demo">
     <div class="section-header section-header-center">
       <div class="section-label">See It In Action</div>
-      <h2 class="section-title">Watch a workflow run — live</h2>
-      <p class="section-desc">Hit play. Watch AI handle a lead in real time — with narration.</p>
+      <h2 class="section-title">A lead, handled in 47 seconds</h2>
+      <p class="section-desc">This is a real Lead Pilot workflow. Watch it run end to end — no one touches it.</p>
     </div>
-    <div class="demo-container">
-      <div class="demo-video" id="demo-video">
-        <div class="demo-video-bg"></div>
-        <div class="demo-slide" data-voice="Your startup is growing fast."><div class="demo-slide-title">Your startup is<br><span class="demo-slide-accent">growing fast.</span></div></div>
-        <div class="demo-slide" data-voice="But behind the scenes, you're drowning in manual work."><div class="demo-slide-title">But behind the scenes?</div><div class="demo-slide-sub">You're drowning in <span class="demo-slide-accent">manual work.</span></div></div>
-        <div class="demo-slide" data-voice="Copy-pasting leads. Writing posts at midnight. Forgetting follow-ups."><div class="demo-slide-emoji">😩</div><div class="demo-slide-title">Copy-pasting leads.<br>Writing posts at midnight.<br><span class="demo-slide-red">Forgetting follow-ups.</span></div></div>
-        <div class="demo-slide" data-voice="Meet LazyScale."><div class="demo-slide-stat">LazyScale</div><div class="demo-slide-sub">AI automation for startups</div></div>
-        <div class="demo-slide" data-voice="A lead comes in through your website. Rahul Sharma, tech startup, wants to automate sales."><div class="demo-slide-emoji">📩</div><div class="demo-slide-title">A lead comes in.</div><div class="demo-slide-sub">Rahul Sharma — "Automate our sales pipeline"</div></div>
-        <div class="demo-slide" data-voice="AI kicks in. Reads the message. Scores the lead. 9 out of 10. Hot."><div class="demo-slide-emoji">🤖</div><div class="demo-slide-title">AI qualifies instantly.</div><div class="demo-slide-stat">9<span style="font-size:50%;opacity:0.5">/10</span></div><div class="demo-slide-sub"><span class="demo-slide-red">🔥 Hot Lead</span></div></div>
-        <div class="demo-slide" data-voice="Your team gets a Slack notification. Hot lead alert. Everyone sees it."><div class="demo-slide-emoji">💬</div><div class="demo-slide-title">Slack pinged.<br><span class="demo-slide-accent">#leads</span> channel.</div><div class="demo-slide-sub">Your team sees it instantly.</div></div>
-        <div class="demo-slide" data-voice="AI has already sent a personalized reply. With your booking link. No delay."><div class="demo-slide-emoji">✉️</div><div class="demo-slide-title">Auto-reply <span class="demo-slide-green">sent.</span></div><div class="demo-slide-sub">Personalized. With your booking link.</div></div>
-        <div class="demo-slide" data-voice="Done. Forty-seven seconds. Zero manual work."><div class="demo-slide-stat" style="color:#22C55E">47s</div><div class="demo-slide-title">Zero manual work.</div></div>
-        <div class="demo-slide" data-voice="No new apps. No code. Live in 48 hours. Starting at just 4,999 rupees a month."><div class="demo-slide-title">No code. No new apps.<br>Live in <span class="demo-slide-accent">48 hours.</span></div><div class="demo-slide-sub">Starting at ₹4,999/mo</div></div>
-        <div class="demo-slide" data-voice="Book a free call. Let's automate your grind."><div class="demo-slide-stat">Let's go.</div><div class="demo-slide-sub" style="margin-top:16px"><a href="https://cal.com/lazy_scale/15min" target="_blank" style="color:#A78BFA;text-decoration:underline;font-size:18px">Book a free call →</a></div></div>
-        <div class="demo-progress-bar" id="demo-progress"></div>
-        <div class="demo-play-overlay" id="demo-overlay">
-          <div class="demo-play-circle" onclick="playDemo()">
-            <svg width="28" height="28" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+
+    <div class="flow" id="flow">
+      <div class="flow-track">
+        <div class="flow-line"><span class="flow-line-fill" id="flow-fill"></span></div>
+
+        <div class="flow-step" data-step="0">
+          <div class="flow-node">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
           </div>
-          <div class="demo-play-label">Play Demo</div>
+          <div class="flow-meta"><span class="flow-time">0s</span><h4>Lead arrives</h4><p>Website form submission</p></div>
+          <div class="flow-card">
+            <div class="flow-card-head"><span class="flow-dot"></span> New enquiry</div>
+            <div class="flow-card-body"><strong>Rahul Sharma</strong><span>"Need to automate our sales pipeline"</span></div>
+          </div>
         </div>
-        <button class="demo-ctrl-btn demo-pause-btn" id="demo-pause" onclick="toggleDemoPause(event)" title="Pause/Resume" style="display:none"><svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>
-        <button class="demo-ctrl-btn demo-mute-btn" id="demo-mute" onclick="toggleDemoMute(event)" title="Toggle sound"><svg viewBox="0 0 24 24" id="demo-mute-icon"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+
+        <div class="flow-step" data-step="1">
+          <div class="flow-node">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
+          </div>
+          <div class="flow-meta"><span class="flow-time">6s</span><h4>AI qualifies</h4><p>Scored against your criteria</p></div>
+          <div class="flow-card">
+            <div class="flow-card-head"><span class="flow-dot flow-dot-hot"></span> Lead score</div>
+            <div class="flow-score"><b>9</b><i>/10</i><em>Hot</em></div>
+            <div class="flow-bar"><span style="width:90%"></span></div>
+          </div>
+        </div>
+
+        <div class="flow-step" data-step="2">
+          <div class="flow-node">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          </div>
+          <div class="flow-meta"><span class="flow-time">11s</span><h4>Team notified</h4><p>Posted to your Slack</p></div>
+          <div class="flow-card">
+            <div class="flow-card-head"><span class="flow-hash">#</span> leads</div>
+            <div class="flow-card-body"><strong>🔥 Hot lead — Rahul Sharma</strong><span>Score 9/10 · Reply already sent</span></div>
+          </div>
+        </div>
+
+        <div class="flow-step" data-step="3">
+          <div class="flow-node">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <div class="flow-meta"><span class="flow-time">47s</span><h4>Replied &amp; logged</h4><p>Booking link sent, CRM updated</p></div>
+          <div class="flow-card">
+            <div class="flow-card-head"><span class="flow-dot flow-dot-ok"></span> Complete</div>
+            <div class="flow-card-body"><strong>Reply sent + meeting booked</strong><span>CRM row created · 0 manual steps</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow-foot">
+        <div class="flow-foot-stat"><strong id="flow-timer">47s</strong><span>end to end</span></div>
+        <div class="flow-foot-stat"><strong>0</strong><span>manual steps</span></div>
+        <div class="flow-foot-stat"><strong>24/7</strong><span>runs without you</span></div>
+        <button class="flow-replay" id="flow-replay" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>
+          Replay
+        </button>
       </div>
     </div>
+
   </section>
 
   <!-- WORKFLOWS -->
@@ -1822,87 +1881,6 @@ if (heroStats) statsObserver.observe(heroStats);
 
 calcROI();
 
-let demoMuted = false;
-let demoPaused = false;
-let demoTimer = null;
-let demoState = null;
-
-function toggleDemoMute(e) {
-  e.stopPropagation();
-  demoMuted = !demoMuted;
-  document.getElementById('demo-mute-icon').innerHTML = demoMuted
-    ? '<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.94-.5 2.64l1.56 1.56c.65-1.22 1.04-2.6 1.04-4.2 0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>'
-    : '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>';
-  if (demoMuted) try { window.speechSynthesis.cancel(); } catch(e) {}
-}
-
-function toggleDemoPause(e) {
-  e.stopPropagation();
-  demoPaused = !demoPaused;
-  document.getElementById('demo-pause').innerHTML = demoPaused
-    ? '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'
-    : '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
-  if (demoPaused) {
-    clearTimeout(demoTimer);
-    try { window.speechSynthesis.pause(); } catch(e) {}
-  } else {
-    try { window.speechSynthesis.resume(); } catch(e) {}
-    if (demoState) demoTimer = setTimeout(demoState.next, demoState.remaining);
-  }
-}
-
-function demoSpeak(text) {
-  try {
-    if (demoMuted || !window.speechSynthesis) return;
-    const synth = window.speechSynthesis;
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.rate = 0.92; utter.pitch = 1.0;
-    const voices = synth.getVoices();
-    const pref = voices.find(v => v.name.includes('Google') && v.lang.startsWith('en')) ||
-                 voices.find(v => v.lang.startsWith('en-') && !v.name.includes('Zira')) || voices[0];
-    if (pref) utter.voice = pref;
-    synth.speak(utter);
-  } catch(e) {}
-}
-
-function playDemo() {
-  const slides = document.querySelectorAll('.demo-slide');
-  const overlay = document.getElementById('demo-overlay');
-  const progress = document.getElementById('demo-progress');
-  const pauseBtn = document.getElementById('demo-pause');
-  const total = slides.length;
-  const interval = 4000;
-  let idx = 0;
-
-  demoPaused = false;
-  clearTimeout(demoTimer);
-  pauseBtn.style.display = 'flex';
-  pauseBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
-  try { window.speechSynthesis.cancel(); } catch(e) {}
-  overlay.classList.add('hidden');
-  slides.forEach(s => s.classList.remove('active'));
-
-  function showSlide() {
-    slides.forEach(s => s.classList.remove('active'));
-    if (idx >= total) {
-      overlay.classList.remove('hidden');
-      progress.style.width = '0%';
-      pauseBtn.style.display = 'none';
-      demoState = null;
-      return;
-    }
-    slides[idx].classList.add('active');
-    var voice = slides[idx].dataset.voice;
-    if (voice) demoSpeak(voice);
-    progress.style.width = ((idx + 1) / total * 100) + '%';
-    idx++;
-    demoState = { next: showSlide, remaining: interval };
-    demoTimer = setTimeout(showSlide, interval);
-  }
-  showSlide();
-}
-
-// Audit form submission via Formspree
 // FAQ accordion — one open at a time, keeps aria-expanded in sync
 function toggleFaq(btn) {
   const item = btn.parentElement;
@@ -1973,6 +1951,78 @@ function handleAudit(e) {
     idleLabel: 'Get My Free Audit'
   });
 }
+
+// ─── WORKFLOW VISUALISATION ───
+// Steps light up in sequence, the connector fills, then it settles on "done".
+(() => {
+  const flow = document.getElementById('flow');
+  if (!flow) return;
+  const steps = [...flow.querySelectorAll('.flow-step')];
+  const fill = document.getElementById('flow-fill');
+  const timer = document.getElementById('flow-timer');
+  const replay = document.getElementById('flow-replay');
+  const stamps = [0, 6, 11, 47];          // seconds shown on each step
+  const isMobile = () => window.matchMedia('(max-width: 860px)').matches;
+  let timers = [];
+
+  const clear = () => { timers.forEach(clearTimeout); timers = []; };
+
+  function setFill(pct) {
+    if (isMobile()) { fill.style.height = pct + '%'; fill.style.width = '100%'; }
+    else { fill.style.width = pct + '%'; fill.style.height = '100%'; }
+  }
+
+  function reset() {
+    clear();
+    steps.forEach(s => s.classList.remove('on', 'done'));
+    setFill(0);
+    if (timer) timer.textContent = '0s';
+  }
+
+  function run() {
+    reset();
+    if (prefersReducedMotion) {           // show the finished state, no theatre
+      steps.forEach(s => s.classList.add('done'));
+      setFill(100);
+      if (timer) timer.textContent = '47s';
+      return;
+    }
+    steps.forEach((step, i) => {
+      timers.push(setTimeout(() => {
+        steps.forEach(s => s.classList.remove('on'));
+        step.classList.add('on');
+        for (let j = 0; j < i; j++) steps[j].classList.add('done');
+        setFill((i / (steps.length - 1)) * 100);
+        if (timer) timer.textContent = stamps[i] + 's';
+      }, i * 1400));
+    });
+    // settle: everything done, nothing pulsing
+    timers.push(setTimeout(() => {
+      steps.forEach(s => { s.classList.remove('on'); s.classList.add('done'); });
+      setFill(100);
+    }, steps.length * 1400));
+  }
+
+  if (replay) replay.addEventListener('click', run);
+  window.addEventListener('resize', () => {
+    // keep the connector on the right axis when crossing the breakpoint
+    const pct = steps.filter(s => s.classList.contains('done')).length >= steps.length ? 100
+      : (steps.findIndex(s => s.classList.contains('on')) / (steps.length - 1)) * 100;
+    setFill(Math.max(0, pct));
+  }, { passive: true });
+
+  new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => { if (e.isIntersecting) { run(); obs.unobserve(e.target); } });
+  }, { threshold: 0.3 }).observe(flow);
+
+  // if the observer never fires, still show the finished state
+  setTimeout(() => {
+    if (!flow.querySelector('.flow-step.on, .flow-step.done')) {
+      steps.forEach(s => s.classList.add('done'));
+      setFill(100);
+    }
+  }, 2500);
+})();
 
 // Audit section scroll animations — form lifts in, perks cascade
 function revealAudit(section, stagger = true) {
