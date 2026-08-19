@@ -1314,6 +1314,33 @@
     .bld-cta .btn { width: 100%; }
   }
 
+  /* ─── GENERATED AUDIT ─── */
+  .audit-report { text-align: left; width: 100%; }
+  .audit-report-head { text-align: center; margin-bottom: var(--s5); }
+  .audit-report-badge {
+    display: inline-block; font-size: 11px; font-weight: 750;
+    letter-spacing: 0.8px; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-light);
+    border: 1px solid var(--border-accent);
+    padding: 4px 12px; border-radius: var(--r-pill); margin-bottom: var(--s3);
+  }
+  .audit-report-head h3 { font-size: 24px; font-weight: 750; letter-spacing: -0.5px; margin-bottom: 6px; }
+  .audit-report-sub { font-size: 14px; color: var(--text-muted); max-width: none !important; }
+  .audit-report-body {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--r-md); padding: var(--s5);
+    max-height: 460px; overflow-y: auto;
+  }
+  .audit-report-body h4 {
+    font-size: 13px; font-weight: 750; letter-spacing: 0.6px; text-transform: uppercase;
+    color: var(--accent); margin: var(--s5) 0 var(--s2);
+  }
+  .audit-report-body h4:first-child { margin-top: 0; }
+  .audit-report-body p { font-size: 14.5px; color: var(--text-secondary); line-height: 1.7; margin-bottom: var(--s3); max-width: none !important; }
+  .audit-report-body ul { margin: 0 0 var(--s3) 20px; }
+  .audit-report-body li { font-size: 14.5px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 6px; }
+  .audit-report-cta { width: 100%; margin-top: var(--s5); }
+
   /* ─── TOUCH TARGETS ─── */
   @media (hover: none) and (pointer: coarse) {
     .footer-col a, .mobile-menu a, .footer-bottom a {
@@ -1717,7 +1744,7 @@
         </ul>
       </div>
       <div>
-        <form class="audit-form" id="audit-form" action="https://formspree.io/f/mjybpkov" method="POST" onsubmit="handleAudit(event)">
+        <form class="audit-form" id="audit-form" action="/api/audit" method="POST" onsubmit="handleAudit(event)">
           <input type="hidden" name="_subject" value="Free Automation Audit Request">
           <div class="audit-form-title">Get Your Free Audit</div>
           <p class="form-hint">Takes about 2 minutes. No spam, ever.</p>
@@ -2172,34 +2199,92 @@ function submitForm({ formId, errorId, successId, idleLabel }) {
     if (label) label.textContent = idleLabel;
   };
 
+  // Our own endpoint takes JSON and answers with the finished audit.
+  // Formspree takes FormData. Pick based on where we're posting.
+  const ownEndpoint = form.action.includes('/api/');
+  const fd = new FormData(form);
+  const payload = ownEndpoint ? JSON.stringify(Object.fromEntries(fd)) : fd;
+
   errorBox.hidden = true;
   btn.disabled = true;
   btn.classList.add('is-loading');
-  if (label) label.textContent = 'Sending';
+  if (label) label.textContent = ownEndpoint ? 'Writing your audit' : 'Sending';
+
+  // Generating takes 10-25s. Say what's happening rather than looking stuck.
+  let stage = 0;
+  const stages = ['Reading what you told us', 'Working out what to automate first', 'Writing it up'];
+  const ticker = ownEndpoint && label
+    ? setInterval(() => { label.textContent = stages[stage++ % stages.length]; }, 4500)
+    : null;
+  const stopTicker = () => { if (ticker) clearInterval(ticker); };
 
   fetch(form.action, {
     method: 'POST',
-    body: new FormData(form),
-    headers: { 'Accept': 'application/json' }
+    body: payload,
+    headers: ownEndpoint
+      ? { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+      : { 'Accept': 'application/json' }
   }).then(async r => {
-    if (r.ok) {
+    const data = await r.json().catch(() => null);
+
+    if (r.ok && !(data && data.ok === false)) {
+      stopTicker();
       form.style.display = 'none';
       const success = document.getElementById(successId);
+      if (data && data.audit) renderAudit(success, data);
       success.classList.add('show');
-      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      success.scrollIntoView({ behavior: 'smooth', block: 'start' });
       return;
     }
-    // Formspree returns field-level errors in JSON
-    const data = await r.json().catch(() => null);
-    const detail = data && data.errors && data.errors.length
-      ? data.errors.map(x => x.message).join('. ')
-      : 'Something went wrong. Please try again, or email us directly.';
+
+    // Our endpoint returns {error}. Formspree returns {errors:[{message}]}.
+    const detail =
+      (data && data.error) ||
+      (data && data.errors && data.errors.length
+        ? data.errors.map(x => x.message).join('. ')
+        : 'Something went wrong. Please try again, or email us directly.');
+    stopTicker();
     setError(detail);
     reset();
   }).catch(() => {
+    stopTicker();
     setError("Couldn't reach the server. Check your connection and try again.");
     reset();
   });
+}
+
+// Show the generated audit on the page. Seeing it appear is the proof —
+// far more convincing than being told an email is coming.
+function renderAudit(success, data) {
+  const md = String(data.audit);
+  const html = md.split(/\n{2,}/).map(block => {
+    const b = block.trim();
+    if (!b) return '';
+    if (b.startsWith('## ')) return '<h4>' + escapeText(b.slice(3)) + '</h4>';
+    if (/^[-*]\s/m.test(b)) {
+      return '<ul>' + b.split('\n').filter(l => /^[-*]\s/.test(l.trim()))
+        .map(l => '<li>' + escapeText(l.trim().replace(/^[-*]\s/, '')) + '</li>').join('') + '</ul>';
+    }
+    return '<p>' + escapeText(b) + '</p>';
+  }).join('');
+
+  const wrap = document.createElement('div');
+  wrap.className = 'audit-report';
+  wrap.innerHTML =
+    '<div class="audit-report-head"><span class="audit-report-badge">Written by our own workflow</span>' +
+    '<h3>Your automation audit</h3>' +
+    '<p class="audit-report-sub">' +
+    (data.emailed ? 'A copy is on its way to your inbox.' : 'Save this — take a screenshot if it helps.') +
+    '</p></div><div class="audit-report-body">' + html + '</div>' +
+    '<a href="https://cal.com/lazy_scale/15min" target="_blank" rel="noopener" class="btn btn-primary btn-lg audit-report-cta">Get this built →</a>';
+
+  success.replaceChildren(wrap);
+}
+
+function escapeText(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
 }
 
 function handleAudit(e) {
