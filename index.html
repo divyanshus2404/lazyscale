@@ -1030,6 +1030,54 @@
   }
   .skip-link:focus { transform: translate(-50%, 0); }
 
+  /* ─── WHO IT'S FOR ─── */
+  .who-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--s4); max-width: var(--max-w); margin: 0 auto;
+  }
+  .who-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--r-lg); padding: var(--s5);
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  }
+  .who-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--border-hover); }
+  .who-ico { font-size: 24px; display: block; margin-bottom: var(--s3); }
+  .who-card h3 { font-size: 17px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+  .who-card p { font-size: 14.5px; color: var(--text-secondary); line-height: 1.65; }
+  /* the disqualifier reads as an aside, not another pitch */
+  .who-card-out { background: var(--bg-raised); border-style: dashed; }
+  .who-card-out:hover { transform: none; box-shadow: none; }
+
+  /* ─── HERO EXPLAINER CHAIN ─── */
+  .chain {
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: var(--s2) var(--s3);
+    max-width: var(--max-w); margin: var(--s7) auto 0;
+  }
+  .chain-step {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--r-pill); padding: 7px 14px 7px 7px;
+    font-size: 13.5px; font-weight: 620; color: var(--text-secondary);
+    white-space: nowrap; transition: border-color var(--transition), color var(--transition);
+  }
+  .chain-step:hover { border-color: var(--border-accent); color: var(--text-primary); }
+  .chain-n {
+    width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+    background: var(--accent-light); color: var(--accent);
+    display: grid; place-items: center; font-size: 11px; font-weight: 800;
+  }
+  /* connector between pills, hidden when they wrap to a new line */
+  .chain-step:not(:last-child)::after {
+    content: '→'; margin-left: 6px; margin-right: -6px;
+    color: var(--text-muted); font-size: 13px;
+  }
+  @media (max-width: 700px) {
+    .chain { gap: var(--s2); margin-top: var(--s6); }
+    .chain-step { font-size: 12.5px; padding: 6px 12px 6px 6px; }
+    .chain-step:not(:last-child)::after { display: none; }
+  }
+
   /* ─── LEAD ENGINE DEMO ─── */
   .demo2 { max-width: 760px; margin: 0 auto; }
 
@@ -1398,7 +1446,7 @@
     </div>
     <div class="nav-right">
       <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" id="theme-btn">🌙</button>
-      <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-dark nav-cta">Book a Call</a>
+      <a href="#audit" class="btn btn-dark nav-cta">Free Lead Audit</a>
     </div>
     <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -1438,9 +1486,19 @@
       <h1>Turn every enquiry into a <span class="hero-rotate"><span class="hero-rotate-words"><span><em>conversation</em></span><span><em>qualified lead</em></span><span><em>booked call</em></span><span><em>conversation</em></span></span></span></h1>
       <p class="hero-sub">LazyScale replies, qualifies and follows up with every inbound lead — across WhatsApp, Instagram, email and your website. Automatically, in under a minute, at 2am.</p>
       <div class="hero-ctas">
-        <a href="#audit" class="btn btn-dark btn-lg">Get my free audit</a>
+        <a href="#audit" class="btn btn-dark btn-lg">Get My Free Lead Audit</a>
         <a href="#demo" class="btn btn-ghost btn-lg">See how it works</a>
       </div>
+      <!-- ten-second explainer: what the product actually does -->
+      <div class="chain" aria-label="How LazyScale handles an enquiry">
+        <div class="chain-step"><span class="chain-n">1</span> Lead arrives</div>
+        <div class="chain-step"><span class="chain-n">2</span> AI responds</div>
+        <div class="chain-step"><span class="chain-n">3</span> Qualified</div>
+        <div class="chain-step"><span class="chain-n">4</span> Scored</div>
+        <div class="chain-step"><span class="chain-n">5</span> Team alerted</div>
+        <div class="chain-step"><span class="chain-n">6</span> Followed up</div>
+      </div>
+
       <div class="hero-proof">
         <span class="hero-proof-label">Trusted by early-stage teams</span>
         <div class="hero-stats">
@@ -1666,6 +1724,47 @@
     </div>
   </section>
 
+  <!-- WHO IT'S FOR -->
+  <section id="who" class="fade-up">
+    <div class="section-header section-header-center">
+      <div class="section-label">Who It's For</div>
+      <h2 class="section-title">Built for businesses where a missed enquiry is missed revenue</h2>
+      <p class="section-desc">If one lead is worth thousands and your competitor replies first, speed is the whole game. That's where this pays for itself fastest.</p>
+    </div>
+    <div class="who-grid">
+      <div class="who-card fade-up">
+        <span class="who-ico">🏠</span>
+        <h3>Real estate</h3>
+        <p>One closed enquiry covers a year of this. Replying at 11pm is the difference between a site visit and a competitor's.</p>
+      </div>
+      <div class="who-card fade-up">
+        <span class="who-ico">🧑‍💼</span>
+        <h3>Recruitment</h3>
+        <p>Candidates and clients both go cold fast. Qualify and route both sides before anyone stops replying.</p>
+      </div>
+      <div class="who-card fade-up">
+        <span class="who-ico">📣</span>
+        <h3>Agencies</h3>
+        <p>Inbound arrives through DMs, forms and referrals at once. One pipeline, scored, so you chase the ones worth chasing.</p>
+      </div>
+      <div class="who-card fade-up">
+        <span class="who-ico">🎓</span>
+        <h3>Education &amp; coaching</h3>
+        <p>High enquiry volume, most of it asking the same six questions. Answer those instantly, escalate the serious ones.</p>
+      </div>
+      <div class="who-card fade-up">
+        <span class="who-ico">🏢</span>
+        <h3>B2B services</h3>
+        <p>Long sales cycles start with a fast first reply. Get the meeting booked while they're still interested.</p>
+      </div>
+      <div class="who-card who-card-out fade-up">
+        <span class="who-ico">🤔</span>
+        <h3>Probably not you if…</h3>
+        <p>You get a handful of enquiries a month, or you already reply within minutes. We'll tell you that on the call rather than sell you something.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- WORKFLOW BUILDER -->
   <section id="builder" class="fade-up">
     <div class="section-header section-header-center">
@@ -1799,7 +1898,7 @@
         <div class="roi-stat-row"><span class="roi-stat-label">Money saved / month</span><span class="roi-stat-value highlight" id="roi-saved-money">₹2,56,000</span></div>
         <div class="roi-stat-row"><span class="roi-stat-label">Annual savings</span><span class="roi-stat-value" id="roi-saved-annual">₹30,72,000</span></div>
         <div class="roi-stat-row"><span class="roi-stat-label">ROI vs. Growth plan</span><span class="roi-stat-value highlight" id="roi-ratio">4.3x</span></div>
-        <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-primary roi-cta" style="width:100%;justify-content:center;">Get These Savings →</a>
+        <a href="#audit" class="btn btn-primary roi-cta" style="width:100%;justify-content:center;">Get My Free Lead Audit →</a>
       </div>
     </div>
   </section>
@@ -1936,8 +2035,8 @@
     <h2>Stop doing work a machine should do</h2>
     <p>Book a 15-minute call. We'll tell you exactly what we'd automate and what it'll save you. No pitch deck, just answers.</p>
     <div class="cta-buttons">
-      <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-dark btn-lg">Book Your Free Call</a>
-      <a href="https://cal.com/lazy_scale/30min" target="_blank" class="btn btn-ghost btn-lg">See a Demo First</a>
+      <a href="#audit" class="btn btn-dark btn-lg">Get My Free Lead Audit</a>
+      <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-ghost btn-lg">Or book a 15-min call</a>
     </div>
   </section>
 
