@@ -172,4 +172,7 @@ template needs a new config option instead.
 Import: n8n → Workflows → Import from File. Then add credentials, edit Config, and run
 it manually with test data before enabling the trigger.
 
-See [`workflows/README.md`](workflows/README.md) for per-workflow setup.
+See [`workflows/README.md`](workflows/README.md) for per-workflow setup, and
+[`BUILDING-AUTOMATIONS.md`](BUILDING-AUTOMATIONS.md) for the method behind them —
+the five-stage shape, the production failure modes, and when to tell a client not to
+automate at all.
