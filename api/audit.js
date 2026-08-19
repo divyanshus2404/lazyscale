@@ -9,7 +9,8 @@
 //   RESEND_API_KEY      optional; without it the audit still shows on the page
 //   AUDIT_FROM_EMAIL    optional; defaults to Resend's shared sending address
 //   OWNER_EMAIL         optional; where the lead notification goes
-//   FORMSPREE_ENDPOINT  optional; keeps your existing inbox notification working
+//   FORMSPREE_ENDPOINT  optional; defaults to the existing Formspree form so the
+//                       lead is always captured even with nothing configured
 //
 // Everything degrades rather than failing: if the model is unreachable the lead
 // is still captured and the visitor still gets a sensible message.
@@ -167,16 +168,20 @@ async function sendEmail({ to, subject, html, text, replyTo }) {
 
 // Keep the existing inbox notification working regardless of the rest.
 async function forwardToFormspree(payload) {
-  const endpoint = process.env.FORMSPREE_ENDPOINT;
-  if (!endpoint) return;
+  // Defaulted, not optional. If this is unset the lead reaches nobody, and the
+  // visitor is told we have their details — the worst possible failure.
+  const endpoint = process.env.FORMSPREE_ENDPOINT || 'https://formspree.io/f/mjybpkov';
   try {
-    await fetch(endpoint, {
+    const res = await fetch(endpoint, {
       method: 'POST',
       headers: { 'content-type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(payload)
     });
+    if (!res.ok) console.error('formspree rejected', res.status);
+    return res.ok;
   } catch (err) {
     console.error('formspree forward failed', err);
+    return false;
   }
 }
 
@@ -226,7 +231,7 @@ export default async function handler(req, res) {
 
   // Capture the lead first. Everything after this is a bonus, and must never
   // be the reason a lead is lost.
-  await forwardToFormspree({
+  const captured = await forwardToFormspree({
     _subject: 'Free Automation Audit Request',
     name, email, startup, team_size: teamSize, pain_points: painPoints
   });
@@ -234,7 +239,14 @@ export default async function handler(req, res) {
   const audit = await writeAudit({ name, startup, teamSize, painPoints });
 
   if (!audit.ok) {
-    // Degrade honestly: the lead is safe, we just could not generate on the spot.
+    // If the lead was captured we can honestly say we have it. If capture ALSO
+    // failed, never claim we did — tell them to email instead.
+    if (!captured) {
+      return res.status(502).json({
+        ok: false,
+        error: "We couldn't record that — please email divyanshus2404@gmail.com directly and we'll pick it up."
+      });
+    }
     return res.status(200).json({
       ok: true,
       delivered: false,
