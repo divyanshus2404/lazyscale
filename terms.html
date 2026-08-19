@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — LazyScale</title>
+<meta name="description" content="The terms that apply when you use the LazyScale website or engage us to build automation workflows.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://lazyscale.vercel.app/terms.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23f4f4f5'/><path d='M8 10h5v14H8z' fill='%231a1a2e'/><path d='M21 10h4v14h-4z' fill='%237c3aed'/></svg>">
+<style>
+  :root {
+    --bg: #FAFAFA; --bg-card: #FFFFFF; --bg-raised: #F0F0ED;
+    --text-primary: #111118; --text-secondary: #52525B; --text-muted: #A1A1AA;
+    --accent: #7C3AED; --accent-light: #F3F0FF;
+    --border: rgba(0,0,0,0.08); --max-w: 760px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #09090B; --bg-card: #1C1C22; --bg-raised: #18181B;
+      --text-primary: #FAFAFA; --text-secondary: #A1A1AA; --text-muted: #71717A;
+      --accent: #A78BFA; --accent-light: rgba(167,139,250,0.1);
+      --border: rgba(255,255,255,0.08);
+    }
+  }
+  /* explicit choice from the main site wins over the OS setting */
+  :root[data-theme="dark"] {
+    --bg: #09090B; --bg-card: #1C1C22; --bg-raised: #18181B;
+    --text-primary: #FAFAFA; --text-secondary: #A1A1AA; --text-muted: #71717A;
+    --accent: #A78BFA; --accent-light: rgba(167,139,250,0.1);
+    --border: rgba(255,255,255,0.08);
+  }
+  :root[data-theme="light"] {
+    --bg: #FAFAFA; --bg-card: #FFFFFF; --bg-raised: #F0F0ED;
+    --text-primary: #111118; --text-secondary: #52525B; --text-muted: #A1A1AA;
+    --accent: #7C3AED; --accent-light: #F3F0FF;
+    --border: rgba(0,0,0,0.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif;
+    background: var(--bg); color: var(--text-primary);
+    line-height: 1.7; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: var(--max-w); margin: 0 auto; padding: 56px 24px 96px; }
+  .back {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 600; color: var(--text-secondary);
+    text-decoration: none; margin-bottom: 40px; transition: color 0.2s;
+  }
+  .back:hover { color: var(--accent); }
+  h1 { font-size: clamp(30px, 5vw, 42px); font-weight: 800; letter-spacing: -1px; line-height: 1.15; }
+  .updated { color: var(--text-muted); font-size: 14px; margin-top: 10px; margin-bottom: 40px; }
+  h2 {
+    font-size: 19px; font-weight: 700; letter-spacing: -0.3px;
+    margin-top: 40px; margin-bottom: 12px; color: var(--text-primary);
+  }
+  p, li { color: var(--text-secondary); font-size: 15.5px; }
+  p { margin-bottom: 14px; }
+  ul { margin: 0 0 16px 20px; }
+  li { margin-bottom: 8px; }
+  strong { color: var(--text-primary); font-weight: 650; }
+  a { color: var(--accent); }
+  .lead {
+    font-size: 17px; color: var(--text-secondary);
+    padding: 20px 24px; background: var(--bg-card);
+    border: 1px solid var(--border); border-radius: 14px; margin-bottom: 8px;
+  }
+  .note {
+    padding: 16px 20px; background: var(--accent-light);
+    border: 1px solid var(--border); border-radius: 12px;
+    font-size: 15px; margin-bottom: 16px;
+  }
+  .foot {
+    margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border);
+    font-size: 14px; color: var(--text-muted);
+  }
+  .foot a { margin-right: 16px; }
+</style>
+<script>
+  // match whichever theme the visitor picked on the main site
+  try {
+    var t = localStorage.getItem('theme');
+    if (t) document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/">← Back to LazyScale</a>
+
+  <h1>Terms of Service</h1>
+  <p class="updated">Last updated 19 August 2026</p>
+
+  <p class="lead">These terms cover two things: using this website, and engaging LazyScale to build automation for you. The short version — the figures on our site are estimates, the real terms of any project go in a written proposal, and you own what we build for you.</p>
+
+  <h2>1. Who we are</h2>
+  <p>LazyScale builds and maintains AI automation workflows for startups. Contact: <a href="mailto:divyanshus2404@gmail.com">divyanshus2404@gmail.com</a>. In these terms, "we" and "us" mean LazyScale; "you" means the person or business using this site or engaging us.</p>
+
+  <h2>2. Using this website</h2>
+  <p>You may browse the site and use its tools freely. Please don't attempt to disrupt it, submit other people's personal data through our forms, or use it to send spam or anything unlawful.</p>
+
+  <h2>3. Estimates are estimates</h2>
+  <div class="note">This is the most important clause on this page, so we'd rather it were unambiguous.</div>
+  <p>Our website includes an ROI calculator, a workflow builder, and headline figures such as hours saved per week or speed improvements. <strong>These are illustrative estimates based on typical engagements. They are not promises, guarantees, or contractual commitments.</strong></p>
+  <p>What you actually save depends on your processes, your data, your tools and how you use what we build. We'll give you a realistic estimate for your situation before you commit to anything, and we'll base it on your numbers rather than our averages.</p>
+
+  <h2>4. Quotes, pricing and engagement</h2>
+  <p>Prices shown on this site are indicative starting points. They may change, and they don't constitute an offer capable of acceptance. A project only becomes binding when we've both agreed a written proposal or statement of work covering scope, price, and timeline. If anything in that document conflicts with these terms, that document wins.</p>
+
+  <h2>5. What we need from you</h2>
+  <p>To build anything useful we'll need your cooperation, specifically:</p>
+  <ul>
+    <li>Accurate information about your processes and requirements</li>
+    <li>Access to the tools and accounts a workflow needs to run</li>
+    <li>Timely feedback and approvals at review points</li>
+    <li>Confirmation that you're entitled to grant us that access</li>
+  </ul>
+  <p>Delays or inaccuracies here will affect timelines, and may affect cost.</p>
+
+  <h2>6. Third-party tools</h2>
+  <p>Our workflows connect services you already use — Slack, Gmail, Notion, your CRM, and so on. Those remain <strong>your accounts under your own subscriptions</strong>, governed by their providers' terms. You're responsible for their fees. We're not responsible for a third-party service changing its API, pricing, or availability, though we'll tell you promptly and work with you on a fix if it breaks something we built.</p>
+  <p>Where a workflow uses an AI model, output can occasionally be wrong. For anything consequential we'll build in an approval step so a human signs off before an action is taken. You decide which steps those are.</p>
+
+  <h2>7. Ownership</h2>
+  <p>Once you've paid for a piece of work, <strong>you own the workflows, prompts and configurations we built specifically for you.</strong> Your data stays yours throughout — we claim no rights over it.</p>
+  <p>We keep ownership of our own pre-existing materials, general methods and know-how, and we remain free to build similar solutions for others without using anything confidential to you.</p>
+
+  <h2>8. Confidentiality</h2>
+  <p>We'll keep what you tell us about your business confidential and use it only to do the work. We'd ask the same of anything we share with you about how we build. This survives the end of an engagement.</p>
+
+  <h2>9. Cancellation</h2>
+  <p>Retainers can be cancelled at any time, with no exit fee. Cancellation takes effect at the end of your current billing period, and fees already paid for that period aren't refunded. Workflows we've built and you've paid for keep running — you simply stop receiving support, monitoring and updates from us. Where practical we'll help you hand over cleanly.</p>
+
+  <h2>10. Liability</h2>
+  <p>We'll do our work with reasonable skill and care. But to the extent the law allows, <strong>our total liability for any claim is limited to the fees you paid us in the three months before it arose</strong>, and we're not liable for indirect or consequential losses such as lost profits, lost revenue or lost data.</p>
+  <p>Nothing here limits liability for fraud, or for anything that can't lawfully be limited.</p>
+
+  <h2>11. Changes to these terms</h2>
+  <p>We may update these terms; the date at the top will change. Continuing to use the site after that means you accept the update. Terms agreed in a signed proposal don't change retroactively.</p>
+
+  <h2>12. Governing law</h2>
+  <p>These terms are governed by the laws of India, and the courts of India have exclusive jurisdiction. If any clause turns out to be unenforceable, the rest stays in effect.</p>
+
+  <h2>13. Contact</h2>
+  <p>Questions about these terms: <a href="mailto:divyanshus2404@gmail.com">divyanshus2404@gmail.com</a>.</p>
+
+  <div class="foot">
+    <a href="/">Home</a><a href="/privacy.html">Privacy Policy</a><a href="mailto:divyanshus2404@gmail.com">Contact</a>
+  </div>
+</div>
+</body>
+</html>

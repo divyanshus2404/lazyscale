@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — LazyScale</title>
+<meta name="description" content="How LazyScale collects, uses and protects the information you share with us.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://lazyscale.vercel.app/privacy.html">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23f4f4f5'/><path d='M8 10h5v14H8z' fill='%231a1a2e'/><path d='M21 10h4v14h-4z' fill='%237c3aed'/></svg>">
+<style>
+  :root {
+    --bg: #FAFAFA; --bg-card: #FFFFFF; --bg-raised: #F0F0ED;
+    --text-primary: #111118; --text-secondary: #52525B; --text-muted: #A1A1AA;
+    --accent: #7C3AED; --accent-light: #F3F0FF;
+    --border: rgba(0,0,0,0.08); --max-w: 760px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #09090B; --bg-card: #1C1C22; --bg-raised: #18181B;
+      --text-primary: #FAFAFA; --text-secondary: #A1A1AA; --text-muted: #71717A;
+      --accent: #A78BFA; --accent-light: rgba(167,139,250,0.1);
+      --border: rgba(255,255,255,0.08);
+    }
+  }
+  /* explicit choice from the main site wins over the OS setting */
+  :root[data-theme="dark"] {
+    --bg: #09090B; --bg-card: #1C1C22; --bg-raised: #18181B;
+    --text-primary: #FAFAFA; --text-secondary: #A1A1AA; --text-muted: #71717A;
+    --accent: #A78BFA; --accent-light: rgba(167,139,250,0.1);
+    --border: rgba(255,255,255,0.08);
+  }
+  :root[data-theme="light"] {
+    --bg: #FAFAFA; --bg-card: #FFFFFF; --bg-raised: #F0F0ED;
+    --text-primary: #111118; --text-secondary: #52525B; --text-muted: #A1A1AA;
+    --accent: #7C3AED; --accent-light: #F3F0FF;
+    --border: rgba(0,0,0,0.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif;
+    background: var(--bg); color: var(--text-primary);
+    line-height: 1.7; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: var(--max-w); margin: 0 auto; padding: 56px 24px 96px; }
+  .back {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 600; color: var(--text-secondary);
+    text-decoration: none; margin-bottom: 40px; transition: color 0.2s;
+  }
+  .back:hover { color: var(--accent); }
+  h1 { font-size: clamp(30px, 5vw, 42px); font-weight: 800; letter-spacing: -1px; line-height: 1.15; }
+  .updated { color: var(--text-muted); font-size: 14px; margin-top: 10px; margin-bottom: 40px; }
+  h2 {
+    font-size: 19px; font-weight: 700; letter-spacing: -0.3px;
+    margin-top: 40px; margin-bottom: 12px; color: var(--text-primary);
+  }
+  p, li { color: var(--text-secondary); font-size: 15.5px; }
+  p { margin-bottom: 14px; }
+  ul { margin: 0 0 16px 20px; }
+  li { margin-bottom: 8px; }
+  strong { color: var(--text-primary); font-weight: 650; }
+  a { color: var(--accent); }
+  .lead {
+    font-size: 17px; color: var(--text-secondary);
+    padding: 20px 24px; background: var(--bg-card);
+    border: 1px solid var(--border); border-radius: 14px; margin-bottom: 8px;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 20px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--text-primary); font-weight: 650; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { color: var(--text-secondary); }
+  .foot {
+    margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border);
+    font-size: 14px; color: var(--text-muted);
+  }
+  .foot a { margin-right: 16px; }
+</style>
+<script>
+  // match whichever theme the visitor picked on the main site
+  try {
+    var t = localStorage.getItem('theme');
+    if (t) document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/">← Back to LazyScale</a>
+
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated 19 August 2026</p>
+
+  <p class="lead">LazyScale is a small automation studio. We collect the details you type into our forms so we can reply to you — nothing more. We do not sell your data, and we do not run advertising trackers on this site.</p>
+
+  <h2>Who we are</h2>
+  <p>LazyScale builds AI automation workflows for startups. For anything relating to this policy or your data, contact <a href="mailto:divyanshus2404@gmail.com">divyanshus2404@gmail.com</a>.</p>
+
+  <h2>What we collect</h2>
+  <p>Only what you choose to give us, plus the standard technical information any website receives.</p>
+  <table>
+    <tr><th>What</th><th>Where it comes from</th><th>Why</th></tr>
+    <tr><td>Name and email address</td><td>Audit form, contact form</td><td>To reply to your enquiry</td></tr>
+    <tr><td>Startup name, team size</td><td>Audit form</td><td>To size our recommendations</td></tr>
+    <tr><td>What you want automated, and your message</td><td>Audit form, contact form</td><td>To prepare a useful response</td></tr>
+    <tr><td>IP address, browser and device type, pages visited</td><td>Automatically, via our host</td><td>Serving the site and basic security</td></tr>
+  </table>
+  <p>We do not ask for payment card details, identity documents, or any special category data on this website. Please don't send them to us through these forms.</p>
+
+  <h2>Cookies and local storage</h2>
+  <p>This site sets <strong>no advertising or analytics cookies</strong>. We store one item in your browser's local storage — your light or dark theme preference — so the site looks the same when you return. It stays on your device, is never sent to us, and clearing your browser data removes it.</p>
+
+  <h2>Who else handles your data</h2>
+  <p>We use a small number of third parties to run the site. Each receives only what it needs to do its job.</p>
+  <table>
+    <tr><th>Service</th><th>What it handles</th><th>Their policy</th></tr>
+    <tr><td>Formspree</td><td>Delivers our form submissions to our inbox</td><td><a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener">Privacy policy</a></td></tr>
+    <tr><td>Vercel</td><td>Hosts and serves this website</td><td><a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener">Privacy policy</a></td></tr>
+    <tr><td>Cal.com</td><td>Booking, if you schedule a call</td><td><a href="https://cal.com/privacy" target="_blank" rel="noopener">Privacy policy</a></td></tr>
+  </table>
+  <p>Some of these providers process data outside India, including in the United States. If you message us on WhatsApp using the button on our site, that conversation is governed by WhatsApp's own privacy policy.</p>
+  <p>We do not sell your personal data, and we do not share it with advertisers or data brokers.</p>
+
+  <h2>How long we keep it</h2>
+  <p>Enquiries are kept for <strong>24 months</strong> from your last contact with us, so we have context if you come back. If you become a client, we keep records for as long as our engagement lasts and for any period we're required to afterwards. You can ask us to delete your data sooner at any time.</p>
+
+  <h2>Your rights</h2>
+  <p>Under India's Digital Personal Data Protection Act, 2023 — and comparable laws elsewhere — you can ask us to:</p>
+  <ul>
+    <li>Tell you what personal data of yours we hold</li>
+    <li>Correct anything inaccurate or incomplete</li>
+    <li>Delete your data</li>
+    <li>Withdraw the consent you gave when you submitted a form</li>
+    <li>Nominate someone to exercise these rights on your behalf</li>
+  </ul>
+  <p>Email <a href="mailto:divyanshus2404@gmail.com">divyanshus2404@gmail.com</a> and we'll action it within 30 days. There's no charge. If you're unhappy with how we've handled a request, you can raise it with the Data Protection Board of India.</p>
+
+  <h2>Security</h2>
+  <p>The site is served over HTTPS and form submissions are encrypted in transit. We keep the number of people and systems that can reach your data as small as we practically can. That said, no method of transmission over the internet is completely secure, and we can't guarantee absolute security.</p>
+
+  <h2>Children</h2>
+  <p>This site is meant for people running or working at businesses. It isn't directed at children, and we don't knowingly collect data from anyone under 18.</p>
+
+  <h2>Changes</h2>
+  <p>If we change this policy we'll update the date at the top. If a change materially affects how we handle data you've already given us, we'll email you where we reasonably can.</p>
+
+  <div class="foot">
+    <a href="/">Home</a><a href="/terms.html">Terms of Service</a><a href="mailto:divyanshus2404@gmail.com">Contact</a>
+  </div>
+</div>
+</body>
+</html>
