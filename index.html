@@ -1429,6 +1429,8 @@
   @keyframes success-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 </style>
 
+<script defer src="/_vercel/insights/script.js"></script>
+
 <script>
   // Arm the scroll reveals before first paint. If JS is off or this never runs,
   // the reveal styles stay inert and all content renders normally.
@@ -2229,6 +2231,7 @@ function submitForm({ formId, errorId, successId, idleLabel }) {
 
     if (r.ok && !(data && data.ok === false)) {
       stopTicker();
+      track('form_submitted', { form: formId });
       form.style.display = 'none';
       const success = document.getElementById(successId);
       if (data && data.audit) renderAudit(success, data);
@@ -2545,5 +2548,37 @@ const auditObs = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.15 });
 if (auditSection) auditObs.observe(auditSection);
+
+
+// ─── ANALYTICS ───
+// Vercel Web Analytics: cookieless, stores no personal data, needs no consent
+// banner. Enable it at Vercel → your project → Analytics, then this reports.
+// track() is a no-op until then, so nothing breaks either way.
+function track(name, data) {
+  try { if (window.va) window.va('event', { name, ...(data || {}) }); } catch (e) {}
+}
+
+// The funnel that matters: did they engage, did they ask, did they book.
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href*="cal.com"]');
+  if (a) track('book_call_click', { where: a.closest('section')?.id || 'nav' });
+
+  const chip = e.target.closest('.bld-chip');
+  if (chip) track('builder_used', { choice: chip.textContent.trim().slice(0, 40) });
+
+  if (e.target.closest('#bld-go')) track('builder_cta_click');
+  if (e.target.closest('a[href*="wa.me"]')) track('whatsapp_click');
+}, { passive: true });
+
+// How far down do people actually get
+let deepest = 0;
+window.addEventListener('scroll', () => {
+  const max = document.documentElement.scrollHeight - innerHeight;
+  if (max <= 0) return;
+  const pct = Math.round((scrollY / max) * 100);
+  [25, 50, 75, 90].forEach(mark => {
+    if (pct >= mark && deepest < mark) { deepest = mark; track('scroll_depth', { pct: mark }); }
+  });
+}, { passive: true });
 
 </script>
