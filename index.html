@@ -1030,186 +1030,121 @@
   }
   .skip-link:focus { transform: translate(-50%, 0); }
 
-  /* ─── WORKFLOW VISUALISATION ─── */
-  .flow { max-width: 1100px; margin: 0 auto; }
-  .flow-track {
-    position: relative; display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: var(--s5); padding-top: var(--s6);
-  }
-  /* connector runs behind the nodes */
-  .flow-line {
-    position: absolute; top: calc(var(--s6) + 26px); left: 12.5%; right: 12.5%;
-    height: 2px; background: var(--border); border-radius: 2px; overflow: hidden;
-  }
-  .flow-line-fill {
-    display: block; height: 100%; width: 0%;
-    background: linear-gradient(90deg, var(--accent), var(--accent-mid));
-    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+  /* ─── LEAD ENGINE DEMO ─── */
+  .demo2 { max-width: 760px; margin: 0 auto; }
 
-  .flow-step { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; }
-  .flow-node {
-    width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
-    background: var(--bg-card); border: 2px solid var(--border);
-    color: var(--text-muted); position: relative; z-index: 2;
-    transition: border-color 0.4s, color 0.4s, box-shadow 0.4s, transform 0.4s;
-  }
-  .flow-node svg { width: 22px; height: 22px; }
-  .flow-step.on .flow-node {
-    border-color: var(--accent); color: var(--accent);
-    box-shadow: 0 0 0 6px var(--accent-glow-strong);
-    transform: scale(1.06);
-  }
-  .flow-step.done .flow-node { border-color: var(--accent); color: var(--accent); }
-
-  .flow-meta { margin-top: var(--s3); }
-  .flow-time {
-    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.6px;
-    color: var(--text-muted); background: var(--bg-raised);
-    padding: 2px 8px; border-radius: var(--r-pill); margin-bottom: var(--s2);
-    transition: color 0.4s, background 0.4s;
-  }
-  .flow-step.on .flow-time, .flow-step.done .flow-time { color: var(--accent); background: var(--accent-light); }
-  .flow-meta h4 { font-size: var(--t-body); font-weight: 680; color: var(--text-primary); }
-  .flow-meta p { font-size: var(--t-sm); color: var(--text-muted); margin-top: 2px; line-height: 1.5; }
-
-  .flow-card {
-    margin-top: var(--s4); width: 100%; text-align: left;
+  .d2-msg {
     background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: var(--r-md); padding: var(--s3) var(--s4);
-    box-shadow: var(--shadow-sm);
+    border-radius: var(--r-lg); padding: var(--s5);
+    box-shadow: var(--shadow-md);
+  }
+  .d2-msg-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: var(--s3);
+  }
+  .d2-ch {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;
+    color: #25D366;
+  }
+  .d2-ch svg { width: 15px; height: 15px; }
+  .d2-time { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+  .d2-bubble {
+    background: var(--bg-raised); border-radius: 4px var(--r-md) var(--r-md) var(--r-md);
+    padding: var(--s4); font-size: 15.5px; line-height: 1.65; color: var(--text-primary);
+  }
+  .d2-from { font-size: 12.5px; color: var(--text-muted); margin-top: var(--s2); }
+
+  .d2-arrow { display: grid; place-items: center; padding: var(--s3) 0; color: var(--border-hover); }
+  .d2-arrow svg { width: 20px; height: 20px; }
+
+  .d2-steps { list-style: none; padding: 0; margin: 0; position: relative; }
+  /* rail behind the timestamps */
+  .d2-steps::before {
+    content: ''; position: absolute; left: 27px; top: 10px; bottom: 10px;
+    width: 2px; background: var(--border);
+  }
+  .d2-step {
+    display: grid; grid-template-columns: 56px 1fr; gap: var(--s4);
+    align-items: start; padding-bottom: var(--s5); position: relative;
     opacity: 0; transform: translateY(10px);
-    transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s, border-color 0.4s;
   }
-  .flow-step.on .flow-card, .flow-step.done .flow-card { opacity: 1; transform: translateY(0); }
-  .flow-step.on .flow-card { border-color: var(--border-accent); box-shadow: var(--shadow-md); }
+  .reveals-on .d2-step { transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+  .d2-step.on { opacity: 1; transform: none; }
+  .d2-step:last-child { padding-bottom: 0; }
+  .d2-t {
+    position: relative; z-index: 1; justify-self: start;
+    background: var(--bg-card); border: 1.5px solid var(--border);
+    border-radius: var(--r-pill); padding: 3px 10px;
+    font-size: 11.5px; font-weight: 750; color: var(--text-muted);
+    transition: color 0.4s, border-color 0.4s;
+  }
+  .d2-step.on .d2-t { color: var(--accent); border-color: var(--accent); }
+  .d2-body h4 { font-size: 15.5px; font-weight: 700; color: var(--text-primary); margin-bottom: 3px; }
+  .d2-body p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin: 0; }
 
-  .flow-card-head {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
-    color: var(--text-muted); margin-bottom: var(--s2);
-  }
-  .flow-hash { color: var(--accent); font-weight: 800; }
-  .flow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
-  .flow-dot-hot { background: #F97316; }
-  .flow-dot-ok { background: #22C55E; }
-  .flow-card-body strong { display: block; font-size: 13.5px; font-weight: 650; color: var(--text-primary); }
-  .flow-card-body span { display: block; font-size: 12.5px; color: var(--text-secondary); margin-top: 3px; line-height: 1.5; }
-
-  .flow-score { display: flex; align-items: baseline; gap: 3px; }
-  .flow-score b { font-size: 26px; font-weight: 800; color: var(--text-primary); line-height: 1; }
-  .flow-score i { font-style: normal; font-size: 13px; color: var(--text-muted); }
-  .flow-score em {
-    font-style: normal; margin-left: auto; font-size: 11px; font-weight: 700;
-    color: #EA580C; background: rgba(249,115,22,0.1);
-    padding: 2px 8px; border-radius: var(--r-pill);
-  }
-  .flow-bar { margin-top: var(--s2); height: 4px; background: var(--bg-raised); border-radius: 2px; overflow: hidden; }
-  .flow-bar span {
+  .d2-score { display: flex; align-items: center; gap: var(--s3); margin-top: var(--s3); }
+  .d2-score-num { display: flex; align-items: baseline; gap: 2px; }
+  .d2-score-num b { font-size: 24px; font-weight: 800; color: var(--text-primary); line-height: 1; }
+  .d2-score-num i { font-style: normal; font-size: 12px; color: var(--text-muted); }
+  .d2-score-bar { flex: 1; max-width: 160px; height: 5px; background: var(--bg-raised); border-radius: 3px; overflow: hidden; }
+  .d2-score-bar span {
     display: block; height: 100%; width: 0;
-    background: linear-gradient(90deg, #F97316, #EA580C); border-radius: 2px;
-    transition: width 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s;
+    background: linear-gradient(90deg, #F97316, #EA580C);
+    transition: width 1s cubic-bezier(0.16,1,0.3,1) 0.25s;
   }
-  .flow-step:not(.on):not(.done) .flow-bar span { width: 0 !important; }
+  .d2-step.on .d2-score-bar span { width: 90%; }
+  .d2-hot {
+    font-size: 11px; font-weight: 750; color: #EA580C;
+    background: rgba(249,115,22,0.1); padding: 3px 9px; border-radius: var(--r-pill);
+  }
 
-  .flow-foot {
-    display: flex; align-items: center; justify-content: center; gap: var(--s7);
-    margin-top: var(--s7); padding-top: var(--s5);
-    border-top: 1px solid var(--border); flex-wrap: wrap;
+  .d2-reply {
+    margin-top: var(--s3); background: var(--accent-light);
+    border: 1px solid var(--border-accent); border-radius: var(--r-md);
+    padding: var(--s4); font-size: 14px; line-height: 1.65; color: var(--text-primary);
   }
-  .flow-foot-stat { text-align: center; }
-  .flow-foot-stat strong { display: block; font-size: 22px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; }
-  .flow-foot-stat span { font-size: var(--t-sm); color: var(--text-muted); }
-  .flow-replay {
+  .d2-reply-tag {
+    font-size: 10.5px; font-weight: 750; letter-spacing: 0.6px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 6px;
+  }
+
+  .d2-slack {
+    margin-top: var(--s3); background: var(--bg-raised);
+    border: 1px solid var(--border); border-radius: var(--r-md);
+    padding: var(--s3) var(--s4); font-size: 12px; font-weight: 700;
+    letter-spacing: 0.4px; text-transform: uppercase; color: var(--text-muted);
+  }
+  .d2-hash { color: var(--accent); font-weight: 800; }
+  .d2-slack-body { text-transform: none; letter-spacing: 0; margin-top: 6px; }
+  .d2-slack-body strong { display: block; font-size: 13.5px; font-weight: 650; color: var(--text-primary); }
+  .d2-slack-body span { display: block; font-size: 12.5px; font-weight: 500; color: var(--text-secondary); margin-top: 2px; }
+
+  .d2-result {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--s5); flex-wrap: wrap;
+    margin-top: var(--s6); padding-top: var(--s5); border-top: 1px solid var(--border);
+  }
+  .d2-result-stats { display: flex; gap: var(--s7); flex-wrap: wrap; }
+  .d2-result-stats div { text-align: left; }
+  .d2-result-stats strong { display: block; font-size: 21px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; }
+  .d2-result-stats span { font-size: 12.5px; color: var(--text-muted); }
+  .d2-replay {
     display: inline-flex; align-items: center; gap: var(--s2);
     height: var(--ctl-h); padding: 0 var(--s4);
     background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-pill);
     font-family: inherit; font-size: var(--t-sm); font-weight: 650; color: var(--text-secondary);
     cursor: pointer; transition: all var(--transition);
   }
-  .flow-replay svg { width: 15px; height: 15px; }
-  .flow-replay:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  .d2-replay svg { width: 15px; height: 15px; }
+  .d2-replay:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
 
-  @media (max-width: 860px) {
-    .flow-track { grid-template-columns: 1fr; gap: var(--s6); padding-top: var(--s4); }
-    /* connector becomes vertical down the left rail */
-    .flow-line { top: 0; bottom: 0; left: 25px; right: auto; width: 2px; height: auto; }
-    .flow-line-fill {
-      width: 100% !important; height: 0;
-      background: linear-gradient(180deg, var(--accent), var(--accent-mid));
-      transition: height 0.6s cubic-bezier(0.4,0,0.2,1);
-    }
-    /* node occupies its own column and spans both rows; text and card stack beside it */
-    .flow-step {
-      display: grid; grid-template-columns: auto 1fr;
-      column-gap: var(--s4); align-items: start; text-align: left;
-    }
-    .flow-node { grid-row: 1 / span 2; }
-    .flow-meta { grid-column: 2; margin-top: 0; }
-    .flow-card { grid-column: 2; margin-top: var(--s3); }
-    .flow-foot { gap: var(--s5); }
-  }
-
-  /* ─── HEADLINE WORKFLOWS ─── */
-  .wf-lead {
-    display: grid; grid-template-columns: 1fr 1fr; gap: var(--s5);
-    max-width: var(--max-w); margin: 0 auto var(--s8);
-  }
-  .wf-hero-card {
-    position: relative; display: flex; gap: var(--s4);
-    background: var(--bg-card); border: 1px solid var(--border-accent);
-    border-radius: var(--r-lg); padding: var(--s6);
-    box-shadow: var(--shadow-md);
-    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-  }
-  .wf-hero-card:hover {
-    transform: translateY(-3px); box-shadow: var(--shadow-lg);
-    border-color: var(--accent);
-  }
-  .wf-hero-rank {
-    flex-shrink: 0; font-size: 13px; font-weight: 800; letter-spacing: 0.5px;
-    color: var(--accent); background: var(--accent-light);
-    border: 1px solid var(--border-accent); border-radius: var(--r-pill);
-    height: 30px; min-width: 38px; display: grid; place-items: center;
-  }
-  .wf-hero-body { flex: 1; }
-  .wf-hero-body h3 {
-    font-size: 23px; font-weight: 750; letter-spacing: -0.5px;
-    color: var(--text-primary); margin-bottom: 6px;
-  }
-  .wf-hero-line {
-    font-size: 15.5px; font-weight: 620; color: var(--accent);
-    margin-bottom: 12px; line-height: 1.5;
-  }
-  .wf-hero-body p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px; }
-  .wf-hero-points { list-style: none; padding: 0; margin: 0 0 16px; }
-  .wf-hero-points li {
-    position: relative; padding-left: 24px; margin-bottom: 8px;
-    font-size: 14.5px; color: var(--text-secondary); line-height: 1.55;
-  }
-  .wf-hero-points li::before {
-    content: ''; position: absolute; left: 0; top: 7px;
-    width: 13px; height: 13px; border-radius: 50%;
-    background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='9' viewBox='0 0 24 24' fill='none' stroke='%2322C55E' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: center;
-  }
-  .wf-hero-why {
-    font-size: 14px !important; color: var(--text-secondary) !important;
-    background: var(--bg-raised); border-radius: var(--r-sm);
-    padding: 12px 14px; margin-bottom: 0 !important; line-height: 1.6;
-  }
-  .wf-hero-why strong { color: var(--text-primary); }
-
-  .wf-also { max-width: var(--max-w); margin: 0 auto; }
-  .wf-also h4 {
-    font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
-    color: var(--text-muted); text-align: center; margin-bottom: var(--s5);
-  }
-
-  @media (max-width: 900px) {
-    .wf-lead { grid-template-columns: 1fr; gap: var(--s4); margin-bottom: var(--s7); }
-    .wf-hero-card { padding: var(--s5); }
+  @media (max-width: 600px) {
+    .d2-step { grid-template-columns: 48px 1fr; gap: var(--s3); }
+    .d2-steps::before { left: 23px; }
+    .d2-result-stats { gap: var(--s5); }
+    .d2-result { flex-direction: column; align-items: stretch; }
+    .d2-replay { width: 100%; justify-content: center; }
   }
 
   /* ─── WORKFLOW BUILDER ─── */
@@ -1503,8 +1438,8 @@
       <h1>Turn every enquiry into a <span class="hero-rotate"><span class="hero-rotate-words"><span><em>conversation</em></span><span><em>qualified lead</em></span><span><em>booked call</em></span><span><em>conversation</em></span></span></span></h1>
       <p class="hero-sub">LazyScale replies, qualifies and follows up with every inbound lead — across WhatsApp, Instagram, email and your website. Automatically, in under a minute, at 2am.</p>
       <div class="hero-ctas">
-        <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-dark btn-lg">Book a Free Call</a>
-        <a href="#workflows" class="btn btn-ghost btn-lg">See how it works</a>
+        <a href="#audit" class="btn btn-dark btn-lg">Get my free audit</a>
+        <a href="#demo" class="btn btn-ghost btn-lg">See how it works</a>
       </div>
       <div class="hero-proof">
         <span class="hero-proof-label">Trusted by early-stage teams</span>
@@ -1531,71 +1466,98 @@
   <section class="fade-up" id="demo">
     <div class="section-header section-header-center">
       <div class="section-label">See It In Action</div>
-      <h2 class="section-title">A lead, handled in 47 seconds</h2>
-      <p class="section-desc">This is a real Lead Pilot workflow. Watch it run end to end — no one touches it.</p>
+      <h2 class="section-title">2:14am. Nobody's awake. The lead still gets answered.</h2>
+      <p class="section-desc">A real enquiry, and everything Lead Engine does with it. No one touched any of this.</p>
     </div>
 
-    <div class="flow" id="flow">
-      <div class="flow-track">
-        <div class="flow-line"><span class="flow-line-fill" id="flow-fill"></span></div>
-
-        <div class="flow-step" data-step="0">
-          <div class="flow-node">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
-          </div>
-          <div class="flow-meta"><span class="flow-time">0s</span><h4>Lead arrives</h4><p>Website form submission</p></div>
-          <div class="flow-card">
-            <div class="flow-card-head"><span class="flow-dot"></span> New enquiry</div>
-            <div class="flow-card-body"><strong>Rahul Sharma</strong><span>"Need to automate our sales pipeline"</span></div>
-          </div>
+    <div class="demo2" id="demo2">
+      <!-- the enquiry as it actually arrives -->
+      <div class="d2-msg">
+        <div class="d2-msg-head">
+          <span class="d2-ch">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5.1-1.3A10 10 0 1012 2zm5.5 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.7-1.2-4.4-3.9-4.6-4.1-.1-.2-1-1.4-1-2.6s.6-1.8.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.3.4c-.1.1-.3.3-.1.6.1.2.6 1 1.3 1.6.9.8 1.6 1 1.9 1.2.2.1.4 0 .5-.1l.6-.7c.2-.2.3-.2.5-.1l1.8.9c.2.1.4.2.5.3.1.2.1.7-.1 1.3z"/></svg>
+            WhatsApp
+          </span>
+          <span class="d2-time">2:14 AM</span>
         </div>
-
-        <div class="flow-step" data-step="1">
-          <div class="flow-node">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
-          </div>
-          <div class="flow-meta"><span class="flow-time">6s</span><h4>AI qualifies</h4><p>Scored against your criteria</p></div>
-          <div class="flow-card">
-            <div class="flow-card-head"><span class="flow-dot flow-dot-hot"></span> Lead score</div>
-            <div class="flow-score"><b>9</b><i>/10</i><em>Hot</em></div>
-            <div class="flow-bar"><span style="width:90%"></span></div>
-          </div>
+        <div class="d2-bubble">
+          Hi, I'm looking for a 3BHK in Whitefield, Bangalore. Budget around ₹1.2 Cr, ready to move in the next 2 months. Can someone call me?
         </div>
-
-        <div class="flow-step" data-step="2">
-          <div class="flow-node">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-          </div>
-          <div class="flow-meta"><span class="flow-time">11s</span><h4>Team notified</h4><p>Posted to your Slack</p></div>
-          <div class="flow-card">
-            <div class="flow-card-head"><span class="flow-hash">#</span> leads</div>
-            <div class="flow-card-body"><strong>🔥 Hot lead — Rahul Sharma</strong><span>Score 9/10 · Reply already sent</span></div>
-          </div>
-        </div>
-
-        <div class="flow-step" data-step="3">
-          <div class="flow-node">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-          </div>
-          <div class="flow-meta"><span class="flow-time">47s</span><h4>Replied &amp; logged</h4><p>Booking link sent, CRM updated</p></div>
-          <div class="flow-card">
-            <div class="flow-card-head"><span class="flow-dot flow-dot-ok"></span> Complete</div>
-            <div class="flow-card-body"><strong>Reply sent + meeting booked</strong><span>CRM row created · 0 manual steps</span></div>
-          </div>
-        </div>
+        <div class="d2-from">Priya Menon · +91 98••• ••432</div>
       </div>
 
-      <div class="flow-foot">
-        <div class="flow-foot-stat"><strong id="flow-timer">47s</strong><span>end to end</span></div>
-        <div class="flow-foot-stat"><strong>0</strong><span>manual steps</span></div>
-        <div class="flow-foot-stat"><strong>24/7</strong><span>runs without you</span></div>
-        <button class="flow-replay" id="flow-replay" type="button">
+      <div class="d2-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      </div>
+
+      <!-- what happened, in order -->
+      <ol class="d2-steps">
+        <li class="d2-step" data-i="0">
+          <span class="d2-t">0s</span>
+          <div class="d2-body">
+            <h4>Captured</h4>
+            <p>Pulled off WhatsApp into one pipeline with your web and Instagram enquiries.</p>
+          </div>
+        </li>
+
+        <li class="d2-step" data-i="1">
+          <span class="d2-t">3s</span>
+          <div class="d2-body">
+            <h4>Qualified</h4>
+            <p>Read against your criteria — budget stated, timeline stated, area matches your inventory.</p>
+            <div class="d2-score">
+              <div class="d2-score-num"><b>9</b><i>/10</i></div>
+              <div class="d2-score-bar"><span></span></div>
+              <span class="d2-hot">Hot</span>
+            </div>
+          </div>
+        </li>
+
+        <li class="d2-step" data-i="2">
+          <span class="d2-t">8s</span>
+          <div class="d2-body">
+            <h4>Replied</h4>
+            <p>Not an auto-responder. An actual answer to what she asked:</p>
+            <div class="d2-reply">
+              <div class="d2-reply-tag">Sent to Priya</div>
+              Hi Priya — yes, we have three 3BHKs in Whitefield in that range, two of them ready to move. I'll have Rahul call you today. If it's easier, here's his calendar: cal.com/…
+            </div>
+          </div>
+        </li>
+
+        <li class="d2-step" data-i="3">
+          <span class="d2-t">11s</span>
+          <div class="d2-body">
+            <h4>Team notified</h4>
+            <p>Posted to your sales channel, so whoever's on has the context before they call.</p>
+            <div class="d2-slack">
+              <span class="d2-hash">#</span> sales-leads
+              <div class="d2-slack-body"><strong>🔥 Hot lead — Priya Menon</strong><span>3BHK Whitefield · ₹1.2 Cr · 2 months · scored 9/10 · reply already sent</span></div>
+            </div>
+          </div>
+        </li>
+
+        <li class="d2-step" data-i="4">
+          <span class="d2-t">12s</span>
+          <div class="d2-body">
+            <h4>Logged</h4>
+            <p>Row created in your CRM with the full conversation attached. Nothing to type up later.</p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="d2-result">
+        <div class="d2-result-stats">
+          <div><strong id="d2-timer">12s</strong><span>start to finish</span></div>
+          <div><strong>0</strong><span>manual steps</span></div>
+          <div><strong>2:14am</strong><span>and still answered</span></div>
+        </div>
+        <button class="d2-replay" id="d2-replay" type="button">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>
           Replay
         </button>
       </div>
     </div>
-
   </section>
 
   <!-- WORKFLOWS -->
@@ -2468,79 +2430,9 @@ function handleAudit(e) {
   render();
 })();
 
-// ─── WORKFLOW VISUALISATION ───
-// Steps light up in sequence, the connector fills, then it settles on "done".
-(() => {
-  const flow = document.getElementById('flow');
-  if (!flow) return;
-  const steps = [...flow.querySelectorAll('.flow-step')];
-  const fill = document.getElementById('flow-fill');
-  const timer = document.getElementById('flow-timer');
-  const replay = document.getElementById('flow-replay');
-  const stamps = [0, 6, 11, 47];          // seconds shown on each step
-  const isMobile = () => window.matchMedia('(max-width: 860px)').matches;
-  let timers = [];
-
-  const clear = () => { timers.forEach(clearTimeout); timers = []; };
-
-  function setFill(pct) {
-    if (isMobile()) { fill.style.height = pct + '%'; fill.style.width = '100%'; }
-    else { fill.style.width = pct + '%'; fill.style.height = '100%'; }
-  }
-
-  function reset() {
-    clear();
-    steps.forEach(s => s.classList.remove('on', 'done'));
-    setFill(0);
-    if (timer) timer.textContent = '0s';
-  }
-
-  function run() {
-    reset();
-    if (prefersReducedMotion) {           // show the finished state, no theatre
-      steps.forEach(s => s.classList.add('done'));
-      setFill(100);
-      if (timer) timer.textContent = '47s';
-      return;
-    }
-    steps.forEach((step, i) => {
-      timers.push(setTimeout(() => {
-        steps.forEach(s => s.classList.remove('on'));
-        step.classList.add('on');
-        for (let j = 0; j < i; j++) steps[j].classList.add('done');
-        setFill((i / (steps.length - 1)) * 100);
-        if (timer) timer.textContent = stamps[i] + 's';
-      }, i * 1400));
-    });
-    // settle: everything done, nothing pulsing
-    timers.push(setTimeout(() => {
-      steps.forEach(s => { s.classList.remove('on'); s.classList.add('done'); });
-      setFill(100);
-    }, steps.length * 1400));
-  }
-
-  if (replay) replay.addEventListener('click', run);
-  window.addEventListener('resize', () => {
-    // keep the connector on the right axis when crossing the breakpoint
-    const pct = steps.filter(s => s.classList.contains('done')).length >= steps.length ? 100
-      : (steps.findIndex(s => s.classList.contains('on')) / (steps.length - 1)) * 100;
-    setFill(Math.max(0, pct));
-  }, { passive: true });
-
-  new IntersectionObserver((entries, obs) => {
-    entries.forEach(e => { if (e.isIntersecting) { run(); obs.unobserve(e.target); } });
-  }, { threshold: 0.3 }).observe(flow);
-
-  // if the observer never fires, still show the finished state
-  setTimeout(() => {
-    if (!flow.querySelector('.flow-step.on, .flow-step.done')) {
-      steps.forEach(s => s.classList.add('done'));
-      setFill(100);
-    }
-  }, 2500);
-})();
-
-// Audit section scroll animations — form lifts in, perks cascade
+// ─── AUDIT SECTION REVEAL ───
+// The form and perks start hidden under .reveals-on, so if this never runs the
+// most important element on the page stays invisible.
 function revealAudit(section, stagger = true) {
   if (!section) return;
   const form = section.querySelector('.audit-form');
@@ -2551,15 +2443,64 @@ function revealAudit(section, stagger = true) {
   });
 }
 
-const auditObs = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (!e.isIntersecting) return;
-    revealAudit(e.target);
-    auditObs.unobserve(e.target);
-  });
-}, { threshold: 0.15 });
-if (auditSection) auditObs.observe(auditSection);
+(() => {
+  const section = document.querySelector('.audit-section');
+  if (!section) return;
+  const obs = new IntersectionObserver((entries, o) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      revealAudit(e.target);
+      o.unobserve(e.target);
+    });
+  }, { threshold: 0.15 });
+  obs.observe(section);
+  setTimeout(() => {
+    if (!section.querySelector('.audit-form.visible')) revealAudit(section, false);
+  }, 2500);
+})();
 
+// ─── LEAD ENGINE DEMO ───
+// Steps appear in sequence so a visitor watches it happen rather than
+// reading a finished diagram.
+(() => {
+  const demo = document.getElementById('demo2');
+  if (!demo) return;
+  const steps = [...demo.querySelectorAll('.d2-step')];
+  const timer = document.getElementById('d2-timer');
+  const replay = document.getElementById('d2-replay');
+  const stamps = ['0s', '3s', '8s', '11s', '12s'];
+  let timers = [];
+
+  const clear = () => { timers.forEach(clearTimeout); timers = []; };
+
+  function settle() {
+    clear();
+    steps.forEach(s => s.classList.add('on'));
+    if (timer) timer.textContent = '12s';
+  }
+
+  function run() {
+    clear();
+    if (prefersReducedMotion) return settle();
+    steps.forEach(s => s.classList.remove('on'));
+    if (timer) timer.textContent = '0s';
+    steps.forEach((step, i) => {
+      timers.push(setTimeout(() => {
+        step.classList.add('on');
+        if (timer) timer.textContent = stamps[i];
+      }, 200 + i * 1100));
+    });
+  }
+
+  if (replay) replay.addEventListener('click', run);
+
+  new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => { if (e.isIntersecting) { run(); obs.unobserve(e.target); } });
+  }, { threshold: 0.25 }).observe(demo);
+
+  // if the observer never reports, show the finished state rather than blanks
+  setTimeout(() => { if (!demo.querySelector('.d2-step.on')) settle(); }, 2500);
+})();
 
 // ─── ANALYTICS ───
 // Vercel Web Analytics: cookieless, stores no personal data, needs no consent
