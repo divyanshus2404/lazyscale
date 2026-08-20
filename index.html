@@ -1588,9 +1588,12 @@
   /* Editorial furniture: a hairline double rule under the nav, the way a printed
      masthead sits above the page. Deliberately not a background texture — ruled
      lines behind running text read as strikethroughs. */
-  nav::after {
+  /* Second rule of the masthead pair. Only once the nav has a background and a
+     border of its own — at the top of the page the nav is transparent, and this
+     line on its own read as a stray hairline across an empty viewport. */
+  :root.scrolled nav::after {
     content: '';
-    position: absolute; left: 0; right: 0; bottom: -4px;
+    position: absolute; left: 0; right: 0; bottom: -3px;
     height: 1px; background: var(--border);
   }
 
