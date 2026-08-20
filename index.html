@@ -333,19 +333,22 @@
   /* rotating words */
   /* The clip window needs slack below the baseline or descenders (the g in
      "hiring") get cut; the negative margin keeps the line box unchanged. */
+  /* The row must be tall enough to hold descenders on its own. Padding cannot
+     do it: on an overflow:hidden box padding widens the visible window, which
+     let the next word peek in under the current one. */
   .hero-rotate {
+    --rh: 1.34em;
     display: inline-block; position: relative; overflow: hidden;
-    vertical-align: bottom; height: 1.1em;
-    padding-bottom: 0.18em; margin-bottom: -0.18em;
+    vertical-align: bottom; height: var(--rh);
   }
   .hero-rotate-words { display: flex; flex-direction: column; animation: rotate-words 8s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
-  .hero-rotate-words span { height: 1.1em; display: flex; align-items: center; }
+  .hero-rotate-words span { height: var(--rh); display: flex; align-items: center; }
   @keyframes rotate-words {
     0%, 20% { transform: translateY(0); }
-    25%, 45% { transform: translateY(-1.1em); }
-    50%, 70% { transform: translateY(-2.2em); }
-    75%, 95% { transform: translateY(-3.3em); }
-    100% { transform: translateY(-4.4em); }
+    25%, 45% { transform: translateY(calc(var(--rh) * -1)); }
+    50%, 70% { transform: translateY(calc(var(--rh) * -2)); }
+    75%, 95% { transform: translateY(calc(var(--rh) * -3)); }
+    100%     { transform: translateY(calc(var(--rh) * -4)); }
   }
 
   .hero-tag {
@@ -1694,6 +1697,113 @@
   .audit-submit:hover { background: var(--highlight-deep); transform: none; box-shadow: none; filter: none; }
 
 
+
+  /* ─── PAPER-CRAFT 3D HERO ─── */
+  /* Real perspective and real Z depth, but the objects are sheets of card, so
+     it reads as paper rather than as a rendered scene. */
+  .stage3d {
+    perspective: 1200px;
+    perspective-origin: 50% 45%;
+    height: 268px;
+    margin: var(--s7) auto 0;
+    max-width: 600px;
+    position: relative;
+  }
+  .stage3d-inner {
+    position: absolute; inset: 0;
+    transform-style: preserve-3d;
+    /* --rx / --ry are written by the pointer handler */
+    transform: rotateX(calc(14deg + var(--rx, 0deg))) rotateZ(-3deg) rotateY(var(--ry, 0deg));
+    transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: transform;
+  }
+
+  .c3d {
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 300px;
+    background: var(--bg-card);
+    border: 2px solid var(--ink);
+    border-radius: var(--r-md);
+    padding: 14px 16px;
+    transform-style: preserve-3d;
+    /* depth needs a cast shadow to read; it is the one place this design earns one */
+    box-shadow: 6px 10px 0 rgba(22, 32, 43, 0.10);
+  }
+  .c3d-front { transform: translate3d(-72%, 20%, 90px) rotate(-2deg); }
+  .c3d-score { width: 218px; transform: translate3d(46%, -78%, 130px) rotate(3deg); }
+  .c3d-mid   { transform: translate3d(-16%, -6%, 26px) rotate(1.5deg); }
+  .c3d-back  { width: 244px; transform: translate3d(34%, 46%, -46px) rotate(-4deg); opacity: 0.7; }
+
+  /* each sheet drifts on its own cycle so the stack never looks locked */
+  .reveals-on .c3d-front { animation: drift-a 7s ease-in-out infinite; }
+  .reveals-on .c3d-score { animation: drift-b 9s ease-in-out infinite; }
+  .reveals-on .c3d-mid   { animation: drift-c 8s ease-in-out infinite; }
+  .reveals-on .c3d-back  { animation: drift-d 11s ease-in-out infinite; }
+  @keyframes drift-a {
+    0%,100% { transform: translate3d(-72%, 20%, 90px) rotate(-2deg); }
+    50%     { transform: translate3d(-72%, 16%, 102px) rotate(-1.2deg); }
+  }
+  }
+  @keyframes drift-b {
+    0%,100% { transform: translate3d(46%, -78%, 130px) rotate(3deg); }
+    50%     { transform: translate3d(46%, -82%, 142px) rotate(2.2deg); }
+  }
+  }
+  @keyframes drift-d {
+    0%,100% { transform: translate3d(34%, 46%, -46px) rotate(-4deg); }
+    50%     { transform: translate3d(34%, 42%, -36px) rotate(-3.2deg); }
+  }
+  @keyframes drift-c {
+    0%,100% { transform: translate3d(-16%, -6%, 26px) rotate(1.5deg); }
+    50%     { transform: translate3d(-16%, -10%, 36px) rotate(2.2deg); }
+  }
+  }
+
+  .c3d-head {
+    display: flex; align-items: center; gap: 6px;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 9.5px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 7px;
+  }
+  .c3d-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .c3d-dot-live { background: var(--highlight); }
+  .c3d-hash { color: var(--accent); font-weight: 800; }
+  .c3d-msg { font-size: 13px; line-height: 1.5; color: var(--text-primary); }
+  .c3d-from { font-size: 10.5px; color: var(--text-muted); margin-top: 7px; }
+  .c3d-title { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+  .c3d-sub { font-size: 11.5px; color: var(--text-secondary); margin-top: 2px; }
+  .c3d-rows { display: flex; flex-direction: column; gap: 6px; }
+  .c3d-rows i { display: block; height: 6px; border-radius: 3px; background: var(--bg-raised); }
+  .c3d-score-row { display: flex; align-items: baseline; gap: 3px; }
+  .c3d-score-row b { font-family: var(--font-display); font-size: 26px; font-weight: 800; line-height: 1; color: var(--text-primary); }
+  .c3d-score-row span { font-size: 11px; color: var(--text-muted); }
+  .c3d-score-row em {
+    font-style: normal; margin-left: auto; font-size: 9.5px; font-weight: 700;
+    color: var(--highlight-deep); background: var(--highlight-soft);
+    padding: 2px 7px; border-radius: var(--r-pill);
+  }
+  .c3d-bar { margin-top: 8px; height: 4px; background: var(--bg-raised); border-radius: 2px; overflow: hidden; }
+  .c3d-bar span { display: block; height: 100%; width: 90%; background: var(--highlight); }
+
+  @media (max-width: 720px) {
+    .stage3d { height: 250px; max-width: 320px; margin-top: var(--s6); }
+    .c3d { width: 208px; padding: 10px 12px; }
+    /* The drift keyframes carry the desktop anchors, so on a narrow screen they
+       would fling the cards back out past the edge. Static layout instead. */
+    .reveals-on .c3d-front, .reveals-on .c3d-score,
+    .reveals-on .c3d-mid, .reveals-on .c3d-back { animation: none; }
+    .c3d-front { transform: translate3d(-56%, 26%, 70px) rotate(-2deg); }
+    .c3d-score { width: 152px; transform: translate3d(18%, -70%, 100px) rotate(3deg); }
+    .c3d-mid   { transform: translate3d(-22%, -2%, 24px) rotate(1.5deg); }
+    .c3d-back  { width: 170px; transform: translate3d(10%, 44%, -40px) rotate(-4deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stage3d-inner { transform: rotateX(12deg) rotateZ(-3deg); transition: none; }
+    .reveals-on .c3d-front, .reveals-on .c3d-score,
+    .reveals-on .c3d-mid, .reveals-on .c3d-back { animation: none; }
+  }
+
 </style>
 
 <script defer src="/_vercel/insights/script.js"></script>
@@ -1773,6 +1883,37 @@
         <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-dark btn-lg">Book a Free Call</a>
         <a href="#workflows" class="btn btn-ghost btn-lg">See What We Automate</a>
       </div>
+      <!-- Paper-craft 3D: real perspective, layered card stock rather than
+           rendered geometry, so it belongs to the print language. -->
+      <div class="stage3d" id="stage3d" aria-hidden="true">
+        <div class="stage3d-inner" id="stage3d-inner">
+
+          <div class="c3d c3d-back">
+            <div class="c3d-head"><span class="c3d-dot"></span> Logged to CRM</div>
+            <div class="c3d-rows"><i style="width:78%"></i><i style="width:54%"></i><i style="width:66%"></i></div>
+          </div>
+
+          <div class="c3d c3d-mid">
+            <div class="c3d-head"><span class="c3d-hash">#</span> leads</div>
+            <div class="c3d-title">Hot lead — Rahul Sharma</div>
+            <div class="c3d-sub">Scored 9/10 · reply already sent</div>
+          </div>
+
+          <div class="c3d c3d-score">
+            <div class="c3d-head">Lead score</div>
+            <div class="c3d-score-row"><b>9</b><span>/10</span><em>Hot</em></div>
+            <div class="c3d-bar"><span></span></div>
+          </div>
+
+          <div class="c3d c3d-front">
+            <div class="c3d-head"><span class="c3d-dot c3d-dot-live"></span> New enquiry · 2:14 AM</div>
+            <div class="c3d-msg">Hi, need help automating our lead follow-up. Can someone call me?</div>
+            <div class="c3d-from">Priya M. · WhatsApp</div>
+          </div>
+
+        </div>
+      </div>
+
       <div class="hero-proof">
         <span class="hero-proof-label">Trusted by early-stage teams</span>
         <div class="hero-stats">
@@ -2328,6 +2469,51 @@ function toggleTheme() {
 })();
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ─── HERO 3D TILT ───
+// The stack leans towards the pointer. Damped and clamped, so it reads as
+// weight shifting rather than as something chasing the cursor.
+(() => {
+  const stage = document.getElementById('stage3d');
+  const inner = document.getElementById('stage3d-inner');
+  if (!stage || !inner || prefersReducedMotion) return;
+
+  const MAX = 9;            // degrees
+  let tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+
+  function loop() {
+    // ease toward the target rather than snapping to it
+    cx += (tx - cx) * 0.08;
+    cy += (ty - cy) * 0.08;
+    inner.style.setProperty('--ry', cx.toFixed(2) + 'deg');
+    inner.style.setProperty('--rx', cy.toFixed(2) + 'deg');
+    if (Math.abs(tx - cx) > 0.05 || Math.abs(ty - cy) > 0.05) {
+      raf = requestAnimationFrame(loop);
+    } else { raf = null; }
+  }
+  const start = () => { if (!raf) raf = requestAnimationFrame(loop); };
+
+  // track across the whole hero, so the lean starts before the pointer arrives
+  const zone = stage.closest('.hero') || stage;
+  zone.addEventListener('pointermove', e => {
+    const r = zone.getBoundingClientRect();
+    tx = (((e.clientX - r.left) / r.width) - 0.5) * 2 * MAX;
+    ty = -(((e.clientY - r.top) / r.height) - 0.5) * 2 * (MAX * 0.6);
+    start();
+  }, { passive: true });
+
+  zone.addEventListener('pointerleave', () => { tx = 0; ty = 0; start(); }, { passive: true });
+
+  // stop animating entirely when the hero is off screen
+  new IntersectionObserver(es => {
+    es.forEach(e => {
+      if (!e.isIntersecting && raf) { cancelAnimationFrame(raf); raf = null; }
+    });
+  }, { threshold: 0 }).observe(stage);
+
+  inner.style.setProperty('--rx', '0deg');
+  inner.style.setProperty('--ry', '0deg');
+})();
 
 // ─── HEADLINE TYPESETTING ───
 // Wraps each static word of the hero headline so it can set itself in sequence.
