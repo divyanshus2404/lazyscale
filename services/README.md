@@ -99,6 +99,21 @@ See [`AUTOMATION-CATALOGUE.md`](AUTOMATION-CATALOGUE.md).
 
 ---
 
+## AI employees
+
+The Careers section sells these workflows as roles rather than tools. That framing only
+holds if the delivery matches it, which means a written job description before the
+build and a performance review every month.
+
+- [`ai-employees/lead-responder-jd.md`](ai-employees/lead-responder-jd.md) — the scope
+  document. Send it before starting, not after.
+- [`ai-employees/performance-review-template.md`](ai-employees/performance-review-template.md)
+  — issued monthly whether or not the client asks.
+
+Do not describe a role as proven until it has run for a real client for thirty days.
+
+---
+
 ## What we do not build
 
 These are refusals, not negotiations. Every one of them has ended someone's agency.
