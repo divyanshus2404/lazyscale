@@ -513,51 +513,6 @@
     .ba-divider { padding: 12px; border: none; }
   }
 
-  /* ─── ROI CALCULATOR ─── */
-  .roi-calc {
-    background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: var(--r-lg); padding: 48px;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start;
-    box-shadow: var(--shadow-md);
-  }
-  .roi-inputs { display: flex; flex-direction: column; gap: 28px; }
-  .roi-field label {
-    display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px;
-    color: var(--text-secondary);
-  }
-  .roi-field input[type="range"] {
-    width: 100%; height: 6px; border-radius: 3px;
-    -webkit-appearance: none; appearance: none;
-    background: var(--border);
-    outline: none;
-  }
-  .roi-field input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%;
-    background: var(--accent); cursor: pointer; border: 3px solid var(--bg-card);
-    box-shadow: 0 2px 8px var(--accent-glow-strong);
-  }
-  .roi-field .roi-value {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-top: 8px; font-size: 13px; color: var(--text-muted);
-  }
-  .roi-field .roi-value strong { color: var(--accent); font-size: 18px; font-weight: 750; }
-  .roi-results {
-    background: var(--accent-light); border: 1px solid var(--border-accent);
-    border-radius: var(--radius); padding: 36px;
-    display: flex; flex-direction: column; gap: 24px;
-  }
-  .roi-results h3 { font-size: 16px; font-weight: 650; color: var(--accent); margin-bottom: 4px; }
-  .roi-stat-row { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--border); }
-  .roi-stat-row:last-child { border-bottom: none; }
-  .roi-stat-label { font-size: 14px; color: var(--text-secondary); }
-  .roi-stat-value { font-size: 24px; font-weight: 800; letter-spacing: -1px; color: var(--text-primary); }
-  .roi-stat-value.highlight { color: var(--accent); font-size: 32px; }
-  .roi-cta { margin-top: 8px; }
-
-  @media (max-width: 640px) {
-    .roi-calc { grid-template-columns: 1fr; padding: 28px; }
-  }
-
   /* ─── PRICING ─── */
   .pricing-toggle {
     display: flex; align-items: center; justify-content: center; gap: 12px;
@@ -2118,7 +2073,7 @@
     </div>
     <div class="nav-right">
       <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" id="theme-btn">🌙</button>
-      <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-dark nav-cta">Book a Call</a>
+      <a href="#audit" class="btn btn-dark nav-cta">Free Audit</a>
     </div>
     <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.toggle('open')" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -2132,7 +2087,7 @@
   <a href="#dfy" onclick="this.parentElement.classList.remove('open')">Done-For-You</a>
   <a href="#contact" onclick="this.parentElement.classList.remove('open')">Contact</a>
   <div style="display:flex;align-items:center;gap:12px;padding:16px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-secondary);font-size:14px">Theme</span><button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" style="margin:0">🌙</button></div>
-  <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-dark" onclick="this.parentElement.classList.remove('open')">Book a Call</a>
+  <a href="#audit" class="btn btn-dark" onclick="this.parentElement.classList.remove('open')">Get My Free Audit</a>
 </div>
 
 <div class="container">
@@ -2159,8 +2114,8 @@
       <h1>Never lose another lead to a <span class="hero-rotate"><span class="hero-rotate-words"><span><em>slow reply</em></span><span><em>missed DM</em></span><span><em>busy day</em></span><span><em>full inbox</em></span><span><em>slow reply</em></span></span></span></h1>
       <p class="hero-sub">AI that answers every enquiry <span class="mark">in under a minute</span> — on WhatsApp, Instagram, email and your website. Built for Indian startups.</p>
       <div class="hero-ctas">
-        <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-dark btn-lg">Book a Free Call</a>
-        <a href="#workflows" class="btn btn-ghost btn-lg">See What We Automate</a>
+        <a href="#audit" class="btn btn-dark btn-lg">Get My Free Audit</a>
+        <a href="#demo" class="btn btn-ghost btn-lg">See how it works</a>
       </div>
       <!-- Paper-craft 3D: real perspective, layered card stock rather than
            rendered geometry, so it belongs to the print language. -->
@@ -2479,42 +2434,6 @@
     </div>
   </section>
 
-  <!-- ROI CALCULATOR -->
-  <section class="fade-up" id="roi">
-    <div class="section-header section-header-center">
-      <div class="section-label">ROI Calculator</div>
-      <h2 class="section-title">See how much you'd save</h2>
-      <p class="section-desc">Drag the sliders to estimate your savings with LazyScale.</p>
-    </div>
-    <div class="roi-calc">
-      <div class="roi-inputs">
-        <div class="roi-field">
-          <label>Hours spent on manual tasks per week</label>
-          <input type="range" id="roi-hours" min="5" max="60" value="20" oninput="calcROI()">
-          <div class="roi-value"><span>5 hrs</span><strong id="roi-hours-val">20 hrs</strong><span>60 hrs</span></div>
-        </div>
-        <div class="roi-field">
-          <label>Your hourly rate (or team cost)</label>
-          <input type="range" id="roi-rate" min="500" max="15000" value="2000" step="500" oninput="calcROI()">
-          <div class="roi-value"><span>₹500</span><strong id="roi-rate-val">₹2,000</strong><span>₹15,000</span></div>
-        </div>
-        <div class="roi-field">
-          <label>Team members doing this work</label>
-          <input type="range" id="roi-team" min="1" max="10" value="2" oninput="calcROI()">
-          <div class="roi-value"><span>1</span><strong id="roi-team-val">2</strong><span>10</span></div>
-        </div>
-      </div>
-      <div class="roi-results">
-        <h3>Your estimated savings</h3>
-        <div class="roi-stat-row"><span class="roi-stat-label">Hours saved / month</span><span class="roi-stat-value" id="roi-saved-hours">128 hrs</span></div>
-        <div class="roi-stat-row"><span class="roi-stat-label">Money saved / month</span><span class="roi-stat-value highlight" id="roi-saved-money">₹2,56,000</span></div>
-        <div class="roi-stat-row"><span class="roi-stat-label">Annual savings</span><span class="roi-stat-value" id="roi-saved-annual">₹30,72,000</span></div>
-        <div class="roi-stat-row"><span class="roi-stat-label">ROI vs. Growth plan</span><span class="roi-stat-value highlight" id="roi-ratio">4.3x</span></div>
-        <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-primary roi-cta" style="width:100%;justify-content:center;">Get These Savings →</a>
-      </div>
-    </div>
-  </section>
-
   <!-- PRICING -->
   <section id="pricing" class="fade-up">
     <div class="section-header section-header-center">
@@ -2617,7 +2536,7 @@
 
     <div class="careers-body" id="careers-body" hidden>
       <div class="ai-hero">
-        <div class="note">not tools. not chatbots.</div>
+        <div class="note">a desk, not a dashboard</div>
         <h3>Hire AI employees built for one job,<br>who own it end to end.</h3>
         <p>Every automation vendor sells you a tool and leaves you to run it. We hand you someone who already knows the job — takes the work off a person's desk, does it start to finish, and escalates the bits that genuinely need a human.</p>
         <p class="ai-hero-line">They extend what your team can already do. They don't sit beside it waiting to be operated.</p>
@@ -2798,8 +2717,8 @@
     <h2>Stop doing work a machine should do</h2>
     <p>Book a 15-minute call. We'll tell you exactly what we'd automate and what it'll save you. No pitch deck, just answers.</p>
     <div class="cta-buttons">
-      <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-dark btn-lg">Book Your Free Call</a>
-      <a href="https://cal.com/lazy_scale/30min" target="_blank" class="btn btn-ghost btn-lg">See a Demo First</a>
+      <a href="#audit" class="btn btn-dark btn-lg">Get My Free Audit</a>
+      <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-ghost btn-lg">Or book a 15-min call</a>
     </div>
   </section>
 
@@ -2817,7 +2736,7 @@
           <a href="mailto:divyanshus2404@gmail.com" aria-label="Email" style="width:36px;height:36px;border-radius:10px;background:var(--bg-raised);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:all 0.2s;"><svg width="16" height="16" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg></a>
         </div>
       </div>
-      <div class="footer-col"><h4>Product</h4><a href="#workflows">Workflows</a><a href="#pricing">Pricing</a><a href="#dfy">Done-For-You</a><a href="#roi">ROI Calculator</a></div>
+      <div class="footer-col"><h4>Product</h4><a href="#workflows">Workflows</a><a href="#pricing">Pricing</a><a href="#dfy">Done-For-You</a></div>
       <div class="footer-col"><h4>Company</h4><a href="#contact">Contact</a><a href="#faq">FAQ</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div>
       <div class="footer-col"><h4>Connect</h4><a href="mailto:divyanshus2404@gmail.com">divyanshus2404@gmail.com</a><a href="https://cal.com/lazy_scale/15min" target="_blank" rel="noopener">Book a call</a><a href="https://wa.me/917668229271" target="_blank" rel="noopener">WhatsApp</a></div>
     </div>
@@ -2846,22 +2765,7 @@ function toggleBilling() {
   });
 }
 
-function calcROI() {
-  const hours = +document.getElementById('roi-hours').value;
-  const rate = +document.getElementById('roi-rate').value;
-  const team = +document.getElementById('roi-team').value;
-  document.getElementById('roi-hours-val').textContent = hours + ' hrs';
-  document.getElementById('roi-rate-val').textContent = '₹' + rate.toLocaleString('en-IN');
-  document.getElementById('roi-team-val').textContent = team;
-  const savedHours = Math.round(hours * team * 4 * 0.8);
-  const savedMoney = savedHours * rate;
-  const annual = savedMoney * 12;
-  const roi = (savedMoney / 14999).toFixed(1);
-  document.getElementById('roi-saved-hours').textContent = savedHours.toLocaleString() + ' hrs';
-  document.getElementById('roi-saved-money').textContent = '₹' + savedMoney.toLocaleString('en-IN');
-  document.getElementById('roi-saved-annual').textContent = '₹' + annual.toLocaleString('en-IN');
-  document.getElementById('roi-ratio').textContent = roi + 'x';
-}
+
 
 function handleContact(e) {
   e.preventDefault();
@@ -3273,7 +3177,6 @@ const statsObserver = new IntersectionObserver((entries) => {
 const heroStats = document.querySelector('.hero-stats');
 if (heroStats) statsObserver.observe(heroStats);
 
-calcROI();
 
 // FAQ accordion — one open at a time, keeps aria-expanded in sync
 function toggleFaq(btn) {
