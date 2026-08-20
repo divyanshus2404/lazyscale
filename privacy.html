@@ -7,41 +7,41 @@
 <meta name="description" content="How LazyScale collects, uses and protects the information you share with us.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://lazyscale.vercel.app/privacy.html">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23F7F5EF'/><path d='M8 10h5v14H8z' fill='%231F1D1A'/><path d='M21 10h4v14h-4z' fill='%23BF5A38'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23F6F1E5'/><path d='M8 10h5v14H8z' fill='%23171512'/><path d='M21 10h4v14h-4z' fill='%2317453A'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Fraunces:opsz,wght@9..144,400..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #F7F5EF; --bg-card: #FDFCF9; --bg-raised: #EFEBE0;
-    --text-primary: #1F1D1A; --text-secondary: #5E5A51; --text-muted: #8F8A7E;
-    --accent: #BF5A38; --accent-light: #F5E9E2;
-    --border: rgba(31,29,26,0.10); --max-w: 760px;
+    --bg: #F6F1E5; --bg-card: #FFFDF6; --bg-raised: #EEE7D5;
+    --text-primary: #171512; --text-secondary: #4E483E; --text-muted: #8B8477;
+    --accent: #17453A; --accent-light: #E4EDE8;
+    --border: rgba(23,21,18,0.16); --max-w: 760px;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #22201C; --bg-card: #2F2C27; --bg-raised: #2B2823;
-      --text-primary: #F3F0E9; --text-secondary: #B5AFA3; --text-muted: #837D72;
-      --accent: #E08A66; --accent-light: rgba(224,138,102,0.12);
-      --border: rgba(243,240,233,0.10);
+      --bg: #14201C; --bg-card: #1F312B; --bg-raised: #1B2A25;
+      --text-primary: #F6F1E5; --text-secondary: #B9C4BE; --text-muted: #7E8C86;
+      --accent: #7FB5A3; --accent-light: rgba(127,181,163,0.14);
+      --border: rgba(246,241,229,0.18);
     }
   }
   /* explicit choice from the main site wins over the OS setting */
   :root[data-theme="dark"] {
-    --bg: #22201C; --bg-card: #2F2C27; --bg-raised: #2B2823;
-    --text-primary: #F3F0E9; --text-secondary: #B5AFA3; --text-muted: #837D72;
-    --accent: #E08A66; --accent-light: rgba(224,138,102,0.12);
-    --border: rgba(243,240,233,0.10);
+    --bg: #14201C; --bg-card: #1F312B; --bg-raised: #1B2A25;
+    --text-primary: #F6F1E5; --text-secondary: #B9C4BE; --text-muted: #7E8C86;
+    --accent: #7FB5A3; --accent-light: rgba(127,181,163,0.14);
+    --border: rgba(246,241,229,0.18);
   }
   :root[data-theme="light"] {
-    --bg: #F7F5EF; --bg-card: #FDFCF9; --bg-raised: #EFEBE0;
-    --text-primary: #1F1D1A; --text-secondary: #5E5A51; --text-muted: #8F8A7E;
-    --accent: #BF5A38; --accent-light: #F5E9E2;
-    --border: rgba(31,29,26,0.10);
+    --bg: #F6F1E5; --bg-card: #FFFDF6; --bg-raised: #EEE7D5;
+    --text-primary: #171512; --text-secondary: #4E483E; --text-muted: #8B8477;
+    --accent: #17453A; --accent-light: #E4EDE8;
+    --border: rgba(23,21,18,0.16);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    font-family: -apple-system, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif;
+    font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif;
     background: var(--bg); color: var(--text-primary);
     line-height: 1.7; -webkit-font-smoothing: antialiased;
   }
@@ -52,11 +52,11 @@
     text-decoration: none; margin-bottom: 40px; transition: color 0.2s;
   }
   .back:hover { color: var(--accent); }
-  h1, h2 { font-family: 'Newsreader','Iowan Old Style',Georgia,serif; font-weight: 500; }
-  h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 500; letter-spacing: -0.02em; line-height: 1.15; }
+  h1, h2 { font-family: 'Fraunces','Iowan Old Style',Georgia,serif; font-weight: 900; font-variation-settings: 'SOFT' 30, 'WONK' 1; }
+  h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.15; }
   .updated { color: var(--text-muted); font-size: 14px; margin-top: 10px; margin-bottom: 40px; }
   h2 {
-    font-size: 20px; font-weight: 500; letter-spacing: -0.015em;
+    font-size: 20px; font-weight: 900; letter-spacing: -0.02em;
     margin-top: 40px; margin-bottom: 12px; color: var(--text-primary);
   }
   p, li { color: var(--text-secondary); font-size: 15.5px; }

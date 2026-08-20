@@ -13,8 +13,8 @@
 <meta name="twitter:description" content="Every enquiry answered in under 60 seconds — WhatsApp, Instagram, email and web. Built for Indian startups.">
 <meta name="twitter:image" content="https://lazyscale.vercel.app/og-image.png">
 <link rel="canonical" href="https://lazyscale.vercel.app/">
-<meta name="theme-color" content="#F7F5EF" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#22201C" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F6F1E5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14201C" media="(prefers-color-scheme: dark)">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -52,34 +52,37 @@
   ]
 }
 </script>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23F7F5EF'/><rect x='1' y='1' width='30' height='30' rx='7' fill='none' stroke='%23E0DACB'/><path d='M8 10h5v14H8z' fill='%231F1D1A'/><path d='M13 18h4v6h-4z' fill='%23BF5A38' opacity='.6'/><path d='M17 14h4v10h-4z' fill='%23BF5A38' opacity='.8'/><path d='M21 10h4v14h-4z' fill='%23BF5A38'/><path d='M14 20q4-3 10-8l1 1.5-10 8z' fill='%23BF5A38'/><path d='M24 12l2 0-1-3z' fill='%23BF5A38'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23F6F1E5'/><rect x='1' y='1' width='30' height='30' rx='7' fill='none' stroke='%23DCD3BC'/><path d='M8 10h5v14H8z' fill='%23171512'/><path d='M13 18h4v6h-4z' fill='%2317453A' opacity='.6'/><path d='M17 14h4v10h-4z' fill='%2317453A' opacity='.8'/><path d='M21 10h4v14h-4z' fill='%2317453A'/><path d='M14 20q4-3 10-8l1 1.5-10 8z' fill='%2317453A'/><path d='M24 12l2 0-1-3z' fill='%2317453A'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Fraunces:opsz,wght@9..144,400..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --nav-h: 72px;
-    /* Warm paper stock rather than screen white — the whole look rests on this. */
-    --bg: #F7F5EF;
-    --bg-raised: #EFEBE0;
-    --bg-card: #FDFCF9;
-    --bg-card-hover: #F7F5EF;
-    --text-primary: #1F1D1A;
-    --text-secondary: #5E5A51;
-    --text-muted: #8F8A7E;
-    --accent: #BF5A38;
-    --accent-mid: #A54B2C;
-    --accent-dim: #8A3D23;
-    --accent-light: #F5E9E2;
-    --accent-glow: rgba(191, 90, 56, 0.05);
-    --accent-glow-strong: rgba(191, 90, 56, 0.10);
-    --border: rgba(31, 29, 26, 0.10);
-    --border-hover: rgba(31, 29, 26, 0.20);
-    --border-accent: rgba(191, 90, 56, 0.28);
-    /* Ink on paper casts almost no shadow. Depth comes from the rule, not the lift. */
+    /* Neo-vintage: cream stock, forest green, marigold. */
+    --bg: #F6F1E5;
+    --bg-raised: #EEE7D5;
+    --bg-card: #FFFDF6;
+    --bg-card-hover: #F6F1E5;
+    --text-primary: #171512;
+    --text-secondary: #4E483E;
+    --text-muted: #8B8477;
+    --accent: #17453A;
+    --accent-mid: #0F3329;
+    --accent-dim: #0A241C;
+    --accent-light: #E4EDE8;
+    --accent-glow: rgba(23, 69, 58, 0.05);
+    --accent-glow-strong: rgba(23, 69, 58, 0.10);
+    --highlight: #F0A202;
+    --highlight-deep: #D98E04;
+    --highlight-soft: rgba(240, 162, 2, 0.16);
+    --border: rgba(23, 21, 18, 0.16);
+    --border-hover: rgba(23, 21, 18, 0.42);
+    --border-accent: rgba(23, 69, 58, 0.38);
+    --ink: #171512;
     --shadow-sm: none;
-    --shadow-md: 0 1px 2px rgba(31,29,26,0.05);
-    --shadow-lg: 0 2px 12px rgba(31,29,26,0.07);
+    --shadow-md: none;
+    --shadow-lg: none;
     --max-w: 1200px;
     --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -108,25 +111,29 @@
   }
 
   :root[data-theme="dark"] {
-    --bg: #22201C;
-    --bg-raised: #2B2823;
-    --bg-card: #2F2C27;
-    --bg-card-hover: #383430;
-    --text-primary: #F3F0E9;
-    --text-secondary: #B5AFA3;
-    --text-muted: #837D72;
-    --accent: #E08A66;
-    --accent-mid: #C97250;
-    --accent-dim: #B0603F;
-    --accent-light: rgba(224, 138, 102, 0.12);
-    --accent-glow: rgba(224, 138, 102, 0.06);
-    --accent-glow-strong: rgba(224, 138, 102, 0.13);
-    --border: rgba(243, 240, 233, 0.10);
-    --border-hover: rgba(243, 240, 233, 0.20);
-    --border-accent: rgba(224, 138, 102, 0.30);
+    --bg: #14201C;
+    --bg-raised: #1B2A25;
+    --bg-card: #1F312B;
+    --bg-card-hover: #274038;
+    --text-primary: #F6F1E5;
+    --text-secondary: #B9C4BE;
+    --text-muted: #7E8C86;
+    --accent: #7FB5A3;
+    --accent-mid: #6AA08E;
+    --accent-dim: #558B79;
+    --accent-light: rgba(127, 181, 163, 0.14);
+    --accent-glow: rgba(127, 181, 163, 0.07);
+    --accent-glow-strong: rgba(127, 181, 163, 0.14);
+    --highlight: #F0A202;
+    --highlight-deep: #D98E04;
+    --highlight-soft: rgba(240, 162, 2, 0.18);
+    --border: rgba(246, 241, 229, 0.18);
+    --border-hover: rgba(246, 241, 229, 0.42);
+    --border-accent: rgba(127, 181, 163, 0.40);
+    --ink: #F6F1E5;
     --shadow-sm: none;
-    --shadow-md: 0 1px 2px rgba(0,0,0,0.25);
-    --shadow-lg: 0 2px 14px rgba(0,0,0,0.35);
+    --shadow-md: none;
+    --shadow-lg: none;
   }
 
   html {
@@ -301,9 +308,9 @@
     position: absolute; border-radius: 50%; opacity: 0.5;
     animation-timing-function: ease-in-out; animation-iteration-count: infinite;
   }
-  .hero-orb-1 { width: 400px; height: 400px; top: -80px; right: -100px; background: radial-gradient(circle, rgba(191, 90, 56,0.06) 0%, transparent 70%); animation: orb-1 12s infinite; }
-  .hero-orb-2 { width: 300px; height: 300px; bottom: -60px; left: -80px; background: radial-gradient(circle, rgba(191, 90, 56,0.05) 0%, transparent 70%); animation: orb-2 15s infinite; }
-  .hero-orb-3 { width: 200px; height: 200px; top: 40%; left: 60%; background: radial-gradient(circle, rgba(224, 138, 102,0.04) 0%, transparent 70%); animation: orb-3 10s infinite; }
+  .hero-orb-1 { width: 400px; height: 400px; top: -80px; right: -100px; background: radial-gradient(circle, rgba(23, 69, 58,0.06) 0%, transparent 70%); animation: orb-1 12s infinite; }
+  .hero-orb-2 { width: 300px; height: 300px; bottom: -60px; left: -80px; background: radial-gradient(circle, rgba(23, 69, 58,0.05) 0%, transparent 70%); animation: orb-2 15s infinite; }
+  .hero-orb-3 { width: 200px; height: 200px; top: 40%; left: 60%; background: radial-gradient(circle, rgba(127, 181, 163,0.04) 0%, transparent 70%); animation: orb-3 10s infinite; }
 
   .hero-shape {
     position: absolute; opacity: 0.08; animation-timing-function: linear; animation-iteration-count: infinite;
@@ -316,7 +323,7 @@
   .hero-shape-6 { width: 12px; height: 12px; background: var(--accent); border-radius: 3px; bottom: 35%; left: 10%; animation: spin-slow 15s infinite, float 5s ease-in-out infinite 1.5s; }
 
   .hero-line {
-    position: absolute; width: 1px; background: linear-gradient(180deg, transparent, rgba(191, 90, 56,0.08), transparent);
+    position: absolute; width: 1px; background: linear-gradient(180deg, transparent, rgba(23, 69, 58,0.08), transparent);
     animation: float 8s ease-in-out infinite;
   }
   .hero-line-1 { height: 120px; top: 10%; left: 20%; animation-delay: 0s; }
@@ -357,8 +364,8 @@
   }
 
   @keyframes cta-glow {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(191, 90, 56,0.4); }
-    50% { box-shadow: 0 0 0 8px rgba(191, 90, 56,0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(23, 69, 58,0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(23, 69, 58,0); }
   }
 
   .nav-cta { animation: cta-glow 2.5s infinite; }
@@ -596,7 +603,7 @@
     transform: scale(1.04);
     background: linear-gradient(180deg, var(--bg-card) 0%, color-mix(in srgb, var(--accent-light) 30%, var(--bg-card)) 100%);
   }
-  .price-card.featured:hover { transform: scale(1.06); box-shadow: 0 0 0 2px var(--accent), 0 20px 60px rgba(191, 90, 56,0.18); }
+  .price-card.featured:hover { transform: scale(1.06); box-shadow: 0 0 0 2px var(--accent), 0 20px 60px rgba(23, 69, 58,0.18); }
 
   .price-card.featured::before {
     content: 'Most Popular'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
@@ -765,54 +772,78 @@
   .whatsapp-btn { position: fixed; bottom: 24px; right: 24px; z-index: 1001; width: 56px; height: 56px; border-radius: 50%; background: #25D366; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(37,211,102,0.35); transition: transform 0.2s, box-shadow 0.2s; }
   .whatsapp-btn:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(37,211,102,0.45); }
   /* ─── SCROLL ANIMATIONS ─── */
-  /* ─── PAPER TREATMENT ─── */
-  /* Serif for display type, sans for reading. The mix is what makes it feel
-     like a printed page rather than an app. */
-  :root { --font-display: 'Newsreader', 'Iowan Old Style', Georgia, 'Times New Roman', serif; }
-
-  .hero h1,
-  .section-title,
-  .final-cta h2,
-  .audit-left h2,
-  .wf-hero-body h3,
-  .dfy h3,
-  .audit-form-title,
-  .price-amount,
-  .hero-stat strong,
-  .roi-results h3,
-  .how-card h3,
-  .audit-success h3 {
-    font-family: var(--font-display);
-    font-weight: 500;
-    letter-spacing: -0.015em;
+  /* ─── NEO-VINTAGE TREATMENT ─── */
+  /* Fraunces for display, Caveat for margin notes, Inter for reading. */
+  :root {
+    --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+    --font-hand: 'Caveat', 'Segoe Script', cursive;
+    --font-body: 'Inter', -apple-system, 'Segoe UI', sans-serif;
   }
+  body { font-family: var(--font-body); }
 
-  /* Serif carries its own weight — the old 800s look clumsy at display sizes. */
-  .hero h1 { font-weight: 500; letter-spacing: -0.02em; line-height: 1.08; }
-  .section-title { font-weight: 500; letter-spacing: -0.015em; }
-  .final-cta h2 { font-weight: 500; }
-  .price-amount { font-weight: 500; }
-  .hero-stat strong { font-weight: 500; letter-spacing: -0.01em; }
+  .hero h1, .section-title, .final-cta h2, .audit-left h2,
+  .wf-hero-body h3, .dfy h3, .audit-form-title, .price-amount,
+  .hero-stat strong, .roi-results h3, .how-card h3, .audit-success h3,
+  .wf-card h3, .price-name, .contact-info-card h4, .logo {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-variation-settings: 'SOFT' 30, 'WONK' 1;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 { line-height: 1.02; letter-spacing: -0.035em; }
+  .section-title { line-height: 1.08; }
+  .wf-card h3, .how-card h3, .contact-info-card h4, .price-name { font-size: 19px; letter-spacing: -0.015em; }
 
-  /* The rotating word was a gradient; on paper it is simply set in the accent. */
+  /* the rotating word is set in italic, the way a pull-quote would be */
   .hero h1 em {
-    font-style: normal;
+    font-style: italic;
+    font-weight: 900;
     background: none;
     -webkit-text-fill-color: currentColor;
     color: var(--accent);
     animation: none;
   }
 
-  /* Labels become small-caps letterspaced type, the way a printed sidehead reads. */
-  .section-label,
-  .hero-proof-label {
-    font-family: inherit;
-    letter-spacing: 0.14em;
+  /* Siheads become stamped mono labels */
+  .section-label, .hero-proof-label {
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    letter-spacing: 0.16em;
     font-weight: 600;
-    font-size: 11.5px;
+    font-size: 11px;
+    text-transform: uppercase;
   }
 
-  /* Rules instead of glows for section separation. */
+  /* marigold marker behind key words */
+  .mark {
+    background: linear-gradient(var(--highlight-soft), var(--highlight-soft));
+    background-size: 100% 42%;
+    background-repeat: no-repeat;
+    background-position: 0 88%;
+    padding: 0 2px;
+  }
+
+  /* ── handwritten margin notes ── */
+  .note {
+    font-family: var(--font-hand);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.25;
+    display: inline-block;
+  }
+  .note-arrow::after {
+    content: '';
+    display: block;
+    width: 42px; height: 16px;
+    margin-top: 2px;
+    border-bottom: 2px solid var(--accent);
+    border-right: 2px solid var(--accent);
+    border-bottom-right-radius: 60%;
+    transform: rotate(8deg);
+    opacity: 0.75;
+  }
+
+  .section-desc, .hero-sub { line-height: 1.68; }
   .final-cta::before { display: none; }
 
   /* ─── SCROLL REVEALS ─── */
@@ -848,7 +879,7 @@
   @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
   @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-  .hero h1 em { background: linear-gradient(90deg, #BF5A38, #E08A66, #BF5A38); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradient-shift 4s ease infinite; }
+  .hero h1 em { background: linear-gradient(90deg, #17453A, #7FB5A3, #17453A); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradient-shift 4s ease infinite; }
 
   /* ─── AUDIT FORM ─── */
   .audit-section {
@@ -942,7 +973,7 @@
     background: linear-gradient(135deg, transparent, rgba(255,255,255,0.15), transparent);
     transform: translateX(-100%); transition: transform 0.6s;
   }
-  .audit-submit:hover { background: var(--accent-mid); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(191, 90, 56,0.3); }
+  .audit-submit:hover { background: var(--accent-mid); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(23, 69, 58,0.3); }
   .audit-submit:hover::after { transform: translateX(100%); }
   .audit-submit:active { transform: translateY(0); }
   .audit-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
@@ -1463,7 +1494,7 @@
     padding-right: 42px;
   }
 
-  .audit-submit { box-shadow: 0 4px 14px rgba(191, 90, 56,0.25); }
+  .audit-submit { box-shadow: 0 4px 14px rgba(23, 69, 58,0.25); }
   .audit-submit .btn-label { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1); }
   .audit-submit:not(.is-loading):hover .btn-label { transform: translateX(-3px); }
   .audit-submit::before {
@@ -1537,11 +1568,11 @@
   /* Everything under the headline follows it in */
   .hero.set-in .hero-sub,
   .hero.set-in .hero-ctas,
-  .hero.set-in .hero-badge {
+  .hero.set-in .hero-tag {
     opacity: 0;
     animation: rise 0.9s var(--ease-paper) forwards;
   }
-  .hero.set-in .hero-badge { animation-delay: 0.05s; }
+  .hero.set-in .hero-tag { animation-delay: 0.05s; }
   .hero.set-in .hero-sub  { animation-delay: 0.45s; }
   .hero.set-in .hero-ctas { animation-delay: 0.62s; }
   @keyframes rise {
@@ -1592,12 +1623,56 @@
 
   @media (prefers-reduced-motion: reduce) {
     .hero.set-in h1 .w, .hero.set-in h1 .hero-rotate,
-    .hero.set-in .hero-sub, .hero.set-in .hero-ctas, .hero.set-in .hero-badge {
+    .hero.set-in .hero-sub, .hero.set-in .hero-ctas, .hero.set-in .hero-tag {
       opacity: 1 !important; transform: none !important;
       filter: none !important; animation: none !important;
     }
     .section-label::after { width: 100%; animation: none !important; }
   }
+
+
+  /* ─── VINTAGE OVERRIDES (last, so they win) ─── */
+  /* ── hard-edged chrome: everything is drawn, nothing floats ── */
+  .wf-card, .price-card, .how-card, .contact-info-card, .faq-item,
+  .dfy, .audit-form, .roi-calc, .stack-chip, .logos-row span, .demo-container {
+    box-shadow: none;
+    border: 2px solid var(--border);
+  }
+  .wf-card:hover, .price-card:hover, .how-card:hover, .contact-info-card:hover {
+    box-shadow: none;
+    transform: none;
+    border-color: var(--ink);
+    background: var(--bg-card-hover);
+  }
+  .price-card.featured { border: 2.5px solid var(--accent); }
+
+  /* ── buttons: marigold primary, drawn outline, no lift ── */
+  .btn { border-radius: var(--r-pill); font-weight: 600; border: 2px solid transparent; }
+  .btn-dark, .btn-primary {
+    background: var(--highlight);
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  .btn-dark:hover, .btn-primary:hover {
+    background: var(--highlight-deep);
+    color: var(--ink);
+    transform: none; box-shadow: none; filter: none;
+  }
+  .btn-ghost {
+    background: var(--bg-card);
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  .btn-ghost:hover { background: var(--bg-raised); transform: none; }
+  .audit-submit {
+    background: var(--highlight);
+    color: var(--ink);
+    border: 2px solid var(--ink);
+    border-radius: var(--r-pill);
+    box-shadow: none;
+  }
+  .audit-submit:hover { background: var(--highlight-deep); transform: none; box-shadow: none; filter: none; }
+
 
 </style>
 
@@ -1618,11 +1693,11 @@
       <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
         <rect width="30" height="30" rx="7" fill="#f4f4f5" stroke="#e4e4e7"/>
         <path d="M7 8h5.5v15H7z" fill="#1a1a2e" rx="1"/>
-        <rect x="12.5" y="16" width="4" height="7" rx="0.8" fill="#BF5A38" opacity=".55"/>
-        <rect x="16.5" y="12" width="4" height="11" rx="0.8" fill="#BF5A38" opacity=".75"/>
-        <rect x="20.5" y="8" width="4" height="15" rx="0.8" fill="#BF5A38"/>
-        <path d="M13 19q5-4 10-7.5" stroke="#BF5A38" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-        <path d="M22 10.5l1.8 0.3-0.3-2" stroke="#BF5A38" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="12.5" y="16" width="4" height="7" rx="0.8" fill="#17453A" opacity=".55"/>
+        <rect x="16.5" y="12" width="4" height="11" rx="0.8" fill="#17453A" opacity=".75"/>
+        <rect x="20.5" y="8" width="4" height="15" rx="0.8" fill="#17453A"/>
+        <path d="M13 19q5-4 10-7.5" stroke="#17453A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M22 10.5l1.8 0.3-0.3-2" stroke="#17453A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       Lazy<span>Scale</span>
     </a>
@@ -1670,9 +1745,10 @@
       <div class="hero-line hero-line-3"></div>
     </div>
     <div class="hero-content">
+      <div class="note note-arrow" style="margin-bottom:8px">first workflow live in 48 hours</div>
       <div class="hero-tag">Now accepting early clients</div>
       <h1>Never lose another lead to a <span class="hero-rotate"><span class="hero-rotate-words"><span><em>slow reply</em></span><span><em>missed DM</em></span><span><em>busy day</em></span><span><em>full inbox</em></span><span><em>slow reply</em></span></span></span></h1>
-      <p class="hero-sub">AI that answers every enquiry in under a minute — on WhatsApp, Instagram, email and your website. Built for Indian startups.</p>
+      <p class="hero-sub">AI that answers every enquiry <span class="mark">in under a minute</span> — on WhatsApp, Instagram, email and your website. Built for Indian startups.</p>
       <div class="hero-ctas">
         <a href="https://cal.com/lazy_scale/15min" target="_blank" class="btn btn-dark btn-lg">Book a Free Call</a>
         <a href="#workflows" class="btn btn-ghost btn-lg">See What We Automate</a>
@@ -1910,6 +1986,7 @@
         <div class="audit-badge"><span class="audit-badge-dot"></span> Free — Limited Spots</div>
         <h2>Find out what you should <span>automate first</span></h2>
         <p>Tell us about your startup in 2 minutes. We'll reply within 24 hours with a personalized report — what to automate, which tools to use, and how much time you'll save.</p>
+        <div class="note" style="margin-bottom:10px">no card, no call required &#8594;</div>
         <ul class="audit-perks">
           <li>100% free, no strings attached</li>
           <li>Personalized to your stack and workflow</li>
@@ -2016,6 +2093,7 @@
       <span id="toggle-annual">Annual</span>
       <span class="save-badge">Save 20%</span>
     </div>
+    <div class="note" style="display:block;text-align:center;margin-bottom:18px">cancel any time &#8212; genuinely</div>
     <div class="pricing-grid">
       <div class="price-card">
         <div class="price-name">Starter</div>
