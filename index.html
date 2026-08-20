@@ -1506,6 +1506,99 @@
   .section-desc, .hero-sub { line-height: 1.65; }
 
 
+
+  /* ─── PAPER MOTION ─── */
+  /* Unhurried. Type settling onto a page, not a product tour. */
+  :root { --ease-paper: cubic-bezier(0.22, 0.61, 0.36, 1); }
+
+  /* Hero headline sets itself word by word.
+     The hidden state is scoped to .set-in, which JS adds and then removes once
+     the sequence has run. If any of that fails the headline is simply visible —
+     never blank. */
+  .hero.set-in h1 .w {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.32em);
+    filter: blur(3px);
+    animation: word-set 0.85s var(--ease-paper) forwards;
+    animation-delay: calc(var(--i) * 70ms);
+  }
+  .hero h1 .w { display: inline-block; }
+  @keyframes word-set {
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+  .hero.set-in h1 .hero-rotate {
+    opacity: 0;
+    animation: rise 0.85s var(--ease-paper) forwards;
+    animation-delay: calc(var(--rot-i, 6) * 70ms);
+  }
+  .hero h1 .hero-rotate { vertical-align: bottom; }
+
+  /* Everything under the headline follows it in */
+  .hero.set-in .hero-sub,
+  .hero.set-in .hero-ctas,
+  .hero.set-in .hero-badge {
+    opacity: 0;
+    animation: rise 0.9s var(--ease-paper) forwards;
+  }
+  .hero.set-in .hero-badge { animation-delay: 0.05s; }
+  .hero.set-in .hero-sub  { animation-delay: 0.45s; }
+  .hero.set-in .hero-ctas { animation-delay: 0.62s; }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* A rule draws itself beside each sidehead, like a printed dinkus */
+  .section-label { position: relative; display: inline-block; }
+  .section-label::after {
+    content: ''; position: absolute; left: 0; bottom: -7px;
+    height: 1px; width: 0; background: var(--accent); opacity: 0.55;
+  }
+  .reveals-on .fade-up.visible .section-label::after {
+    animation: rule-draw 0.7s var(--ease-paper) 0.15s forwards;
+  }
+  @keyframes rule-draw { to { width: 100%; } }
+
+  /* Text links get an underline that grows from the left */
+  .founder-links a, .faq-a a, .audit-next-note a, .form-hint-legal a {
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-size: 0% 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    text-decoration: none;
+    transition: background-size 0.35s var(--ease-paper);
+  }
+  .founder-links a:hover, .faq-a a:hover,
+  .audit-next-note a:hover, .form-hint-legal a:hover { background-size: 100% 1px; }
+
+  /* Cards warm slightly rather than lifting */
+  .wf-card, .price-card, .how-card, .contact-info-card, .stack-chip {
+    transition: background-color 0.4s var(--ease-paper),
+                border-color 0.4s var(--ease-paper);
+  }
+  .wf-card:hover, .price-card:hover, .how-card:hover, .contact-info-card:hover {
+    background: var(--bg-card-hover);
+  }
+
+  /* Reveals inherit the slower paper easing */
+  .reveals-on .fade-up,
+  .reveals-on .reveal-left,
+  .reveals-on .reveal-right,
+  .reveals-on .reveal-scale {
+    transition-timing-function: var(--ease-paper);
+    transition-duration: 0.95s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero.set-in h1 .w, .hero.set-in h1 .hero-rotate,
+    .hero.set-in .hero-sub, .hero.set-in .hero-ctas, .hero.set-in .hero-badge {
+      opacity: 1 !important; transform: none !important;
+      filter: none !important; animation: none !important;
+    }
+    .section-label::after { width: 100%; animation: none !important; }
+  }
+
 </style>
 
 <script defer src="/_vercel/insights/script.js"></script>
@@ -2137,6 +2230,40 @@ function toggleTheme() {
 })();
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ─── HEADLINE TYPESETTING ───
+// Wraps each static word of the hero headline so it can set itself in sequence.
+// The hidden state lives on .set-in, added here and removed once the sequence
+// has had time to finish — so a headline is never left invisible by a paused
+// animation, a background tab, or anything failing part way through.
+(() => {
+  const hero = document.querySelector('.hero');
+  const h1 = hero && hero.querySelector('h1');
+  if (!h1 || prefersReducedMotion) return;
+
+  let i = 0;
+  [...h1.childNodes].forEach(node => {
+    if (node.nodeType === Node.ELEMENT_NODE) { i++; return; }   // the rotating word
+    if (node.nodeType !== Node.TEXT_NODE) return;
+    const frag = document.createDocumentFragment();
+    node.textContent.split(/(\s+)/).forEach(part => {
+      if (!part.trim()) { frag.appendChild(document.createTextNode(part)); return; }
+      const span = document.createElement('span');
+      span.className = 'w';
+      span.textContent = part;
+      span.style.setProperty('--i', i++);
+      frag.appendChild(span);
+    });
+    node.replaceWith(frag);
+  });
+
+  const rotIndex = [...h1.childNodes].findIndex(n => n.nodeType === Node.ELEMENT_NODE && n.classList?.contains('hero-rotate'));
+  hero.style.setProperty('--rot-i', rotIndex >= 0 ? [...h1.querySelectorAll('.w')].length : i);
+
+  hero.classList.add('set-in');
+  // total sequence is roughly i*70ms + 900ms; clear well after that
+  setTimeout(() => hero.classList.remove('set-in'), i * 70 + 1600);
+})();
 
 // ─── SCROLL REVEALS ───
 // Stagger delays are assigned per-group so grids cascade instead of popping at once.
