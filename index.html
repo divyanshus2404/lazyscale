@@ -288,13 +288,10 @@
     overflow: hidden;
   }
 
-  @keyframes hero-enter { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  .hero-content > * { animation: hero-enter 0.8s cubic-bezier(0.4, 0, 0.2, 1) both; }
-  .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
-  .hero-content > *:nth-child(2) { animation-delay: 0.2s; }
-  .hero-content > *:nth-child(3) { animation-delay: 0.3s; }
-  .hero-content > *:nth-child(4) { animation-delay: 0.4s; }
-  .hero-content > *:nth-child(5) { animation-delay: 0.5s; }
+  /* The old blanket entrance on every hero child was replaced by the .set-in
+     sequence further down. Keeping both made each element animate twice: once
+     as hero-enter, then again when .set-in was removed and the animation
+     property switched back, which restarts it. */
   .hero-content { position: relative; z-index: 2; }
 
   .hero-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
