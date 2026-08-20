@@ -1639,6 +1639,18 @@
     height: 1px; background: var(--border);
   }
 
+  /* A margin note must sit on its own line, or it flows inline with whatever
+     follows it — in the centred hero that put it beside the badge. */
+  .hero .note {
+    display: block;
+    width: fit-content;
+    margin: 0 auto 4px;
+    text-align: center;
+  }
+  .hero .note-arrow::after { margin: 2px auto 0; }
+  .audit-left .note { display: block; width: fit-content; }
+  .pricing-toggle + .note { display: block; }
+
   /* ─── VINTAGE OVERRIDES (last, so they win) ─── */
   /* ── hard-edged chrome: everything is drawn, nothing floats ── */
   .wf-card, .price-card, .how-card, .contact-info-card, .faq-item,
