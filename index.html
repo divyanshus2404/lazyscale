@@ -1994,6 +1994,94 @@
     .ai-cta .btn { width: 100%; }
   }
 
+
+  /* ─── INTERVIEW + COST COMPARISON ─── */
+  .interview {
+    max-width: 720px; margin: 0 auto var(--s7);
+    background: var(--bg-card); border: 2px solid var(--border-accent);
+    border-radius: var(--r-lg); padding: var(--s6);
+  }
+  .interview-head { margin-bottom: var(--s5); }
+  .interview-head .ai-emp-tag { margin-bottom: var(--s3); display: inline-block; }
+  .interview-head h4 { font-family: var(--font-display); font-weight: 800; font-size: 21px; margin-bottom: 6px; }
+  .interview-head p { font-size: 14.5px; color: var(--text-secondary); line-height: 1.65; }
+  .interview-form textarea {
+    width: 100%; padding: var(--s4); resize: vertical; min-height: 96px;
+    background: var(--bg); color: var(--text-primary);
+    border: 2px solid var(--border); border-radius: var(--r-sm);
+    font-family: inherit; font-size: 15px; line-height: 1.6;
+    transition: border-color 0.2s;
+  }
+  .interview-form textarea:focus { outline: none; border-color: var(--accent); }
+  .interview-actions { display: flex; align-items: center; gap: var(--s4); flex-wrap: wrap; margin-top: var(--s3); }
+  .interview-note { font-size: 12.5px; color: var(--text-muted); }
+
+  .interview-out[hidden] { display: none; }
+  .interview-out { margin-top: var(--s5); animation: rise 0.55s var(--ease-paper, ease-out) both; }
+  .iv-verdict {
+    display: flex; align-items: center; gap: var(--s4); flex-wrap: wrap;
+    padding-bottom: var(--s4); margin-bottom: var(--s4);
+    border-bottom: 1px solid var(--border);
+  }
+  .iv-score { display: flex; align-items: baseline; gap: 3px; }
+  .iv-score b { font-family: var(--font-display); font-size: 34px; font-weight: 800; line-height: 1; }
+  .iv-score i { font-style: normal; font-size: 13px; color: var(--text-muted); }
+  .iv-badge {
+    font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: var(--r-pill);
+    color: var(--highlight-deep); background: var(--highlight-soft);
+  }
+  .iv-badge-esc { color: var(--accent); background: var(--accent-light); }
+  .iv-summary { font-size: 14.5px; color: var(--text-secondary); flex: 1; min-width: 200px; }
+  .iv-label {
+    font-family: ui-monospace, Menlo, monospace; font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted);
+    margin-bottom: 7px;
+  }
+  .iv-reply {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--r-sm); padding: var(--s4);
+    font-size: 14.5px; line-height: 1.7; color: var(--text-primary);
+  }
+  .iv-reply p { margin: 0 0 10px; }
+  .iv-reply p:last-child { margin: 0; }
+  .iv-esc {
+    background: var(--accent-light); border: 1px solid var(--border-accent);
+    border-radius: var(--r-sm); padding: var(--s4); font-size: 14.5px; line-height: 1.65;
+  }
+  .iv-esc strong { display: block; margin-bottom: 4px; }
+
+  .versus { max-width: 720px; margin: 0 auto var(--s7); }
+  .versus h4 {
+    font-family: var(--font-display); font-weight: 800; font-size: 19px;
+    text-align: center; margin-bottom: var(--s5);
+  }
+  .versus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); }
+  .versus-col {
+    background: var(--bg-card); border: 2px solid var(--border);
+    border-radius: var(--r-lg); padding: var(--s5);
+  }
+  .versus-col-ours { border-color: var(--accent); background: var(--accent-light); }
+  .versus-tag {
+    display: inline-block; font-family: ui-monospace, Menlo, monospace;
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: var(--s3);
+  }
+  .versus-col-ours .versus-tag { color: var(--accent); }
+  .versus-col ul { list-style: none; padding: 0; margin: 0; }
+  .versus-col li {
+    font-size: 14px; color: var(--text-secondary); line-height: 1.5;
+    padding: 7px 0; border-bottom: 1px solid var(--border);
+  }
+  .versus-col li:last-child { border-bottom: none; }
+  .versus-col strong { color: var(--text-primary); }
+  .versus-foot { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-top: var(--s4); text-align: center; }
+
+  @media (max-width: 640px) {
+    .interview { padding: var(--s5); }
+    .interview-actions .btn { width: 100%; justify-content: center; }
+    .versus-grid { grid-template-columns: 1fr; }
+  }
+
 </style>
 
 <script defer src="/_vercel/insights/script.js"></script>
@@ -2590,6 +2678,51 @@
         </article>
       </div>
 
+      <!-- Interview: the actual Lead Responder, working on the visitor's own input -->
+      <div class="interview" id="interview">
+        <div class="interview-head">
+          <span class="ai-emp-tag">Trial</span>
+          <h4>Interview the Lead Responder</h4>
+          <p>Paste a real enquiry your business has received. It'll score it, tell you why, and show you the reply it would send. Same code that runs for clients — no demo mode.</p>
+        </div>
+        <form class="interview-form" id="interview-form">
+          <label class="sr-only" for="iv-text">A real enquiry</label>
+          <textarea id="iv-text" rows="4" maxlength="1500" placeholder="e.g. Hi, saw your site. We're a 12-person agency getting maybe 60 enquiries a month through Instagram and our form, and honestly we lose track. What would this cost us?"></textarea>
+          <div class="interview-actions">
+            <button type="submit" class="btn btn-primary"><span class="btn-label">Give it the enquiry</span><span class="spinner" aria-hidden="true"></span></button>
+            <span class="interview-note">Nothing is stored. This isn't a contact form.</span>
+          </div>
+        </form>
+        <p class="form-error" id="iv-error" role="alert" hidden></p>
+        <div class="interview-out" id="iv-out" hidden aria-live="polite"></div>
+      </div>
+
+      <!-- What the desk costs either way -->
+      <div class="versus">
+        <h4>What the desk costs</h4>
+        <div class="versus-grid">
+          <div class="versus-col">
+            <span class="versus-tag">A junior SDR</span>
+            <ul>
+              <li><strong>₹35,000–50,000</strong> a month, typically</li>
+              <li>Weeks to hire, then weeks to ramp</li>
+              <li>Nine to six, five days, minus leave</li>
+              <li>Leaves eventually, and you start again</li>
+            </ul>
+          </div>
+          <div class="versus-col versus-col-ours">
+            <span class="versus-tag">Lead Responder</span>
+            <ul>
+              <li><strong>From ₹4,999</strong> a month</li>
+              <li>Live 48 hours after access</li>
+              <li>Every hour, every day</li>
+              <li>Stops the day you say so, no notice</li>
+            </ul>
+          </div>
+        </div>
+        <p class="versus-foot">Salary figures are indicative for an Indian metro and vary widely. The point is not that it is cheaper — it is that it takes the part of the job nobody wanted, so the person you do hire spends their day on conversations instead of copying.</p>
+      </div>
+
       <div class="ai-truth">
         <h4>What they are, honestly</h4>
         <p>They are AI running on workflows we build and maintain, wired into the tools you already use. Purpose-built for one job rather than a general assistant you have to train — each comes with a written job description saying exactly what it owns and what it hands to a person.</p>
@@ -2761,6 +2894,77 @@ function toggleTheme() {
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// ─── INTERVIEW THE LEAD RESPONDER ───
+// Runs the real endpoint in preview mode: same prompt, same scoring, nothing stored.
+(() => {
+  const form = document.getElementById('interview-form');
+  const field = document.getElementById('iv-text');
+  const out = document.getElementById('iv-out');
+  const errBox = document.getElementById('iv-error');
+  if (!form || !field || !out) return;
+
+  const btn = form.querySelector('button[type="submit"]');
+  const label = btn.querySelector('.btn-label');
+  const IDLE = 'Give it the enquiry';
+
+  const reset = () => {
+    btn.disabled = false;
+    btn.classList.remove('is-loading');
+    if (label) label.textContent = IDLE;
+  };
+  const fail = msg => { errBox.textContent = msg; errBox.hidden = false; reset(); };
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const message = field.value.trim();
+    if (message.length < 15) return fail('Paste a real enquiry — a line or two at least.');
+
+    errBox.hidden = true;
+    out.hidden = true;
+    btn.disabled = true;
+    btn.classList.add('is-loading');
+    if (label) label.textContent = 'Reading it';
+    track('interview_run');
+
+    let data = null;
+    try {
+      const r = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ preview: true, message })
+      });
+      data = await r.json().catch(() => null);
+    } catch (err) {
+      return fail("Couldn't reach it. Check your connection and try again.");
+    }
+
+    if (!data || data.ok === false) {
+      return fail((data && data.error) || 'Something went wrong. Try again in a moment.');
+    }
+
+    const esc = str => { const d = document.createElement('div'); d.textContent = str; return d.innerHTML; };
+    const temp = data.score >= 8 ? 'Hot' : data.score >= 5 ? 'Worth a look' : 'Low';
+
+    out.innerHTML =
+      '<div class="iv-verdict">' +
+        '<span class="iv-score"><b>' + esc(String(data.score)) + '</b><i>/10</i></span>' +
+        '<span class="iv-badge' + (data.needsHuman ? ' iv-badge-esc' : '') + '">' +
+          (data.needsHuman ? 'Escalated' : esc(temp)) + '</span>' +
+        '<span class="iv-summary">' + esc(data.summary || '') + '</span>' +
+      '</div>' +
+      (data.needsHuman
+        ? '<div class="iv-esc"><strong>It stopped and asked for a person.</strong>' +
+          esc(data.escalationReason || 'It was not confident it could answer this well.') +
+          ' That is the designed behaviour — it does not guess at the ones that matter.</div>'
+        : '<div class="iv-label">The reply it would send</div><div class="iv-reply">' +
+          (data.reply || '').split(/\n{2,}/).map(p => '<p>' + esc(p) + '</p>').join('') +
+          '</div>');
+
+    out.hidden = false;
+    reset();
+  });
+})();
+
 // ─── CAREERS EARLY-ACCESS GATE ───
 // A soft gate, not security. The check runs in the browser, so anyone who wants
 // past it can get past it — the hash below only keeps the code out of plain
@@ -2780,26 +2984,21 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
     return h;
   };
 
-  function unlock(remember) {
+  // Deliberately not remembered. The code is asked for on every visit and every
+  // reload — an early-access door that stays open is just a door.
+  function unlock() {
     gate.hidden = true;
     body.hidden = false;
-    if (remember) {
-      try { sessionStorage.setItem('careers-open', '1'); } catch (e) {}
-    }
     track('careers_unlocked');
   }
-
-  // stay unlocked for the rest of the visit
-  try {
-    if (sessionStorage.getItem('careers-open') === '1') unlock(false);
-  } catch (e) {}
+  try { sessionStorage.removeItem('careers-open'); } catch (e) {}
 
   form.addEventListener('submit', e => {
     e.preventDefault();
     const value = (input.value || '').trim();
     if (hash(value) === EXPECTED) {
       error.hidden = true;
-      unlock(true);
+      unlock();
       body.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
     } else {
       error.hidden = false;

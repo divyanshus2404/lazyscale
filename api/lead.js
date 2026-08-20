@@ -158,6 +158,21 @@ async function sendMail({ to, subject, html, text, replyTo }) {
   }
 }
 
+// Interview mode runs the same prompt against a pasted enquiry and hands the result
+// straight back, so a prospect can watch the role work before hiring it. It never
+// captures and never emails — it is not a real lead.
+//
+// It is also a public endpoint spending money on a model, so it gets its own cheap
+// throttle. Not airtight; the spend cap on the key is the real backstop.
+const recent = [];
+function tooMany(limit = 20, windowMs = 60000) {
+  const now = Date.now();
+  while (recent.length && now - recent[0] > windowMs) recent.shift();
+  if (recent.length >= limit) return true;
+  recent.push(now);
+  return false;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
@@ -165,6 +180,43 @@ export default async function handler(req, res) {
   }
 
   const body = typeof req.body === 'string' ? safeParse(req.body) : (req.body || {});
+
+  // ── interview mode: score a pasted enquiry, return it, touch nothing else ──
+  if (body.preview === true || body.preview === 'true') {
+    const message = clean(body.message, MAX_MESSAGE);
+    if (message.length < 15) {
+      return res.status(400).json({ ok: false, error: 'Paste a real enquiry — a line or two at least.' });
+    }
+    if (tooMany()) {
+      return res.status(429).json({ ok: false, error: 'A lot of people are trying this right now. Give it a minute.' });
+    }
+
+    const q = await qualify({
+      name: clean(body.name, 100),
+      company: clean(body.company, 120),
+      message,
+      source: 'interview'
+    });
+
+    if (!q.ok) {
+      return res.status(200).json({
+        ok: false,
+        error: q.reason === 'no_api_key'
+          ? 'The interview room is not open yet. Ask us for a live walkthrough instead.'
+          : 'It could not score that one — which, to be fair, is what it would do with a real lead too. A person would pick it up.'
+      });
+    }
+
+    return res.status(200).json({
+      ok: true,
+      score: q.score,
+      summary: q.summary,
+      intent: q.intent,
+      needsHuman: q.needsHuman,
+      escalationReason: q.escalationReason,
+      reply: q.needsHuman ? '' : q.reply
+    });
+  }
 
   const lead = {
     name: clean(body.name, 100),
