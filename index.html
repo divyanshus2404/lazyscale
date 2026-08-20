@@ -1804,6 +1804,83 @@
     .reveals-on .c3d-mid, .reveals-on .c3d-back { animation: none; }
   }
 
+
+  /* ─── HERO STACK: DEAL-IN + STAMP ─── */
+  /* Hidden state is scoped to .dealing, which JS adds and removes. If the
+     sequence never runs the stack is simply there — never blank. */
+  .stage3d.dealing .c3d {
+    opacity: 0;
+    animation: deal-in 0.72s cubic-bezier(0.18, 0.84, 0.34, 1.06) forwards;
+    animation-delay: var(--deal, 0s);
+  }
+  /* Each card keeps its own resting transform, so the deal has to be expressed
+     as a starting offset layered on top via a wrapper-free custom property. */
+  @keyframes deal-in {
+    from { opacity: 0; transform: var(--from); }
+    to   { opacity: var(--rest-opacity, 1); transform: var(--rest); }
+  }
+  .stage3d.dealing .c3d-front {
+    --from: translate3d(-150%, 90%, 240px) rotate(-16deg);
+    --rest: translate3d(-72%, 20%, 90px) rotate(-2deg);
+    --deal: 0.15s;
+  }
+  .stage3d.dealing .c3d-mid {
+    --from: translate3d(-90%, 110%, 180px) rotate(-11deg);
+    --rest: translate3d(-16%, -6%, 26px) rotate(1.5deg);
+    --deal: 0.42s;
+  }
+  .stage3d.dealing .c3d-back {
+    --from: translate3d(100%, 120%, 160px) rotate(12deg);
+    --rest: translate3d(34%, 46%, -46px) rotate(-4deg);
+    --rest-opacity: 0.7;
+    --deal: 0.66s;
+  }
+  .stage3d.dealing .c3d-score {
+    --from: translate3d(120%, -140%, 300px) rotate(14deg);
+    --rest: translate3d(46%, -78%, 130px) rotate(3deg);
+    --deal: 1.55s;
+  }
+  /* drift must not run while the cards are still being dealt */
+  .stage3d.dealing .c3d { animation-name: deal-in; }
+
+  /* The score arrives blank and the badge stamps onto it, with the overshoot a
+     rubber stamp has when it hits paper. */
+  .c3d-score-row em { transform-origin: 60% 50%; }
+  .stage3d.dealing .c3d-score-row em {
+    opacity: 0;
+    animation: stamp 0.34s cubic-bezier(0.2, 1.5, 0.4, 1) 2.15s forwards;
+  }
+  @keyframes stamp {
+    from { opacity: 0; transform: scale(2.1) rotate(-9deg); }
+    60%  { opacity: 1; transform: scale(0.94) rotate(1.5deg); }
+    to   { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+  .stage3d.dealing .c3d-bar span {
+    width: 0;
+    animation: fill-bar 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) 1.95s forwards;
+  }
+  @keyframes fill-bar { to { width: 90%; } }
+
+  /* caret blinks only while the line is being typed */
+  .c3d-typed.typing::after {
+    content: '';
+    display: inline-block;
+    width: 2px; height: 0.95em;
+    margin-left: 1px;
+    background: var(--accent);
+    vertical-align: -0.14em;
+    animation: caret 0.75s step-end infinite;
+  }
+  @keyframes caret { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stage3d.dealing .c3d,
+    .stage3d.dealing .c3d-score-row em,
+    .stage3d.dealing .c3d-bar span { animation: none; opacity: 1; }
+    .stage3d.dealing .c3d-bar span { width: 90%; }
+    .c3d-typed.typing::after { display: none; }
+  }
+
 </style>
 
 <script defer src="/_vercel/insights/script.js"></script>
@@ -1907,7 +1984,7 @@
 
           <div class="c3d c3d-front">
             <div class="c3d-head"><span class="c3d-dot c3d-dot-live"></span> New enquiry · 2:14 AM</div>
-            <div class="c3d-msg">Hi, need help automating our lead follow-up. Can someone call me?</div>
+            <div class="c3d-msg"><span class="c3d-typed" data-text="Hi, need help automating our lead follow-up. Can someone call me?">Hi, need help automating our lead follow-up. Can someone call me?</span></div>
             <div class="c3d-from">Priya M. · WhatsApp</div>
           </div>
 
@@ -2469,6 +2546,80 @@ function toggleTheme() {
 })();
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ─── HERO STACK: DEAL-IN + TYPE-OUT ───
+// One beat, about three seconds: the enquiry lands and writes itself, the
+// alert and CRM row settle behind it, then the score card flies in and the
+// badge stamps. Then everything stops.
+//
+// The hidden state lives on .dealing, added here and removed when the sequence
+// is over, so a paused animation or a backgrounded tab can never leave the
+// stack invisible.
+(() => {
+  const stage = document.getElementById('stage3d');
+  if (!stage) return;
+
+  const typed = stage.querySelector('.c3d-typed');
+  const full = typed ? (typed.dataset.text || typed.textContent) : '';
+
+  // Reduced motion: show the finished state and type nothing.
+  if (prefersReducedMotion) return;
+
+  let played = false;
+
+  function play() {
+    if (played) return;
+    played = true;
+
+    stage.classList.add('dealing');
+
+    // Typing runs on chained timeouts, which a background tab throttles to
+    // roughly a second each. The finish below must therefore be able to stop
+    // it, or it keeps writing partial text over the restored line.
+    let typing = null;
+    let finished = false;
+
+    if (typed) {
+      typed.textContent = '';
+      typed.classList.add('typing');
+      let i = 0;
+      const tick = () => {
+        if (finished) return;
+        // burst a couple of characters at a time so it reads fast, not laboured
+        i = Math.min(full.length, i + 2);
+        typed.textContent = full.slice(0, i);
+        if (i < full.length) {
+          typing = setTimeout(tick, 18);
+        } else {
+          typed.classList.remove('typing');
+        }
+      };
+      typing = setTimeout(tick, 620);
+    }
+
+    // hand control back to the resting styles once the last beat has landed
+    setTimeout(() => {
+      finished = true;
+      if (typing) clearTimeout(typing);
+      stage.classList.remove('dealing');
+      if (typed) { typed.textContent = full; typed.classList.remove('typing'); }
+    }, 2900);
+  }
+
+  // Only deal once the hero is actually on screen.
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => { if (e.isIntersecting) { play(); obs.unobserve(e.target); } });
+  }, { threshold: 0.25 });
+  io.observe(stage);
+
+  // Failsafe: if the observer never reports, restore the finished state anyway.
+  setTimeout(() => {
+    if (!played) {
+      stage.classList.remove('dealing');
+      if (typed) typed.textContent = full;
+    }
+  }, 3000);
+})();
 
 // ─── HERO 3D TILT ───
 // The stack leans towards the pointer. Damped and clamped, so it reads as
