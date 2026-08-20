@@ -2040,6 +2040,75 @@
     .versus-grid { grid-template-columns: 1fr; }
   }
 
+
+  /* ─── PAPER MOTION, SITE-WIDE ─── */
+  /* Same language as the hero stack: sheets that get dealt, marks that get
+     stamped, card stock that leans under your hand. Nothing loops. */
+
+  /* Grids get perspective so their children can lean in real depth */
+  .workflows-grid, .pricing-grid, .how-grid, .contact-info, .ai-roll {
+    perspective: 900px;
+  }
+
+  /* ── dealt, not faded ── */
+  .reveals-on .deal {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0) rotate(var(--tilt, -1.5deg));
+    transition: opacity 0.75s var(--ease-paper), transform 0.75s var(--ease-paper);
+    transition-delay: calc(var(--i, 0) * 85ms);
+  }
+  .reveals-on .deal.visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  /* alternate the lean so a row looks shuffled rather than machined */
+  .deal:nth-child(even) { --tilt: 1.8deg; }
+  .deal:nth-child(3n)   { --tilt: -2.2deg; }
+
+  /* ── marks stamp on once their card has landed ── */
+  .wf-tag, .ai-emp-tag, .ai-emp-live, .price-note, .versus-tag {
+    transform-origin: 50% 60%;
+  }
+  .reveals-on .deal .wf-tag,
+  .reveals-on .deal .ai-emp-tag,
+  .reveals-on .deal .ai-emp-live { opacity: 0; }
+  /* opacity is restored by the class, not by the animation. If the animation never
+     runs — paused tab, reduced motion, anything — the mark is still there. */
+  .reveals-on .deal.visible .wf-tag,
+  .reveals-on .deal.visible .ai-emp-tag,
+  .reveals-on .deal.visible .ai-emp-live {
+    opacity: 1;
+    animation: stamp-on 0.32s cubic-bezier(0.2, 1.5, 0.4, 1) both;
+    animation-delay: calc(var(--i, 0) * 85ms + 480ms);
+  }
+  @keyframes stamp-on {
+    from { opacity: 0; transform: scale(1.9) rotate(-7deg); }
+    62%  { opacity: 1; transform: scale(0.95) rotate(1.2deg); }
+    to   { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+
+  /* ── card stock leans under the pointer ── */
+  @media (hover: hover) and (pointer: fine) {
+    .tilt {
+      transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(0);
+      transition: transform 0.5s var(--ease-paper), background-color var(--transition), border-color var(--transition);
+    }
+    .tilt.leaning { transition-duration: 0.12s, 0.25s, 0.25s; }
+    /* the lean must not fight the deal-in */
+    .reveals-on .deal:not(.visible).tilt { transform: translate3d(0, 26px, 0) rotate(var(--tilt, -1.5deg)); }
+  }
+
+  /* ── numbers roll when the pricing arrives ── */
+  .price-amount { font-variant-numeric: tabular-nums; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveals-on .deal { opacity: 1 !important; transform: none !important; }
+    .reveals-on .deal.visible .wf-tag,
+    .reveals-on .deal.visible .ai-emp-tag,
+    .reveals-on .deal.visible .ai-emp-live { animation: none !important; opacity: 1 !important; }
+    .tilt { transform: none !important; }
+  }
+
 </style>
 
 <script defer src="/_vercel/insights/script.js"></script>
@@ -3069,6 +3138,59 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
   hero.classList.add('set-in');
   // total sequence is roughly i*70ms + 900ms; clear well after that
   setTimeout(() => hero.classList.remove('set-in'), i * 70 + 1600);
+})();
+
+// ─── PAPER MOTION, SITE-WIDE ───
+// Cards get dealt rather than faded, and lean under the pointer like card stock.
+// Both are enhancements layered onto the existing reveal system — the hidden state
+// is scoped to .reveals-on, so nothing here can strand content invisible.
+(() => {
+  const CARDS = '.wf-card, .price-card, .how-card, .contact-info-card, .ai-emp';
+  const cards = [...document.querySelectorAll(CARDS)];
+  if (!cards.length) return;
+
+  cards.forEach(c => {
+    // .deal replaces the plain fade; the reveal observer already watches .fade-up
+    c.classList.add('deal', 'tilt');
+    if (!c.classList.contains('fade-up')) c.classList.add('fade-up');
+  });
+
+  // index within each grid, so a row staggers rather than all arriving together
+  document.querySelectorAll('.workflows-grid, .pricing-grid, .how-grid, .contact-info, .ai-roll')
+    .forEach(grid => [...grid.children].forEach((child, i) => child.style.setProperty('--i', i)));
+
+  if (prefersReducedMotion) return;
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+  // One delegated listener rather than one per card, and the maths only runs for
+  // the card actually under the pointer.
+  const MAX = 5;                       // degrees — enough to read as paper, not a toy
+  let active = null;
+
+  document.addEventListener('pointermove', e => {
+    const t = e.target;
+    const card = (t && typeof t.closest === 'function') ? t.closest(CARDS) : null;
+    if (card !== active) {
+      if (active) { active.style.removeProperty('--rx'); active.style.removeProperty('--ry'); active.classList.remove('leaning'); }
+      active = card;
+      if (active) active.classList.add('leaning');
+    }
+    if (!active) return;
+    const r = active.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    active.style.setProperty('--ry', (px * 2 * MAX).toFixed(2) + 'deg');
+    active.style.setProperty('--rx', (-py * 2 * MAX).toFixed(2) + 'deg');
+  }, { passive: true });
+
+  // pointer leaving the window entirely
+  document.addEventListener('pointerleave', () => {
+    if (!active) return;
+    active.style.removeProperty('--rx');
+    active.style.removeProperty('--ry');
+    active.classList.remove('leaning');
+    active = null;
+  }, { passive: true });
 })();
 
 // ─── SCROLL REVEALS ───
