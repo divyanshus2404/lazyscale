@@ -2109,6 +2109,65 @@
     .tilt { transform: none !important; }
   }
 
+
+  /* ─── MORE PAPER DEPTH ─── */
+  /* Every hidden state below is scoped to .reveals-on and restored by a class,
+     never by the animation alone. Animation is decoration on top. */
+
+  /* ── integration chips scatter and settle, like tiles tipped onto a desk ── */
+  .stack-grid { perspective: 800px; }
+  .reveals-on .stack-grid .chip-drop {
+    opacity: 0;
+    transform: translate3d(var(--dx, 0px), var(--dy, -30px), var(--dz, 60px)) rotate(var(--dr, -8deg));
+    transition: opacity 0.6s var(--ease-paper), transform 0.7s cubic-bezier(0.18, 0.84, 0.34, 1.04);
+    transition-delay: calc(var(--i, 0) * 45ms);
+  }
+  .reveals-on .stack-grid.settled .chip-drop {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  /* ── how-it-works cards turn in, like a card being laid face up ── */
+  .how-grid { perspective: 1100px; }
+  .reveals-on .how-card.turn {
+    opacity: 0;
+    transform: rotateY(-26deg) translate3d(-14px, 16px, 40px);
+    transform-origin: left center;
+    transition: opacity 0.7s var(--ease-paper), transform 0.8s cubic-bezier(0.2, 0.8, 0.3, 1);
+    transition-delay: calc(var(--i, 0) * 110ms);
+  }
+  .reveals-on .how-card.turn.visible {
+    opacity: 1;
+    transform: rotateY(0deg) translate3d(0, 0, 0);
+  }
+  /* the step number sits proud of its card */
+  .how-num { transform: translateZ(28px); }
+  .how-card { transform-style: preserve-3d; }
+
+  /* ── the featured plan stands off the page ── */
+  @media (min-width: 901px) {
+    .price-card.featured {
+      transform: translateZ(34px) scale(1.015);
+      transition: transform 0.5s var(--ease-paper), border-color var(--transition), background-color var(--transition);
+    }
+    .price-card.featured.leaning { transform: translateZ(34px) scale(1.015) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)); }
+  }
+
+  /* ── prices roll rather than appear ── */
+  .price-amount { font-variant-numeric: tabular-nums; }
+
+  /* ── FAQ rows lift a hair when open ── */
+  .faq-item { transition: border-color var(--transition), background-color var(--transition); }
+  .faq-item.open { background: var(--bg-card); border-color: var(--border-hover); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveals-on .stack-grid .chip-drop,
+    .reveals-on .how-card.turn {
+      opacity: 1 !important; transform: none !important; transition: none !important;
+    }
+    .price-card.featured { transform: none !important; }
+  }
+
 </style>
 
 <script defer src="/_vercel/insights/script.js"></script>
@@ -3138,6 +3197,69 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
   hero.classList.add('set-in');
   // total sequence is roughly i*70ms + 900ms; clear well after that
   setTimeout(() => hero.classList.remove('set-in'), i * 70 + 1600);
+})();
+
+// ─── SCATTERED CHIPS, TURNING CARDS, ROLLING PRICES ───
+(() => {
+  // ── integration chips: give each a random start, then settle the lot ──
+  const grid = document.querySelector('.stack-grid');
+  if (grid) {
+    const chips = [...grid.querySelectorAll('.stack-chip')];
+    chips.forEach((chip, i) => {
+      chip.classList.add('chip-drop');
+      chip.style.setProperty('--i', i);
+      if (!prefersReducedMotion) {
+        // deterministic-ish scatter so it looks tipped out, not animated
+        const seed = (i * 137) % 100 / 100;
+        chip.style.setProperty('--dx', ((seed - 0.5) * 46).toFixed(0) + 'px');
+        chip.style.setProperty('--dy', (-18 - seed * 26).toFixed(0) + 'px');
+        chip.style.setProperty('--dz', (40 + seed * 70).toFixed(0) + 'px');
+        chip.style.setProperty('--dr', ((seed - 0.5) * 22).toFixed(1) + 'deg');
+      }
+    });
+    const settle = () => grid.classList.add('settled');
+    new IntersectionObserver((es, o) => {
+      es.forEach(e => { if (e.isIntersecting) { settle(); o.unobserve(e.target); } });
+    }, { threshold: 0.2 }).observe(grid);
+    // never leave them scattered if the observer stays quiet
+    setTimeout(() => { if (!grid.classList.contains('settled')) settle(); }, 2500);
+  }
+
+  // ── how-it-works cards turn face up in order ──
+  document.querySelectorAll('.how-grid .how-card').forEach((card, i) => {
+    card.classList.add('turn');
+    card.style.setProperty('--i', i);
+    if (!card.classList.contains('fade-up')) card.classList.add('fade-up');
+  });
+
+  // ── prices roll to their value when the section arrives ──
+  const pricing = document.getElementById('pricing');
+  if (pricing && !prefersReducedMotion) {
+    const roll = el => {
+      const text = el.textContent;
+      const m = text.match(/([\d,]+)/);
+      if (!m) return;
+      const target = Number(m[1].replace(/,/g, ''));
+      if (!Number.isFinite(target) || target < 100) return;
+      const fmt = n => text.replace(m[1], n.toLocaleString('en-IN'));
+      const start = performance.now(), dur = 900;
+      const step = now => {
+        const t = Math.min(1, (now - start) / dur);
+        const eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = fmt(Math.round(target * eased));
+        if (t < 1) requestAnimationFrame(step);
+        else el.textContent = text;     // always land on the real string
+      };
+      requestAnimationFrame(step);
+    };
+    new IntersectionObserver((es, o) => {
+      es.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.querySelectorAll('.price-amount').forEach(roll);
+        o.unobserve(e.target);
+      });
+    }, { threshold: 0.3 }).observe(pricing);
+  }
 })();
 
 // ─── PAPER MOTION, SITE-WIDE ───
