@@ -1730,33 +1730,31 @@
     /* depth needs a cast shadow to read; it is the one place this design earns one */
     box-shadow: 6px 10px 0 rgba(22, 32, 43, 0.10);
   }
-  .c3d-front { transform: translate3d(-72%, 20%, 90px) rotate(-2deg); }
-  .c3d-score { width: 218px; transform: translate3d(46%, -78%, 130px) rotate(3deg); }
-  .c3d-mid   { transform: translate3d(-16%, -6%, 26px) rotate(1.5deg); }
-  .c3d-back  { width: 244px; transform: translate3d(34%, 46%, -46px) rotate(-4deg); opacity: 0.7; }
+  .c3d-front { transform: translate3d(-66%, 30%, 80px) rotate(-2deg); }
+  .c3d-score { width: 218px; transform: translate3d(20%, -76%, 130px) rotate(3deg); }
+  .c3d-mid   { transform: translate3d(30%, 36%, 24px) rotate(2deg); }
 
   /* each sheet drifts on its own cycle so the stack never looks locked */
   .reveals-on .c3d-front { animation: drift-a 7s ease-in-out infinite; }
   .reveals-on .c3d-score { animation: drift-b 9s ease-in-out infinite; }
   .reveals-on .c3d-mid   { animation: drift-c 8s ease-in-out infinite; }
-  .reveals-on .c3d-back  { animation: drift-d 11s ease-in-out infinite; }
   @keyframes drift-a {
-    0%,100% { transform: translate3d(-72%, 20%, 90px) rotate(-2deg); }
-    50%     { transform: translate3d(-72%, 16%, 102px) rotate(-1.2deg); }
+    0%,100% { transform: translate3d(-66%, 30%, 80px) rotate(-2deg); }
+    50%     { transform: translate3d(-66%, 26%, 92px) rotate(-1.2deg); }
+  }
   }
   }
   @keyframes drift-b {
-    0%,100% { transform: translate3d(46%, -78%, 130px) rotate(3deg); }
-    50%     { transform: translate3d(46%, -82%, 142px) rotate(2.2deg); }
+    0%,100% { transform: translate3d(20%, -76%, 130px) rotate(3deg); }
+    50%     { transform: translate3d(20%, -80%, 142px) rotate(2.2deg); }
   }
   }
-  @keyframes drift-d {
-    0%,100% { transform: translate3d(34%, 46%, -46px) rotate(-4deg); }
-    50%     { transform: translate3d(34%, 42%, -36px) rotate(-3.2deg); }
+  }
   }
   @keyframes drift-c {
-    0%,100% { transform: translate3d(-16%, -6%, 26px) rotate(1.5deg); }
-    50%     { transform: translate3d(-16%, -10%, 36px) rotate(2.2deg); }
+    0%,100% { transform: translate3d(30%, 36%, 24px) rotate(2deg); }
+    50%     { transform: translate3d(30%, 32%, 34px) rotate(2.7deg); }
+  }
   }
   }
 
@@ -1787,16 +1785,18 @@
   .c3d-bar span { display: block; height: 100%; width: 90%; background: var(--highlight); }
 
   @media (max-width: 720px) {
+    /* Narrow screens cannot take a horizontal fan, so the cascade goes vertical
+       and the cards shrink. Drift is off here because its keyframes carry the
+       desktop anchors. */
     .stage3d { height: 250px; max-width: 320px; margin-top: var(--s6); }
-    .c3d { width: 208px; padding: 10px 12px; }
-    /* The drift keyframes carry the desktop anchors, so on a narrow screen they
-       would fling the cards back out past the edge. Static layout instead. */
-    .reveals-on .c3d-front, .reveals-on .c3d-score,
-    .reveals-on .c3d-mid, .reveals-on .c3d-back { animation: none; }
-    .c3d-front { transform: translate3d(-56%, 26%, 70px) rotate(-2deg); }
-    .c3d-score { width: 152px; transform: translate3d(18%, -70%, 100px) rotate(3deg); }
-    .c3d-mid   { transform: translate3d(-22%, -2%, 24px) rotate(1.5deg); }
-    .c3d-back  { width: 170px; transform: translate3d(10%, 44%, -40px) rotate(-4deg); }
+    .c3d { width: 200px; padding: 10px 12px; }
+    .reveals-on .c3d-front, .reveals-on .c3d-score, .reveals-on .c3d-mid { animation: none; }
+    /* Three sheets cannot separate legibly at this width — the alert card is
+       the one the story can spare, so it goes rather than sitting on top of
+       the enquiry. */
+    .c3d-mid { display: none; }
+    .c3d-score { width: 152px; transform: translate3d(14%, -62%, 130px) rotate(3deg); }
+    .c3d-front { transform: translate3d(-22%, 26%, 80px) rotate(-2deg); }
   }
   @media (prefers-reduced-motion: reduce) {
     .stage3d-inner { transform: rotateX(12deg) rotateZ(-3deg); transition: none; }
@@ -1821,23 +1821,17 @@
   }
   .stage3d.dealing .c3d-front {
     --from: translate3d(-150%, 90%, 240px) rotate(-16deg);
-    --rest: translate3d(-72%, 20%, 90px) rotate(-2deg);
+    --rest: translate3d(-66%, 30%, 80px) rotate(-2deg);
     --deal: 0.15s;
   }
   .stage3d.dealing .c3d-mid {
     --from: translate3d(-90%, 110%, 180px) rotate(-11deg);
-    --rest: translate3d(-16%, -6%, 26px) rotate(1.5deg);
+    --rest: translate3d(30%, 36%, 24px) rotate(2deg);
     --deal: 0.42s;
-  }
-  .stage3d.dealing .c3d-back {
-    --from: translate3d(100%, 120%, 160px) rotate(12deg);
-    --rest: translate3d(34%, 46%, -46px) rotate(-4deg);
-    --rest-opacity: 0.7;
-    --deal: 0.66s;
   }
   .stage3d.dealing .c3d-score {
     --from: translate3d(120%, -140%, 300px) rotate(14deg);
-    --rest: translate3d(46%, -78%, 130px) rotate(3deg);
+    --rest: translate3d(20%, -76%, 130px) rotate(3deg);
     --deal: 1.55s;
   }
   /* drift must not run while the cards are still being dealt */
@@ -1964,11 +1958,6 @@
            rendered geometry, so it belongs to the print language. -->
       <div class="stage3d" id="stage3d" aria-hidden="true">
         <div class="stage3d-inner" id="stage3d-inner">
-
-          <div class="c3d c3d-back">
-            <div class="c3d-head"><span class="c3d-dot"></span> Logged to CRM</div>
-            <div class="c3d-rows"><i style="width:78%"></i><i style="width:54%"></i><i style="width:66%"></i></div>
-          </div>
 
           <div class="c3d c3d-mid">
             <div class="c3d-head"><span class="c3d-hash">#</span> leads</div>
