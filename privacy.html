@@ -7,34 +7,37 @@
 <meta name="description" content="How LazyScale collects, uses and protects the information you share with us.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://lazyscale.vercel.app/privacy.html">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23f4f4f5'/><path d='M8 10h5v14H8z' fill='%231a1a2e'/><path d='M21 10h4v14h-4z' fill='%237c3aed'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23F7F5EF'/><path d='M8 10h5v14H8z' fill='%231F1D1A'/><path d='M21 10h4v14h-4z' fill='%23BF5A38'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #FAFAFA; --bg-card: #FFFFFF; --bg-raised: #F0F0ED;
-    --text-primary: #111118; --text-secondary: #52525B; --text-muted: #A1A1AA;
-    --accent: #7C3AED; --accent-light: #F3F0FF;
-    --border: rgba(0,0,0,0.08); --max-w: 760px;
+    --bg: #F7F5EF; --bg-card: #FDFCF9; --bg-raised: #EFEBE0;
+    --text-primary: #1F1D1A; --text-secondary: #5E5A51; --text-muted: #8F8A7E;
+    --accent: #BF5A38; --accent-light: #F5E9E2;
+    --border: rgba(31,29,26,0.10); --max-w: 760px;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #09090B; --bg-card: #1C1C22; --bg-raised: #18181B;
-      --text-primary: #FAFAFA; --text-secondary: #A1A1AA; --text-muted: #71717A;
-      --accent: #A78BFA; --accent-light: rgba(167,139,250,0.1);
-      --border: rgba(255,255,255,0.08);
+      --bg: #22201C; --bg-card: #2F2C27; --bg-raised: #2B2823;
+      --text-primary: #F3F0E9; --text-secondary: #B5AFA3; --text-muted: #837D72;
+      --accent: #E08A66; --accent-light: rgba(224,138,102,0.12);
+      --border: rgba(243,240,233,0.10);
     }
   }
   /* explicit choice from the main site wins over the OS setting */
   :root[data-theme="dark"] {
-    --bg: #09090B; --bg-card: #1C1C22; --bg-raised: #18181B;
-    --text-primary: #FAFAFA; --text-secondary: #A1A1AA; --text-muted: #71717A;
-    --accent: #A78BFA; --accent-light: rgba(167,139,250,0.1);
-    --border: rgba(255,255,255,0.08);
+    --bg: #22201C; --bg-card: #2F2C27; --bg-raised: #2B2823;
+    --text-primary: #F3F0E9; --text-secondary: #B5AFA3; --text-muted: #837D72;
+    --accent: #E08A66; --accent-light: rgba(224,138,102,0.12);
+    --border: rgba(243,240,233,0.10);
   }
   :root[data-theme="light"] {
-    --bg: #FAFAFA; --bg-card: #FFFFFF; --bg-raised: #F0F0ED;
-    --text-primary: #111118; --text-secondary: #52525B; --text-muted: #A1A1AA;
-    --accent: #7C3AED; --accent-light: #F3F0FF;
-    --border: rgba(0,0,0,0.08);
+    --bg: #F7F5EF; --bg-card: #FDFCF9; --bg-raised: #EFEBE0;
+    --text-primary: #1F1D1A; --text-secondary: #5E5A51; --text-muted: #8F8A7E;
+    --accent: #BF5A38; --accent-light: #F5E9E2;
+    --border: rgba(31,29,26,0.10);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -49,10 +52,11 @@
     text-decoration: none; margin-bottom: 40px; transition: color 0.2s;
   }
   .back:hover { color: var(--accent); }
-  h1 { font-size: clamp(30px, 5vw, 42px); font-weight: 800; letter-spacing: -1px; line-height: 1.15; }
+  h1, h2 { font-family: 'Newsreader','Iowan Old Style',Georgia,serif; font-weight: 500; }
+  h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 500; letter-spacing: -0.02em; line-height: 1.15; }
   .updated { color: var(--text-muted); font-size: 14px; margin-top: 10px; margin-bottom: 40px; }
   h2 {
-    font-size: 19px; font-weight: 700; letter-spacing: -0.3px;
+    font-size: 20px; font-weight: 500; letter-spacing: -0.015em;
     margin-top: 40px; margin-bottom: 12px; color: var(--text-primary);
   }
   p, li { color: var(--text-secondary); font-size: 15.5px; }

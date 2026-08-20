@@ -13,8 +13,8 @@
 <meta name="twitter:description" content="Every enquiry answered in under 60 seconds — WhatsApp, Instagram, email and web. Built for Indian startups.">
 <meta name="twitter:image" content="https://lazyscale.vercel.app/og-image.png">
 <link rel="canonical" href="https://lazyscale.vercel.app/">
-<meta name="theme-color" content="#FAFAFA" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#09090B" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F7F5EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#22201C" media="(prefers-color-scheme: dark)">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -52,29 +52,34 @@
   ]
 }
 </script>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23f4f4f5'/><rect x='1' y='1' width='30' height='30' rx='7' fill='none' stroke='%23e4e4e7'/><path d='M8 10h5v14H8z' fill='%231a1a2e'/><path d='M13 18h4v6h-4z' fill='%237c3aed' opacity='.6'/><path d='M17 14h4v10h-4z' fill='%237c3aed' opacity='.8'/><path d='M21 10h4v14h-4z' fill='%237c3aed'/><path d='M14 20q4-3 10-8l1 1.5-10 8z' fill='%237c3aed'/><path d='M24 12l2 0-1-3z' fill='%237c3aed'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23F7F5EF'/><rect x='1' y='1' width='30' height='30' rx='7' fill='none' stroke='%23E0DACB'/><path d='M8 10h5v14H8z' fill='%231F1D1A'/><path d='M13 18h4v6h-4z' fill='%23BF5A38' opacity='.6'/><path d='M17 14h4v10h-4z' fill='%23BF5A38' opacity='.8'/><path d='M21 10h4v14h-4z' fill='%23BF5A38'/><path d='M14 20q4-3 10-8l1 1.5-10 8z' fill='%23BF5A38'/><path d='M24 12l2 0-1-3z' fill='%23BF5A38'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
 <style>
   :root {
     --nav-h: 72px;
-    --bg: #FAFAFA;
-    --bg-raised: #F0F0ED;
-    --bg-card: #FFFFFF;
-    --bg-card-hover: #FAFAF8;
-    --text-primary: #111118;
-    --text-secondary: #52525B;
-    --text-muted: #A1A1AA;
-    --accent: #7C3AED;
-    --accent-mid: #6D28D9;
-    --accent-dim: #5B21B6;
-    --accent-light: #F3F0FF;
-    --accent-glow: rgba(124, 58, 237, 0.04);
-    --accent-glow-strong: rgba(124, 58, 237, 0.08);
-    --border: rgba(0,0,0,0.06);
-    --border-hover: rgba(0,0,0,0.12);
-    --border-accent: rgba(124, 58, 237, 0.2);
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-    --shadow-md: 0 4px 20px rgba(0,0,0,0.06);
-    --shadow-lg: 0 16px 48px rgba(0,0,0,0.08);
+    /* Warm paper stock rather than screen white — the whole look rests on this. */
+    --bg: #F7F5EF;
+    --bg-raised: #EFEBE0;
+    --bg-card: #FDFCF9;
+    --bg-card-hover: #F7F5EF;
+    --text-primary: #1F1D1A;
+    --text-secondary: #5E5A51;
+    --text-muted: #8F8A7E;
+    --accent: #BF5A38;
+    --accent-mid: #A54B2C;
+    --accent-dim: #8A3D23;
+    --accent-light: #F5E9E2;
+    --accent-glow: rgba(191, 90, 56, 0.05);
+    --accent-glow-strong: rgba(191, 90, 56, 0.10);
+    --border: rgba(31, 29, 26, 0.10);
+    --border-hover: rgba(31, 29, 26, 0.20);
+    --border-accent: rgba(191, 90, 56, 0.28);
+    /* Ink on paper casts almost no shadow. Depth comes from the rule, not the lift. */
+    --shadow-sm: none;
+    --shadow-md: 0 1px 2px rgba(31,29,26,0.05);
+    --shadow-lg: 0 2px 12px rgba(31,29,26,0.07);
     --max-w: 1200px;
     --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -84,7 +89,7 @@
     --s9: 80px;  --s10: 120px;
 
     /* ── RADIUS ── */
-    --r-xs: 6px; --r-sm: 10px; --r-md: 14px; --r-lg: 20px; --r-pill: 100px;
+    --r-xs: 3px; --r-sm: 5px; --r-md: 8px; --r-lg: 12px; --r-pill: 100px;
     /* legacy aliases — older rules still reference these */
     --radius: var(--r-md); --radius-sm: var(--r-sm); --radius-xs: var(--r-xs);
 
@@ -103,25 +108,25 @@
   }
 
   :root[data-theme="dark"] {
-    --bg: #09090B;
-    --bg-raised: #18181B;
-    --bg-card: #1C1C22;
-    --bg-card-hover: #27272A;
-    --text-primary: #FAFAFA;
-    --text-secondary: #A1A1AA;
-    --text-muted: #52525B;
-    --accent: #A78BFA;
-    --accent-mid: #8B5CF6;
-    --accent-dim: #7C3AED;
-    --accent-light: rgba(167,139,250,0.1);
-    --accent-glow: rgba(167, 139, 250, 0.06);
-    --accent-glow-strong: rgba(167, 139, 250, 0.12);
-    --border: rgba(255,255,255,0.06);
-    --border-hover: rgba(255,255,255,0.1);
-    --border-accent: rgba(167, 139, 250, 0.2);
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
-    --shadow-md: 0 4px 20px rgba(0,0,0,0.4);
-    --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+    --bg: #22201C;
+    --bg-raised: #2B2823;
+    --bg-card: #2F2C27;
+    --bg-card-hover: #383430;
+    --text-primary: #F3F0E9;
+    --text-secondary: #B5AFA3;
+    --text-muted: #837D72;
+    --accent: #E08A66;
+    --accent-mid: #C97250;
+    --accent-dim: #B0603F;
+    --accent-light: rgba(224, 138, 102, 0.12);
+    --accent-glow: rgba(224, 138, 102, 0.06);
+    --accent-glow-strong: rgba(224, 138, 102, 0.13);
+    --border: rgba(243, 240, 233, 0.10);
+    --border-hover: rgba(243, 240, 233, 0.20);
+    --border-accent: rgba(224, 138, 102, 0.30);
+    --shadow-sm: none;
+    --shadow-md: 0 1px 2px rgba(0,0,0,0.25);
+    --shadow-lg: 0 2px 14px rgba(0,0,0,0.35);
   }
 
   html {
@@ -296,9 +301,9 @@
     position: absolute; border-radius: 50%; opacity: 0.5;
     animation-timing-function: ease-in-out; animation-iteration-count: infinite;
   }
-  .hero-orb-1 { width: 400px; height: 400px; top: -80px; right: -100px; background: radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 70%); animation: orb-1 12s infinite; }
-  .hero-orb-2 { width: 300px; height: 300px; bottom: -60px; left: -80px; background: radial-gradient(circle, rgba(124,58,237,0.05) 0%, transparent 70%); animation: orb-2 15s infinite; }
-  .hero-orb-3 { width: 200px; height: 200px; top: 40%; left: 60%; background: radial-gradient(circle, rgba(167,139,250,0.04) 0%, transparent 70%); animation: orb-3 10s infinite; }
+  .hero-orb-1 { width: 400px; height: 400px; top: -80px; right: -100px; background: radial-gradient(circle, rgba(191, 90, 56,0.06) 0%, transparent 70%); animation: orb-1 12s infinite; }
+  .hero-orb-2 { width: 300px; height: 300px; bottom: -60px; left: -80px; background: radial-gradient(circle, rgba(191, 90, 56,0.05) 0%, transparent 70%); animation: orb-2 15s infinite; }
+  .hero-orb-3 { width: 200px; height: 200px; top: 40%; left: 60%; background: radial-gradient(circle, rgba(224, 138, 102,0.04) 0%, transparent 70%); animation: orb-3 10s infinite; }
 
   .hero-shape {
     position: absolute; opacity: 0.08; animation-timing-function: linear; animation-iteration-count: infinite;
@@ -311,7 +316,7 @@
   .hero-shape-6 { width: 12px; height: 12px; background: var(--accent); border-radius: 3px; bottom: 35%; left: 10%; animation: spin-slow 15s infinite, float 5s ease-in-out infinite 1.5s; }
 
   .hero-line {
-    position: absolute; width: 1px; background: linear-gradient(180deg, transparent, rgba(124,58,237,0.08), transparent);
+    position: absolute; width: 1px; background: linear-gradient(180deg, transparent, rgba(191, 90, 56,0.08), transparent);
     animation: float 8s ease-in-out infinite;
   }
   .hero-line-1 { height: 120px; top: 10%; left: 20%; animation-delay: 0s; }
@@ -352,8 +357,8 @@
   }
 
   @keyframes cta-glow {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(124,58,237,0.4); }
-    50% { box-shadow: 0 0 0 8px rgba(124,58,237,0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(191, 90, 56,0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(191, 90, 56,0); }
   }
 
   .nav-cta { animation: cta-glow 2.5s infinite; }
@@ -491,7 +496,7 @@
     display: flex; align-items: flex-start; gap: 10px;
   }
   .ba-list li::before { flex-shrink: 0; font-size: 14px; }
-  .ba-col.before .ba-list li::before { content: '✗'; color: #EF4444; font-weight: 700; }
+  .ba-col.before .ba-list li::before { content: '✗'; color: #B3402C; font-weight: 700; }
   .ba-col.after .ba-list li::before { content: '✓'; color: var(--accent); font-weight: 700; }
 
   @media (max-width: 640px) {
@@ -591,7 +596,7 @@
     transform: scale(1.04);
     background: linear-gradient(180deg, var(--bg-card) 0%, color-mix(in srgb, var(--accent-light) 30%, var(--bg-card)) 100%);
   }
-  .price-card.featured:hover { transform: scale(1.06); box-shadow: 0 0 0 2px var(--accent), 0 20px 60px rgba(124,58,237,0.18); }
+  .price-card.featured:hover { transform: scale(1.06); box-shadow: 0 0 0 2px var(--accent), 0 20px 60px rgba(191, 90, 56,0.18); }
 
   .price-card.featured::before {
     content: 'Most Popular'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
@@ -760,6 +765,56 @@
   .whatsapp-btn { position: fixed; bottom: 24px; right: 24px; z-index: 1001; width: 56px; height: 56px; border-radius: 50%; background: #25D366; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(37,211,102,0.35); transition: transform 0.2s, box-shadow 0.2s; }
   .whatsapp-btn:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(37,211,102,0.45); }
   /* ─── SCROLL ANIMATIONS ─── */
+  /* ─── PAPER TREATMENT ─── */
+  /* Serif for display type, sans for reading. The mix is what makes it feel
+     like a printed page rather than an app. */
+  :root { --font-display: 'Newsreader', 'Iowan Old Style', Georgia, 'Times New Roman', serif; }
+
+  .hero h1,
+  .section-title,
+  .final-cta h2,
+  .audit-left h2,
+  .wf-hero-body h3,
+  .dfy h3,
+  .audit-form-title,
+  .price-amount,
+  .hero-stat strong,
+  .roi-results h3,
+  .how-card h3,
+  .audit-success h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
+
+  /* Serif carries its own weight — the old 800s look clumsy at display sizes. */
+  .hero h1 { font-weight: 500; letter-spacing: -0.02em; line-height: 1.08; }
+  .section-title { font-weight: 500; letter-spacing: -0.015em; }
+  .final-cta h2 { font-weight: 500; }
+  .price-amount { font-weight: 500; }
+  .hero-stat strong { font-weight: 500; letter-spacing: -0.01em; }
+
+  /* The rotating word was a gradient; on paper it is simply set in the accent. */
+  .hero h1 em {
+    font-style: normal;
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    color: var(--accent);
+    animation: none;
+  }
+
+  /* Labels become small-caps letterspaced type, the way a printed sidehead reads. */
+  .section-label,
+  .hero-proof-label {
+    font-family: inherit;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+    font-size: 11.5px;
+  }
+
+  /* Rules instead of glows for section separation. */
+  .final-cta::before { display: none; }
+
   /* ─── SCROLL REVEALS ─── */
   /* Shorter travel + a softer ease reads as smoother than a long slide.
      will-change is added only while animating (see JS) to avoid pinned layers.
@@ -793,7 +848,7 @@
   @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
   @keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-  .hero h1 em { background: linear-gradient(90deg, #7C3AED, #A78BFA, #7C3AED); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradient-shift 4s ease infinite; }
+  .hero h1 em { background: linear-gradient(90deg, #BF5A38, #E08A66, #BF5A38); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradient-shift 4s ease infinite; }
 
   /* ─── AUDIT FORM ─── */
   .audit-section {
@@ -829,7 +884,7 @@
     margin-bottom: 20px; letter-spacing: 0.5px; text-transform: uppercase;
   }
   .audit-badge-dot {
-    width: 8px; height: 8px; border-radius: 50%; background: #22C55E;
+    width: 8px; height: 8px; border-radius: 50%; background: #5C7F52;
     animation: audit-dot-pulse 2s ease-in-out infinite;
   }
   @keyframes audit-dot-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
@@ -849,9 +904,9 @@
   .audit-perks li:last-child { border-bottom: none; }
   .audit-perks li::before {
     content: ''; width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
-    background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25);
+    background: rgba(92, 127, 82,0.1); border: 1px solid rgba(92, 127, 82,0.25);
     display: flex; align-items: center; justify-content: center;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2322C55E' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235C7F52' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
     background-repeat: no-repeat; background-position: center;
   }
   .audit-form {
@@ -887,7 +942,7 @@
     background: linear-gradient(135deg, transparent, rgba(255,255,255,0.15), transparent);
     transform: translateX(-100%); transition: transform 0.6s;
   }
-  .audit-submit:hover { background: var(--accent-mid); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.3); }
+  .audit-submit:hover { background: var(--accent-mid); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(191, 90, 56,0.3); }
   .audit-submit:hover::after { transform: translateX(100%); }
   .audit-submit:active { transform: translateY(0); }
   .audit-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
@@ -897,7 +952,7 @@
   .audit-success.show { display: flex; flex-direction: column; align-items: center; }
   .audit-success-icon {
     width: 64px; height: 64px; border-radius: 50%;
-    background: rgba(34,197,94,0.1); border: 2px solid rgba(34,197,94,0.25);
+    background: rgba(92, 127, 82,0.1); border: 2px solid rgba(92, 127, 82,0.25);
     display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
     animation: audit-check-pop 0.5s cubic-bezier(0.34,1.56,0.64,1);
   }
@@ -985,8 +1040,8 @@
   }
 
   .form-error {
-    font-size: 14px; color: #DC2626; background: rgba(220,38,38,0.07);
-    border: 1px solid rgba(220,38,38,0.25); border-radius: var(--r-sm);
+    font-size: 14px; color: #A03826; background: rgba(160, 56, 38,0.07);
+    border: 1px solid rgba(160, 56, 38,0.25); border-radius: var(--r-sm);
     padding: 10px 14px; margin: 4px 0 12px; line-height: 1.5;
   }
   .form-error[hidden] { display: none; }
@@ -994,14 +1049,14 @@
   /* inline validation — only after the user has interacted */
   .audit-field input:user-invalid, .audit-field textarea:user-invalid,
   .contact-field input:user-invalid, .contact-field textarea:user-invalid {
-    border-color: rgba(220,38,38,0.55);
+    border-color: rgba(160, 56, 38,0.55);
   }
   .audit-field input:user-invalid:focus, .contact-field input:user-invalid:focus,
   .audit-field textarea:user-invalid:focus, .contact-field textarea:user-invalid:focus {
-    box-shadow: 0 0 0 3px rgba(220,38,38,0.12);
+    box-shadow: 0 0 0 3px rgba(160, 56, 38,0.12);
   }
   .audit-field input:user-valid, .contact-field input:user-valid {
-    border-color: rgba(34,197,94,0.4);
+    border-color: rgba(92, 127, 82,0.4);
   }
 
   /* submit spinner */
@@ -1090,8 +1145,8 @@
   }
   .flow-hash { color: var(--accent); font-weight: 800; }
   .flow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
-  .flow-dot-hot { background: #F97316; }
-  .flow-dot-ok { background: #22C55E; }
+  .flow-dot-hot { background: #C87137; }
+  .flow-dot-ok { background: #5C7F52; }
   .flow-card-body strong { display: block; font-size: 13.5px; font-weight: 650; color: var(--text-primary); }
   .flow-card-body span { display: block; font-size: 12.5px; color: var(--text-secondary); margin-top: 3px; line-height: 1.5; }
 
@@ -1100,13 +1155,13 @@
   .flow-score i { font-style: normal; font-size: 13px; color: var(--text-muted); }
   .flow-score em {
     font-style: normal; margin-left: auto; font-size: 11px; font-weight: 700;
-    color: #EA580C; background: rgba(249,115,22,0.1);
+    color: #A85A28; background: rgba(200, 113, 55,0.1);
     padding: 2px 8px; border-radius: var(--r-pill);
   }
   .flow-bar { margin-top: var(--s2); height: 4px; background: var(--bg-raised); border-radius: 2px; overflow: hidden; }
   .flow-bar span {
     display: block; height: 100%; width: 0;
-    background: linear-gradient(90deg, #F97316, #EA580C); border-radius: 2px;
+    background: linear-gradient(90deg, #C87137, #A85A28); border-radius: 2px;
     transition: width 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s;
   }
   .flow-step:not(.on):not(.done) .flow-bar span { width: 0 !important; }
@@ -1189,8 +1244,8 @@
   .wf-hero-points li::before {
     content: ''; position: absolute; left: 0; top: 7px;
     width: 13px; height: 13px; border-radius: 50%;
-    background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='9' viewBox='0 0 24 24' fill='none' stroke='%2322C55E' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
+    background: rgba(92, 127, 82,0.12); border: 1px solid rgba(92, 127, 82,0.3);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='9' viewBox='0 0 24 24' fill='none' stroke='%235C7F52' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
     background-repeat: no-repeat; background-position: center;
   }
   .wf-hero-why {
@@ -1402,13 +1457,13 @@
 
   /* green tick on a field once it validates */
   .audit-field input:user-valid, .contact-field input:user-valid {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2322C55E' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235C7F52' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 14px center;
     padding-right: 42px;
   }
 
-  .audit-submit { box-shadow: 0 4px 14px rgba(124,58,237,0.25); }
+  .audit-submit { box-shadow: 0 4px 14px rgba(191, 90, 56,0.25); }
   .audit-submit .btn-label { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1); }
   .audit-submit:not(.is-loading):hover .btn-label { transform: translateX(-3px); }
   .audit-submit::before {
@@ -1427,6 +1482,30 @@
     animation: success-in 0.6s cubic-bezier(0.16,1,0.3,1);
   }
   @keyframes success-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+  /* ─── PAPER OVERRIDES (last, so they win) ─── */
+  /* Cards sit on the page rather than floating above it. */
+  .wf-card, .price-card, .how-card, .stack-chip, .contact-info-card,
+  .faq-item, .dfy, .audit-form, .roi-calc, .demo-container, .logos-row span {
+    box-shadow: none;
+  }
+  .wf-card:hover, .price-card:hover, .how-card:hover, .contact-info-card:hover {
+    box-shadow: none;
+    border-color: var(--border-hover);
+  }
+
+  /* Buttons: squared, quiet, no lift. */
+  .btn { border-radius: var(--r-sm); font-weight: 600; letter-spacing: 0; }
+  .btn-primary:hover, .btn-dark:hover { transform: none; box-shadow: none; filter: brightness(1.06); }
+  .btn-ghost { background: transparent; }
+  .btn-ghost:hover { background: var(--bg-raised); transform: none; }
+  .audit-submit { border-radius: var(--r-sm); box-shadow: none; }
+  .audit-submit:hover { transform: none; box-shadow: none; filter: brightness(1.06); }
+
+  /* Body copy reads better with a touch more line height on a warm ground. */
+  .section-desc, .hero-sub { line-height: 1.65; }
+
+
 </style>
 
 <script defer src="/_vercel/insights/script.js"></script>
@@ -1446,11 +1525,11 @@
       <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
         <rect width="30" height="30" rx="7" fill="#f4f4f5" stroke="#e4e4e7"/>
         <path d="M7 8h5.5v15H7z" fill="#1a1a2e" rx="1"/>
-        <rect x="12.5" y="16" width="4" height="7" rx="0.8" fill="#7c3aed" opacity=".55"/>
-        <rect x="16.5" y="12" width="4" height="11" rx="0.8" fill="#7c3aed" opacity=".75"/>
-        <rect x="20.5" y="8" width="4" height="15" rx="0.8" fill="#7c3aed"/>
-        <path d="M13 19q5-4 10-7.5" stroke="#7c3aed" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-        <path d="M22 10.5l1.8 0.3-0.3-2" stroke="#7c3aed" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="12.5" y="16" width="4" height="7" rx="0.8" fill="#BF5A38" opacity=".55"/>
+        <rect x="16.5" y="12" width="4" height="11" rx="0.8" fill="#BF5A38" opacity=".75"/>
+        <rect x="20.5" y="8" width="4" height="15" rx="0.8" fill="#BF5A38"/>
+        <path d="M13 19q5-4 10-7.5" stroke="#BF5A38" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M22 10.5l1.8 0.3-0.3-2" stroke="#BF5A38" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       Lazy<span>Scale</span>
     </a>
@@ -1676,7 +1755,7 @@
     </div>
     <div class="ba-grid">
       <div class="ba-col before">
-        <h3><svg width="22" height="22" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2M9 9h.01M15 9h.01"/></svg> Before LazyScale</h3>
+        <h3><svg width="22" height="22" fill="none" stroke="#B3402C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2M9 9h.01M15 9h.01"/></svg> Before LazyScale</h3>
         <ul class="ba-list">
           <li>Leads sit in your inbox for 2-3 days</li>
           <li>Copy-pasting data between 5 different tools</li>
@@ -1780,7 +1859,7 @@
           <p class="form-hint form-hint-legal">We'll only use your email to send the audit. See our <a href="/privacy.html" style="color:var(--accent)">privacy policy</a>.</p>
         </form>
         <div class="audit-success" id="audit-success" role="status" aria-live="polite">
-          <div class="audit-success-icon"><svg width="28" height="28" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <div class="audit-success-icon"><svg width="28" height="28" fill="none" stroke="#5C7F52" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
           <h3>Got it — you're on the list</h3>
           <p>Here's exactly what happens next, so nothing's a mystery.</p>
           <ol class="audit-next">
