@@ -130,3 +130,56 @@ The order matters: **capture the lead, then spend money.** Never the other way r
 | Anthropic | ~₹3–5 per audit |
 
 Fifty audits a month is roughly ₹250. Your Growth plan is ₹14,999.
+
+---
+
+## Switching on the Lead Responder
+
+`api/lead.js` is the role from
+[`services/ai-employees/lead-responder-jd.md`](services/ai-employees/lead-responder-jd.md),
+running for your own inbound. The job description is its specification — the
+escalation rules and the never-do list in the code are lifted from it, so the document
+you hand a client and the thing that runs cannot drift apart.
+
+It needs the same two keys as the audit, plus:
+
+```
+OWNER_EMAIL = divyanshus2404@gmail.com
+```
+
+**It will not reply to anyone until you let it.** `LEAD_AUTOREPLY_THRESHOLD` defaults
+to 11 on a 0–10 scale, which means every enquiry gets scored, summarised and sent to
+you, and nothing is ever sent to the person who wrote in. That is deliberate: the job
+description says the role goes live with the threshold high and comes down only as the
+scoring earns trust.
+
+**The order to do this in:**
+
+1. Add the keys. Leave the threshold alone. Submit a few test enquiries.
+2. Read the alerts for a week. Are the scores right? Would you have sent those drafts?
+3. Only then set `LEAD_AUTOREPLY_THRESHOLD = 8` and let it reply to strong leads.
+4. Lower further if it earns it.
+
+**Do not point a form at it before step 2.** Pointing a live form at an endpoint that
+had not been tested is how lead capture broke once already — the form now posts to
+Formspree and works, and it should stay that way until you have watched this run.
+
+When you are ready, change one line in `index.html`:
+
+```html
+<form class="contact-form" id="contact-form" action="/api/lead" method="POST" ...>
+```
+
+Capture happens before scoring either way, so a lead is never lost to a failure
+further down.
+
+### What it does with an enquiry
+
+| Situation | What happens |
+|---|---|
+| Strong lead, score at or above threshold | Reply sent, you are copied |
+| Below threshold | No reply. You get the draft and decide. |
+| Complaint, negotiation, existing account, asks for a human | Escalated. No reply sent. |
+| Model returns something unparseable or a nonsense score | Escalated. Nothing dubious is sent. |
+| Honeypot filled | Silently dropped. |
+| No email or phone | Rejected with a clear message. |

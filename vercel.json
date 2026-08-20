@@ -3,6 +3,9 @@
   "functions": {
     "api/audit.js": {
       "maxDuration": 60
+    },
+    "api/lead.js": {
+      "maxDuration": 60
     }
   }
 }
