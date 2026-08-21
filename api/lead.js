@@ -45,7 +45,7 @@ Reply rules:
 - One clear next step at the end.
 - 80-130 words. Indian English. No emoji, no exclamation marks, no "I hope this email finds you well".
 
-Never, in any reply: negotiate or discount, promise a delivery date you were not given, commit to a price beyond "from ₹4,999/month", or say anything about legal, medical or financial matters.
+Never, in any reply: negotiate or discount, promise a delivery date you were not given, commit to a price beyond "from ₹9,999/month", or say anything about legal, medical or financial matters.
 
 Return exactly this and nothing else:
 {"score": <0-10>, "summary": "<one line for the team, max 15 words>", "intent": "<new_business|support|jobseeker|vendor_pitch|spam|other>", "needs_human": <true|false>, "escalation_reason": "<short reason, empty if none>", "reply": "<email body, no subject, no signature>"}`;

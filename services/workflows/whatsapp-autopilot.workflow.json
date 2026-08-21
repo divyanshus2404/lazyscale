@@ -30,7 +30,7 @@
             {
               "id": "wcfg-2",
               "name": "knowledge_base",
-              "value": "HOURS: Monday to Saturday, 10am to 7pm IST. Closed Sundays.\nLOCATION: Remote-first, based in India. We work with clients across the country.\nPRICING: Automation workflows start at Rs 4,999/month. One-off custom builds start at Rs 15,000. Exact price depends on scope and is confirmed in a written proposal.\nSETUP TIME: Most workflows go live within 48 hours of us getting access. Complex builds take 1-2 weeks.\nWHAT WE DO: We build AI automations that connect the tools a business already uses — WhatsApp, Gmail, Slack, Notion, CRMs. Lead response, customer replies, quotes, payment reminders.\nCANCELLATION: Cancel any time, no exit fee. Workflows you have paid for keep running.\nBOOKING: https://cal.com/lazy_scale/15min",
+              "value": "HOURS: Monday to Saturday, 10am to 7pm IST. Closed Sundays.\nLOCATION: Remote-first, based in India. We work with clients across the country.\nPRICING: Automation workflows start at Rs 9,999/month. One-off custom builds start at Rs 15,000. Exact price depends on scope and is confirmed in a written proposal.\nSETUP TIME: Most workflows go live within 48 hours of us getting access. Complex builds take 1-2 weeks.\nWHAT WE DO: We build AI automations that connect the tools a business already uses — WhatsApp, Gmail, Slack, Notion, CRMs. Lead response, customer replies, quotes, payment reminders.\nCANCELLATION: Cancel any time, no exit fee. Workflows you have paid for keep running.\nBOOKING: https://cal.com/lazy_scale/15min",
               "type": "string"
             },
             {

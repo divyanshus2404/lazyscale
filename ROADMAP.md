@@ -21,9 +21,9 @@ only holds if the delivery discipline matches it.
 
 | Role | Price | Status |
 |---|---|---|
-| Lead Responder | ₹4,999/mo | Built (`api/lead.js`), not live |
-| WhatsApp Agent | ₹7,999/mo | n8n template built, no BSP account |
-| Collections Clerk | ₹4,999/mo | Spec only |
+| Lead Responder | ₹9,999/mo | Built (`api/lead.js`), not live |
+| WhatsApp Agent | ₹9,999/mo | n8n template built, no BSP account |
+| Collections Clerk | ₹9,999/mo | Spec only |
 | Onboarding Coordinator | ₹6,999/mo | Spec only |
 | Voice (inbound) | — | Not started. See phase 3. |
 
@@ -69,15 +69,18 @@ from someone who fills in a free form. It is also the natural bridge into the re
 
 ### Pricing, honestly
 
-Current ₹4,999 is too low for something replacing a ₹35–50k desk. It reads as a script
-rather than an employee, and it attracts people who haggle.
+₹4,999 was too low for something replacing a ₹35–50k desk. It read as a script rather
+than an employee, and it attracted people who haggle. **Raised on 21 August 2026:**
 
-| | Now | Should be |
+| | Was | Now |
 |---|---|---|
 | Entry retainer | ₹4,999 | **₹9,999** |
 | Standard | ₹14,999 | **₹19,999** |
 | High volume | ₹39,999 | ₹39,999 |
 | Setup (one-off) | — | **₹15,000** |
+
+The setup fee is the more important half. It pays for the two days of build that used
+to be free, and a client who has paid for a setup does not churn in month two.
 
 Five clients at ₹4,999 is ₹25,000/month. Five clients at ₹20,000 is ₹1,00,000/month.
 Same five clients, same work. **Pricing is the largest unclaimed lever here** and it

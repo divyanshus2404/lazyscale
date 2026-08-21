@@ -14,7 +14,7 @@ Two rules underneath everything here:
 
 ## The two headline services
 
-### 1. Speed-to-Lead — from ₹4,999/month
+### 1. Speed-to-Lead — from ₹9,999/month
 
 Every enquiry answered in under 60 seconds, whatever time it lands.
 
@@ -74,7 +74,7 @@ Sold into existing clients, once the first workflow has proven itself.
 | Service | From | Delivery | Core promise |
 |---|---|---|---|
 | Quotes & Proposals | ₹6,999/mo | 3–5 days | Enquiry in, priced draft out, sent on approval, followed up |
-| Payment Chasing | ₹4,999/mo | 2–3 days | Polite escalating reminders tied to invoice ageing |
+| Payment Chasing | ₹9,999/mo | 2–3 days | Polite escalating reminders tied to invoice ageing |
 | Inbox Triage | ₹5,999/mo | 3–5 days | Routine mail drafted, real mail flagged |
 | Client Onboarding | ₹6,999/mo | 3–5 days | Deal won, and everything that should follow just happens |
 | Weekly MIS | ₹3,999/mo | 2–3 days | Monday numbers, written summary, outliers called out |
