@@ -1762,15 +1762,18 @@
     /* Narrow screens cannot take a horizontal fan, so the cascade goes vertical
        and the cards shrink. Drift is off here because its keyframes carry the
        desktop anchors. */
-    .stage3d { height: 250px; max-width: 320px; margin-top: var(--s6); }
-    .c3d { width: 200px; padding: 10px 12px; }
+    .stage3d { height: 250px; max-width: min(320px, 100% - 32px); margin-top: var(--s6); }
+    .c3d { width: 190px; padding: 10px 12px; }
     .reveals-on .c3d-front, .reveals-on .c3d-score, .reveals-on .c3d-mid { animation: none; }
     /* Three sheets cannot separate legibly at this width — the alert card is
        the one the story can spare, so it goes rather than sitting on top of
        the enquiry. */
     .c3d-mid { display: none; }
-    .c3d-score { width: 152px; transform: translate3d(14%, -62%, 130px) rotate(3deg); }
-    .c3d-front { transform: translate3d(-22%, 26%, 80px) rotate(-2deg); }
+    /* Z magnifies outward: at perspective 1200 a card sitting at z=130 is
+       scaled ~1.12x about the perspective origin, which was pushing both
+       sheets past the right edge. Keep the fan, flatten the depth. */
+    .c3d-score { width: 148px; transform: translate3d(0%, -60%, 40px) rotate(3deg); }
+    .c3d-front { transform: translate3d(-62%, 26%, 20px) rotate(-2deg); }
   }
   @media (prefers-reduced-motion: reduce) {
     .stage3d-inner { transform: rotateX(12deg) rotateZ(-3deg); transition: none; }
