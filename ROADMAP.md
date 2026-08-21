@@ -104,7 +104,7 @@ Nothing here is new building. It is switching on what exists.
 - [ ] Resend key + `OWNER_EMAIL`
 - [ ] Enable Vercel Web Analytics (one toggle)
 - [ ] Test the audit and the interview end to end
-- [ ] Fix the accessibility issues — one colour token, one `lang` attribute
+- [x] Fix the accessibility issues — done 21 Aug 2026 (doctype, lang, contrast tokens, heading order)
 - [ ] Razorpay account, and a payment link for the paid diagnostic
 - [ ] Start the WhatsApp Business API application — it takes weeks, so start it now
 
