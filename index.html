@@ -37,6 +37,7 @@
       "provider": { "@id": "https://lazyscale.vercel.app/#org" },
       "description": "Done-for-you AI workflows for instant lead response and WhatsApp customer communication. Live in 48 hours.",
       "offers": [
+        { "@type": "Offer", "name": "Automation Diagnostic", "price": "2999", "priceCurrency": "INR" },
         { "@type": "Offer", "name": "Starter", "price": "9999", "priceCurrency": "INR" },
         { "@type": "Offer", "name": "Growth", "price": "19999", "priceCurrency": "INR" },
         { "@type": "Offer", "name": "Scale", "price": "39999", "priceCurrency": "INR" }
@@ -601,6 +602,45 @@
   .price-card .btn { width: 100%; justify-content: center; }
 
   /* ─── DFY ─── */
+
+  /* ─── PAID DIAGNOSTIC ─── */
+  .diag {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--r-lg); padding: var(--s8);
+    display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: start;
+    box-shadow: var(--shadow-md);
+  }
+  .diag h3 { font-size: 30px; font-weight: 750; letter-spacing: -1.2px; margin-bottom: 14px; line-height: 1.15; }
+  .diag > div > p { color: var(--text-secondary); font-size: 15px; line-height: 1.7; margin-bottom: var(--s4); }
+  .diag-price { display: flex; align-items: baseline; gap: 10px; margin-bottom: var(--s2); }
+  .diag-price b { font-family: var(--font-display); font-size: 40px; font-weight: 800; letter-spacing: -1.5px; line-height: 1; }
+  .diag-price span { font-size: 13px; color: var(--text-muted); }
+  .diag-credit {
+    font-size: 13.5px; line-height: 1.6; color: var(--text-secondary);
+    border-left: 2px solid var(--highlight); padding-left: var(--s3); margin-bottom: var(--s5);
+  }
+  .diag-credit strong { color: var(--text-primary); font-weight: 680; }
+  .diag-list { list-style: none; display: flex; flex-direction: column; gap: var(--s3); margin-bottom: var(--s5); }
+  .diag-list li { display: flex; gap: 12px; font-size: 14.5px; line-height: 1.6; color: var(--text-secondary); }
+  .diag-list b { color: var(--text-primary); font-weight: 660; }
+  .diag-tick { flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px; color: var(--highlight); }
+  .diag-note { font-size: 12.5px; color: var(--text-muted); margin-top: var(--s3); line-height: 1.6; }
+  .diag-aside {
+    background: var(--bg-raised); border: 1px solid var(--border);
+    border-radius: var(--r-md); padding: var(--s6);
+  }
+  .diag-aside h4 { font-size: 13px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted); font-weight: 650; margin-bottom: var(--s4); }
+  .diag-step { display: flex; gap: 14px; padding-bottom: var(--s4); }
+  .diag-step:last-child { padding-bottom: 0; }
+  .diag-step-n {
+    width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+    background: var(--accent); color: var(--on-accent);
+    display: grid; place-items: center; font-size: var(--t-xs); font-weight: 800;
+  }
+  .diag-step p { font-size: 14px; line-height: 1.6; color: var(--text-secondary); margin: 0; }
+  .diag-step p b { display: block; color: var(--text-primary); font-weight: 660; margin-bottom: 2px; }
+  @media (max-width: 900px) { .diag { grid-template-columns: 1fr; padding: 32px 24px; gap: 32px; } }
+
   .dfy {
     background: var(--bg-card); border: 1px solid var(--border);
     border-radius: var(--r-lg); padding: var(--s8);
@@ -2218,6 +2258,7 @@
     </a>
     <div class="nav-links">
       <a href="#workflows" class="nav-link">Workflows</a>
+      <a href="#diagnostic" class="nav-link">Diagnostic</a>
       <a href="#pricing" class="nav-link">Pricing</a>
       <a href="#dfy" class="nav-link">Done-For-You</a>
       <a href="#careers" class="nav-link">Careers</a>
@@ -2582,6 +2623,40 @@
           <p class="audit-next-note">It'll come from <strong>divyanshus2404@gmail.com</strong> — worth whitelisting so it doesn't land in promotions.</p>
           <a href="https://cal.com/lazy_scale/15min" target="_blank" rel="noopener" class="btn btn-primary btn-lg audit-next-cta">Don't want to wait? Book a call →</a>
         </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PAID DIAGNOSTIC — the rung between the free audit and a retainer -->
+  <section id="diagnostic" class="fade-up">
+    <div class="section-header section-header-center">
+      <div class="section-label">Before you commit</div>
+      <h2 class="section-title">Not ready for a retainer? Start with a diagnostic.</h2>
+      <p class="section-desc">A paid, written review of how your business actually runs &#8212; and an honest answer about what is worth automating. No call needed to buy it.</p>
+    </div>
+    <div class="diag">
+      <div>
+        <h3>The Automation Diagnostic</h3>
+        <div class="diag-price"><b>&#8377;2,999</b><span>one-time &#183; delivered in 3 working days</span></div>
+        <div class="diag-credit">
+          <strong>Credited in full against your setup fee</strong> if you go ahead with a build.
+          If you do not, you keep the document and owe nothing further.
+        </div>
+        <ul class="diag-list">
+          <li><svg class="diag-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>Every repetitive process mapped</b> &#8212; ranked by hours it costs you each month, not by how interesting it is to automate.</span></li>
+          <li><svg class="diag-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>The three to automate first</b>, with a realistic estimate of what each one saves and what it would cost to build.</span></li>
+          <li><svg class="diag-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>What not to automate</b>, and why. Usually the most valuable page &#8212; it is the one that saves you money.</span></li>
+          <li><svg class="diag-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>A fixed quote</b> for anything you want built, so there is no discovery call before you know the number.</span></li>
+        </ul>
+        <a href="https://cal.com/lazy_scale/15min" target="_blank" rel="noopener" class="btn btn-primary btn-lg" id="diag-cta">Book the diagnostic</a>
+        <p class="diag-note" id="diag-note">If the document is not useful to you, say so within 7 days and we refund it in full.</p>
+      </div>
+      <div class="diag-aside">
+        <h4>How it runs</h4>
+        <div class="diag-step"><span class="diag-step-n">1</span><p><b>You pay and answer six questions</b>About your team, your tools, and where things pile up. Takes ten minutes.</p></div>
+        <div class="diag-step"><span class="diag-step-n">2</span><p><b>A 45-minute call</b>We walk through how the work happens today, with real recent examples rather than descriptions.</p></div>
+        <div class="diag-step"><span class="diag-step-n">3</span><p><b>The document arrives</b>Written, specific to you, and yours to keep &#8212; including if you take it to someone else to build.</p></div>
       </div>
     </div>
   </section>
@@ -3861,6 +3936,20 @@ window.addEventListener('scroll', () => {
     if (pct >= mark && deepest < mark) { deepest = mark; track('scroll_depth', { pct: mark }); }
   });
 }, { passive: true });
+
+
+/* ─── Paid diagnostic checkout ───
+   Paste the Razorpay Payment Link between the quotes once the account exists.
+   While it is empty the button books a call instead, so the section can ship
+   before payments are wired without ever pointing at a dead checkout. */
+const DIAGNOSTIC_PAY_URL = '';
+
+(function wireDiagnostic() {
+  const cta = document.getElementById('diag-cta');
+  if (!cta || !DIAGNOSTIC_PAY_URL) return;
+  cta.href = DIAGNOSTIC_PAY_URL;
+  cta.textContent = 'Pay \u20b92,999 and start';
+})();
 
 </script>
 </body>

@@ -106,6 +106,7 @@ Nothing here is new building. It is switching on what exists.
 - [ ] Test the audit and the interview end to end
 - [x] Fix the accessibility issues — done 21 Aug 2026 (doctype, lang, contrast tokens, heading order)
 - [ ] Razorpay account, and a payment link for the paid diagnostic
+      (the section is built and live; paste the link into `DIAGNOSTIC_PAY_URL`)
 - [ ] Start the WhatsApp Business API application — it takes weeks, so start it now
 
 **Exit:** the site demonstrates the product and can take a payment.

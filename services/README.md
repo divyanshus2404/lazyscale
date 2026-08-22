@@ -82,6 +82,20 @@ Sold into existing clients, once the first workflow has proven itself.
 
 ---
 
+## The paid diagnostic
+
+The rung between the free audit and a retainer, at ₹2,999, credited against the
+setup fee if they proceed. It is the only thing on the site that earns without
+spending your calendar first, and the price is doing qualification work rather
+than revenue work — so it is never discounted.
+
+See [`PAID-DIAGNOSTIC.md`](PAID-DIAGNOSTIC.md) for delivery, the six intake
+questions and the refund rules, and
+[`diagnostic-report-template.md`](diagnostic-report-template.md) for the
+deliverable itself.
+
+---
+
 ## Done-for-you builds
 
 For anything not on the list. **From ₹15,000 one-time**, retainers from ₹20,000/month.
