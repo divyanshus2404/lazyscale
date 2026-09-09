@@ -85,6 +85,9 @@
     --btn-bg-hover: #8F3A1B;
     --btn-fg: #FFFCF3;
     --on-accent: #FFFFFF;
+    --warn-fg: #7C3D06;
+    --warn-bd: #B45309;
+    --warn-bg: rgba(180, 83, 9, 0.07);
     --hot-fg: #A85A28;
     --hot-bg: rgba(200, 113, 55, 0.10);
     --highlight-soft: rgba(201, 85, 43, 0.16);
@@ -142,6 +145,9 @@
     --btn-bg-hover: #E8845A;
     --btn-fg: #16202B;
     --on-accent: #16202B;
+    --warn-fg: #F0B27A;
+    --warn-bd: #C87A34;
+    --warn-bg: rgba(200, 122, 52, 0.14);
     --hot-fg: #EE8A5C;
     --hot-bg: rgba(238, 138, 92, 0.14);
     --highlight-soft: rgba(224, 112, 63, 0.18);
@@ -602,6 +608,60 @@
   .price-card .btn { width: 100%; justify-content: center; }
 
   /* ─── DFY ─── */
+
+  /* ─── FOUNDER / FOUNDING CLIENTS ─── */
+  .founder {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--r-lg); padding: var(--s8);
+    display: grid; grid-template-columns: 260px 1fr; gap: 48px; align-items: start;
+    box-shadow: var(--shadow-md);
+  }
+  .founder-photo {
+    width: 100%; aspect-ratio: 1; border-radius: var(--r-md);
+    border: 2px solid var(--ink); object-fit: cover; display: block;
+    background: var(--bg-raised);
+  }
+  /* Placeholder is deliberately loud. A stock-looking grey box could ship by
+     accident; this cannot be mistaken for finished. */
+  .founder-photo-placeholder {
+    width: 100%; aspect-ratio: 1; border-radius: var(--r-md);
+    border: 2px dashed var(--warn-bd); background: var(--warn-bg);
+    display: grid; place-items: center; text-align: center; padding: var(--s4);
+    color: var(--warn-fg); font-size: 13px; font-weight: 620; line-height: 1.5;
+  }
+  .founder-name { font-family: var(--font-display); font-size: 25px; font-weight: 800; letter-spacing: -0.6px; margin-bottom: 2px; }
+  .founder-role { font-size: 13.5px; color: var(--text-muted); margin-bottom: var(--s5); }
+  .founder-body p { font-size: 15.5px; line-height: 1.75; color: var(--text-secondary); margin-bottom: var(--s4); }
+  .founder-body p strong { color: var(--text-primary); font-weight: 660; }
+  .founder-contact { display: flex; flex-wrap: wrap; gap: var(--s3); margin-top: var(--s5); }
+  .founder-contact a {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 600; text-decoration: none;
+    color: var(--text-primary); background: var(--bg-raised);
+    border: 1px solid var(--border); border-radius: var(--r-pill);
+    padding: 9px 16px; transition: all var(--transition);
+  }
+  .founder-contact a:hover { border-color: var(--ink); }
+  .founder-contact svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+  .founding-offer {
+    margin-top: var(--s6); border: 2px solid var(--ink);
+    border-radius: var(--r-md); padding: var(--s6);
+    background: var(--bg-raised);
+  }
+  .founding-offer h3 { font-family: var(--font-display); font-size: 20px; font-weight: 800; margin-bottom: var(--s3); letter-spacing: -0.3px; }
+  .founding-offer > p { font-size: 15px; line-height: 1.7; color: var(--text-secondary); margin-bottom: var(--s4); }
+  .founding-terms { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3) var(--s5); }
+  .founding-terms li { display: flex; gap: 10px; font-size: 14px; line-height: 1.6; color: var(--text-secondary); }
+  .founding-terms b { color: var(--text-primary); font-weight: 660; }
+  .founding-terms svg { flex-shrink: 0; width: 18px; height: 18px; margin-top: 1px; color: var(--highlight); }
+  .founding-count { font-size: 13px; color: var(--text-muted); margin-top: var(--s4); }
+
+  @media (max-width: 900px) {
+    .founder { grid-template-columns: 1fr; padding: 32px 24px; gap: 28px; }
+    .founder-photo, .founder-photo-placeholder { max-width: 200px; }
+    .founding-terms { grid-template-columns: 1fr; }
+  }
 
   /* ─── PAID DIAGNOSTIC ─── */
   .diag {
@@ -1756,20 +1816,13 @@
     0%,100% { transform: translate3d(-66%, 30%, 80px) rotate(-2deg); }
     50%     { transform: translate3d(-66%, 26%, 92px) rotate(-1.2deg); }
   }
-  }
-  }
   @keyframes drift-b {
     0%,100% { transform: translate3d(20%, -76%, 130px) rotate(3deg); }
     50%     { transform: translate3d(20%, -80%, 142px) rotate(2.2deg); }
   }
-  }
-  }
-  }
   @keyframes drift-c {
     0%,100% { transform: translate3d(30%, 36%, 24px) rotate(2deg); }
     50%     { transform: translate3d(30%, 32%, 34px) rotate(2.7deg); }
-  }
-  }
   }
 
   .c3d-head {
@@ -2258,6 +2311,7 @@
     </a>
     <div class="nav-links">
       <a href="#workflows" class="nav-link">Workflows</a>
+      <a href="#about" class="nav-link">About</a>
       <a href="#diagnostic" class="nav-link">Diagnostic</a>
       <a href="#pricing" class="nav-link">Pricing</a>
       <a href="#dfy" class="nav-link">Done-For-You</a>
@@ -2557,6 +2611,66 @@
         <div class="bld-empty">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
           <p>Pick something above and your workflow appears here.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDER — trust has to land before the price does -->
+  <section id="about" class="fade-up">
+    <div class="section-header section-header-center">
+      <div class="section-label">Who you are hiring</div>
+      <h2 class="section-title">There is one person behind this</h2>
+      <p class="section-desc">You are not going to be handed to an account manager, because there isn't one.</p>
+    </div>
+    <div class="founder">
+      <div>
+        <!-- REPLACE ME: swap this block for
+             <img src="/founder.jpg" alt="Divyanshu Singh" class="founder-photo"> -->
+        <div class="founder-photo-placeholder" data-needs-photo>
+          Add a photo of yourself here.<br>A plain, clear one &#8212; not a logo.
+        </div>
+      </div>
+      <div class="founder-body">
+        <div class="founder-name">Divyanshu Singh</div>
+        <div class="founder-role">Founder &#183; builds and runs every workflow personally</div>
+
+        <p>I build the automations, I connect them to your tools, and when one breaks at
+        2am it is my phone that goes off. <strong>There is no team behind me and no
+        support queue in front of me</strong> &#8212; the person you message is the person
+        who does the work.</p>
+
+        <p>Most businesses here lose enquiries for a boring reason: someone was asleep,
+        or busy, or the message landed on WhatsApp while everyone was watching email.
+        <strong>The fix is not a better CRM, it is something that answers in under a
+        minute, every time.</strong> That is the whole of what I build.</p>
+
+        <!-- REPLACE ME: two or three lines in your own words about why you started
+             this. A real specific reason beats anything polished. Then delete this
+             comment and the data-needs-copy attribute. -->
+        <p data-needs-copy style="border:2px dashed var(--warn-bd);background:var(--warn-bg);color:var(--warn-fg);padding:14px 16px;border-radius:8px;font-size:14px">
+          <strong>Your words go here.</strong> Two or three lines on why you started
+          this &#8212; what you saw that annoyed you enough to build something. Specific
+          beats polished, and this is the paragraph people actually read.
+        </p>
+
+        <div class="founder-contact">
+          <a href="https://wa.me/917668229271?text=Hi%20Divyanshu%2C%20I%20saw%20LazyScale" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1s-.5-.1-.7.1-.8 1-1 1.2-.3.2-.6.1a8.1 8.1 0 01-2.4-1.5 9 9 0 01-1.6-2c-.2-.3 0-.5.1-.6l.5-.5.3-.5c.1-.2 0-.4 0-.5L9.2 6.9C9 6.4 8.8 6.4 8.6 6.4H8c-.2 0-.5.1-.8.4s-1 1-1 2.5 1.1 2.9 1.2 3.1a11.6 11.6 0 005.1 4.5c1.9.7 2.3.6 2.7.6.6-.1 1.8-.7 2-1.4s.2-1.3.2-1.4-.3-.2-.6-.3M12 2a10 10 0 00-8.6 15L2 22l5.1-1.3A10 10 0 1012 2z"/></svg>WhatsApp me directly</a>
+          <a href="mailto:divyanshus2404@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>divyanshus2404@gmail.com</a>
+        </div>
+
+        <div class="founding-offer">
+          <h3>I am looking for my first three clients</h3>
+          <p>No case studies yet, and I am not going to pretend otherwise. So the first
+          three builds are priced to reflect that &#8212; and structured so you are not
+          taking the risk of going first.</p>
+          <ul class="founding-terms">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>Built free, run for 30 days.</b> You pay nothing during the trial.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>We measure first.</b> Your response time today, so the change is a number and not a feeling.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>In exchange:</b> honest feedback, and if it works, permission to tell people.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span><b>It ends at day 30.</b> Continue at founding pricing, or walk away and keep the setup.</span></li>
+          </ul>
+          <div class="founding-count">Once these three are done, this offer closes and pricing goes back to the rates above.</div>
         </div>
       </div>
     </div>
