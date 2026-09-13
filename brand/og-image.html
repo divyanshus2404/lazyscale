@@ -1,0 +1,49 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#F7F7F5;--card:#FFF;--ink:#111;--muted:#6B6B6B;--lime:#B7F34A;--border:#E7E7E4}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1200px;height:630px}
+  body{background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,sans-serif;
+       display:flex;flex-direction:column;justify-content:space-between;padding:64px 72px;
+       position:relative;overflow:hidden}
+  /* the lime keeps its job: one accent, doing one thing */
+  .edge{position:absolute;left:0;top:0;bottom:0;width:14px;background:var(--lime)}
+  .brand{display:flex;align-items:center;gap:14px;font-size:30px;font-weight:750;letter-spacing:-.8px}
+  .brand span{color:var(--muted)}
+  .brand svg{width:46px;height:46px;color:var(--ink)}
+  h1{font-size:82px;font-weight:800;letter-spacing:-.04em;line-height:1.02;max-width:19ch}
+  .sub{font-size:27px;color:#4A4A48;line-height:1.45;max-width:44ch;margin-top:24px}
+  .foot{display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .url{font-size:22px;font-weight:650;color:var(--muted)}
+  .tags{display:flex;gap:10px}
+  .tag{font-size:19px;font-weight:600;background:var(--card);border:1px solid var(--border);
+       border-radius:100px;padding:9px 20px;color:#4A4A48}
+  .tag.on{background:var(--lime);border-color:var(--ink);color:var(--ink);font-weight:700}
+</style></head><body>
+  <div class="edge"></div>
+  <div class="brand">
+    <svg viewBox="0 0 48 48" aria-hidden="true">
+      <rect x="2.5" y="2.5" width="43" height="43" rx="13" fill="#B7F34A" stroke="currentColor" stroke-width="2.6"/>
+      <g transform="translate(-1.6,0)" fill="none" stroke="#111111" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 13.2 V29.6 a4.6 4.6 0 0 0 4.6 4.6 h1.2"/>
+        <path d="M35.4 19.4 C35.4 16 32.9 13.9 29.9 13.9 C26.9 13.9 24.6 15.8 24.6 18.3 C24.6 23.9 35.8 22.2 35.8 28.6 C35.8 31.9 33.1 34.4 29.9 34.4 C26.7 34.4 24.2 32.4 24.2 29.3"/>
+      </g>
+    </svg>
+    <b style="font-weight:750">Lazy<span>Scale</span></b>
+  </div>
+  <div>
+    <h1>Stop doing work a machine can do.</h1>
+    <p class="sub">Every enquiry answered in under a minute &#8212; WhatsApp, Instagram, email and your website.</p>
+  </div>
+  <div class="foot">
+    <span class="url">lazyscale.vercel.app</span>
+    <div class="tags">
+      <span class="tag">No migration</span>
+      <span class="tag">48-hour setup</span>
+      <span class="tag on">Built for Indian startups</span>
+    </div>
+  </div>
+</body></html>
