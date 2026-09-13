@@ -618,6 +618,116 @@
 
   /* ─── DFY ─── */
 
+  /* ─── BEFORE / AFTER: the convergence ──────────────────────────────────────
+     Two states of one diagram. Everything is present in both; the toggle moves
+     it rather than revealing it, so with JS off or animation suppressed the
+     "before" state still reads as a complete picture. */
+  .conv-wrap { max-width: 980px; margin: 0 auto; }
+  .conv-toggle-row { display: flex; justify-content: center; margin-bottom: var(--s7); }
+  .conv-toggle {
+    font: inherit; font-size: 15px; font-weight: 650; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--btn-bg); color: var(--btn-fg);
+    border: 1px solid var(--ink); border-radius: var(--r-pill);
+    padding: 12px 24px; transition: all var(--transition);
+  }
+  .conv-toggle:hover { background: var(--btn-bg-hover); }
+  .conv-toggle .sw {
+    width: 30px; height: 17px; border-radius: 100px; background: rgba(17,17,17,.22);
+    position: relative; transition: background var(--transition);
+  }
+  .conv-toggle .sw::after {
+    content: ''; position: absolute; top: 2px; left: 2px; width: 13px; height: 13px;
+    border-radius: 50%; background: #111; transition: transform var(--transition);
+  }
+  .conv.is-on .conv-toggle .sw::after { transform: translateX(13px); }
+
+  .conv-stage {
+    perspective: 1400px; position: relative; height: 430px;
+    margin-bottom: var(--s6);
+  }
+  .conv-inner {
+    position: absolute; inset: 0; transform-style: preserve-3d;
+    transform: rotateX(12deg) rotateZ(-1deg);
+  }
+  .conv-node {
+    position: absolute; left: 50%; top: 50%; width: 156px;
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-md);
+    padding: 11px 13px; text-align: left; box-shadow: var(--shadow-md);
+    transform: translate3d(calc(-50% + var(--x, 0px)), calc(-50% + var(--y, 0px)), var(--z, 0px)) rotate(var(--rot, 0deg));
+    transition: transform .9s cubic-bezier(.22,.61,.36,1), opacity .6s ease, border-color .6s ease;
+  }
+  .conv-node b { display: block; font-size: 13px; font-weight: 680; margin-bottom: 2px; }
+  .conv-node span { font-size: 11.5px; color: var(--text-muted); }
+
+  /* sources: scattered and tilted before, stacked and square after */
+  .conv-src:nth-child(1) { --x: -330px; --y: -140px; --z: 60px; --rot: -7deg; }
+  .conv-src:nth-child(2) { --x: -300px; --y: -18px;  --z: 10px; --rot: 5deg; }
+  .conv-src:nth-child(3) { --x: -345px; --y: 104px;  --z: 90px; --rot: -3deg; }
+  .conv-src:nth-child(4) { --x: -288px; --y: 218px;  --z: 30px; --rot: 8deg; }
+  .conv.is-on .conv-src:nth-child(1) { --x: -300px; --y: -118px; --z: 0px; --rot: 0deg; }
+  .conv.is-on .conv-src:nth-child(2) { --x: -300px; --y: -40px;  --z: 0px; --rot: 0deg; }
+  .conv.is-on .conv-src:nth-child(3) { --x: -300px; --y: 38px;   --z: 0px; --rot: 0deg; }
+  .conv.is-on .conv-src:nth-child(4) { --x: -300px; --y: 116px;  --z: 0px; --rot: 0deg; }
+
+  /* the manual middle: a scattered chain before, gone after */
+  .conv-manual { --z: 120px; width: 132px; border-style: dashed; background: var(--bg-raised); }
+  .conv-manual:nth-child(5) { --x: -70px; --y: -130px; --rot: -9deg; }
+  .conv-manual:nth-child(6) { --x: -30px; --y: -10px;  --rot: 6deg; }
+  .conv-manual:nth-child(7) { --x: -86px; --y: 118px;  --rot: -4deg; }
+  .conv-manual:nth-child(8) { --x: -18px; --y: 232px;  --rot: 10deg; }
+  .conv.is-on .conv-manual { --x: -40px; --y: 0px; --z: -220px; --rot: 0deg; opacity: 0; pointer-events: none; }
+
+  /* the hub: absent-feeling before, the centre of gravity after */
+  .conv-hub {
+    --x: -40px; --y: 0px; --z: -140px; width: 186px;
+    background: var(--bg-raised); border: 1px dashed var(--border);
+    opacity: .35;
+  }
+  .conv.is-on .conv-hub {
+    --x: -40px; --y: 0px; --z: 140px; opacity: 1;
+    background: var(--lime); border: 1px solid var(--ink); color: #111111;
+  }
+  .conv.is-on .conv-hub b, .conv.is-on .conv-hub span { color: #111111; }
+
+  /* outputs: waiting before, live after — present in both, never opacity-0 */
+  .conv-out { --x: 268px; width: 150px; border-color: var(--border); }
+  .conv-out:nth-child(10) { --y: -96px; --z: 20px; --rot: 5deg; }
+  .conv-out:nth-child(11) { --y: 22px;  --z: 60px; --rot: -4deg; }
+  .conv-out:nth-child(12) { --y: 140px; --z: 10px; --rot: 6deg; }
+  .conv.is-on .conv-out { --z: 0px; --rot: 0deg; border-color: var(--border-accent); }
+  .conv.is-on .conv-out:nth-child(10) { --y: -78px; }
+  .conv.is-on .conv-out:nth-child(11) { --y: 0px; }
+  .conv.is-on .conv-out:nth-child(12) { --y: 78px; }
+  .conv-out .tick {
+    display: inline-block; width: 15px; height: 15px; border-radius: 50%;
+    background: var(--border); font-size: 9px; font-weight: 800;
+    text-align: center; line-height: 15px; margin-right: 7px; vertical-align: -2px;
+    transition: background .5s ease;
+  }
+  .conv-out .tick::after { content: '\2713'; color: transparent; transition: color .5s ease; }
+  .conv.is-on .conv-out .tick { background: var(--lime); }
+  .conv.is-on .conv-out .tick::after { color: #111111; }
+
+  .conv-caption { text-align: center; font-size: 15px; color: var(--text-secondary); min-height: 24px; }
+  .conv-caption b { color: var(--text-primary); font-weight: 680; }
+
+  @media (max-width: 900px) {
+    /* No 3D on phones: the same nodes in document order, which is the story
+       read top to bottom. */
+    .conv-stage { perspective: none; height: auto; }
+    .conv-inner { position: static; transform: none; }
+    .conv-node {
+      position: static; width: auto; transform: none !important;
+      opacity: 1 !important; margin-bottom: var(--s3);
+    }
+    .conv.is-on .conv-manual { display: none; }
+    .conv-hub { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .conv-node { transition: none; }
+  }
+
   /* ─── HERO / PANEL / PICKER ─────────────────────────────────────────────── */
   .eyebrow {
     font-size: 12px; font-weight: 650; letter-spacing: 1.6px; text-transform: uppercase;
@@ -2690,41 +2800,46 @@
     </div>
   </section>
 
-  <!-- BEFORE / AFTER -->
-  <section class="fade-up">
+  <!-- BEFORE / AFTER: one diagram, two states -->
+  <section class="fade-up" id="difference">
     <div class="section-header section-header-center">
-      <div class="section-label">The Difference</div>
-      <h2 class="section-title">Manual chaos vs. LazyScale</h2>
-      <p class="section-desc">Here's what a typical week looks like — before and after automation.</p>
+      <div class="eyebrow">The difference</div>
+      <h2 class="section-title">Your business, before LazyScale</h2>
+      <p class="section-desc">Four places enquiries arrive. One person holding it together. Turn it on and watch what changes.</p>
     </div>
-    <div class="ba-grid">
-      <div class="ba-col before">
-        <h3><svg width="22" height="22" fill="none" stroke="#B3402C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2M9 9h.01M15 9h.01"/></svg> Before LazyScale</h3>
-        <ul class="ba-list">
-          <li>Leads sit in your inbox for 2-3 days</li>
-          <li>Copy-pasting data between 5 different tools</li>
-          <li>Spending 3 hours writing social posts</li>
-          <li>Manually sending follow-up emails</li>
-          <li>Forgetting to update CRM after calls</li>
-          <li>Invoices sent late, payments delayed</li>
-          <li>Hiring a VA just to do repetitive clicks</li>
-        </ul>
+
+    <div class="conv-wrap conv" id="conv">
+      <div class="conv-toggle-row">
+        <button class="conv-toggle" id="conv-btn" aria-pressed="false">
+          <span class="sw" aria-hidden="true"></span>
+          <span id="conv-btn-label">Turn on LazyScale</span>
+        </button>
       </div>
-      <div class="ba-divider">→</div>
-      <div class="ba-col after">
-        <h3><svg width="22" height="22" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> After LazyScale</h3>
-        <ul class="ba-list">
-          <li>Leads qualified and replied to in under 2 minutes</li>
-          <li>Data flows automatically between all your tools</li>
-          <li>Week of content generated from one voice memo</li>
-          <li>Follow-ups triggered automatically based on lead score</li>
-          <li>CRM updated in real-time after every interaction</li>
-          <li>Invoices sent on schedule, reminders automated</li>
-          <li>No VA needed — AI handles the repetitive work</li>
-        </ul>
+
+      <div class="conv-stage">
+        <div class="conv-inner">
+          <div class="conv-node conv-src"><b>WhatsApp</b><span>Enquiries, all hours</span></div>
+          <div class="conv-node conv-src"><b>Instagram</b><span>DMs and comments</span></div>
+          <div class="conv-node conv-src"><b>Website</b><span>Contact form</span></div>
+          <div class="conv-node conv-src"><b>Gmail</b><span>Enquiry inbox</span></div>
+
+          <div class="conv-node conv-manual"><b>Your team</b><span>Checks four places</span></div>
+          <div class="conv-node conv-manual"><b>Copy &amp; paste</b><span>Into the CRM</span></div>
+          <div class="conv-node conv-manual"><b>Follow-up</b><span>If anyone remembers</span></div>
+          <div class="conv-node conv-manual"><b>Slack</b><span>Someone shouts</span></div>
+
+          <div class="conv-node conv-hub"><b>LazyScale</b><span>Reads, scores, routes</span></div>
+
+          <div class="conv-node conv-out"><b><span class="tick" aria-hidden="true"></span>Replied</b><span>Under a minute</span></div>
+          <div class="conv-node conv-out"><b><span class="tick" aria-hidden="true"></span>CRM updated</b><span>No retyping</span></div>
+          <div class="conv-node conv-out"><b><span class="tick" aria-hidden="true"></span>Team notified</b><span>Only when it matters</span></div>
+        </div>
       </div>
+
+      <p class="conv-caption" id="conv-caption">Four inboxes, one person, and whatever gets missed overnight.</p>
     </div>
   </section>
+
 
 
   <!-- FOUNDER — trust has to land before the price does -->
@@ -4255,6 +4370,50 @@ const DIAGNOSTIC_PAY_URL = '';
   }));
   hours.addEventListener('input', render);
   render();
+})();
+
+
+/* ─── The convergence ───
+   One diagram, two states. The class does the work and CSS transitions animate
+   it; the "before" state is the default in markup, so with JS off the section
+   still reads as a complete picture rather than an empty stage. */
+(function convergence() {
+  const wrap = document.getElementById('conv');
+  const btn = document.getElementById('conv-btn');
+  if (!wrap || !btn) return;
+
+  const label = document.getElementById('conv-btn-label');
+  const caption = document.getElementById('conv-caption');
+  const COPY = {
+    off: { btn: 'Turn on LazyScale', cap: 'Four inboxes, one person, and whatever gets missed overnight.' },
+    on:  { btn: 'Turn it back off',  cap: '<b>One system.</b> Same four channels, nobody retyping anything.' }
+  };
+
+  function set(on) {
+    wrap.classList.toggle('is-on', on);
+    btn.setAttribute('aria-pressed', String(on));
+    label.textContent = COPY[on ? 'on' : 'off'].btn;
+    caption.innerHTML = COPY[on ? 'on' : 'off'].cap;
+  }
+
+  btn.addEventListener('click', () => set(!wrap.classList.contains('is-on')));
+
+  // Play it once when it first comes into view, so the point lands without
+  // needing a click. Only ever forward, and never if the visitor has asked for
+  // less motion.
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!calm && window.IntersectionObserver) {
+    let done = false;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting || done) return;
+        done = true;
+        io.disconnect();
+        setTimeout(() => { if (!wrap.classList.contains('is-on')) set(true); }, 700);
+      });
+    }, { threshold: 0.45 });
+    io.observe(wrap);
+  }
 })();
 
 </script>
