@@ -131,8 +131,21 @@ The Careers section sells these workflows as roles rather than tools. That frami
 holds if the delivery matches it, which means a written job description before the
 build and a performance review every month.
 
-- [`ai-employees/lead-responder-jd.md`](ai-employees/lead-responder-jd.md) — the scope
-  document. Send it before starting, not after.
+Every role has a job description, and it goes out **before** the build starts. It is
+the scope document: it is what prevents the "why didn't it handle that" conversation
+in month two.
+
+| Role | Job description |
+|---|---|
+| Lead Responder | [`lead-responder-jd.md`](ai-employees/lead-responder-jd.md) |
+| WhatsApp Agent | [`whatsapp-agent-jd.md`](ai-employees/whatsapp-agent-jd.md) |
+| Collections Clerk | [`collections-clerk-jd.md`](ai-employees/collections-clerk-jd.md) |
+| Onboarding Coordinator | [`onboarding-coordinator-jd.md`](ai-employees/onboarding-coordinator-jd.md) |
+
+Each one names what the role owns, what it escalates, what it will never do, what we
+need from the client, and how it is judged at the monthly review. The refusals in
+them are not decoration — the Collections Clerk will not threaten legal action at any
+invoice age, and the WhatsApp Agent will not broadcast to a bought list at any price.
 - [`ai-employees/performance-review-template.md`](ai-employees/performance-review-template.md)
   — issued monthly whether or not the client asks.
 

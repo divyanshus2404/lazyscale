@@ -1329,6 +1329,12 @@
   .reveals-on .reveal-scale { opacity: 0; transform: scale(0.96);              transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1); }
   .reveals-on .reveal-left.visible, .reveals-on .reveal-right.visible { opacity: 1; transform: translate3d(0, 0, 0); }
   .reveals-on .reveal-scale.visible { opacity: 1; transform: scale(1); }
+  .ai-roll-note {
+    font-size: 14px; line-height: 1.65; color: var(--text-secondary);
+    max-width: 60ch; margin: calc(var(--s3) * -1) 0 var(--s5);
+  }
+  .ai-roll-note strong { color: var(--text-primary); font-weight: 660; }
+  .ai-roll-note em { font-style: normal; font-weight: 620; color: var(--text-primary); }
 
   /* ─── FLUID LAYER ───────────────────────────────────────────────────────────
      Lime behaving like ink and water rather than a splash effect laid over the
@@ -3429,6 +3435,7 @@
       </div>
 
       <h4 class="ai-roll-head">Currently on the roster</h4>
+      <p class="ai-roll-note">Every role comes with a written job description &#8212; what it owns, what it escalates to you, and what it will never do &#8212; sent <strong>before</strong> anything is built. <em>In training</em> means the role is specified but has not yet run for a client, and we would rather say so.</p>
       <div class="ai-roll">
         <article class="ai-emp">
           <div class="ai-emp-top"><span class="ai-emp-tag">Sales</span><span class="ai-emp-live">Available</span></div>
