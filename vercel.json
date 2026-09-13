@@ -6,6 +6,13 @@
     },
     "api/lead.js": {
       "maxDuration": 60
+    },
+    "api/inbound.js": {
+      "maxDuration": 60
+    },
+    "api/email-in.js": {
+      "maxDuration": 60
     }
-  }
+  },
+  "cleanUrls": true
 }

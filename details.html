@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>LazyScale — what it does, what it costs</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Every enquiry answered in under a minute. What it does, what it costs, and how to start — in under a minute of reading.">
+<link rel="canonical" href="https://lazyscale.vercel.app/details">
+<meta property="og:title" content="LazyScale — what it does, what it costs">
+<meta property="og:description" content="Every enquiry answered in under a minute. No migration, no password, cancel by deleting one line.">
+<meta property="og:image" content="https://lazyscale.vercel.app/og-image.png">
+<meta property="og:url" content="https://lazyscale.vercel.app/details">
+<meta name="theme-color" content="#F7F7F5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B0B0C" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect x='2.5' y='2.5' width='43' height='43' rx='13' fill='%23B7F34A' stroke='%23111111' stroke-width='2.6'/><g transform='translate(-1.6,0)' fill='none' stroke='%23111111' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'><path d='M17 13.2 V29.6 a4.6 4.6 0 0 0 4.6 4.6 h1.2'/><path d='M35.4 19.4 C35.4 16 32.9 13.9 29.9 13.9 C26.9 13.9 24.6 15.8 24.6 18.3 C24.6 23.9 35.8 22.2 35.8 28.6 C35.8 31.9 33.1 34.4 29.9 34.4 C26.7 34.4 24.2 32.4 24.2 29.3'/></g></svg>">
+<style>
+  /* No webfont on purpose. This page is opened on a phone, usually on mobile
+     data, usually from a chat. A system stack renders instantly and a 40KB
+     font download would be the slowest thing here. */
+  :root{
+    --bg:#F7F7F5;--card:#FFF;--raised:#EFEFEC;--text:#111;--text2:#4A4A48;
+    --muted:#6B6B6B;--lime:#B7F34A;--border:#E7E7E4;--btn-fg:#111;
+  }
+  :root[data-theme="dark"]{
+    --bg:#0B0B0C;--card:#121213;--raised:#1A1A1C;--text:#E8E8E6;--text2:#B4B4B1;
+    --muted:#8A8A88;--border:#26262A;--btn-fg:#0B0B0C;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --bg:#0B0B0C;--card:#121213;--raised:#1A1A1C;--text:#E8E8E6;--text2:#B4B4B1;
+    --muted:#8A8A88;--border:#26262A;--btn-fg:#0B0B0C;}}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);line-height:1.6;
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+       -webkit-font-smoothing:antialiased;padding-bottom:86px}
+  .wrap{max-width:520px;margin:0 auto;padding:26px 20px 0}
+  .brand{display:flex;align-items:center;gap:9px;font-size:18px;font-weight:700;letter-spacing:-.5px;
+         text-decoration:none;color:var(--text);margin-bottom:26px}
+  .brand svg{width:26px;height:26px;flex-shrink:0}
+  .brand em{font-style:normal;color:var(--muted)}
+  h1{font-size:29px;font-weight:800;letter-spacing:-.9px;line-height:1.12;margin-bottom:12px}
+  .lede{font-size:16.5px;color:var(--text2);margin-bottom:26px}
+  h2{font-size:12px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted);
+     margin:0 0 12px;padding-bottom:7px;border-bottom:1px solid var(--border)}
+  section{margin-bottom:26px}
+  .item{display:flex;gap:11px;padding:9px 0;font-size:15.5px;color:var(--text2);line-height:1.55}
+  .item b{color:var(--text);font-weight:650}
+  .tick{flex-shrink:0;width:19px;height:19px;border-radius:50%;background:var(--lime);color:#111;
+        font-size:11px;font-weight:800;display:grid;place-items:center;margin-top:2px}
+  .price{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 18px 16px}
+  .row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:9px 0;
+       border-bottom:1px solid var(--border);font-size:15.5px}
+  .row:last-child{border-bottom:none}
+  .row span{color:var(--text2)} .row b{font-weight:700;white-space:nowrap}
+  .free{background:var(--lime);color:#111;border-radius:100px;padding:2px 10px;font-size:13px;font-weight:700}
+  .step{display:flex;gap:12px;padding:10px 0;font-size:15.5px;color:var(--text2)}
+  .n{flex-shrink:0;width:23px;height:23px;border-radius:50%;background:var(--raised);
+     border:1px solid var(--border);color:var(--text);font-size:12px;font-weight:700;
+     display:grid;place-items:center;margin-top:1px}
+  .who{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;font-size:15px;color:var(--text2)}
+  .who b{color:var(--text)}
+  .note{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.55}
+  .bar{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--border);
+       padding:12px 20px calc(12px + env(safe-area-inset-bottom));z-index:10}
+  .bar-in{max-width:520px;margin:0 auto;display:flex;gap:10px}
+  .btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;
+       font-size:15.5px;font-weight:700;padding:14px 16px;border-radius:100px;
+       background:var(--lime);color:var(--btn-fg);border:1px solid var(--text);min-height:48px}
+  .btn.ghost{flex:0 0 auto;background:var(--card);color:var(--text)}
+  a.plain{color:var(--text);text-underline-offset:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="/" class="brand">
+    <svg viewBox="0 0 48 48" aria-hidden="true">
+      <rect x="2.5" y="2.5" width="43" height="43" rx="13" fill="var(--lime)" stroke="currentColor" stroke-width="2.6"/>
+      <g transform="translate(-1.6,0)" fill="none" stroke="#111111" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 13.2 V29.6 a4.6 4.6 0 0 0 4.6 4.6 h1.2"/>
+        <path d="M35.4 19.4 C35.4 16 32.9 13.9 29.9 13.9 C26.9 13.9 24.6 15.8 24.6 18.3 C24.6 23.9 35.8 22.2 35.8 28.6 C35.8 31.9 33.1 34.4 29.9 34.4 C26.7 34.4 24.2 32.4 24.2 29.3"/>
+      </g>
+    </svg>
+    <span>Lazy<em>Scale</em></span>
+  </a>
+
+  <h1>Every enquiry answered in under a minute.</h1>
+  <p class="lede">Most businesses lose customers for a boring reason: someone was asleep, or busy, or the message landed on WhatsApp while everyone was watching email.</p>
+
+  <section>
+    <h2>What it does</h2>
+    <div class="item"><span class="tick">&#10003;</span><span>Catches every enquiry from <b>WhatsApp, Instagram, your website and email</b> in one place.</span></div>
+    <div class="item"><span class="tick">&#10003;</span><span><b>Replies in under a minute</b>, at 2am or on a Sunday, using what you would have said.</span></div>
+    <div class="item"><span class="tick">&#10003;</span><span><b>Tells you which ones matter</b>, so you call the right person first.</span></div>
+    <div class="item"><span class="tick">&#10003;</span><span>Anything awkward &#8212; a complaint, a price argument, an existing order &#8212; <b>goes straight to you</b>, never answered automatically.</span></div>
+  </section>
+
+  <section>
+    <h2>What it costs</h2>
+    <div class="price">
+      <div class="row"><span>First 30 days</span><b class="free">Free</b></div>
+      <div class="row"><span>Then, running every month</span><b>&#8377;9,999</b></div>
+      <div class="row"><span>Setup, one time</span><b>&#8377;15,000</b></div>
+    </div>
+    <p class="note">I am taking on my first three clients, so those three get it built free and run for 30 days. If it has not helped by then, you walk away and owe nothing.</p>
+  </section>
+
+  <section>
+    <h2>How it starts</h2>
+    <div class="step"><span class="n">1</span><span>We talk for 20 minutes about where enquiries reach you and what usually gets missed.</span></div>
+    <div class="step"><span class="n">2</span><span>I build it. Usually 48 hours.</span></div>
+    <div class="step"><span class="n">3</span><span>It runs for 2&#8211;3 days <b>writing replies but sending nothing</b>, so you can read what it would have said.</span></div>
+    <div class="step"><span class="n">4</span><span>Only then does it go live, and only for the parts you approved.</span></div>
+    <p class="note"><b>No passwords change hands.</b> You point your form at us or forward one kind of email. You stop it by changing that back &#8212; takes ten seconds, nothing to cancel.</p>
+  </section>
+
+  <section>
+    <h2>Who you are dealing with</h2>
+    <div class="who">
+      <b>Divyanshu Singh.</b> I build it, I run it, and when something breaks at 2am it is my phone that goes off. There is no team behind me and no support queue in front of me &#8212; the person you message is the person doing the work.
+    </div>
+    <p class="note">More detail, including <a class="plain" href="/automations">the 55 things we automate and the 7 we refuse</a>, is on <a class="plain" href="/">the site</a>.</p>
+  </section>
+</div>
+
+<div class="bar">
+  <div class="bar-in">
+    <a class="btn" href="https://wa.me/917668229271?text=Hi%20Divyanshu%2C%20I%20read%20the%20details%20page.%20Can%20we%20talk%3F">Message me on WhatsApp</a>
+    <a class="btn ghost" href="tel:+917668229271" aria-label="Call">Call</a>
+  </div>
+</div>
+</body>
+</html>
