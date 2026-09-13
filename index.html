@@ -618,6 +618,22 @@
 
   /* ─── DFY ─── */
 
+  /* A pill must never be narrower than its own label. Flex items default to
+     shrink:1, and with nowrap text that means the label spills out of both ends
+     of the button rather than the button staying as wide as its content. */
+  .btn { flex-shrink: 0; max-width: 100%; }
+  @media (max-width: 560px) {
+    .hero-ctas { flex-direction: column; align-items: stretch; }
+    .hero-ctas .btn { width: 100%; justify-content: center; }
+    /* Below this a long label cannot fit on one line at any sane padding, so
+       let it wrap instead of overflowing. A pill radius on a wrapped, stacked
+       button renders as an oval, so it squares off to a rounded rectangle. */
+    .btn {
+      white-space: normal; height: auto; min-height: var(--ctl-h);
+      padding: 11px 18px; border-radius: var(--r-md); line-height: 1.35;
+    }
+  }
+
   /* ─── SECOND PROJECTS, GROUPED BY THE PROBLEM ─── */
   .stop-head { text-align: center; margin: var(--s9) 0 var(--s7); }
   .stop-head h3 { font-size: clamp(24px, 3vw, 32px); font-weight: 750; letter-spacing: -1px; margin-bottom: var(--s3); }
