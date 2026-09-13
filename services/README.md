@@ -82,6 +82,18 @@ Sold into existing clients, once the first workflow has proven itself.
 
 ---
 
+## The drop-in
+
+The entry product, and the only thing that works without an API key. A client
+points their existing form at an endpoint, or forwards enquiry email to one. No
+credentials change hands, and they can undo it in ten seconds — which removes the
+step in the delivery sequence below that is most likely to end a conversation.
+
+See [`DROP-IN.md`](DROP-IN.md) for onboarding, the tenant config, what to tell
+them in which order, and when to turn replies on.
+
+---
+
 ## The paid diagnostic
 
 The rung between the free audit and a retainer, at ₹2,999, credited against the

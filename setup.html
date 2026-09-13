@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setup — LazyScale</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23F4EFE2'/><path d='M7 5.5 V25 H27' fill='none' stroke='%2316202B' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/><rect x='11.4' y='18.9' width='4.4' height='4.7' rx='1' fill='%231B4067' opacity='.45'/><rect x='17.1' y='14.7' width='4.4' height='8.9' rx='1' fill='%231B4067' opacity='.72'/><rect x='22.8' y='9.2' width='4.4' height='14.4' rx='1' fill='%23C9552B'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F4EFE2; --card:#FFFCF3; --raised:#E9E1CE;
+    --text:#16202B; --text2:#4B5563; --muted:#676253;
+    --accent:#1B4067; --rust:#A94320; --border:rgba(22,32,43,.16);
+    --btn-bg:#A94320; --btn-fg:#FFFCF3; --on-accent:#FFFFFF;
+  }
+  :root[data-theme="dark"]{
+    --bg:#141B24; --card:#202B37; --raised:#28333F;
+    --text:#F4EFE2; --text2:#C6CDD5; --muted:#8A95A1;
+    --accent:#8FB4D6; --rust:#E0703F; --border:rgba(244,239,226,.18);
+    --btn-bg:#E0703F; --btn-fg:#16202B; --on-accent:#16202B;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#141B24; --card:#202B37; --raised:#28333F;
+      --text:#F4EFE2; --text2:#C6CDD5; --muted:#8A95A1;
+      --accent:#8FB4D6; --rust:#E0703F; --border:rgba(244,239,226,.18);
+      --btn-bg:#E0703F; --btn-fg:#16202B; --on-accent:#16202B;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.65}
+  .wrap{max-width:720px;margin:0 auto;padding:56px 24px 88px}
+  h1{font-family:Bitter,Georgia,serif;font-weight:800;font-size:34px;letter-spacing:-1px;line-height:1.15;margin:0 0 10px}
+  h2{font-family:Bitter,Georgia,serif;font-weight:800;font-size:20px;margin:40px 0 10px}
+  p{color:var(--text2);margin:0 0 14px}
+  .lede{font-size:17px}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:750;font-size:19px;letter-spacing:-.6px;text-decoration:none;color:var(--text);margin-bottom:36px}
+  .brand span{color:var(--accent)}
+  .brand svg{width:27px;height:27px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin:0 0 18px}
+  .step{display:flex;gap:14px;margin-bottom:18px}
+  .step:last-child{margin-bottom:0}
+  .n{width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-size:12px;font-weight:800;flex-shrink:0;margin-top:2px}
+  code,.url{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}
+  .url{display:block;background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:13px 14px;word-break:break-all;margin:10px 0}
+  button{font:inherit;font-weight:600;font-size:14px;cursor:pointer;border-radius:100px;padding:10px 18px;border:2px solid var(--text);background:var(--btn-bg);color:var(--btn-fg)}
+  button.ghost{background:var(--card);color:var(--text)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px}
+  .ok{color:var(--rust);font-size:13.5px;font-weight:600}
+  .note{font-size:13.5px;color:var(--muted)}
+  .cancel{border-left:3px solid var(--rust);padding-left:14px;margin:28px 0}
+  .warn{background:var(--raised);border:2px dashed var(--rust);border-radius:10px;padding:18px;font-size:14.5px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="/" class="brand">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 4.5 V26 H28" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="11.6" y="19.6" width="4.6" height="5.1" rx="1" fill="var(--accent)" opacity=".58"/><rect x="17.6" y="15.2" width="4.6" height="9.5" rx="1" fill="var(--accent)" opacity=".72"/><rect x="23.6" y="9.4" width="4.6" height="15.3" rx="1" fill="var(--rust)"/></svg>
+    Lazy<span>Scale</span>
+  </a>
+
+  <div id="nokey" hidden>
+    <h1>This link is incomplete</h1>
+    <p class="lede">Setup links look like <code>/setup.html?k=yourkey</code>. Ask us for yours and we will send the full link.</p>
+    <p><a href="https://wa.me/917668229271">Message us on WhatsApp</a></p>
+  </div>
+
+  <div id="main" hidden>
+    <h1>Point your form here. That is the whole setup.</h1>
+    <p class="lede">Every enquiry that reaches this address gets forwarded to you within seconds, with the useful bits pulled out. <strong>We never need a password, and you can undo it in ten seconds.</strong></p>
+
+    <h2>Your endpoint</h2>
+    <div class="url" id="url">—</div>
+    <div class="row">
+      <button onclick="copyUrl()">Copy</button>
+      <button class="ghost" onclick="sendTest()">Send a test enquiry</button>
+      <span class="ok" id="teststatus"></span>
+    </div>
+    <p class="note" style="margin-top:12px">The test sends a fake enquiry through the real path, so it should land in your inbox like any other.</p>
+
+    <h2>Option A — you have a website form</h2>
+    <div class="card">
+      <div class="step"><span class="n">1</span><div>Find the <code>&lt;form&gt;</code> tag on your site.</div></div>
+      <div class="step"><span class="n">2</span><div>Change its <code>action</code> to the endpoint above, and its <code>method</code> to <code>POST</code>.<div class="url" id="snippet">—</div></div></div>
+      <div class="step"><span class="n">3</span><div>Submit your own form once. If it arrives, you are live.</div></div>
+    </div>
+    <p class="note">Field names do not matter. <code>name</code>, <code>your-name</code>, <code>fullname</code> are all understood, and anything we do not recognise is passed through untouched. To keep your own thank-you page, add a hidden field named <code>_redirect</code> with its URL.</p>
+
+    <h2>Option B — enquiries arrive by email</h2>
+    <div class="card">
+      <div class="step"><span class="n">1</span><div>In Gmail: <strong>Settings → Forwarding → Add a forwarding address</strong>, and use the address we sent you.</div></div>
+      <div class="step"><span class="n">2</span><div>Add a filter so only enquiries forward, not your whole inbox.</div></div>
+      <div class="step"><span class="n">3</span><div>Confirm the verification email Google sends.</div></div>
+    </div>
+    <p class="note">Forwarding gives us a copy of the enquiry, not access to your mailbox. We cannot read anything else, and replies go out from our address with you copied — so you always see the thread.</p>
+
+    <div class="cancel">
+      <h2 style="margin-top:0">Stopping is one step</h2>
+      <p style="margin:0">Change the form action back, or delete the forwarding rule. That is it — nothing to cancel with us, no account to close, and we lose access the moment you do it.</p>
+    </div>
+
+    <div class="warn">
+      <strong>Replies are off until you ask for them.</strong> To begin with we only forward and summarise; nothing is ever sent to your customer on your behalf. When you have read a week of them and want it to start replying to the straightforward ones, tell us and we will turn it on — for strong enquiries first.
+    </div>
+
+    <p class="note" style="margin-top:30px">Something not arriving? <a href="https://wa.me/917668229271">WhatsApp us</a> and we will look at it the same day.</p>
+  </div>
+</div>
+
+<script>
+  const key = new URLSearchParams(location.search).get('k') || '';
+  const endpoint = location.origin + '/api/inbound?k=' + encodeURIComponent(key);
+
+  if (!/^[A-Za-z0-9_-]{4,64}$/.test(key)) {
+    document.getElementById('nokey').hidden = false;
+  } else {
+    document.getElementById('main').hidden = false;
+    document.getElementById('url').textContent = endpoint;
+    document.getElementById('snippet').textContent =
+      '<form action="' + endpoint + '" method="POST">';
+  }
+
+  function copyUrl() {
+    navigator.clipboard?.writeText(endpoint).then(
+      () => setStatus('Copied.'),
+      () => setStatus('Select the text above and copy it.')
+    );
+  }
+  function setStatus(msg) {
+    const el = document.getElementById('teststatus');
+    el.textContent = msg;
+    clearTimeout(setStatus._t);
+    setStatus._t = setTimeout(() => { el.textContent = ''; }, 4000);
+  }
+  async function sendTest() {
+    setStatus('Sending…');
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          name: 'Test enquiry',
+          email: 'test@lazyscale.example',
+          message: 'This is a test sent from your setup page. If you are reading it, the endpoint works.'
+        })
+      });
+      const data = await res.json().catch(() => ({}));
+      setStatus(res.ok && data.ok ? 'Sent — check your inbox.' : (data.error || 'That did not go through.'));
+    } catch (err) {
+      setStatus('Could not reach the endpoint.');
+    }
+  }
+</script>
+</body>
+</html>
