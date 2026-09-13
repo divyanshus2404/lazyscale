@@ -194,8 +194,11 @@ No case studies yet means every claim on the site is unbacked. The fix is three
 founding-client builds, traded explicitly for baseline numbers and a testimonial —
 set up so they end at day 30 rather than drifting into unpaid support.
 
-See [`FOUNDING-CLIENTS.md`](FOUNDING-CLIENTS.md) for who to pick, the outreach, the
-written boundary to send before starting, and the case study format.
+See [`FOUNDING-CLIENTS.md`](FOUNDING-CLIENTS.md) for who to pick, the written
+boundary to send before starting, and the case study format — and
+[`OUTREACH.md`](OUTREACH.md) for the actual messages, what to say when they reply
+"how much" or "does it actually work", and the baseline question to ask before
+anything is built.
 
 ---
 
