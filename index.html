@@ -56,7 +56,7 @@
   ]
 }
 </script>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23F7F7F5'/><path d='M7 5.5 V25 H27' fill='none' stroke='%23111111' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/><rect x='11.4' y='18.9' width='4.4' height='4.7' rx='1' fill='%23111111' opacity='.30'/><rect x='17.1' y='14.7' width='4.4' height='8.9' rx='1' fill='%23111111' opacity='.55'/><rect x='22.8' y='9.2' width='4.4' height='14.4' rx='1' fill='%23B7F34A' stroke='%23111111' stroke-width='1'/></svg>">">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23F7F7F5'/><path d='M7 5.5 V25 H27' fill='none' stroke='%23111111' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/><rect x='11.4' y='18.9' width='4.4' height='4.7' rx='1' fill='%23111111' opacity='.30'/><rect x='17.1' y='14.7' width='4.4' height='8.9' rx='1' fill='%23111111' opacity='.55'/><rect x='22.8' y='9.2' width='4.4' height='14.4' rx='1' fill='%23B7F34A' stroke='%23111111' stroke-width='1'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -617,6 +617,28 @@
   .price-card .btn { width: 100%; justify-content: center; }
 
   /* ─── DFY ─── */
+
+  /* ─── SECOND PROJECTS, GROUPED BY THE PROBLEM ─── */
+  .stop-head { text-align: center; margin: var(--s9) 0 var(--s7); }
+  .stop-head h3 { font-size: clamp(24px, 3vw, 32px); font-weight: 750; letter-spacing: -1px; margin-bottom: var(--s3); }
+  .stop-head p { color: var(--text-secondary); font-size: 15.5px; max-width: 540px; margin: 0 auto; }
+  .stop-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s5); align-items: start; }
+  .stop-col {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--r-md); padding: var(--s5); height: 100%;
+  }
+  .stop-col > h4 {
+    font-size: 14px; font-weight: 700; letter-spacing: -0.2px; margin-bottom: var(--s4);
+    padding-bottom: var(--s3); border-bottom: 2px solid var(--lime);
+  }
+  .stop-item { padding: var(--s3) 0; border-top: 1px solid var(--border); }
+  .stop-item:first-of-type { border-top: none; padding-top: 0; }
+  .stop-item b { display: block; font-size: 14px; font-weight: 660; margin-bottom: 3px; }
+  .stop-item span { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+  .stop-foot { text-align: center; margin-top: var(--s7); }
+  .stop-foot p { color: var(--text-secondary); font-size: 15.5px; margin-bottom: var(--s4); }
+  @media (max-width: 1000px) { .stop-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px)  { .stop-grid { grid-template-columns: 1fr; } }
 
   /* ─── BEFORE / AFTER: the convergence ──────────────────────────────────────
      Two states of one diagram. Everything is present in both; the toggle moves
@@ -2772,17 +2794,33 @@
       </article>
     </div>
 
-    <div class="wf-also">
-      <h4>We also build, usually as a second project</h4>
-      <div class="workflows-grid">
-        <div class="wf-card fade-up"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></div><h3>Quotes &amp; Proposals</h3><p>Enquiry in, drafted quote out. Priced from your rate card, sent once you approve, then followed up until they reply.</p><span class="wf-tag">Sales</span></div>
-        <div class="wf-card fade-up"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><h3>Payment Chasing</h3><p>Polite, escalating reminders tied to invoice ageing. Gets you paid in weeks instead of quarters, without the awkward call.</p><span class="wf-tag">Finance</span></div>
-        <div class="wf-card fade-up"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg></div><h3>Inbox Triage</h3><p>Sorts your email, drafts replies to the routine two-thirds, and flags the ones that genuinely need you.</p><span class="wf-tag">Support</span></div>
-        <div class="wf-card fade-up"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></div><h3>Client Onboarding</h3><p>Deal won, and everything that should follow just happens — workspace, documents, kickoff booked, missing details chased.</p><span class="wf-tag">Operations</span></div>
-        <div class="wf-card fade-up"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div><h3>Weekly MIS</h3><p>Monday morning numbers pulled from your tools, with a written summary and anything unusual called out.</p><span class="wf-tag">Analytics</span></div>
-        <div class="wf-card fade-up"><div class="wf-icon"><svg width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><h3>Hiring Screen</h3><p>Applications screened against your criteria, shortlist to Slack, interviews booked, rejections sent kindly.</p><span class="wf-tag">HR</span></div>
+    <div class="stop-head">
+      <h3>What do you want to stop doing?</h3>
+      <p>Once the first workflow is running, these are what clients usually add next. Grouped by the annoyance, not by which department owns it.</p>
+    </div>
+    <div class="stop-grid">
+      <div class="stop-col">
+        <h4>Talking to customers</h4>
+        <div class="stop-item"><b>Quotes &amp; Proposals</b><span>Enquiry in, priced draft out, sent once you approve, then followed up.</span></div>
+        <div class="stop-item"><b>Inbox Triage</b><span>The routine two-thirds drafted, the rest flagged for you.</span></div>
+      </div>
+      <div class="stop-col">
+        <h4>Chasing money</h4>
+        <div class="stop-item"><b>Payment Chasing</b><span>Polite reminders that escalate with invoice age, and stop the moment you are paid.</span></div>
+      </div>
+      <div class="stop-col">
+        <h4>Running operations</h4>
+        <div class="stop-item"><b>Client Onboarding</b><span>Deal won, and everything that should follow just happens.</span></div>
+        <div class="stop-item"><b>Hiring Screen</b><span>Applications screened against your criteria, interviews booked.</span></div>
+      </div>
+      <div class="stop-col">
+        <h4>Knowing what happened</h4>
+        <div class="stop-item"><b>Weekly MIS</b><span>Monday numbers pulled from your tools, with the outliers called out.</span></div>
       </div>
     </div>
+    <div class="stop-foot">
+      <p>Tell us what you are still doing by hand. We will tell you which of it is worth automating &#8212; and which of it is not.</p>
+      <a href="#picker" class="btn btn-dark">Show me what I can automate &#8594;</a>
     </div>
   </section>
 
