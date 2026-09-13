@@ -1327,6 +1327,68 @@
   .reveals-on .reveal-left.visible, .reveals-on .reveal-right.visible { opacity: 1; transform: translate3d(0, 0, 0); }
   .reveals-on .reveal-scale.visible { opacity: 1; transform: scale(1); }
 
+  /* ─── MOTION LAYER ──────────────────────────────────────────────────────────
+     Scoped to .reveals-on and driven by the same .visible class the existing
+     observer already sets, so the 2.5s failsafe below covers these too. Quiet
+     on purpose: short distances, one easing, lime as the only thing that moves
+     in colour. */
+
+  /* Headings wipe up from behind their own baseline. clip-path rather than a
+     wrapper span, so no markup changes and nothing can break a <br>. */
+  .reveals-on .hero h1,
+  .reveals-on .section-title,
+  .reveals-on .founder-name,
+  .reveals-on .stop-head h3 {
+    clip-path: inset(0 0 105% 0);
+    transform: translateY(0.14em);
+    transition: clip-path 0.85s cubic-bezier(0.16,1,0.3,1),
+                transform 0.85s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveals-on .hero h1 { transition-delay: 0.05s; }
+  .reveals-on .visible .section-title,
+  .reveals-on .visible .stop-head h3,
+  .reveals-on .visible .founder-name,
+  .reveals-on .hero h1.visible,
+  .reveals-on .hero.visible h1 {
+    clip-path: inset(0 0 -20% 0);
+    transform: translateY(0);
+  }
+
+  /* The eyebrow rule draws itself in. The accent is the only moving colour. */
+  .reveals-on .eyebrow,
+  .reveals-on .section-label { position: relative; }
+  .reveals-on .eyebrow::after,
+  .reveals-on .section-label::after {
+    content: ''; position: absolute; left: 0; bottom: -7px; height: 2px;
+    width: 26px; background: var(--lime);
+    transform: scaleX(0); transform-origin: left center;
+    transition: transform 0.7s cubic-bezier(0.16,1,0.3,1) 0.18s;
+  }
+  /* Centre the rule wherever the label itself is centred. The hero uses
+     .hero-content rather than a section header, and .stop-head is its own block. */
+  .reveals-on .section-header-center .eyebrow::after,
+  .reveals-on .section-header-center .section-label::after,
+  .reveals-on .hero-content .eyebrow::after,
+  .reveals-on .stop-head .eyebrow::after { left: 50%; margin-left: -13px; transform-origin: center; }
+  .reveals-on .visible .eyebrow::after,
+  .reveals-on .visible .section-label::after { transform: scaleX(1); }
+
+  /* Arrows lean into the direction they point, on hover only. */
+  .btn { transition: background var(--transition), border-color var(--transition), color var(--transition); }
+  .btn-dark, .btn-primary, .btn-ghost { will-change: auto; }
+  @media (hover: hover) and (pointer: fine) {
+    .btn:hover { letter-spacing: 0.002em; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveals-on .hero h1,
+    .reveals-on .section-title,
+    .reveals-on .founder-name,
+    .reveals-on .stop-head h3 { clip-path: none; transform: none; transition: none; }
+    .reveals-on .eyebrow::after,
+    .reveals-on .section-label::after { transform: scaleX(1); transition: none; }
+  }
+
   /* generic stagger — JS sets --i on children of [data-stagger] */
   [data-stagger] > * { transition-delay: calc(var(--i, 0) * 90ms); }
 
@@ -3958,7 +4020,7 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 
 // ─── SCROLL REVEALS ───
 // Stagger delays are assigned per-group so grids cascade instead of popping at once.
-document.querySelectorAll('.workflows-grid, .how-grid, .pricing-grid, .stack-grid, .contact-info')
+document.querySelectorAll('.workflows-grid, .how-grid, .pricing-grid, .stack-grid, .contact-info, .stop-grid, .diag-list, .founding-terms')
   .forEach(group => {
     group.setAttribute('data-stagger', '');
     [...group.children].forEach((child, i) => child.style.setProperty('--i', i));
@@ -4881,6 +4943,52 @@ const DIAGNOSTIC_PAY_URL = '';
   }
   narrow.addEventListener?.('change', sync);
   sync();
+})();
+
+
+/* ─── Motion: the two pieces CSS cannot do alone ─── */
+(function motion() {
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* The hero is not a scroll reveal — it is already on screen — so it gets its
+     own trigger on the next frame rather than waiting for an observer that will
+     never fire for it. */
+  // Mark the hero section, not just the h1: the eyebrow rule keys off a visible
+  // ancestor, and .hero is never a scroll reveal so nothing else would set it.
+  const hero = document.querySelector('.hero');
+  const h1 = document.querySelector('.hero h1');
+  const show = () => { if (hero) hero.classList.add('visible'); if (h1) h1.classList.add('visible'); };
+  if (calm) show();
+  else requestAnimationFrame(() => requestAnimationFrame(show));
+  // Belt and braces: if that frame never runs, show it anyway.
+  setTimeout(show, 1200);
+
+  /* Numbers count rather than appear. Reads as something being measured, which
+     is the claim the page is making. */
+  function countUp(el, to, suffix, ms) {
+    if (calm) { el.textContent = '~' + to + suffix; return; }
+    const from = 0, t0 = performance.now();
+    (function step(now) {
+      const p = Math.min(1, (now - t0) / ms);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const v = Math.round((from + (to - from) * eased) * 2) / 2;
+      el.textContent = '~' + v + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    })(t0);
+  }
+
+  const saved = document.getElementById('pick-saved');
+  if (saved && window.IntersectionObserver) {
+    let done = false;
+    new IntersectionObserver((entries, obs) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting || done) return;
+        done = true; obs.disconnect();
+        const m = saved.textContent.match(/([\d.]+)\s*(\D*)$/);
+        if (m) countUp(saved, parseFloat(m[1]), ' ' + (m[2] || 'hrs').trim(), 900);
+      });
+    }, { threshold: 0.5 }).observe(saved);
+  }
 })();
 
 </script>
