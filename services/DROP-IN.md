@@ -71,6 +71,56 @@ If it lands in their inbox, they are live.
 
 ---
 
+### 3b. If they want the email route
+
+The forwarding option needs an inbound address wired to `/api/email-in`. Set this
+up once, not per client.
+
+**What you need**
+
+```
+EMAIL_IN_SECRET = <a long random string>
+```
+
+Generate it with `openssl rand -hex 24`. The endpoint refuses anything without
+it. Once a forwarding rule exists the address is effectively public, so this
+secret is the only thing stopping a stranger posting invented enquiries straight
+into a client's inbox. It is not a strong control — it is the one this shape
+allows. Rotate it when you stop working with a client.
+
+**Picking a provider.** `api/email-in.js` normalises the common inbound-email
+payloads, so any of these work and switching later is a settings change:
+
+| Provider | Custom domain needed | Notes |
+|---|---|---|
+| **Postmark inbound** | No | Gives you an address immediately. Easiest start. |
+| **Cloudflare Email Routing** | Yes | Free, and the right answer once you own a domain. |
+| SendGrid Inbound Parse | Yes | Needs MX records. |
+| Mailgun routes | No (sandbox) | Sandbox addresses are rate limited. |
+
+Point the provider's webhook at:
+
+```
+https://lazyscale.vercel.app/api/email-in?k=<their key>&s=<EMAIL_IN_SECRET>
+```
+
+**One address per client**, because `k` identifies which tenant the mail belongs
+to. With Postmark that means one inbound stream each; with Cloudflare, one route
+each (`acme@yourdomain.in` → the worker → this URL with their `k`).
+
+**What it does with a forward.** When a business forwards a customer's email, the
+envelope sender is *the business*, and the customer is named in the forward
+header the mail client inserted. The endpoint reads that header to recover the
+real sender, so `reply-to` on your alert is the customer rather than your client.
+Gmail, Outlook, Apple Mail and Thunderbird formats are all handled, plus a few
+localised ones. If no forward header is found it falls back to the envelope,
+which is correct for mail sent to the address directly.
+
+**Test it before telling the client it is on.** Forward yourself a real old
+enquiry and check the alert names the original sender, not you.
+
+---
+
 ## What to tell them, in order
 
 1. **Nothing is sent to your customers.** To begin with it only forwards and
