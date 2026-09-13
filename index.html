@@ -634,6 +634,51 @@
     }
   }
 
+  /* ─── THE CODE REVEAL ─── */
+  .gate-ask {
+    font: inherit; font-size: inherit; color: var(--text-primary);
+    background: none; border: none; padding: 0; cursor: pointer;
+    text-decoration: underline; text-underline-offset: 3px;
+  }
+  .gate-ask:hover { color: var(--text-secondary); }
+  .ask {
+    margin-top: var(--s5); text-align: left;
+    background: var(--bg-raised); border: 1px solid var(--border);
+    border-radius: var(--r-md); overflow: hidden;
+  }
+  .ask[hidden] { display: none; }
+  .ask-head {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px var(--s4); border-bottom: 1px solid var(--border);
+    font-size: 12.5px; font-weight: 650;
+  }
+  .ask-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--lime); border: 1px solid var(--ink); }
+  .ask-clock { margin-left: auto; font-variant-numeric: tabular-nums; color: var(--text-muted); font-weight: 600; }
+  .ask-log { padding: var(--s4); display: flex; flex-direction: column; gap: 10px; }
+  .ask-line { display: flex; gap: 9px; font-size: 13.5px; line-height: 1.5; color: var(--text-secondary); }
+  .ask-line .m { flex-shrink: 0; width: 15px; height: 15px; border-radius: 50%; background: var(--lime); color: #111;
+                 font-size: 9px; font-weight: 800; display: grid; place-items: center; margin-top: 2px; }
+  .ask-line.is-quote { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 10px 12px; color: var(--text-primary); }
+  .ask-line b { color: var(--text-primary); font-weight: 660; }
+  .ask-caret::after { content: '▍'; margin-left: 1px; animation: ask-blink 1s steps(2) infinite; }
+  @keyframes ask-blink { 50% { opacity: 0; } }
+  .ask-reveal { padding: var(--s4); border-top: 1px solid var(--border); background: var(--bg-card); }
+  .ask-reveal[hidden] { display: none; }
+  .ask-code-label { font-size: 11.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); font-weight: 650; margin-bottom: 8px; }
+  .ask-code-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .ask-code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 15px; font-weight: 600;
+    background: var(--lime); color: #111111; border: 1px solid var(--ink);
+    border-radius: var(--r-sm); padding: 8px 14px; letter-spacing: .5px;
+  }
+  .ask-use {
+    font: inherit; font-size: 13.5px; font-weight: 650; cursor: pointer;
+    background: var(--bg-raised); color: var(--text-primary);
+    border: 1px solid var(--ink); border-radius: var(--r-pill); padding: 8px 16px;
+  }
+  .ask-use:hover { background: var(--bg-card-hover); }
+  @media (prefers-reduced-motion: reduce) { .ask-caret::after { animation: none; } }
+
   /* ─── SECOND PROJECTS, GROUPED BY THE PROBLEM ─── */
   .stop-head { text-align: center; margin: var(--s9) 0 var(--s7); }
   .stop-head h3 { font-size: clamp(24px, 3vw, 32px); font-weight: 750; letter-spacing: -1px; margin-bottom: var(--s3); }
@@ -3146,7 +3191,26 @@
         <button type="submit" class="btn btn-primary">Unlock</button>
       </form>
       <p class="gate-error" id="gate-error" role="alert" hidden>That code isn't right.</p>
-      <p class="gate-hint">Want in? <a href="mailto:divyanshus2404@gmail.com?subject=AI%20Employees%20early%20access">Ask for the code</a>.</p>
+      <p class="gate-hint">Want in? <button type="button" class="gate-ask" id="gate-ask">Ask for the code</button>.</p>
+
+      <!-- The reveal. A scripted run of the Lead Responder answering the visitor's
+           own request: the product demonstrating itself in order to let them in.
+           No API key involved — this is theatre, and it says so. -->
+      <div class="ask" id="ask" hidden>
+        <div class="ask-head">
+          <span class="ask-dot" aria-hidden="true"></span>
+          <span class="ask-title">Lead Responder</span>
+          <span class="ask-clock" id="ask-clock">0.0s</span>
+        </div>
+        <div class="ask-log" id="ask-log" role="status" aria-live="polite"></div>
+        <div class="ask-reveal" id="ask-reveal" hidden>
+          <div class="ask-code-label">Your access code</div>
+          <div class="ask-code-row">
+            <code class="ask-code" id="ask-code">lazyscale@1122</code>
+            <button type="button" class="ask-use" id="ask-use">Use it &#8594;</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="careers-body" id="careers-body" hidden>
@@ -4468,6 +4532,118 @@ const DIAGNOSTIC_PAY_URL = '';
     }, { threshold: 0.45 });
     io.observe(wrap);
   }
+})();
+
+
+/* ─── "Ask for the code" ───
+   The gate was a dead end: a visitor without the code had nowhere to go. Now the
+   ask plays a scripted run of the Lead Responder answering their request, and
+   hands over the code at the end.
+
+   It is theatre and it does not pretend otherwise — the code sits in this file
+   in plain sight, and the gate was never security, only a sense of occasion.
+   What the sequence is really doing is showing the product work on the visitor's
+   own enquiry, which is the one demo that needs no API key. */
+(function askForCode() {
+  const btn = document.getElementById('gate-ask');
+  const box = document.getElementById('ask');
+  if (!btn || !box) return;
+
+  const log = document.getElementById('ask-log');
+  const reveal = document.getElementById('ask-reveal');
+  const clock = document.getElementById('ask-clock');
+  const use = document.getElementById('ask-use');
+  const input = document.getElementById('gate-input');
+  const CODE = 'lazyscale@1122';
+
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let playing = false;
+  let done = false;
+
+  const SCRIPT = [
+    { at: 0,    quote: true, text: 'Hi — can I get access to the AI employees page?' },
+    { at: 380,  text: 'Picked up by the <b>Lead Responder</b>. Nobody was awake.' },
+    { at: 1150, text: 'Read it. This is an <b>access request</b>, not a complaint or a price negotiation.' },
+    { at: 1950, text: 'Scored it. <b>Genuine — 8/10.</b> No human needed.' },
+    { at: 2750, text: 'Checked the rules. Handing out this code is allowed.' },
+    { at: 3500, type: 'Here you go. This is exactly what the role does for your customers, except there it is your enquiries and your rules.' }
+  ];
+
+  function line(html, cls) {
+    const el = document.createElement('div');
+    el.className = 'ask-line' + (cls ? ' ' + cls : '');
+    el.innerHTML = cls === 'is-quote' ? html : '<span class="m" aria-hidden="true">&#10003;</span><span>' + html + '</span>';
+    log.appendChild(el);
+    return el;
+  }
+
+  function finish() {
+    done = true;
+    playing = false;
+    reveal.hidden = false;
+    clock.textContent = '3.9s';
+  }
+
+  // Everything at once, no timers. Used for reduced motion and as the fallback
+  // if the visitor asks again while it is still running.
+  function showAll() {
+    log.replaceChildren();
+    SCRIPT.forEach((s) => {
+      if (s.quote) line(s.text, 'is-quote');
+      else line(s.text || s.type);
+    });
+    finish();
+  }
+
+  function play() {
+    log.replaceChildren();
+    reveal.hidden = true;
+    playing = true;
+
+    const t0 = performance.now();
+    const tick = setInterval(() => {
+      if (!playing) return clearInterval(tick);
+      clock.textContent = ((performance.now() - t0) / 1000).toFixed(1) + 's';
+    }, 90);
+
+    SCRIPT.forEach((step) => {
+      setTimeout(() => {
+        if (!playing) return;
+        if (step.quote) return void line(step.text, 'is-quote');
+        if (!step.type) return void line(step.text);
+
+        // last step types itself out, then the code appears
+        const el = line('');
+        const span = el.lastElementChild;
+        span.classList.add('ask-caret');
+        let i = 0;
+        (function typeOn() {
+          if (!playing) return;
+          span.textContent = step.type.slice(0, ++i);
+          if (i < step.type.length) return void setTimeout(typeOn, 16);
+          span.classList.remove('ask-caret');
+          clearInterval(tick);
+          finish();
+        })();
+      }, step.at);
+    });
+  }
+
+  btn.addEventListener('click', () => {
+    box.hidden = false;
+    if (done || calm) return showAll();
+    if (playing) return showAll();   // impatient second click: skip to the end
+    play();
+  });
+
+  use.addEventListener('click', () => {
+    input.value = CODE;
+    input.focus();
+    // Submit rather than reaching into the gate's internals, so there is one
+    // code path that actually unlocks and it stays the checked one.
+    const form = document.getElementById('gate-form');
+    if (form) form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+  });
 })();
 
 </script>
