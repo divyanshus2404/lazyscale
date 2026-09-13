@@ -320,7 +320,9 @@
     padding: 120px 0 80px;
     text-align: center;
     position: relative;
-    overflow: hidden;
+    /* No overflow clip here. It existed for the old decorative orbs, which are
+       gone, and it silently becomes the clipping ancestor for the sticky panel
+       track below — the panel sticks to the hero and scrolls away with it. */
   }
 
   /* The old blanket entrance on every hero child was replaced by the .set-in
@@ -883,6 +885,55 @@
   }
   .panel-foot { padding: 14px var(--s5); border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); background: var(--bg-raised); }
   .panel-foot b { color: var(--text-primary); font-weight: 700; }
+
+  /* ── panel: scroll-driven playback ── */
+  .panel-track { position: relative; height: 300vh; }
+  .panel-stage { position: sticky; top: calc(var(--nav-h) + 28px); margin-top: 0; padding-bottom: 0; }
+  .pstep { transition: opacity .45s ease, transform .45s ease; }
+  /* Pending steps are dimmed, never hidden: with JS off nothing is missing. */
+  .panel.is-playing .pstep { opacity: .28; transform: translateY(4px); }
+  .panel.is-playing .pstep.is-live,
+  .panel.is-playing .pstep.is-done { opacity: 1; transform: none; }
+  .panel.is-playing .pstep::before { background: var(--border); transition: background .35s ease; }
+  .panel.is-playing .pstep.is-live::before,
+  .panel.is-playing .pstep.is-done::before { background: var(--lime); }
+  .panel.is-playing .pstep.is-live::before { box-shadow: 0 0 0 4px var(--lime-soft); }
+
+  .pstep-label { font-size: 12.5px; font-weight: 680; margin-bottom: var(--s3); }
+  .pbar { margin-top: 10px; height: 5px; background: var(--bg-raised); border-radius: 3px; overflow: hidden; }
+  .pbar span { display: block; height: 100%; width: 0; background: var(--lime); border-radius: 3px; transition: width .8s cubic-bezier(.22,.61,.36,1); }
+  .pstep.is-done .pbar span, .pstep.is-live .pbar span { width: 90%; }
+  .panel:not(.is-playing) .pbar span { width: 90%; }
+
+  .preply {
+    font-size: 14px; line-height: 1.6; color: var(--text-secondary);
+    background: var(--bg-raised); border-left: 2px solid var(--lime);
+    border-radius: 0 var(--r-sm) var(--r-sm) 0; padding: 11px 14px;
+  }
+  .pdone li { transition: opacity .3s ease; }
+  .panel.is-playing .pstep:not(.is-done):not(.is-live) .pdone li { opacity: .5; }
+
+  .panel-live i { animation: live-pulse 1.8s ease-in-out infinite; }
+  @keyframes live-pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+
+  .panel-foot { display: flex; align-items: center; gap: var(--s4); }
+  .panel-prog { flex: 1; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; min-width: 60px; }
+  .panel-prog i { display: block; height: 100%; width: 0; background: var(--lime); }
+
+  @media (max-width: 900px) {
+    /* No sticky track on phones — it fights the thumb. The panel is simply
+       finished and readable. */
+    .panel-track { height: auto; }
+    .panel-stage { position: static; }
+    .panel.is-playing .pstep { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .panel-track { height: auto; }
+    .panel-stage { position: static; }
+    .panel.is-playing .pstep { opacity: 1; transform: none; }
+    .panel-live i { animation: none; }
+    .pstep, .pbar span { transition: none; }
+  }
 
   /* ── picker ── */
   .pick-tabs { display: flex; flex-wrap: wrap; gap: var(--s2); justify-content: center; margin-bottom: var(--s7); }
@@ -2668,38 +2719,53 @@
 
     <!-- Depth belongs to the product, not to decoration: the panel is a real
          interface on a slight perspective tilt, not a floating object. -->
-    <div class="panel-stage" id="panel-stage">
-      <div class="panel" id="hero-panel">
-        <div class="panel-bar">
-          <span class="panel-dot"></span><span class="panel-dot"></span><span class="panel-dot"></span>
-          <span class="panel-name">LazyScale</span>
-          <span class="panel-live"><i></i>LIVE</span>
+    <!-- The panel plays as you scroll: the track is tall, the panel sticks, and
+         scroll position drives which step is live. Every step is readable with
+         no JS and no motion — the states dim what has not happened yet rather
+         than hiding it. -->
+    <div class="panel-track" id="panel-track">
+      <div class="panel-stage" id="panel-stage">
+        <div class="panel" id="hero-panel">
+          <div class="panel-bar">
+            <span class="panel-dot"></span><span class="panel-dot"></span><span class="panel-dot"></span>
+            <span class="panel-name">LazyScale</span>
+            <span class="panel-live"><i></i>LIVE</span>
+          </div>
+          <div class="panel-body">
+            <div class="pstep" data-s="1">
+              <div class="pstep-head"><span class="pstep-src">WhatsApp</span><span class="pstep-time">2:14 AM</span></div>
+              <div class="pstep-quote">&#8220;Looking for a 3BHK in Whitefield, budget around 1.2 Cr, need to move in 2 months.&#8221;</div>
+            </div>
+            <div class="pstep" data-s="2">
+              <div class="pstep-label">Understands the enquiry</div>
+              <dl class="pfacts">
+                <div><dt>Budget</dt><dd>&#8377;1.2 Cr</dd></div>
+                <div><dt>Location</dt><dd>Whitefield</dd></div>
+                <div><dt>Timeline</dt><dd>2 months</dd></div>
+              </dl>
+            </div>
+            <div class="pstep" data-s="3">
+              <div class="pstep-label">Scores it against your criteria</div>
+              <div class="pscore"><span class="pscore-dot"></span><b>Hot lead</b><span class="pscore-n">9/10</span></div>
+              <div class="pbar"><span></span></div>
+            </div>
+            <div class="pstep" data-s="4">
+              <div class="pstep-label">Writes the reply</div>
+              <div class="preply">Hi &#8212; thanks for reaching out. We have three 3BHK units in Whitefield in that range, two ready to move. Can I send floor plans and book a viewing this week?</div>
+            </div>
+            <div class="pstep" data-s="5">
+              <ul class="pdone">
+                <li>Reply sent</li>
+                <li>CRM updated</li>
+                <li>Team notified</li>
+              </ul>
+            </div>
+          </div>
+          <div class="panel-foot">
+            <b id="panel-secs">12 seconds</b> &#183; nobody was awake
+            <span class="panel-prog" aria-hidden="true"><i id="panel-prog-fill"></i></span>
+          </div>
         </div>
-        <div class="panel-body">
-          <div class="pstep" data-s="1">
-            <div class="pstep-head"><span class="pstep-src">WhatsApp</span><span class="pstep-time">2:14 AM</span></div>
-            <div class="pstep-quote">&#8220;Looking for a 3BHK in Whitefield, budget around 1.2 Cr, need to move in 2 months.&#8221;</div>
-          </div>
-          <div class="pstep" data-s="2">
-            <div class="pstep-label">Understands the enquiry</div>
-            <dl class="pfacts">
-              <div><dt>Budget</dt><dd>&#8377;1.2 Cr</dd></div>
-              <div><dt>Location</dt><dd>Whitefield</dd></div>
-              <div><dt>Timeline</dt><dd>2 months</dd></div>
-            </dl>
-          </div>
-          <div class="pstep" data-s="3">
-            <div class="pscore"><span class="pscore-dot"></span><b>Hot lead</b><span class="pscore-n">9/10</span></div>
-          </div>
-          <div class="pstep" data-s="4">
-            <ul class="pdone">
-              <li>Reply sent</li>
-              <li>CRM updated</li>
-              <li>Team notified</li>
-            </ul>
-          </div>
-        </div>
-        <div class="panel-foot"><b id="panel-secs">12 seconds</b> &#183; nobody was awake</div>
       </div>
     </div>
   </section>
@@ -4644,6 +4710,83 @@ const DIAGNOSTIC_PAY_URL = '';
     const form = document.getElementById('gate-form');
     if (form) form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
   });
+})();
+
+
+/* ─── Hero panel: scroll drives the playback ───
+   The track is tall and the panel sticks to it, so scrolling through the
+   section advances the workflow a step at a time and the clock counts up with
+   it. is-playing is only added once this runs, which means the no-JS state is
+   the finished panel with every step readable rather than a dimmed one. */
+(function panelPlayback() {
+  const track = document.getElementById('panel-track');
+  const panel = document.getElementById('hero-panel');
+  if (!track || !panel) return;
+
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const narrow = window.matchMedia('(max-width: 900px)');
+  const steps = [...panel.querySelectorAll('.pstep')];
+  const secs = document.getElementById('panel-secs');
+  const fill = document.getElementById('panel-prog-fill');
+  const TOTAL = 12;
+
+  let ticking = false;
+  let on = false;
+
+  function stop() {
+    on = false;
+    panel.classList.remove('is-playing');
+    steps.forEach((s) => s.classList.remove('is-live', 'is-done'));
+    if (secs) secs.textContent = TOTAL + ' seconds';
+    if (fill) fill.style.width = '100%';
+  }
+
+  function apply(p) {
+    // p is 0..1 through the track. Each step owns an equal slice.
+    const slice = 1 / steps.length;
+    steps.forEach((el, i) => {
+      const start = i * slice;
+      el.classList.toggle('is-done', p >= start + slice);
+      el.classList.toggle('is-live', p >= start && p < start + slice);
+    });
+    const shown = Math.min(TOTAL, Math.max(0, p * TOTAL));
+    if (secs) secs.textContent = (shown < TOTAL ? shown.toFixed(1) : TOTAL) + ' seconds';
+    if (fill) fill.style.width = (p * 100).toFixed(1) + '%';
+  }
+
+  function progress() {
+    const r = track.getBoundingClientRect();
+    const travel = r.height - window.innerHeight;
+    if (travel <= 0) return 1;
+    // Ease the ends slightly so the first and last steps get a beat to read.
+    const raw = (-r.top) / travel;
+    return Math.min(1, Math.max(0, raw * 1.12 - 0.06));
+  }
+
+  function onScroll() {
+    if (!on || ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { ticking = false; apply(progress()); });
+  }
+
+  function sync() {
+    const should = !calm.matches && !narrow.matches;
+    if (should === on) return;
+    if (!should) return stop();
+    on = true;
+    // Compute and apply BEFORE dimming. is-playing drops every pending step to
+    // 28%, and the first apply used to be deferred to requestAnimationFrame —
+    // which a background tab can throttle indefinitely, leaving the whole panel
+    // dimmed and unreadable. Order matters more than the frame does.
+    apply(progress());
+    panel.classList.add('is-playing');
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', () => { sync(); onScroll(); }, { passive: true });
+  calm.addEventListener?.('change', sync);
+  narrow.addEventListener?.('change', sync);
+  sync();
 })();
 
 </script>
