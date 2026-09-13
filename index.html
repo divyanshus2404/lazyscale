@@ -171,6 +171,7 @@
   }
   html {
     scroll-behavior: smooth;
+    /* see the nav handler: long jumps switch to instant */
     /* keeps anchor targets clear of the fixed nav */
     scroll-padding-top: calc(var(--nav-h) + 24px);
   }
@@ -450,7 +451,7 @@
   .logos-row span:hover { border-color: var(--border-accent); color: var(--text-primary); }
 
   /* ─── SECTIONS ─── */
-  section { padding: 120px 40px; }
+  section { padding: 84px 40px; }
 
   .section-label {
     font-size: 12px; font-weight: 650; letter-spacing: 1.5px;
@@ -703,6 +704,27 @@
   @media (max-width: 1000px) { .stop-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 620px)  { .stop-grid { grid-template-columns: 1fr; } }
 
+  /* ── long cards, folded on phones ──
+     Added by JS, so with scripting off the full card renders as it always did:
+     long, but complete. Nothing here hides content that cannot be got back. */
+  /* Hidden unless the card is actually folded. The styling block below must not
+     re-declare display, or it wins and leaves a dead button on desktop. */
+  .wf-fold { display: none; }
+  .wf-folded .wf-hero-body > p:not(.wf-hero-line),
+  .wf-folded .wf-hero-body > ul { display: none; }
+  .wf-folded.is-open .wf-hero-body > p:not(.wf-hero-line),
+  .wf-folded.is-open .wf-hero-body > ul { display: revert; }
+  .wf-fold {
+    font: inherit; font-size: 14px; font-weight: 650; cursor: pointer;
+    background: var(--bg-raised); color: var(--text-primary);
+    border: 1px solid var(--border); border-radius: var(--r-pill);
+    padding: 9px 16px; margin-top: var(--s3);
+    align-items: center; gap: 7px;
+  }
+  .wf-folded .wf-fold { display: inline-flex; }
+  .wf-fold::after { content: '+'; font-weight: 700; }
+  .is-open .wf-fold::after { content: '\2212'; }
+
   /* ─── BEFORE / AFTER: the convergence ──────────────────────────────────────
      Two states of one diagram. Everything is present in both; the toggle moves
      it rather than revealing it, so with JS off or animation suppressed the
@@ -887,7 +909,7 @@
   .panel-foot b { color: var(--text-primary); font-weight: 700; }
 
   /* ── panel: scroll-driven playback ── */
-  .panel-track { position: relative; height: 300vh; }
+  .panel-track { position: relative; height: 170vh; }
   .panel-stage { position: sticky; top: calc(var(--nav-h) + 28px); margin-top: 0; padding-bottom: 0; }
   .pstep { transition: opacity .45s ease, transform .45s ease; }
   /* Pending steps are dimmed, never hidden: with JS off nothing is missing. */
@@ -1477,7 +1499,7 @@
     .pricing-grid { max-width: 400px; margin-left: auto; margin-right: auto; }
     .hero-orb { display: none; }
     .hero-shape { opacity: 0.04; }
-    section { padding: 80px 20px; }
+    section { padding: 56px 20px; }
     .hero { padding: 100px 20px 60px; }
     .hero h1 { font-size: 32px; }
     .hero-sub { font-size: 16px; }
@@ -4785,6 +4807,78 @@ const DIAGNOSTIC_PAY_URL = '';
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', () => { sync(); onScroll(); }, { passive: true });
   calm.addEventListener?.('change', sync);
+  narrow.addEventListener?.('change', sync);
+  sync();
+})();
+
+
+/* ─── Anchor jumps ───
+   scroll-behavior: smooth is right for a short hop and wrong for a long one:
+   crossing fifteen thousand pixels at the browser's easing reads as the page
+   having frozen. Past about two and a half screens it jumps instantly instead,
+   which is what a reader expects from a menu. */
+(function anchorJumps() {
+  const FAR = () => window.innerHeight * 2.5;
+
+  document.addEventListener('click', (e) => {
+    const a = e.target && typeof e.target.closest === 'function' && e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href');
+    if (!id || id === '#') return;
+
+    const target = document.querySelector(id);
+    if (!target) return;
+
+    const nav = getComputedStyle(document.documentElement).getPropertyValue('--nav-h');
+    const offset = (parseInt(nav, 10) || 72) + 20;
+    const to = Math.max(0, target.getBoundingClientRect().top + window.scrollY - offset);
+    const far = Math.abs(to - window.scrollY) > FAR();
+
+    e.preventDefault();
+    window.scrollTo({ top: to, behavior: far ? 'instant' : 'smooth' });
+    // Keep the URL honest so back/forward and copied links still work.
+    history.replaceState(null, '', id);
+    // Anchor jumps move the viewport but not focus, which strands keyboard and
+    // screen-reader users at the top of the document.
+    target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+  });
+})();
+
+
+/* ─── Fold the long workflow cards on phones ───
+   The workflows section ran to five screens on a 390px viewport, twice the next
+   worst. Folding the detail behind a button on small screens cuts it roughly in
+   half. It is applied by script and only under 900px, so the desktop layout and
+   the no-JS page are both untouched — the fold shortens the page, it does not
+   become the only way to reach the text. */
+(function foldLongCards() {
+  const cards = document.querySelectorAll('.wf-hero-card');
+  if (!cards.length) return;
+  const narrow = window.matchMedia('(max-width: 900px)');
+
+  cards.forEach((card) => {
+    const body = card.querySelector('.wf-hero-body');
+    if (!body || card.querySelector('.wf-fold')) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'wf-fold';
+    btn.textContent = 'How it works';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.addEventListener('click', () => {
+      const open = card.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', String(open));
+      btn.textContent = open ? 'Show less' : 'How it works';
+    });
+    body.appendChild(btn);
+  });
+
+  function sync() {
+    document.querySelectorAll('.wf-hero-card').forEach((card) => {
+      card.classList.toggle('wf-folded', narrow.matches);
+      if (!narrow.matches) card.classList.remove('is-open');
+    });
+  }
   narrow.addEventListener?.('change', sync);
   sync();
 })();
