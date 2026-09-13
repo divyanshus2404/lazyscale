@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>What we automate — and what we refuse | LazyScale</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Fifty-five things a business can automate, marked honestly: what we build, what usually comes second, and what we will not build at all. AI automation for Indian startups.">
+<link rel="canonical" href="https://lazyscale.vercel.app/automations.html">
+<meta property="og:title" content="What we automate — and what we refuse">
+<meta property="og:description" content="Fifty-five automations, marked honestly. Including the ones we turn down and why.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://lazyscale.vercel.app/automations.html">
+<meta property="og:image" content="https://lazyscale.vercel.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F7F7F5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B0B0C" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23F7F7F5'/><path d='M7 5.5 V25 H27' fill='none' stroke='%23111111' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/><rect x='11.4' y='18.9' width='4.4' height='4.7' rx='1' fill='%23111111' opacity='.30'/><rect x='17.1' y='14.7' width='4.4' height='8.9' rx='1' fill='%23111111' opacity='.55'/><rect x='22.8' y='9.2' width='4.4' height='14.4' rx='1' fill='%23B7F34A' stroke='%23111111' stroke-width='1'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7F7F5; --card:#FFFFFF; --raised:#EFEFEC;
+    --text:#111111; --text2:#4A4A48; --muted:#6B6B6B;
+    --accent:#111111; --lime:#B7F34A; --border:#E7E7E4; --border2:#C9C9C4;
+    --btn-bg:#B7F34A; --btn-fg:#111111; --on-accent:#FFFFFF;
+    --yes-bg:rgba(183,243,74,.35); --yes-fg:#2F6B12;
+    --later-bg:#EFEFEC; --later-fg:#4A4A48;
+    --careful-bg:rgba(180,83,9,.10); --careful-fg:#7C3D06;
+    --no-bg:rgba(160,56,38,.10); --no-fg:#8C2F1D;
+  }
+  :root[data-theme="dark"]{
+    --bg:#0B0B0C; --card:#121213; --raised:#1A1A1C;
+    --text:#E8E8E6; --text2:#B4B4B1; --muted:#8A8A88;
+    --accent:#E8E8E6; --lime:#B7F34A; --border:#26262A; --border2:#3A3A40;
+    --btn-bg:#B7F34A; --btn-fg:#0B0B0C; --on-accent:#0B0B0C;
+    --yes-bg:rgba(183,243,74,.16); --yes-fg:#B7F34A;
+    --later-bg:#1A1A1C; --later-fg:#B4B4B1;
+    --careful-bg:rgba(200,122,52,.16); --careful-fg:#F0B27A;
+    --no-bg:rgba(224,110,90,.14); --no-fg:#EE8A7A;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#0B0B0C; --card:#121213; --raised:#1A1A1C;
+      --text:#E8E8E6; --text2:#B4B4B1; --muted:#8A8A88;
+      --accent:#E8E8E6; --border:#26262A; --border2:#3A3A40;
+      --btn-fg:#0B0B0C; --on-accent:#0B0B0C;
+      --yes-bg:rgba(183,243,74,.16); --yes-fg:#B7F34A;
+      --later-bg:#1A1A1C; --later-fg:#B4B4B1;
+      --careful-bg:rgba(200,122,52,.16); --careful-fg:#F0B27A;
+      --no-bg:rgba(224,110,90,.14); --no-fg:#EE8A7A;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,-apple-system,system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px}
+  a{color:inherit}
+  .top{display:flex;align-items:center;justify-content:space-between;padding:22px 0;gap:16px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:750;font-size:19px;letter-spacing:-.6px;text-decoration:none}
+  .brand span{color:var(--muted)}
+  .brand svg{width:27px;height:27px}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:650;text-decoration:none;
+       background:var(--btn-bg);color:var(--btn-fg);border:1px solid var(--text);border-radius:100px;padding:10px 18px;flex-shrink:0;max-width:100%}
+  .btn-ghost{background:var(--card);color:var(--text)}
+  header.hd{padding:40px 0 8px}
+  .eyebrow{font-size:12px;font-weight:650;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+  h1{font-size:clamp(32px,5.2vw,54px);font-weight:800;letter-spacing:-.035em;line-height:1.05;margin:0 0 18px}
+  .lede{font-size:17px;color:var(--text2);max-width:620px;margin:0 0 10px}
+  .count{font-size:13.5px;color:var(--muted)}
+
+  .legend{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:36px 0 28px}
+  .lg{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px}
+  .lg b{display:block;font-size:13px;font-weight:700;margin-bottom:4px}
+  .lg span{font-size:12.5px;color:var(--muted);line-height:1.5}
+  .lg.yes b{color:var(--yes-fg)} .lg.careful b{color:var(--careful-fg)} .lg.no b{color:var(--no-fg)}
+
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+  .chip{font:inherit;font-size:13.5px;font-weight:600;cursor:pointer;background:var(--card);color:var(--text2);
+        border:1px solid var(--border);border-radius:100px;padding:8px 15px;transition:all .2s}
+  .chip:hover{border-color:var(--border2);color:var(--text)}
+  .chip[aria-pressed="true"]{background:var(--lime);color:#111;border-color:var(--text)}
+  .shown{font-size:13px;color:var(--muted);margin:14px 0 20px}
+
+  .group{margin-bottom:34px}
+  .group h2{font-size:13px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);
+            margin:0 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+  .row{display:grid;grid-template-columns:104px 1fr;gap:18px;padding:14px 0;border-bottom:1px solid var(--border);align-items:start}
+  .row:last-child{border-bottom:none}
+  .tag{font-size:11.5px;font-weight:700;letter-spacing:.3px;border-radius:100px;padding:4px 10px;text-align:center;white-space:nowrap}
+  .tag.yes{background:var(--yes-bg);color:var(--yes-fg)}
+  .tag.later{background:var(--later-bg);color:var(--later-fg)}
+  .tag.careful{background:var(--careful-bg);color:var(--careful-fg)}
+  .tag.no{background:var(--no-bg);color:var(--no-fg)}
+  .row b{display:block;font-size:15.5px;font-weight:660;margin-bottom:3px}
+  .row p{margin:0;font-size:14px;color:var(--text2);line-height:1.6}
+  .empty{padding:40px 0;text-align:center;color:var(--muted);font-size:15px}
+
+  .note{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;margin:40px 0}
+  .note h3{font-size:21px;font-weight:750;letter-spacing:-.5px;margin:0 0 12px}
+  .note p{color:var(--text2);font-size:15px;margin:0 0 12px}
+  .note ol,.note ul{color:var(--text2);font-size:15px;margin:0;padding-left:20px}
+  .note li{margin-bottom:8px}
+  .note li b{color:var(--text)}
+  .cta{text-align:center;padding:20px 0 70px}
+  .cta h3{font-size:clamp(22px,3.2vw,30px);font-weight:750;letter-spacing:-.8px;margin:0 0 10px}
+  .cta p{color:var(--text2);margin:0 0 20px}
+  footer{border-top:1px solid var(--border);padding:24px 0 40px;font-size:13.5px;color:var(--muted);
+         display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  @media(max-width:780px){
+    .legend{grid-template-columns:repeat(2,1fr)}
+    .row{grid-template-columns:1fr;gap:8px}
+    .tag{justify-self:start}
+  }
+  @media(max-width:560px){.legend{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a href="/" class="brand">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 4.5 V26 H28" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="11.6" y="19.6" width="4.6" height="5.1" rx="1" fill="currentColor" opacity=".30"/><rect x="17.6" y="15.2" width="4.6" height="9.5" rx="1" fill="currentColor" opacity=".55"/><rect x="23.6" y="9.4" width="4.6" height="15.3" rx="1" fill="var(--lime)" stroke="currentColor" stroke-width="1"/></svg>
+      Lazy<span>Scale</span>
+    </a>
+    <a href="/#audit" class="btn">Get a free audit &#8594;</a>
+  </div>
+
+  <header class="hd">
+    <div class="eyebrow">The catalogue</div>
+    <h1>What we automate &#8212; and what we refuse.</h1>
+    <p class="lede">Most agencies will tell you everything is automatable. Here is the honest version: what we build first, what usually comes second, and the things we turn down however much you offer.</p>
+    <p class="count" id="count">55 automations</p>
+  </header>
+
+  <div class="legend">
+    <div class="lg yes"><b>We build this</b><span>Recurring, countable, and a person can approve anything that matters.</span></div>
+    <div class="lg"><b>Usually second</b><span>Real value, but a longer build or a fiddlier integration. Better once the first one is running.</span></div>
+    <div class="lg careful"><b>We will push back</b><span>Sells easily and disappoints often. We will probably talk you out of it.</span></div>
+    <div class="lg no"><b>We will not build</b><span>Not negotiable, at any price. The reasons are below each one.</span></div>
+  </div>
+
+  <div class="filters" id="cats" role="group" aria-label="Filter by area"></div>
+  <div class="filters" id="stats" role="group" aria-label="Filter by what we do with it"></div>
+  <p class="shown" id="shown" role="status" aria-live="polite"></p>
+
+  <main id="list"></main>
+
+  <div class="note">
+    <h3>Before we quote anything</h3>
+    <p>We score every request against four questions. Two failures and we will tell you it is not worth building, or suggest a smaller version that is.</p>
+    <ol>
+      <li><b>Does it happen weekly or more?</b> Automating a monthly twenty-minute job saves four hours a year.</li>
+      <li><b>Is the saving countable</b> in hours or rupees? If nobody can name a number, nobody will value it in month three.</li>
+      <li><b>Can a person approve</b> before anything irreversible happens?</li>
+      <li><b>Do you already own the tools?</b> If it needs a migration first, that is a different and larger project.</li>
+    </ol>
+  </div>
+
+  <div class="note">
+    <h3>When we will tell you not to automate</h3>
+    <p>Some of the best calls we have end with us talking someone out of a project.</p>
+    <ul>
+      <li><b>It happens rarely.</b> The build costs more than it saves.</li>
+      <li><b>The process is still changing.</b> You would be paying us to rebuild it every month. Wait until it settles.</li>
+      <li><b>The real problem is upstream.</b> If the leads are bad, automating follow-up just processes junk faster.</li>
+      <li><b>One person does it and likes it.</b> Automation that removes the interesting part of someone&#8217;s job gets quietly worked around.</li>
+    </ul>
+  </div>
+
+  <div class="cta">
+    <h3>Not sure which of these is yours?</h3>
+    <p>Tell us what you are still doing by hand. We will tell you which of it is worth automating.</p>
+    <a href="/#picker" class="btn">Show me what I can automate &#8594;</a>
+  </div>
+
+  <footer>
+    <span>&copy; 2026 LazyScale</span>
+    <span><a href="/">Home</a> &#183; <a href="/#pricing">Pricing</a> &#183; <a href="https://wa.me/917668229271">WhatsApp</a></span>
+  </footer>
+</div>
+
+<script>
+const ITEMS = [
+["Sales","yes","Lead capture across channels","Web form, WhatsApp, Instagram, IndiaMART and your sales inbox into one pipeline. Almost always the first thing we build."],
+["Sales","yes","Instant first response","Under sixty seconds, personalised, referring to what they actually asked."],
+["Sales","yes","Qualification and scoring","Against criteria we work out with you on the kickoff call. This is where most of the value sits."],
+["Sales","yes","Routing and assignment","Right person, right territory, right product line."],
+["Sales","yes","Meeting booking","The reply carries a booking link, or proposes slots directly."],
+["Sales","yes","Follow-up on enquiries that went quiet","Two or three nudges, then it stops. Only people who contacted you first."],
+["Sales","yes","Quote and proposal drafting","From your rate card and past jobs. You approve before anything sends."],
+["Sales","yes","Proposal chasing","Quote sent, silence. Polite follow-up that escalates with the days."],
+["Sales","later","CRM hygiene","Deduplicate, enrich, fill the fields people skip, fix stages that drifted. Dull and valuable, and it needs proper API access to your CRM."],
+["Sales","later","Deal updates from email threads","Reads the thread, updates the stage and next step. You confirm each one until it earns trust."],
+["Sales","later","Renewal and expiry reminders","Straightforward when the dates live somewhere we can query."],
+["Sales","later","Churn-risk flagging","Usage or engagement drops and someone is told. Needs real data behind it to mean anything."],
+
+["Support","yes","Ticket and inbox triage","Classify, tag, prioritise, route. Safe, because nothing is sent to anyone."],
+["Support","yes","Answering the same fifteen questions","Instantly, from a knowledge base we build with you."],
+["Support","yes","Drafting replies to routine tickets","Your agent reviews and sends. Cuts handling time without risking the relationship."],
+["Support","yes","Escalation routing","Anger, cancellation intent, legal words, important accounts — straight to a person."],
+["Support","yes","Out-of-hours acknowledgement","An honest holding reply with a real timeframe. Stops the second, angrier message."],
+["Support","later","SLA breach alerts","Needs your ticket system to expose timestamps properly."],
+["Support","later","Finding the gaps in your knowledge base","What got escalated, clustered monthly. Tells you what to answer next."],
+["Support","later","Post-resolution follow-up and review requests","Timing matters more than wording here."],
+
+["Operations","yes","Client onboarding","Deal won, and the workspace, documents, kickoff and welcome all just happen."],
+["Operations","yes","Chasing missing documents","Missing KYC, missing brief, missing assets. Nobody enjoys this and everybody needs it."],
+["Operations","yes","Appointment reminders","Measurable reduction in no-shows. The easiest number to prove."],
+["Operations","yes","Order and delivery updates","Status pushed to the customer before they think to ask."],
+["Operations","later","Meeting notes into tasks","Transcript in, tasks out, assigned in your tracker. Needs a transcription source."],
+["Operations","later","Approval routing","Discounts, refunds, purchase orders. Worth it depending on how painful your current chain is."],
+["Operations","later","Vendor and supplier chasing","The same shape as payment chasing, pointed outward."],
+["Operations","later","Inventory and threshold alerts","Only if the stock data is trustworthy. Often it is not, and we will say so."],
+
+["Finance","yes","Payment reminders by invoice age","Polite, escalating with the age of the invoice, and it stops the moment you are paid."],
+["Finance","yes","Invoice generation and dispatch","From a trigger you approve. Generating an invoice is fine; taking the money is not."],
+["Finance","later","Receipt and expense capture","Photo or email in, categorised row out. Popular, moderately fiddly."],
+["Finance","later","Reconciliation flagging","Mismatches surfaced for a person. Never resolved automatically."],
+["Finance","later","GST return preparation","Prepared and presented. A person files it. We check your Tally or Zoho plan actually exposes the API before quoting."],
+["Finance","no","Anything that moves money","Payments, transfers, trades. One bug ends a business. We do not build it."],
+
+["Marketing","yes","Ad lead forms into your pipeline","Meta and Google lead forms straight into scoring and an instant reply."],
+["Marketing","yes","Review requests and monitoring","Asked at the right moment, with an alert on anything under three stars."],
+["Marketing","later","Content repurposing","One long piece into posts, a newsletter, clips. It works, within limits."],
+["Marketing","later","Competitor and mention monitoring","Cheap to build and easy to show. Honestly, modest real value."],
+["Marketing","careful","Social content at volume","We will usually talk you out of this. The output is commoditised, quality complaints are constant, and it rarely survives three months."],
+["Marketing","no","Cold outbound at scale","Deliverability damage, legal exposure, and it would make us the spam vendor. We build reply handling for outbound you send yourself."],
+
+["Hiring","yes","Application screening","Against criteria you set. With the application volumes here, this is genuinely worth it."],
+["Hiring","yes","Interview scheduling and reminders","Calendar tetris nobody wants to play."],
+["Hiring","yes","Candidate communication","Acknowledgements, status updates, and kind rejections. The rejections matter more than people think."],
+["Hiring","later","Offer and document generation","Templated, and a person approves."],
+["Hiring","later","Internal employee FAQ","Leave policy, reimbursements, IT requests. Internal-facing, so a mistake is cheap."],
+
+["Reporting","yes","Weekly numbers, every Monday","Pulled from your tools, written up, outliers called out."],
+["Reporting","yes","Anomaly alerts","Revenue drop, ticket spike, conversion fall. The value is in choosing the threshold, not the plumbing."],
+["Reporting","later","Sync between tools","Sheets to CRM to Notion. Boring, a little brittle, sometimes exactly what you need."],
+["Reporting","later","Standup and status summaries","For engineering teams. Small, easy, useful."],
+["Reporting","later","Incident alert routing","Grouped, deduplicated, summarised, sent to the right person."],
+
+["Anywhere","no","WhatsApp broadcast to bought lists","It gets your number banned and breaks WhatsApp's rules. Opt-in lists through approved templates only."],
+["Anywhere","no","Anything irreversible with nobody checking","Unless you ask for it in writing and understand exactly what you are accepting."],
+["Anywhere","no","Scraping behind a login","Including anything that needs a CAPTCHA solved. It puts your accounts at risk, not ours."],
+["Anywhere","no","Medical, legal or financial advice","Generated by a model and sent to your customers. Not something we will build."],
+["Anywhere","no","Replacing a person's judgement","Where being wrong is expensive and nobody is checking the output."]
+];
+
+
+const LABEL = { yes:'We build this', later:'Usually second', careful:'We push back', no:'We will not' };
+const CATS = [...new Set(ITEMS.map(i => i[0]))];
+const STATS = ['yes','later','careful','no'];
+let cat = 'all', stat = 'all';
+
+const el = (t, cls, txt) => { const e = document.createElement(t); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+
+function chip(parent, value, text, get, set) {
+  const b = el('button', 'chip', text);
+  b.type = 'button';
+  b.setAttribute('aria-pressed', String(get() === value));
+  b.addEventListener('click', () => { set(value); render(); });
+  parent.appendChild(b);
+}
+
+function buildFilters() {
+  const c = document.getElementById('cats'), s = document.getElementById('stats');
+  c.replaceChildren(); s.replaceChildren();
+  chip(c, 'all', 'Everything', () => cat, v => cat = v);
+  CATS.forEach(x => chip(c, x, x, () => cat, v => cat = v));
+  chip(s, 'all', 'Any', () => stat, v => stat = v);
+  STATS.forEach(x => chip(s, x, LABEL[x], () => stat, v => stat = v));
+}
+
+function render() {
+  buildFilters();
+  const list = document.getElementById('list');
+  const rows = ITEMS.filter(i => (cat === 'all' || i[0] === cat) && (stat === 'all' || i[1] === stat));
+  list.replaceChildren();
+
+  if (!rows.length) {
+    list.appendChild(el('p', 'empty', 'Nothing matches those two filters together.'));
+  } else {
+    const seen = [];
+    rows.forEach(r => { if (!seen.includes(r[0])) seen.push(r[0]); });
+    seen.forEach(group => {
+      const sec = el('section', 'group');
+      sec.appendChild(el('h2', null, group));
+      rows.filter(r => r[0] === group).forEach(([, st, name, note]) => {
+        const row = el('div', 'row');
+        row.appendChild(el('span', 'tag ' + st, LABEL[st]));
+        const d = el('div');
+        d.appendChild(el('b', null, name));
+        d.appendChild(el('p', null, note));
+        row.appendChild(d);
+        sec.appendChild(row);
+      });
+      list.appendChild(sec);
+    });
+  }
+  document.getElementById('shown').textContent =
+    rows.length === ITEMS.length ? 'Showing all ' + ITEMS.length : 'Showing ' + rows.length + ' of ' + ITEMS.length;
+  document.getElementById('count').textContent = ITEMS.length + ' automations';
+}
+
+render();
+</script>
+</body>
+</html>
