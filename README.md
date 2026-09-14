@@ -39,6 +39,51 @@ everything in this repository is pointed at that one number.
 
 ---
 
+## Run it in a minute
+
+No keys, no accounts, no Vercel project.
+
+```bash
+git clone https://github.com/divyanshus2404/lazyscale.git
+cd lazyscale
+./run-local.sh                   # site and functions on http://localhost:3100
+```
+
+Send it an enquiry the way a client's website form would:
+
+```bash
+curl -s -X POST "http://localhost:3100/api/inbound?k=demo" \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"Priya","email":"priya@example.com",
+       "message":"Do you deliver to Indiranagar? Need 30 chairs by Friday."}'
+```
+
+```json
+{"ok":true,"replied":false,"recorded":true}
+```
+
+`recorded: true` is the part that matters — the enquiry is on disk before
+anything else is attempted. `replied: false` because there is no mail server on
+your laptop; the record survives that, which is the whole design.
+
+Then read it back the way a monthly review does:
+
+```bash
+curl -s "http://localhost:3100/api/stats?k=demo&s=local-dev-secret&days=30"
+```
+
+```json
+{"ok":true,"truncated":false,"partialRead":false,"tenant":"demo",
+ "windowDays":30,"since":"2026-08-15T17:24:46.888Z","enquiries":1,
+ "scored":0,"medianScore":null,"escalated":0,"handledWithoutAHuman":100,
+ "alertsFailed":1,"topEscalationReasons":[],"byDay":{"2026-09-14":1}}
+```
+
+`alertsFailed` counts honestly rather than hiding the missing mail server.
+Full walkthrough, including the drop-in and inbound email: [`LOCAL.md`](LOCAL.md).
+
+---
+
 ## Repository map
 
 ```
@@ -126,18 +171,15 @@ valid address, and a score at or above a threshold someone chose on purpose.
 
 ---
 
-## Running it locally
+## Regenerating the brand assets
 
-```bash
-./run-local.sh                   # site + serverless functions, port 3100
-python3 -m http.server 8899      # static site only, no functions
-```
+The banner at the top of this file, the link-preview card, and the logo files
+are all rendered from HTML that uses the site's tokens — because an image you
+redraw by hand is an image that goes stale. The previous preview card sat
+unchanged through a full rebrand, so for weeks every link shared showed a
+company that no longer existed.
 
-`run-local.sh` needs no keys and no accounts. The drop-in records enquiries to a
-local file and `/api/stats` reads them back, so the full path can be watched
-end to end before anything is configured. See [`LOCAL.md`](LOCAL.md).
-
-### Regenerating the link-preview card
+### The link-preview card
 
 ```bash
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
@@ -146,8 +188,8 @@ end to end before anything is configured. See [`LOCAL.md`](LOCAL.md).
   --screenshot=og-image.png brand/og-image.html
 ```
 
-Built from HTML rather than drawn, because an image you redraw by hand is an
-image that goes stale. See [`brand/README.md`](brand/README.md).
+Every asset and its exact command is in [`brand/README.md`](brand/README.md),
+including the README banner's two theme variants.
 
 ---
 
