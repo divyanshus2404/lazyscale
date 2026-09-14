@@ -25,7 +25,8 @@ shared showed a company that no longer existed.
 
 | File | Use it for |
 |---|---|
-| `logo-square.png` | 512×512. **Profile pictures** — LinkedIn, WhatsApp Business, Instagram, Google Business. Lime edge to edge with no tile outline, because the platform's own square or circular crop is the shape. A bordered tile inside a circular crop looks like a mistake. |
+| `logo-tile.png` | 512×512. **The mark as it appears on the site** — outlined tile, off-white ground, room around it so nothing clips. Use this where the crop is square and you want it to match the site: LinkedIn, Google Business, a slide. |
+| `logo-square.png` | 512×512. Lime edge to edge, no outline. Use this where the platform crops to a **circle** — WhatsApp Business, Instagram — because a rounded tile inside a circular crop leaves four odd corners of background. |
 | `logo-wordmark.png` | 2400×800. Cover images, email signatures, a slide. |
 | `logo.svg` | The mark as vector. Anywhere it needs to scale, or be recoloured. |
 
