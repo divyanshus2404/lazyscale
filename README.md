@@ -18,30 +18,35 @@
 
 ## What this is
 
-A managed automation service for Indian small businesses, sold as **AI employees**
-rather than software: each one has a written job description, a probation period
-and a monthly performance review.
+An automation service for Indian small businesses, sold as **AI employees**
+rather than software. Each one gets a written job description, a probation
+period and a monthly performance review — which sounds like a bit, but it turns
+out to be the clearest way to say what a thing will and won't do before anyone
+pays for it.
 
-This repository is the whole of it — the site, the serverless endpoints that do
-the work, the importable workflow templates, and the operating documents that
-decide what gets built and what gets refused.
+This repository is all of it: the site, the endpoints that do the actual work,
+the importable workflow templates, and the operating documents that decide what
+gets built and what gets politely declined.
 
-There is no framework and no build step. It is static HTML with design tokens,
-and serverless functions on Vercel.
+No framework, no build step, no `node_modules` older than the business. Static
+HTML with design tokens, and serverless functions on Vercel.
 
 ## The idea underneath it
 
-Most businesses here lose customers for a boring reason: someone was asleep, or
-busy, or the message landed on WhatsApp while everyone was watching email.
+Most businesses here don't lose customers to a competitor with better prices.
+They lose them because someone was asleep, or on a call, or the message landed
+on WhatsApp while everyone was watching email. The enquiry was fine. The timing
+wasn't.
 
-So the product is not "AI for your business". It is **response time**, and
-everything in this repository is pointed at that one number.
+So this isn't "AI for your business". It's **response time**, and everything in
+here points at that one number. If a feature doesn't move it, it doesn't ship.
 
 ---
 
 ## Run it in a minute
 
-No keys, no accounts, no Vercel project.
+No keys, no accounts, no Vercel project, no sign-up page asking for your work
+email.
 
 ```bash
 git clone https://github.com/divyanshus2404/lazyscale.git
@@ -195,10 +200,10 @@ including the README banner's two theme variants.
 
 ## Design notes
 
-**Tokens do the work.** Colour, spacing, radius and type are custom properties on
-`:root`, with a dark variant. Restyling the whole site is a token change, not a
-rewrite — that is how it moved from a neo-vintage look to the current one in a
-single pass.
+**Tokens do the work.** Colour, spacing, radius and type are custom properties
+on `:root`, with a dark variant. Restyling the whole site is a token change, not
+a rewrite — which is how it went from a neo-vintage look to this one in an
+afternoon, with no find-and-replace archaeology afterwards.
 
 **Lime is a fill, not a text colour.** `#B7F34A` is 1.23:1 on the off-white
 background, so in light mode it colours buttons, ticks and rules while near-black
@@ -212,21 +217,24 @@ Anything that hides content until an animation runs has been treated as a bug in
 this repository, several times.
 
 **Verified, not assumed.** Contrast, heading order, overflow and control sizing
-are measured in both themes at mobile and desktop before anything ships. Several
-bugs here were invisible to those checks and caught only by looking at the
-rendered page — which is why both now happen.
+get measured in both themes, at mobile and desktop, before anything ships. And
+then someone looks at the page anyway — because the best bugs in here sailed
+through every automated check and were caught by a human going "hang on, why is
+the lock icon enormous".
 
 ---
 
 ## Contributing
 
-Setup, the branch workflow, and the five rules that have each already caused a
-bug here are in [`CONTRIBUTING.md`](CONTRIBUTING.md). Paste
-[`check.js`](check.js) into the browser console after any visual change — it
-reports contrast failures, heading-order jumps, controls narrower than their own
-label, stray markup and sideways overflow, in both themes.
+Setup, the branch workflow, and five rules that have each earned their place by
+causing a real bug are in [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+After any visual change, paste [`check.js`](check.js) into the browser console.
+It reports contrast failures, heading-order jumps, controls narrower than their
+own label, stray markup and sideways overflow — in both themes, in about a
+second. It is cheerfully blunt and usually right.
 
 ## Licence
 
-No licence granted. The code and the operating documents are the property of
-LazyScale.
+None granted — the code and the operating documents belong to LazyScale. You're
+very welcome to read it, learn from it, and tell me what I got wrong.
