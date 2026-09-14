@@ -50,6 +50,8 @@ api/
   email-in.js           inbound email, provider-agnostic
   _forwarded.js         recovers the original sender from a forwarded enquiry
   audit.js              generates the free automation audit
+  stats.js              the monthly performance-review numbers
+  _store.js             durable record: Supabase, or a local file when offline
 
 services/               what we sell, how it is delivered, what we refuse
   ai-employees/         a job description per role, sent before any build
