@@ -21,6 +21,25 @@ and stays sharp on a retina screen.
 previous version sat unchanged through a full rebrand, so for weeks every link
 shared showed a company that no longer existed.
 
+## The files
+
+| File | Use it for |
+|---|---|
+| `logo-square.png` | 512×512. **Profile pictures** — LinkedIn, WhatsApp Business, Instagram, Google Business. Lime edge to edge with no tile outline, because the platform's own square or circular crop is the shape. A bordered tile inside a circular crop looks like a mistake. |
+| `logo-wordmark.png` | 2400×800. Cover images, email signatures, a slide. |
+| `logo.svg` | The mark as vector. Anywhere it needs to scale, or be recoloured. |
+
+Regenerate either PNG from its HTML with the same headless command as the card:
+
+```bash
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+  --headless --disable-gpu --hide-scrollbars \
+  --window-size=512,512 --virtual-time-budget=4000 \
+  --screenshot=brand/logo-square.png brand/logo-square.html
+```
+
+The wordmark renders at `--force-device-scale-factor=2` with `--window-size=1200,400`.
+
 ## The mark
 
 The LS monogram lives inline in each page rather than as a file, so it inherits
