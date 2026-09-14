@@ -29,9 +29,11 @@ import xml.dom.minidom
 
 THEMES = {
     "light": dict(bg="#F7F7F5", text="#111111", muted="#5A5A57", border="#E7E7E4",
-                  card="#FFFFFF", bubble="#EFEFEC", glow="0.20", markstroke="#111111"),
+                  card="#FFFFFF", bubble="#EFEFEC", glow="0.20", markstroke="#111111",
+                  warn="#B4531A", lime2="#4F7A12", term="#FFFFFF"),
     "dark":  dict(bg="#0B0B0C", text="#E8E8E6", muted="#8A8A88", border="#26262A",
-                  card="#121213", bubble="#1A1A1C", glow="0.10", markstroke="#111111"),
+                  card="#121213", bubble="#1A1A1C", glow="0.10", markstroke="#111111",
+                  warn="#F0B27A", lime2="#B7F34A", term="#121213"),
 }
 LIME = "#B7F34A"
 
@@ -179,6 +181,111 @@ def pipeline_svg(t):
         )
     return PIPE.format(bg=t["bg"], border=t["border"], lime=LIME, stages="\n".join(out))
 
+
+# ── the terminal, above the quickstart ───────────────────────────────────────
+# The typing effect is done with cover rectangles painted in the background
+# colour that slide away to the right, never by revealing hidden text. With the
+# animation off the covers sit clear of the text and the whole session is
+# readable — which is the same rule the banner follows.
+TERM = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 290" width="1200" height="290" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" role="img" aria-label="A terminal session: run-local.sh starts the server on port 3100, a curl posts an enquiry, and the response is ok true, replied false, recorded true.">
+<title>Clone it, run it, send it an enquiry</title>
+<defs><clipPath id="win"><rect x="86" y="72" width="1028" height="200"/></clipPath></defs>
+<style>
+  /* Each line is typed by sliding a background-coloured cover off it.
+     The cover's RESTING position is clear of the text — the animation is what
+     puts it back over the line — so a renderer that ignores this stylesheet
+     shows the whole session rather than three blank rows. The resting position
+     is a transform ATTRIBUTE, not just this rule, so it survives a stylesheet
+     that never loads at all. Getting that
+     backwards is what made the first version of this file useless.
+     Covers are clipped to the window; the first version slid them straight
+     out across the page. */
+  .cover {{ transform: translateX(1000px); animation: type 9s cubic-bezier(.85,0,.9,1) infinite; }}
+  @keyframes type {{ 0% {{ transform: translateX(0) }} 22%,100% {{ transform: translateX(1000px) }} }}
+  .l2 {{ animation-delay: .9s }}
+  .l3 {{ animation-delay: 1.15s }}
+  .caret {{ animation: blink 1.06s steps(2, start) infinite; }}
+  @keyframes blink {{ 0%,50% {{ opacity: 1 }} 50.01%,100% {{ opacity: 0 }} }}
+  @media (prefers-reduced-motion: reduce) {{
+    .cover {{ animation: none; transform: translateX(1000px) }}
+    .caret {{ animation: none }}
+  }}
+</style>
+<rect width="1200" height="290" fill="{bg}"/>
+<rect x="84" y="16" width="1032" height="258" rx="14" fill="{term}" stroke="{border}" stroke-width="2"/>
+<circle cx="112" cy="46" r="6" fill="{dots}"/><circle cx="132" cy="46" r="6" fill="{dots}"/><circle cx="152" cy="46" r="6" fill="{dots}"/>
+<text x="176" y="51" font-size="13" fill="{muted}">bash — lazyscale</text>
+<line x1="84" y1="70" x2="1116" y2="70" stroke="{border}" stroke-width="2"/>
+
+<g font-size="14.5" clip-path="url(#win)">
+  <text x="112" y="104" fill="{lime}">$</text>
+  <text x="132" y="104" fill="{termfg}">./run-local.sh</text>
+  <rect class="cover l1" transform="translate(1000 0)" x="129" y="88" width="990" height="22" fill="{term}"/>
+
+  <text x="112" y="132" fill="{muted}">→ http://localhost:3100</text>
+
+  <text x="112" y="176" fill="{lime}">$</text>
+  <text x="132" y="176" fill="{termfg}">curl -X POST "localhost:3100/api/inbound?k=demo"</text>
+  <text x="152" y="200" fill="{termfg}">-d '{{"name":"Priya","message":"30 chairs by Friday?"}}'</text>
+  <rect class="cover l2" transform="translate(1000 0)" x="129" y="160" width="990" height="22" fill="{term}"/>
+  <rect class="cover l3" transform="translate(1000 0)" x="129" y="184" width="990" height="22" fill="{term}"/>
+
+  <text x="112" y="240" fill="{muted}">{{"ok":true,"replied":false,"recorded":<tspan fill="{lime}" font-weight="700">true</tspan>}}</text>
+  <rect class="caret" x="112" y="256" width="9" height="16" fill="{termfg}" opacity="0.75"/>
+</g>
+</svg>
+'''
+
+# ── the forwarded-email trap ─────────────────────────────────────────────────
+FWD = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 250" width="1200" height="250" font-family="Inter, -apple-system, BlinkMacSystemFont, &apos;Segoe UI&apos;, Helvetica, Arial, sans-serif" role="img" aria-label="Trusting the envelope sends the reply back to the business that forwarded it. Reading the forward header sends it to the customer who actually asked.">
+<title>Who gets the reply</title>
+<style>
+  .b {{ animation: bad 6s cubic-bezier(.4,0,.2,1) infinite; }}
+  @keyframes bad {{ 0% {{ transform: translateX(0) }} 45%,100% {{ transform: translateX(300px) }} }}
+  .g {{ animation: good 6s cubic-bezier(.4,0,.2,1) infinite; }}
+  @keyframes good {{ 0%,50% {{ transform: translateX(0) }} 95%,100% {{ transform: translateX(632px) }} }}
+  @media (prefers-reduced-motion: reduce) {{ .b, .g {{ animation: none; opacity: 0 }} }}
+</style>
+<rect width="1200" height="250" fill="{bg}"/>
+
+<text x="84" y="34" font-size="13" font-weight="600" fill="{warn}">TRUSTING THE ENVELOPE</text>
+<g font-size="13.5">
+  <rect x="84" y="48" width="180" height="42" rx="12" fill="{card}" stroke="{border}" stroke-width="2"/>
+  <text x="174" y="74" fill="{text}" text-anchor="middle">customer</text>
+  <rect x="384" y="48" width="180" height="42" rx="12" fill="{card}" stroke="{warn}" stroke-width="2"/>
+  <text x="474" y="74" fill="{text}" text-anchor="middle">the business</text>
+  <path d="M264 69 H384" stroke="{border}" stroke-width="2"/>
+  <path d="M474 96 v18 h-90 v-18" fill="none" stroke="{warn}" stroke-width="2" stroke-dasharray="5 5"/>
+  <circle class="b" cx="94" cy="69" r="5" fill="{warn}"/>
+  <text x="600" y="74" fill="{muted}">the reply goes back to whoever forwarded it</text>
+</g>
+
+<text x="84" y="152" font-size="13" font-weight="600" fill="{lime2}">READING THE FORWARD HEADER</text>
+<g font-size="13.5">
+  <rect x="84" y="166" width="180" height="42" rx="12" fill="{card}" stroke="{border}" stroke-width="2"/>
+  <text x="174" y="192" fill="{text}" text-anchor="middle">customer</text>
+  <rect x="384" y="166" width="180" height="42" rx="12" fill="{card}" stroke="{border}" stroke-width="2"/>
+  <text x="474" y="192" fill="{text}" text-anchor="middle">the business</text>
+  <rect x="684" y="166" width="180" height="42" rx="12" fill="{lime}" stroke="{lime}" stroke-width="2"/>
+  <text x="774" y="192" fill="#111111" text-anchor="middle">reply to customer</text>
+  <path d="M264 187 H384 M564 187 H684" stroke="{border}" stroke-width="2"/>
+  <circle class="g" cx="94" cy="187" r="5" fill="{lime2}"/>
+  <text x="900" y="192" fill="{muted}">and null, never a guess, when unreadable</text>
+</g>
+</svg>
+'''
+
+
+def terminal_svg(t):
+    return TERM.format(bg=t["bg"], term=t["card"], termfg=t["text"], muted=t["muted"],
+                       border=t["border"], dots=t["border"], lime=LIME)
+
+
+def forwarded_svg(t):
+    return FWD.format(bg=t["bg"], card=t["card"], border=t["border"], text=t["text"],
+                      muted=t["muted"], warn=t["warn"], lime=LIME, lime2=t["lime2"])
+
+
 def write(path, svg):
     """Write an SVG, but only if it parses. A stray "&" in a label once shipped
     two files that browsers refused to render at all — and a broken <img> in a
@@ -193,3 +300,5 @@ for name, t in THEMES.items():
     svg = TEMPLATE.format(lime=LIME, **t)
     write(os.path.join(here, "repo-banner-%s.svg" % name), svg)
     write(os.path.join(here, "pipeline-%s.svg" % name), pipeline_svg(t))
+    write(os.path.join(here, "terminal-%s.svg" % name), terminal_svg(t))
+    write(os.path.join(here, "forwarded-%s.svg" % name), forwarded_svg(t))

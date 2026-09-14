@@ -51,6 +51,17 @@ The same script writes `pipeline-light.svg` / `pipeline-dark.svg`, the strip
 under "The endpoints" — one lime pulse travelling from the enquiry to the alert,
 with the recording step highlighted because that is the claim the section makes.
 
+Two more come out of the same script: `terminal-*.svg` types the quickstart
+into a window above the commands it duplicates, and `forwarded-*.svg` draws the
+envelope trap under the section that explains it — a reply looping back to the
+business, then reaching the customer instead.
+
+The terminal types by sliding background-coloured covers off each line. Their
+resting position is *clear* of the text and is set as a transform attribute, not
+only in CSS, so a stylesheet that never loads costs the animation and not the
+commands. The first version had it backwards and hid every line it was meant to
+show; the covers were also unclipped and slid out across the page.
+
 Every file is parsed before it is written. A bare `&` in a label once produced
 two SVGs that browsers refused to render, and a broken `<img>` in a README looks
 like a missing file rather than a typo.

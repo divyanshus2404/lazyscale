@@ -48,6 +48,11 @@ here points at that one number. If a feature doesn't move it, it doesn't ship.
 No keys, no accounts, no Vercel project, no sign-up page asking for your work
 email.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="brand/terminal-dark.svg">
+  <img src="brand/terminal-light.svg" alt="A terminal session: ./run-local.sh starts the server on port 3100, a curl posts an enquiry, and the response is ok true, replied false, recorded true.">
+</picture>
+
 ```bash
 git clone https://github.com/divyanshus2404/lazyscale.git
 cd lazyscale
@@ -145,6 +150,11 @@ captures the enquiry and alerts the owner within seconds — which is most of th
 value. The key adds scoring and drafting; it is not load-bearing for delivery.
 
 ### The forwarded-email problem
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="brand/forwarded-dark.svg">
+  <img src="brand/forwarded-light.svg" alt="Trusting the envelope sends the reply back to the business that forwarded it. Reading the forward header sends it to the customer who actually asked, and returns null rather than guessing when the header is unreadable.">
+</picture>
 
 When a business forwards a customer's enquiry, the envelope sender is *the
 business*. The customer is named inside the forward header the mail client

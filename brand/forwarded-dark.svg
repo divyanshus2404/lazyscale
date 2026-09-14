@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 250" width="1200" height="250" font-family="Inter, -apple-system, BlinkMacSystemFont, &apos;Segoe UI&apos;, Helvetica, Arial, sans-serif" role="img" aria-label="Trusting the envelope sends the reply back to the business that forwarded it. Reading the forward header sends it to the customer who actually asked.">
+<title>Who gets the reply</title>
+<style>
+  .b { animation: bad 6s cubic-bezier(.4,0,.2,1) infinite; }
+  @keyframes bad { 0% { transform: translateX(0) } 45%,100% { transform: translateX(300px) } }
+  .g { animation: good 6s cubic-bezier(.4,0,.2,1) infinite; }
+  @keyframes good { 0%,50% { transform: translateX(0) } 95%,100% { transform: translateX(632px) } }
+  @media (prefers-reduced-motion: reduce) { .b, .g { animation: none; opacity: 0 } }
+</style>
+<rect width="1200" height="250" fill="#0B0B0C"/>
+
+<text x="84" y="34" font-size="13" font-weight="600" fill="#F0B27A">TRUSTING THE ENVELOPE</text>
+<g font-size="13.5">
+  <rect x="84" y="48" width="180" height="42" rx="12" fill="#121213" stroke="#26262A" stroke-width="2"/>
+  <text x="174" y="74" fill="#E8E8E6" text-anchor="middle">customer</text>
+  <rect x="384" y="48" width="180" height="42" rx="12" fill="#121213" stroke="#F0B27A" stroke-width="2"/>
+  <text x="474" y="74" fill="#E8E8E6" text-anchor="middle">the business</text>
+  <path d="M264 69 H384" stroke="#26262A" stroke-width="2"/>
+  <path d="M474 96 v18 h-90 v-18" fill="none" stroke="#F0B27A" stroke-width="2" stroke-dasharray="5 5"/>
+  <circle class="b" cx="94" cy="69" r="5" fill="#F0B27A"/>
+  <text x="600" y="74" fill="#8A8A88">the reply goes back to whoever forwarded it</text>
+</g>
+
+<text x="84" y="152" font-size="13" font-weight="600" fill="#B7F34A">READING THE FORWARD HEADER</text>
+<g font-size="13.5">
+  <rect x="84" y="166" width="180" height="42" rx="12" fill="#121213" stroke="#26262A" stroke-width="2"/>
+  <text x="174" y="192" fill="#E8E8E6" text-anchor="middle">customer</text>
+  <rect x="384" y="166" width="180" height="42" rx="12" fill="#121213" stroke="#26262A" stroke-width="2"/>
+  <text x="474" y="192" fill="#E8E8E6" text-anchor="middle">the business</text>
+  <rect x="684" y="166" width="180" height="42" rx="12" fill="#B7F34A" stroke="#B7F34A" stroke-width="2"/>
+  <text x="774" y="192" fill="#111111" text-anchor="middle">reply to customer</text>
+  <path d="M264 187 H384 M564 187 H684" stroke="#26262A" stroke-width="2"/>
+  <circle class="g" cx="94" cy="187" r="5" fill="#B7F34A"/>
+  <text x="900" y="192" fill="#8A8A88">and null, never a guess, when unreadable</text>
+</g>
+</svg>
