@@ -49,6 +49,24 @@ client:
 | `email` | Where every alert goes. Required. |
 | `autoreply` | `false` until they have read a week of alerts and asked for it |
 | `threshold` | Score at or above which it may reply. Defaults to 11, i.e. never. |
+| `origins` | Optional list of sites allowed to post from a browser, e.g. `["https://acme.in","https://www.acme.in"]`. Omit and any site may post. |
+| `hourlyLimit` | Optional ceiling on enquiries per hour. Defaults to 120. |
+
+### What `origins` actually protects
+
+It stops another **website** posting from a browser, which is the part the
+same-origin policy lets anyone enforce. It does **not** stop a script: curl sends
+no Origin header at all, and the endpoint key is visible in the client's own page
+source, so anyone who wants the key has it.
+
+The hourly limit is what bounds that case. Neither is a wall. Together they make
+abuse noisy and cheap to stop — rotate the key, change one line in the client's
+form. Say this plainly to a client who asks rather than implying the endpoint is
+sealed.
+
+Include every hostname the form is served from. `https://acme.in` and
+`https://www.acme.in` are different origins, and missing one produces a form that
+works for some visitors and silently fails for others.
 
 **Redeploy after changing it.** Environment variables only apply to new deployments.
 

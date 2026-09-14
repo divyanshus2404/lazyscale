@@ -23,7 +23,7 @@
 // own, not as a side effect of adding this.
 
 import { createHash } from 'node:crypto';
-import { record, update, findRecent } from './_store.js';
+import { record, update, findRecent, countSince } from './_store.js';
 
 const MODEL = 'claude-sonnet-5';
 const MAX_MESSAGE = 1500;
@@ -39,6 +39,32 @@ const DEFAULT_THRESHOLD = 11; // off; nothing auto-sends until a tenant opts in
 // message is part of the fingerprint, so a second, different enquiry from the
 // same person always gets through.
 const DUPLICATE_WINDOW_MS = 15 * 60 * 1000;
+
+// Ceiling on how many enquiries one tenant can take in an hour. Generous enough
+// that a real busy day never touches it, low enough to bound an abusive one.
+// Per-tenant override with "hourlyLimit".
+const DEFAULT_HOURLY_LIMIT = 120;
+
+/**
+ * Which site is allowed to post to this tenant's endpoint.
+ *
+ * Worth being precise about what this does and does not stop. It stops another
+ * *website* posting from a browser, which is what the same-origin policy lets us
+ * enforce. It does not stop curl or a script, because those send no Origin at
+ * all and there is nothing to check — the endpoint key is visible in the
+ * client's own page source, so anyone who wants it has it.
+ *
+ * The rate limit below is what bounds that case. Neither control is a wall;
+ * together they make abuse noisy and cheap to shut off by rotating one key.
+ */
+function originAllowed(site, origin) {
+  const allowed = Array.isArray(site.origins) ? site.origins : null;
+  if (!allowed || !allowed.length) return { ok: true, echo: '*' };
+  if (!origin) return { ok: true, echo: allowed[0] };   // no Origin: not a browser
+  const norm = String(origin).replace(/\/+$/, '').toLowerCase();
+  const hit = allowed.find((a) => String(a).replace(/\/+$/, '').toLowerCase() === norm);
+  return hit ? { ok: true, echo: hit } : { ok: false };
+}
 
 function fingerprintOf(tenantKey, lead) {
   const basis = [
@@ -204,15 +230,27 @@ function tooMany(k, limit = 30, windowMs = 60000) {
 }
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'content-type');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  if (req.method === 'OPTIONS') return res.status(204).end();
-  if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'Method not allowed' });
+  res.setHeader('Vary', 'Origin');
 
-  const body = parseBody(req);
+  const body = req.method === 'POST' ? parseBody(req) : {};
   const k = clean(req.query?.k || body.k, 64);
   const site = tenants()[k];
+  const origin = req.headers?.origin || req.headers?.Origin || '';
+
+  // Unknown tenant: answer the preflight permissively and let the POST below
+  // give the real answer, rather than leaking which keys exist via CORS.
+  const gate = site ? originAllowed(site, origin) : { ok: true, echo: '*' };
+  if (gate.ok) res.setHeader('Access-Control-Allow-Origin', gate.echo);
+
+  if (req.method === 'OPTIONS') return res.status(gate.ok ? 204 : 403).end();
+  if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'Method not allowed' });
+
+  if (site && !gate.ok) {
+    console.warn('origin rejected', { tenant: k, origin });
+    return res.status(403).json({ ok: false, error: 'This endpoint is not open to that site.' });
+  }
 
   // An unknown key means a form is posting somewhere it should not. Say so plainly
   // rather than accepting data we have nowhere to send.
@@ -224,6 +262,20 @@ export default async function handler(req, res) {
   if (clean(body._gotcha || body._honey)) return res.status(200).json({ ok: true });
 
   if (tooMany(k)) return res.status(429).json({ ok: false, error: 'Too many submissions. Try again shortly.' });
+
+  // The per-instance throttle above resets constantly and is not shared between
+  // concurrent instances. This one is counted in the store, so it actually
+  // holds — and returns null rather than zero when it cannot tell, so a store
+  // that is down never becomes a reason to reject a real enquiry.
+  const limit = Number.isFinite(Number(site.hourlyLimit)) ? Number(site.hourlyLimit) : DEFAULT_HOURLY_LIMIT;
+  const lastHour = await countSince(k, new Date(Date.now() - 3600000).toISOString());
+  if (lastHour !== null && lastHour >= limit) {
+    console.warn('hourly limit hit', { tenant: k, count: lastHour, limit });
+    return res.status(429).json({
+      ok: false,
+      error: 'This form has taken an unusual number of submissions in the last hour. Please email instead.'
+    });
+  }
 
   const lead = {
     name: clean(pick(body, FIELDS.name), 120),

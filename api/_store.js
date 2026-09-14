@@ -121,6 +121,51 @@ export async function record(row) {
 }
 
 /**
+ * How many enquiries this tenant has had since `sinceISO`.
+ *
+ * Returns null when it cannot tell. The caller must treat that as "no limit
+ * reached" — a store that is down may not become a reason to reject real
+ * enquiries.
+ */
+export async function countSince(tenantKey, sinceISO) {
+  if (useLocalFile()) {
+    try {
+      const { readFile } = await import('node:fs/promises');
+      let text = '';
+      try { text = await readFile(LOCAL_FILE, 'utf8'); } catch { return 0; }
+      return text.split('\n').filter(Boolean).map((l) => { try { return JSON.parse(l); } catch { return null; } })
+        .filter((r) => r && r.tenant_key === tenantKey && String(r.created_at || '') >= sinceISO).length;
+    } catch { return null; }
+  }
+  if (!storeConfigured()) return null;
+
+  const base = process.env.SUPABASE_URL.replace(/\/+$/, '') + '/rest/v1/' + TABLE;
+  const qs = new URLSearchParams({
+    tenant_key: 'eq.' + tenantKey,
+    created_at: 'gte.' + sinceISO,
+    select: 'id'
+  });
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 3000);
+  try {
+    const res = await fetch(`${base}?${qs}`, {
+      signal: ctrl.signal,
+      // exact count in the Content-Range header, without shipping the rows back
+      headers: { apikey: key, Authorization: `Bearer ${key}`, Prefer: 'count=exact', Range: '0-0' }
+    });
+    if (!res.ok) return null;
+    const range = res.headers.get('content-range') || '';
+    const total = parseInt(range.split('/')[1], 10);
+    return Number.isFinite(total) ? total : null;
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
  * Has this exact enquiry already arrived recently? Used to stop a double-clicked
  * form creating two records and two alerts.
  *
