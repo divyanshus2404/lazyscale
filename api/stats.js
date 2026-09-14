@@ -8,7 +8,7 @@
 //   ADMIN_SECRET   required. Without it this endpoint refuses every request.
 //   SUPABASE_*     see _store.js
 
-import { readFor, storeConfigured } from './_store.js';
+import { readFor, storeAvailable } from './_store.js';
 
 const clean = (v, max = 200) => String(v ?? '').trim().slice(0, max);
 
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
   if (!secret || clean(req.query?.s) !== secret) {
     return res.status(403).json({ ok: false, error: 'Forbidden' });
   }
-  if (!storeConfigured()) {
+  if (!storeAvailable()) {
     return res.status(503).json({ ok: false, error: 'No store configured — nothing has been recorded yet.' });
   }
 

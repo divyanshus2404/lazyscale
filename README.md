@@ -123,12 +123,13 @@ valid address, and a score at or above a threshold someone chose on purpose.
 ## Running it locally
 
 ```bash
-python3 -m http.server 8899      # the static site
+./run-local.sh                   # site + serverless functions, port 3100
+python3 -m http.server 8899      # static site only, no functions
 ```
 
-The serverless functions need `vercel dev` (or deploy to a preview). The pages
-degrade honestly without them: forms post to Formspree and the AI features show
-a plain message rather than breaking.
+`run-local.sh` needs no keys and no accounts. The drop-in records enquiries to a
+local file and `/api/stats` reads them back, so the full path can be watched
+end to end before anything is configured. See [`LOCAL.md`](LOCAL.md).
 
 ### Regenerating the link-preview card
 

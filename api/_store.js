@@ -19,8 +19,39 @@
 
 const TABLE = 'enquiries';
 
+// On a laptop there is usually no Supabase project yet, and waiting for one is a
+// bad reason not to be able to see the thing work. When running outside Vercel
+// with no Supabase configured, rows go to a local JSON Lines file instead.
+//
+// Guarded on process.env.VERCEL, which Vercel sets on every deployment, so this
+// path cannot be reached in production even by accident.
+const LOCAL_FILE = '.local-enquiries.jsonl';
+const useLocalFile = () => !process.env.VERCEL && !storeConfigured();
+
+async function localAppend(row) {
+  const { appendFile } = await import('node:fs/promises');
+  await appendFile(LOCAL_FILE, JSON.stringify(row) + '\n', 'utf8');
+  return { stored: true, local: true };
+}
+
+async function localRead(tenantKey, sinceISO, limit) {
+  const { readFile } = await import('node:fs/promises');
+  let text = '';
+  try { text = await readFile(LOCAL_FILE, 'utf8'); } catch { return { ok: true, rows: [] }; }
+  const rows = text.split('\n').filter(Boolean).map((l) => { try { return JSON.parse(l); } catch { return null; } })
+    .filter((r) => r && r.tenant_key === tenantKey && String(r.created_at || '') >= sinceISO)
+    .sort((a, b) => String(b.created_at).localeCompare(String(a.created_at)))
+    .slice(0, limit);
+  return { ok: true, rows, local: true };
+}
+
 export function storeConfigured() {
   return Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
+}
+
+/** True when anything at all will be recorded — Supabase, or the local file. */
+export function storeAvailable() {
+  return storeConfigured() || !process.env.VERCEL;
 }
 
 /**
@@ -29,6 +60,10 @@ export function storeConfigured() {
  * @returns {Promise<{stored: boolean, reason?: string}>}
  */
 export async function record(row) {
+  if (useLocalFile()) {
+    try { return await localAppend(row); }
+    catch (err) { console.error('local store failed', err?.message); return { stored: false, reason: 'local_write' }; }
+  }
   if (!storeConfigured()) return { stored: false, reason: 'not_configured' };
 
   const url = process.env.SUPABASE_URL.replace(/\/+$/, '') + '/rest/v1/' + TABLE;
@@ -66,6 +101,10 @@ export async function record(row) {
  * monthly review rather than anyone reading the table by hand.
  */
 export async function readFor(tenantKey, sinceISO, limit = 1000) {
+  if (useLocalFile()) {
+    try { return await localRead(tenantKey, sinceISO, limit); }
+    catch (err) { return { ok: false, reason: 'local_read', rows: [] }; }
+  }
   if (!storeConfigured()) return { ok: false, reason: 'not_configured', rows: [] };
 
   const base = process.env.SUPABASE_URL.replace(/\/+$/, '') + '/rest/v1/' + TABLE;
