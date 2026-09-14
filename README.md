@@ -140,6 +140,12 @@ It runs on the same tokens as the site, follows your system theme with a manual
 override, and works down to a phone. Open it locally at
 <http://localhost:3100/app> with the tenant key and `ADMIN_SECRET`.
 
+On a Mac you can skip the terminal entirely: double-click
+**`mac/LazyScale Console.command`**, or build a proper app with
+`./mac/make-app.sh`. Both are covered in [`mac/README.md`](mac/README.md),
+including the one macOS permission the app bundle needs when the project lives
+in `~/Downloads`.
+
 Both credentials live in `sessionStorage` and never go in the URL, where they
 would end up in browser history and server logs. Closing the tab forgets them;
 signing out clears the screen as well as the memory.
@@ -157,6 +163,7 @@ setup.html              per-client onboarding page, keyed by ?k=
 app.html                the console — read the enquiries, one screen
 run-local.sh            one command to run it all — macOS, Linux, Git Bash, WSL
 run-local.ps1           the same, for PowerShell
+mac/                    double-click launchers for the console
 
 api/
   lead.js               the Lead Responder: scores, drafts, escalates
