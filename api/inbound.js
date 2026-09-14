@@ -22,12 +22,35 @@
 // working, and restructuring it to extract helpers is a change worth making on its
 // own, not as a side effect of adding this.
 
-import { record, update } from './_store.js';
+import { createHash } from 'node:crypto';
+import { record, update, findRecent } from './_store.js';
 
 const MODEL = 'claude-sonnet-5';
 const MAX_MESSAGE = 1500;
 const MAX_BODY = 12000;
 const DEFAULT_THRESHOLD = 11; // off; nothing auto-sends until a tenant opts in
+
+// A double-clicked submit button, a retried request, or a form that fires twice
+// all send the same enquiry within seconds. Without this the client gets two
+// records and two alerts, and starts to distrust the count at the review.
+//
+// Fifteen minutes: long enough to cover a retry, short enough that someone
+// genuinely writing in twice about different things is not silenced. The
+// message is part of the fingerprint, so a second, different enquiry from the
+// same person always gets through.
+const DUPLICATE_WINDOW_MS = 15 * 60 * 1000;
+
+function fingerprintOf(tenantKey, lead) {
+  const basis = [
+    tenantKey,
+    (lead.email || '').toLowerCase(),
+    (lead.phone || '').replace(/\D/g, ''),
+    (lead.message || '').replace(/\s+/g, ' ').trim().toLowerCase()
+  ].join('|');
+  // Nothing identifying is stored: the hash is one-way and only ever compared
+  // against another hash from the same tenant.
+  return createHash('sha256').update(basis).digest('hex').slice(0, 32);
+}
 
 const clean = (v, max = 200) => String(v ?? '').trim().slice(0, max);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) =>
@@ -221,10 +244,25 @@ export default async function handler(req, res) {
     .map(([kk, vv]) => `<tr><td style="padding:4px 12px 4px 0;color:#666">${esc(kk)}</td><td style="padding:4px 0">${esc(vv)}</td></tr>`)
     .join('');
 
+  // Already seen this exact enquiry in the last few minutes? Accept it quietly
+  // rather than recording it twice and alerting twice. The customer still gets a
+  // success, because from their side the submission did work — twice.
+  const fingerprint = fingerprintOf(k, lead);
+  const dupe = await findRecent(k, fingerprint, new Date(Date.now() - DUPLICATE_WINDOW_MS).toISOString());
+  if (dupe.found) {
+    const redirectEarly = clean(body._redirect, 500);
+    if (redirectEarly && /^https?:\/\//i.test(redirectEarly)) {
+      res.setHeader('Location', redirectEarly);
+      return res.status(303).end();
+    }
+    return res.status(200).json({ ok: true, duplicate: true });
+  }
+
   // Written down first, before anything slow or fallible runs. The model call
   // below can take thirty seconds and the mail provider can fail; neither may
   // be a reason the enquiry stops existing.
   const stored = await record({
+    fingerprint,
     tenant_key: k,
     tenant_name: site.name || null,
     name: lead.name || null,

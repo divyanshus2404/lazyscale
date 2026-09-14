@@ -121,6 +121,57 @@ export async function record(row) {
 }
 
 /**
+ * Has this exact enquiry already arrived recently? Used to stop a double-clicked
+ * form creating two records and two alerts.
+ *
+ * Returns `{ found: false }` when it cannot tell — an unreachable store must
+ * never block a real enquiry, so uncertainty resolves toward accepting it.
+ */
+export async function findRecent(tenantKey, fingerprint, sinceISO) {
+  if (!fingerprint) return { found: false, reason: 'no_fingerprint' };
+
+  if (useLocalFile()) {
+    try {
+      const { readFile } = await import('node:fs/promises');
+      let text = '';
+      try { text = await readFile(LOCAL_FILE, 'utf8'); } catch { return { found: false }; }
+      const hit = text.split('\n').filter(Boolean).map((l) => { try { return JSON.parse(l); } catch { return null; } })
+        .find((r) => r && r.tenant_key === tenantKey && r.fingerprint === fingerprint
+                  && String(r.created_at || '') >= sinceISO);
+      return hit ? { found: true, id: hit.id, at: hit.created_at } : { found: false };
+    } catch { return { found: false, reason: 'local_read' }; }
+  }
+  if (!storeConfigured()) return { found: false, reason: 'not_configured' };
+
+  const base = process.env.SUPABASE_URL.replace(/\/+$/, '') + '/rest/v1/' + TABLE;
+  const qs = new URLSearchParams({
+    tenant_key: 'eq.' + tenantKey,
+    fingerprint: 'eq.' + fingerprint,
+    created_at: 'gte.' + sinceISO,
+    select: 'id,created_at',
+    limit: '1'
+  });
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 3000);
+  try {
+    const res = await fetch(`${base}?${qs}`, {
+      signal: ctrl.signal,
+      headers: { apikey: key, Authorization: `Bearer ${key}` }
+    });
+    if (!res.ok) return { found: false, reason: `http_${res.status}` };
+    const rows = await res.json().catch(() => []);
+    return rows?.[0] ? { found: true, id: rows[0].id, at: rows[0].created_at } : { found: false };
+  } catch (err) {
+    // Timed out or unreachable: accept the enquiry. A duplicate alert is a
+    // nuisance; a dropped enquiry is the thing this product exists to prevent.
+    return { found: false, reason: err?.name === 'AbortError' ? 'timeout' : 'network' };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
  * Attach the outcome to an enquiry already written down. Never throws: the
  * enquiry is already safe by this point, and losing the annotation is a far
  * smaller problem than losing the lead.

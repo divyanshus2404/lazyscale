@@ -55,11 +55,18 @@ create table if not exists enquiries (
   needs_human       boolean,
   escalation_reason text,
   reply_draft       text,
-  alert_sent        boolean default false
+  alert_sent        boolean default false,
+  -- one-way hash of tenant + email + phone + message, used to spot a
+  -- double-submitted form. Nothing identifying is stored in it.
+  fingerprint       text
 );
 
 create index if not exists enquiries_tenant_time
   on enquiries (tenant_key, created_at desc);
+
+-- the duplicate lookup runs on every submission, so it needs its own index
+create index if not exists enquiries_dupe
+  on enquiries (tenant_key, fingerprint, created_at desc);
 
 -- Row Level Security ON with no policies: the anon key can read nothing.
 -- Supabase hands out a public anon key with every project. Leave RLS off and
@@ -110,6 +117,25 @@ appearing four times is not noise — it is the next thing to fix, and naming it
 before the client does is the difference between a review and an invoice.
 
 ---
+
+## Duplicate submissions
+
+A double-clicked submit button, a retried request or a form that fires twice all
+send the same enquiry within seconds. Without a check the client gets two records
+and two alerts, and starts to distrust the count at the review.
+
+Every submission is fingerprinted — a one-way hash of tenant, email, phone and
+message — and an identical one inside **fifteen minutes** is accepted quietly
+instead of being recorded again. The customer still gets a success, because from
+their side the submission did work, twice.
+
+The message is part of the fingerprint, so the same person writing in again about
+something different always gets through. So does a different person sending
+identical words.
+
+**If the lookup fails, the enquiry is accepted.** An unreachable store must never
+block a real enquiry: a duplicate alert is a nuisance, a dropped enquiry is the
+thing this product exists to prevent.
 
 ## Order of operations
 
