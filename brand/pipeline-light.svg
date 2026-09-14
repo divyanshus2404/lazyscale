@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 150" width="1200" height="150" font-family="Inter, -apple-system, BlinkMacSystemFont, &apos;Segoe UI&apos;, Helvetica, Arial, sans-serif" role="img" aria-label="An enquiry arrives from a form, WhatsApp, Instagram or email; it is recorded; then scored and drafted; then the owner is alerted. Recording happens before the model is called.">
+<title>What happens to an enquiry</title>
+<style>
+  /* The pulse is the only moving part, and it carries no information that is
+     not also written underneath it. */
+  .pulse { animation: run 5s cubic-bezier(.4,0,.2,1) infinite; }
+  @keyframes run {
+    0% { transform: translateX(0); opacity: 0 }
+    6% { opacity: 1 }
+    92% { opacity: 1 }
+    100% { transform: translateX(816px); opacity: 0 }
+  }
+  @media (prefers-reduced-motion: reduce) { .pulse { animation: none; opacity: 0 } }
+</style>
+<rect width="1200" height="150" fill="#F7F7F5"/>
+<line x1="196" y1="62" x2="1012" y2="62" stroke="#E7E7E4" stroke-width="2"/>
+<circle class="pulse" cx="196" cy="62" r="5" fill="#B7F34A"/>
+<g><rect x="84" y="44" width="224" height="36" rx="18" fill="#FFFFFF" stroke="#E7E7E4" stroke-width="2"/><text x="196" y="67" font-size="14" font-weight="500" fill="#111111" text-anchor="middle">Enquiry arrives</text><text x="196" y="104" font-size="12.5" fill="#5A5A57" text-anchor="middle">form · WhatsApp · Instagram · email</text></g>
+<g><rect x="356" y="44" width="224" height="36" rx="18" fill="#B7F34A" stroke="#B7F34A" stroke-width="2"/><text x="468" y="67" font-size="14" font-weight="500" fill="#111111" text-anchor="middle">Recorded</text><text x="468" y="104" font-size="12.5" fill="#5A5A57" text-anchor="middle">on disk before anything else</text></g>
+<g><rect x="628" y="44" width="224" height="36" rx="18" fill="#FFFFFF" stroke="#E7E7E4" stroke-width="2"/><text x="740" y="67" font-size="14" font-weight="500" fill="#111111" text-anchor="middle">Scored and drafted</text><text x="740" y="104" font-size="12.5" fill="#5A5A57" text-anchor="middle">only if a key is configured</text></g>
+<g><rect x="900" y="44" width="224" height="36" rx="18" fill="#FFFFFF" stroke="#E7E7E4" stroke-width="2"/><text x="1012" y="67" font-size="14" font-weight="500" fill="#111111" text-anchor="middle">Owner alerted</text><text x="1012" y="104" font-size="12.5" fill="#5A5A57" text-anchor="middle">with the reply ready to send</text></g>
+</svg>

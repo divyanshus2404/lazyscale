@@ -23,29 +23,40 @@ shared showed a company that no longer existed.
 
 ## The README banner
 
-`repo-banner.html` is the source for the two PNGs at the top of the GitHub
-README. It is built from the site's own tokens, so the repo page and the site
-stay the same company.
-
-GitHub picks the variant from the reader's theme, via `<picture>` and
-`prefers-color-scheme` — which is why there are two files rather than one.
+`make-banner.py` writes `repo-banner-light.svg` and `repo-banner-dark.svg` — the
+animated header of the GitHub README. Both come out of one source, so the themes
+cannot drift apart.
 
 ```bash
-CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-
-"$CHROME" --headless --disable-gpu --hide-scrollbars --force-device-scale-factor=2 \
-  --window-size=1200,400 --virtual-time-budget=8000 \
-  --screenshot=brand/repo-banner-light.png "file://$(pwd)/brand/repo-banner.html"
-
-"$CHROME" --headless --disable-gpu --hide-scrollbars --force-device-scale-factor=2 \
-  --window-size=1200,400 --virtual-time-budget=8000 \
-  --screenshot=brand/repo-banner-dark.png "file://$(pwd)/brand/repo-banner.html?theme=dark"
+python3 brand/make-banner.py
 ```
 
-**The `file://` prefix is not optional for the dark variant.** Given a relative
-path with a query string, Chrome reads `brand` as a hostname, fails DNS, and
-screenshots its own error page — at the right size, in the right dark grey, so
-it looks plausible in a file listing. Open both PNGs after rendering.
+Animated SVG is the only motion a README can have: Markdown strips `<style>` and
+`<script>`, but an SVG loaded as an image keeps its own internal CSS. No
+JavaScript, no GIF, no external request — and about 5 KB per theme, where a GIF
+of the same loop would be roughly forty times that and blurrier.
+
+**Nothing in it animates its own visibility.** The first version faded the
+headline and logo in from `opacity: 0`, so for the opening second of every loop
+the banner was an empty rectangle — and a paused frame, a preview thumbnail, or
+a renderer that ignores CSS could catch it exactly there. Motion now lives in
+decoration: the rule sweeps, the bubbles nudge, the typing dots blink. Every
+word is legible in every frame.
+
+The font stack is a presentation attribute on the root rather than a CSS class,
+for the same reason: dropped styles should cost the animation, not the typeface.
+It rendered in Times once before that moved.
+
+The same script writes `pipeline-light.svg` / `pipeline-dark.svg`, the strip
+under "The endpoints" — one lime pulse travelling from the enquiry to the alert,
+with the recording step highlighted because that is the claim the section makes.
+
+Every file is parsed before it is written. A bare `&` in a label once produced
+two SVGs that browsers refused to render, and a broken `<img>` in a README looks
+like a missing file rather than a typo.
+
+To check a change, open both files in a browser and let the loop run twice, then
+reload with animations off and confirm the still frame is the one you want.
 
 ## The files
 

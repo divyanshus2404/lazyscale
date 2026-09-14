@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="brand/repo-banner-dark.png">
-  <img src="brand/repo-banner-light.png" alt="LazyScale — stop doing work a machine can do. Every enquiry answered in under a minute: WhatsApp, Instagram, email and the web.">
+  <source media="(prefers-color-scheme: dark)" srcset="brand/repo-banner-dark.svg">
+  <img src="brand/repo-banner-light.svg" alt="LazyScale — stop doing work a machine can do. Every enquiry answered in under a minute: WhatsApp, Instagram, email and the web.">
 </picture>
 
 [![Live site](https://img.shields.io/badge/live-lazyscale.vercel.app-B7F34A?style=flat-square&labelColor=111111)](https://lazyscale.vercel.app)
@@ -118,6 +118,14 @@ brand/                  the link-preview card and how to regenerate it
 ---
 
 ## The endpoints
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="brand/pipeline-dark.svg">
+  <img src="brand/pipeline-light.svg" alt="An enquiry arrives from a form, WhatsApp, Instagram or email. It is recorded on disk. Then it is scored and drafted, only if a key is configured. Then the owner is alerted with the reply ready to send.">
+</picture>
+
+The lime step is the one that matters. Everything to the right of it can fail —
+no key, no credit, model down, mail bouncing — and the enquiry is still yours.
 
 | Endpoint | What it does |
 |---|---|
