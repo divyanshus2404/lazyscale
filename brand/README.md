@@ -21,6 +21,32 @@ and stays sharp on a retina screen.
 previous version sat unchanged through a full rebrand, so for weeks every link
 shared showed a company that no longer existed.
 
+## The README banner
+
+`repo-banner.html` is the source for the two PNGs at the top of the GitHub
+README. It is built from the site's own tokens, so the repo page and the site
+stay the same company.
+
+GitHub picks the variant from the reader's theme, via `<picture>` and
+`prefers-color-scheme` — which is why there are two files rather than one.
+
+```bash
+CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+"$CHROME" --headless --disable-gpu --hide-scrollbars --force-device-scale-factor=2 \
+  --window-size=1200,400 --virtual-time-budget=8000 \
+  --screenshot=brand/repo-banner-light.png "file://$(pwd)/brand/repo-banner.html"
+
+"$CHROME" --headless --disable-gpu --hide-scrollbars --force-device-scale-factor=2 \
+  --window-size=1200,400 --virtual-time-budget=8000 \
+  --screenshot=brand/repo-banner-dark.png "file://$(pwd)/brand/repo-banner.html?theme=dark"
+```
+
+**The `file://` prefix is not optional for the dark variant.** Given a relative
+path with a query string, Chrome reads `brand` as a hostname, fails DNS, and
+screenshots its own error page — at the right size, in the right dark grey, so
+it looks plausible in a file listing. Open both PNGs after rendering.
+
 ## The files
 
 | File | Use it for |

@@ -1,0 +1,79 @@
+<!doctype html><meta charset="UTF-8">
+<!--
+  Source for brand/repo-banner-light.png and brand/repo-banner-dark.png —
+  the header of the GitHub README. Same tokens as the site.
+  Render with ?theme=dark for the dark variant. See brand/README.md.
+-->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --bg: #F7F7F5;
+    --text: #111111;
+    --muted: #5A5A57;
+    --border: #E7E7E4;
+    --lime: #B7F34A;
+    --rule: #111111;
+    --chip-bd: #E7E7E4;
+  }
+  html[data-theme="dark"] {
+    --bg: #0B0B0C;
+    --text: #E8E8E6;
+    --muted: #8A8A88;
+    --border: #26262A;
+    --rule: #B7F34A;
+    --chip-bd: #26262A;
+  }
+  html, body { margin: 0; width: 1200px; height: 400px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 0 84px; box-sizing: border-box;
+    position: relative; overflow: hidden;
+  }
+  /* the one lime gesture — a soft field behind the mark, never behind text */
+  .glow {
+    position: absolute; top: -170px; right: -140px;
+    width: 520px; height: 520px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(183,243,74,0.22) 0%, rgba(183,243,74,0) 68%);
+  }
+  .row { display: flex; align-items: center; gap: 16px; margin-bottom: 30px; }
+  .row svg { width: 52px; height: 52px; display: block; }
+  .name { font-size: 40px; font-weight: 700; letter-spacing: -0.03em; }
+  h1 {
+    margin: 0; font-size: 54px; line-height: 1.08;
+    font-weight: 700; letter-spacing: -0.035em; max-width: 880px;
+  }
+  .accent { color: var(--text); border-bottom: 5px solid var(--lime); padding-bottom: 2px; }
+  p { margin: 24px 0 0; font-size: 20px; line-height: 1.5; color: var(--muted); max-width: 1000px; }
+  .chips { display: flex; gap: 10px; margin-top: 30px; }
+  .chip {
+    font-size: 14px; font-weight: 500; color: var(--muted);
+    border: 1px solid var(--chip-bd); border-radius: 100px; padding: 7px 16px;
+  }
+</style>
+<div class="glow"></div>
+
+<div class="row">
+  <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><rect x="2.5" y="2.5" width="43" height="43" rx="13" fill="#B7F34A" stroke="#111111" stroke-width="2.6"/><g transform="translate(-1.6,0)" fill="none" stroke="#111111" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17 13.2 V29.6 a4.6 4.6 0 0 0 4.6 4.6 h1.2"/><path d="M35.4 19.4 C35.4 16 32.9 13.9 29.9 13.9 C26.9 13.9 24.6 15.8 24.6 18.3 C24.6 23.9 35.8 22.2 35.8 28.6 C35.8 31.9 33.1 34.4 29.9 34.4 C26.7 34.4 24.2 32.4 24.2 29.3"/></g></svg>
+  <div class="name">LazyScale</div>
+</div>
+
+<h1>Stop doing work<br><span class="accent">a machine can do.</span></h1>
+
+<p>Every enquiry answered in under a minute — WhatsApp, Instagram, email and the web.</p>
+
+<div class="chips">
+  <div class="chip">Static HTML, no build step</div>
+  <div class="chip">Serverless on Vercel</div>
+  <div class="chip">Capture before spend</div>
+</div>
+
+<script>
+  if (new URLSearchParams(location.search).get('theme') === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+</script>

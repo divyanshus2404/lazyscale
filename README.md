@@ -1,10 +1,14 @@
 <div align="center">
 
-<img src="https://lazyscale.vercel.app/og-image.png" alt="LazyScale — stop doing work a machine can do" width="640">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="brand/repo-banner-dark.png">
+  <img src="brand/repo-banner-light.png" alt="LazyScale — stop doing work a machine can do. Every enquiry answered in under a minute: WhatsApp, Instagram, email and the web.">
+</picture>
 
-# LazyScale
-
-**Every enquiry answered in under a minute — WhatsApp, Instagram, email and the web.**
+[![Live site](https://img.shields.io/badge/live-lazyscale.vercel.app-B7F34A?style=flat-square&labelColor=111111)](https://lazyscale.vercel.app)
+[![What we automate](https://img.shields.io/badge/55-automations-111111?style=flat-square&labelColor=111111&color=F7F7F5)](https://lazyscale.vercel.app/automations)
+[![Stack](https://img.shields.io/badge/static%20HTML-no%20build%20step-111111?style=flat-square&labelColor=111111&color=F7F7F5)](#repository-map)
+[![Runs offline](https://img.shields.io/badge/runs%20offline-no%20accounts%20needed-111111?style=flat-square&labelColor=111111&color=F7F7F5)](LOCAL.md)
 
 [**Live site**](https://lazyscale.vercel.app) · [What we automate](https://lazyscale.vercel.app/automations) · [The short version](https://lazyscale.vercel.app/details)
 
