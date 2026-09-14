@@ -22,7 +22,7 @@ only holds if the delivery discipline matches it.
 | Role | Price | Status |
 |---|---|---|
 | Lead Responder | ₹9,999/mo | Built (`api/lead.js`), not live |
-| WhatsApp Agent | ₹9,999/mo | n8n template built, no BSP account |
+| WhatsApp Agent | ₹7,999/mo | n8n template built, no BSP account |
 | Collections Clerk | ₹9,999/mo | Spec only |
 | Onboarding Coordinator | ₹6,999/mo | Spec only |
 | Voice (inbound) | — | Not started. See phase 3. |
