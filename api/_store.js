@@ -258,9 +258,41 @@ export async function update(id, patch) {
  * monthly review rather than anyone reading the table by hand.
  */
 export async function readFor(tenantKey, sinceISO, limit = 1000) {
+  return readPaged(tenantKey, sinceISO, limit);
+}
+
+/**
+ * Read every enquiry in the window, a page at a time.
+ *
+ * The single-shot version capped at a thousand rows and said nothing about it,
+ * so a busy tenant's monthly review was computed from a slice and presented as
+ * the whole. A number that is quietly wrong is worse than one that is missing:
+ * nobody checks a figure that looks plausible.
+ *
+ * `truncated` is set if the hard ceiling is reached, and the caller is expected
+ * to say so rather than pretend otherwise.
+ */
+async function readPaged(tenantKey, sinceISO, ceiling) {
+  const PAGE = 1000;
+  const all = [];
+  let truncated = false;
+
+  for (let from = 0; from < ceiling; from += PAGE) {
+    const page = await readPage(tenantKey, sinceISO, from, Math.min(PAGE, ceiling - from));
+    if (!page.ok) return all.length ? { ok: true, rows: all, truncated: true, partial: true } : page;
+    all.push(...page.rows);
+    if (page.rows.length < PAGE) return { ok: true, rows: all, truncated: false };
+    if (all.length >= ceiling) { truncated = true; break; }
+  }
+  return { ok: true, rows: all, truncated };
+}
+
+async function readPage(tenantKey, sinceISO, offset, limit) {
   if (useLocalFile()) {
-    try { return await localRead(tenantKey, sinceISO, limit); }
-    catch (err) { return { ok: false, reason: 'local_read', rows: [] }; }
+    try {
+      const r = await localRead(tenantKey, sinceISO, offset + limit);
+      return { ok: true, rows: r.rows.slice(offset), local: true };
+    } catch (err) { return { ok: false, reason: 'local_read', rows: [] }; }
   }
   if (!storeConfigured()) return { ok: false, reason: 'not_configured', rows: [] };
 
@@ -269,6 +301,7 @@ export async function readFor(tenantKey, sinceISO, limit = 1000) {
     tenant_key: 'eq.' + tenantKey,
     created_at: 'gte.' + sinceISO,
     order: 'created_at.desc',
+    offset: String(offset),
     limit: String(limit)
   });
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;

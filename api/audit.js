@@ -15,6 +15,8 @@
 // Everything degrades rather than failing: if the model is unreachable the lead
 // is still captured and the visitor still gets a sensible message.
 
+import { record } from './_store.js';
+
 const MODEL = 'claude-sonnet-5';
 const MAX_MESSAGE_CHARS = 1500;
 
@@ -231,6 +233,21 @@ export default async function handler(req, res) {
 
   // Capture the lead first. Everything after this is a bonus, and must never
   // be the reason a lead is lost.
+  // Audit requests are leads too. Recording them makes the top of the funnel
+  // countable instead of living only in an inbox.
+  await record({
+    tenant_key: '_lazyscale',
+    tenant_name: 'LazyScale',
+    name: name || null,
+    email: email || null,
+    message: painPoints || null,
+    source: 'free audit',
+    extra: { startup: startup || null, teamSize: teamSize || null },
+    scored: false,
+    alert_sent: false,
+    created_at: new Date().toISOString()
+  });
+
   const captured = await forwardToFormspree({
     _subject: 'Free Automation Audit Request',
     name, email, startup, team_size: teamSize, pain_points: painPoints

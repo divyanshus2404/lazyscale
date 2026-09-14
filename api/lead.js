@@ -17,6 +17,8 @@
 //
 // Capture happens before anything else. A lead is never lost to a failure further down.
 
+import { record } from './_store.js';
+
 const MODEL = 'claude-sonnet-5';
 const MAX_MESSAGE = 1500;
 
@@ -241,6 +243,22 @@ export default async function handler(req, res) {
   }
 
   // ── 1. capture, before anything can fail ──
+  // LazyScale's own inbound belongs in the same store as every client's, so the
+  // funnel is measurable with the same tooling rather than by counting emails.
+  // Written before the model is called, for the same reason as the drop-in.
+  const ownRecord = await record({
+    tenant_key: '_lazyscale',
+    tenant_name: 'LazyScale',
+    name: lead.name || null,
+    email: lead.email || null,
+    phone: lead.phone || null,
+    message: lead.message || null,
+    source: lead.source || 'own site',
+    scored: false,
+    alert_sent: false,
+    created_at: new Date().toISOString()
+  });
+
   const captured = await capture({
     _subject: 'New enquiry — Lead Responder',
     name: lead.name, email: lead.email, phone: lead.phone,

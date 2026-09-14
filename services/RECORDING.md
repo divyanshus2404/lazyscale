@@ -118,6 +118,24 @@ before the client does is the difference between a review and an invoice.
 
 ---
 
+## Reading a full month
+
+`/api/stats` pages through the window rather than taking the first thousand rows.
+It used to cap silently, so a busy tenant's review was computed from a slice and
+presented as the whole month — the worst kind of wrong, because a plausible
+number is never checked.
+
+If the ceiling is reached, or a page fails midway, the response carries
+`truncated` or `partialRead`. **Say so in the review** rather than quoting the
+figures as totals.
+
+LazyScale's own inbound is recorded too, under the tenant key `_lazyscale`, so
+the audit form and the Lead Responder are countable with the same tooling:
+
+```
+GET /api/stats?k=_lazyscale&s=<ADMIN_SECRET>&days=30
+```
+
 ## Duplicate submissions
 
 A double-clicked submit button, a retried request or a form that fires twice all

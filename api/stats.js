@@ -37,7 +37,8 @@ export default async function handler(req, res) {
   const days = Math.min(365, Math.max(1, parseInt(req.query?.days, 10) || 30));
   const since = new Date(Date.now() - days * 86400000).toISOString();
 
-  const { ok, reason, rows } = await readFor(k, since);
+  // ceiling raised well past a plausible month; truncation is reported, not hidden
+  const { ok, reason, rows, truncated, partial } = await readFor(k, since, 20000);
   if (!ok) return res.status(502).json({ ok: false, error: 'Could not read the store', reason });
 
   const scored = rows.filter((r) => r.scored);
@@ -60,6 +61,10 @@ export default async function handler(req, res) {
 
   return res.status(200).json({
     ok: true,
+    // If either of these is true the figures below describe a slice, not the
+    // month. Say so in the review rather than quoting them as totals.
+    truncated: Boolean(truncated),
+    partialRead: Boolean(partial),
     tenant: k,
     windowDays: days,
     since,
