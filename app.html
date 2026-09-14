@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="en" data-booting>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Console — LazyScale</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='2.5' y='2.5' width='43' height='43' rx='13' fill='%23B7F34A' stroke='%23111111' stroke-width='2.6'/%3E%3Cg transform='translate(-1.6,0)' fill='none' stroke='%23111111' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 13.2 V29.6 a4.6 4.6 0 0 0 4.6 4.6 h1.2'/%3E%3Cpath d='M35.4 19.4 C35.4 16 32.9 13.9 29.9 13.9 C26.9 13.9 24.6 15.8 24.6 18.3 C24.6 23.9 35.8 22.2 35.8 28.6 C35.8 31.9 33.1 34.4 29.9 34.4 C26.7 34.4 24.2 32.4 24.2 29.3'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ── Tokens: the same set as the site, trimmed to what a console needs ── */
+  :root {
+    --bg: #F7F7F5;
+    --bg-raised: #FFFFFF;
+    --bg-card: #FFFFFF;
+    --bg-card-hover: #FBFBFA;
+    --text-primary: #111111;
+    --text-secondary: #5A5A57;
+    /* 4.5:1 on both the page and a card. The site's #8A8A88 measures 3.46:1
+       here and fails AA for the timestamps and field labels below. */
+    --text-muted: #6B6B68;
+    --lime: #B7F34A;
+    --lime-deep: #A6E132;
+    --lime-soft: rgba(183, 243, 74, 0.22);
+    --border: #E7E7E4;
+    --border-hover: #C9C9C4;
+    --btn-bg: #B7F34A;
+    --btn-bg-hover: #A6E132;
+    --btn-fg: #111111;
+    --warn-fg: #7C3D06;
+    --warn-bd: #B45309;
+    --warn-bg: rgba(180, 83, 9, 0.07);
+    --hot-fg: #2F6B12;
+    --hot-bg: rgba(183, 243, 74, 0.35);
+    --shadow-sm: 0 1px 2px rgba(17,17,17,0.04);
+    --shadow-md: 0 2px 8px rgba(17,17,17,0.05);
+    --shadow-lg: 0 12px 40px rgba(17,17,17,0.09);
+    --r-xs: 6px; --r-sm: 10px; --r-md: 14px; --r-lg: 18px; --r-pill: 100px;
+    --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px;
+    --s7: 40px; --s8: 56px;
+    --ctl-h: 42px;
+    --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --max-w: 1200px;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0B0B0C;
+    --bg-raised: #151517;
+    --bg-card: #121213;
+    --bg-card-hover: #1A1A1C;
+    --text-primary: #E8E8E6;
+    --text-secondary: #B4B4B1;
+    --text-muted: #8A8A88;
+    --lime-soft: rgba(183, 243, 74, 0.16);
+    --border: #26262A;
+    --border-hover: #3A3A40;
+    --btn-bg: #B7F34A;
+    --btn-bg-hover: #C9F970;
+    --btn-fg: #0B0B0C;
+    --warn-fg: #F0B27A;
+    --warn-bd: #C87A34;
+    --warn-bg: rgba(200, 122, 52, 0.14);
+    /* On black the lime clears AA at 14.9:1, so it may carry text here. */
+    --hot-fg: #B7F34A;
+    --hot-bg: rgba(183, 243, 74, 0.14);
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: 0 20px 60px rgba(0,0,0,0.6);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0B0B0C; --bg-raised: #151517; --bg-card: #121213; --bg-card-hover: #1A1A1C;
+      --text-primary: #E8E8E6; --text-secondary: #B4B4B1; --text-muted: #8A8A88;
+      --lime-soft: rgba(183, 243, 74, 0.16);
+      --border: #26262A; --border-hover: #3A3A40;
+      --btn-fg: #0B0B0C; --btn-bg-hover: #C9F970;
+      --warn-fg: #F0B27A; --warn-bd: #C87A34; --warn-bg: rgba(200, 122, 52, 0.14);
+      --hot-fg: #B7F34A; --hot-bg: rgba(183, 243, 74, 0.14);
+      --shadow-sm: none; --shadow-md: none; --shadow-lg: 0 20px 60px rgba(0,0,0,0.6);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { margin: 0; letter-spacing: -0.02em; line-height: 1.15; }
+  button, input, select { font-family: inherit; font-size: inherit; }
+  [hidden] { display: none !important; }
+
+  /* ── Loading screen ───────────────────────────────────────────────────── */
+  #boot {
+    position: fixed; inset: 0; z-index: 100;
+    background: var(--bg);
+    display: grid; place-items: center;
+    transition: opacity .45s ease, visibility .45s ease;
+  }
+  #boot[data-done] { opacity: 0; visibility: hidden; }
+  .boot-inner { text-align: center; padding: var(--s5); }
+  .boot-mark {
+    width: 64px; height: 64px; margin: 0 auto var(--s5);
+    animation: bootPulse 1.9s ease-in-out infinite;
+  }
+  @keyframes bootPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.07); }
+  }
+  .boot-word { font-size: 20px; font-weight: 700; letter-spacing: -0.03em; }
+  .boot-note {
+    margin-top: var(--s2); font-size: 13.5px; color: var(--text-muted);
+    min-height: 1.4em;
+  }
+  .boot-bar {
+    width: 220px; height: 4px; margin: var(--s5) auto 0;
+    background: var(--border); border-radius: 2px; overflow: hidden;
+  }
+  .boot-bar i {
+    display: block; height: 100%; width: 40%; border-radius: 2px;
+    background: var(--lime);
+    animation: bootSlide 1.25s cubic-bezier(.45,0,.55,1) infinite;
+  }
+  @keyframes bootSlide {
+    0% { transform: translateX(-110%); }
+    100% { transform: translateX(320%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .boot-mark, .boot-bar i { animation: none; }
+    .boot-bar i { width: 100%; }
+  }
+
+  /* ── Shell ────────────────────────────────────────────────────────────── */
+  header.bar {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .bar-in {
+    max-width: var(--max-w); margin: 0 auto; padding: var(--s3) var(--s5);
+    display: flex; align-items: center; gap: var(--s3);
+  }
+  .brand { display: flex; align-items: center; gap: var(--s2); font-weight: 700; letter-spacing: -0.02em; }
+  .brand svg { width: 28px; height: 28px; display: block; }
+  .bar-sp { flex: 1 1 auto; }
+  .tenant-tag {
+    font-size: 13px; color: var(--text-secondary);
+    border: 1px solid var(--border); border-radius: var(--r-pill);
+    padding: 5px 12px; white-space: nowrap;
+    max-width: 210px; overflow: hidden; text-overflow: ellipsis;
+  }
+  main { max-width: var(--max-w); margin: 0 auto; padding: var(--s6) var(--s5) var(--s8); }
+
+  /* ── Controls ─────────────────────────────────────────────────────────── */
+  .btn {
+    height: var(--ctl-h); padding: 0 var(--s4);
+    border-radius: var(--r-pill); border: 1px solid var(--border);
+    background: var(--bg-card); color: var(--text-primary);
+    font-weight: 500; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; gap: var(--s2);
+    transition: background var(--transition), border-color var(--transition);
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .btn:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
+  .btn:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 2px; }
+  .btn-primary { background: var(--btn-bg); border-color: var(--btn-bg); color: var(--btn-fg); font-weight: 600; }
+  .btn-primary:hover { background: var(--btn-bg-hover); border-color: var(--btn-bg-hover); }
+  .btn-sm { height: 34px; padding: 0 var(--s3); font-size: 13.5px; }
+  .btn[disabled] { opacity: .55; cursor: not-allowed; }
+
+  .field { display: block; margin-bottom: var(--s4); }
+  .field span { display: block; font-size: 13.5px; font-weight: 500; margin-bottom: 6px; }
+  .field input, .field select {
+    width: 100%; height: var(--ctl-h); padding: 0 var(--s3);
+    border-radius: var(--r-sm); border: 1px solid var(--border);
+    background: var(--bg-raised); color: var(--text-primary);
+  }
+  .field input:focus, .field select:focus, .search:focus {
+    outline: none; border-color: var(--text-primary);
+  }
+  .hint { font-size: 13px; color: var(--text-muted); margin: calc(var(--s1) * -1) 0 var(--s4); }
+
+  /* ── Gate ─────────────────────────────────────────────────────────────── */
+  .gate { max-width: 420px; margin: var(--s8) auto; }
+  .gate .card { padding: var(--s6); }
+  .card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--r-lg); box-shadow: var(--shadow-sm);
+  }
+
+  /* ── Stats ────────────────────────────────────────────────────────────── */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s3); margin-bottom: var(--s5); }
+  .stat { padding: var(--s4); }
+  .stat b { display: block; font-size: 30px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+  .stat span { display: block; font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+  .stat.accent b { color: var(--hot-fg); }
+
+  /* ── Toolbar ──────────────────────────────────────────────────────────── */
+  .tools { display: flex; gap: var(--s2); align-items: center; margin-bottom: var(--s4); flex-wrap: wrap; }
+  .search {
+    flex: 1 1 240px; min-width: 0; height: var(--ctl-h); padding: 0 var(--s3);
+    border-radius: var(--r-pill); border: 1px solid var(--border);
+    background: var(--bg-raised); color: var(--text-primary);
+  }
+  .toggle {
+    height: var(--ctl-h); padding: 0 var(--s4); border-radius: var(--r-pill);
+    border: 1px solid var(--border); background: var(--bg-card);
+    color: var(--text-primary); cursor: pointer; font-weight: 500; flex-shrink: 0;
+  }
+  .toggle[aria-pressed="true"] { background: var(--hot-bg); border-color: var(--lime-deep); }
+
+  /* ── List ─────────────────────────────────────────────────────────────── */
+  .rows { display: flex; flex-direction: column; gap: var(--s2); }
+  .row {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--r-md); overflow: hidden;
+    transition: border-color var(--transition);
+  }
+  .row:hover { border-color: var(--border-hover); }
+  .row-head {
+    width: 100%; background: none; border: 0; cursor: pointer; text-align: left;
+    padding: var(--s4); display: flex; gap: var(--s3); align-items: flex-start;
+    color: inherit;
+  }
+  .row-head:focus-visible { outline: 2px solid var(--text-primary); outline-offset: -2px; }
+  .who { min-width: 0; flex: 1 1 auto; }
+  .who b { display: block; font-weight: 600; }
+  .who p {
+    margin: 2px 0 0; color: var(--text-secondary); font-size: 14px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .meta { display: flex; align-items: center; gap: var(--s2); flex-shrink: 0; }
+  .when { font-size: 13px; color: var(--text-muted); white-space: nowrap; }
+  .pill {
+    font-size: 12.5px; font-weight: 600; border-radius: var(--r-pill);
+    padding: 3px 10px; white-space: nowrap;
+    border: 1px solid var(--border); color: var(--text-secondary);
+  }
+  .pill.hot { background: var(--hot-bg); border-color: var(--lime-deep); color: var(--hot-fg); }
+  .pill.warn { background: var(--warn-bg); border-color: var(--warn-bd); color: var(--warn-fg); }
+  .chev { color: var(--text-muted); transition: transform var(--transition); flex-shrink: 0; }
+  .row[data-open] .chev { transform: rotate(180deg); }
+
+  .row-body { padding: 0 var(--s4) var(--s4); border-top: 1px solid var(--border); margin-top: 0; }
+  .row-body dl { margin: var(--s4) 0 0; display: grid; grid-template-columns: 150px 1fr; gap: var(--s2) var(--s4); font-size: 14px; }
+  .row-body dt { color: var(--text-muted); }
+  .row-body dd { margin: 0; overflow-wrap: anywhere; }
+  .quote {
+    margin: var(--s4) 0 0; padding: var(--s3) var(--s4);
+    background: var(--bg); border-radius: var(--r-sm);
+    border-left: 3px solid var(--lime);
+    white-space: pre-wrap; overflow-wrap: anywhere;
+  }
+  .draft { margin-top: var(--s4); }
+  .draft h3 { font-size: 13.5px; color: var(--text-muted); font-weight: 500; margin-bottom: 6px; }
+
+  /* ── States ───────────────────────────────────────────────────────────── */
+  .note {
+    padding: var(--s4); border-radius: var(--r-md);
+    border: 1px solid var(--border); background: var(--bg-card);
+    color: var(--text-secondary);
+  }
+  .note.warn { border-color: var(--warn-bd); background: var(--warn-bg); color: var(--warn-fg); }
+  .empty { text-align: center; padding: var(--s8) var(--s4); color: var(--text-secondary); }
+  .empty b { display: block; color: var(--text-primary); font-size: 17px; margin-bottom: 6px; }
+
+  .sr {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+
+  @media (max-width: 860px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    main { padding: var(--s5) var(--s4) var(--s7); }
+    .bar-in { padding: var(--s3) var(--s4); }
+    .row-head { flex-wrap: wrap; }
+    .meta { width: 100%; }
+    .row-body dl { grid-template-columns: 1fr; gap: 2px var(--s4); }
+    .row-body dt { margin-top: var(--s2); }
+    .tenant-tag { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Loading screen. Removed by script; a failsafe below removes it even if the
+     script that normally does so never runs, so this can never trap the page. -->
+<div id="boot" role="status" aria-live="polite">
+  <div class="boot-inner">
+    <svg class="boot-mark" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="2.5" y="2.5" width="43" height="43" rx="13" fill="#B7F34A" stroke="#111111" stroke-width="2.6"/>
+      <g transform="translate(-1.6,0)" fill="none" stroke="#111111" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 13.2 V29.6 a4.6 4.6 0 0 0 4.6 4.6 h1.2"/>
+        <path d="M35.4 19.4 C35.4 16 32.9 13.9 29.9 13.9 C26.9 13.9 24.6 15.8 24.6 18.3 C24.6 23.9 35.8 22.2 35.8 28.6 C35.8 31.9 33.1 34.4 29.9 34.4 C26.7 34.4 24.2 32.4 24.2 29.3"/>
+      </g>
+    </svg>
+    <div class="boot-word">LazyScale</div>
+    <div class="boot-note" id="boot-note">Starting the console…</div>
+    <div class="boot-bar" aria-hidden="true"><i></i></div>
+  </div>
+</div>
+
+<header class="bar">
+  <div class="bar-in">
+    <span class="brand">
+      <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="2.5" y="2.5" width="43" height="43" rx="13" fill="#B7F34A" stroke="#111111" stroke-width="2.6"/>
+        <g transform="translate(-1.6,0)" fill="none" stroke="#111111" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 13.2 V29.6 a4.6 4.6 0 0 0 4.6 4.6 h1.2"/>
+          <path d="M35.4 19.4 C35.4 16 32.9 13.9 29.9 13.9 C26.9 13.9 24.6 15.8 24.6 18.3 C24.6 23.9 35.8 22.2 35.8 28.6 C35.8 31.9 33.1 34.4 29.9 34.4 C26.7 34.4 24.2 32.4 24.2 29.3"/>
+        </g>
+      </svg>
+      Console
+    </span>
+    <span class="bar-sp"></span>
+    <span class="tenant-tag" id="tenant-tag" hidden></span>
+    <button class="btn btn-sm" id="theme" type="button" aria-label="Switch theme">Theme</button>
+    <button class="btn btn-sm" id="signout" type="button" hidden>Sign out</button>
+  </div>
+</header>
+
+<main>
+  <!-- Gate -->
+  <section class="gate" id="gate" hidden>
+    <div class="card">
+      <h1 style="font-size:24px;margin-bottom:6px;">Open the console</h1>
+      <p style="color:var(--text-secondary);margin:0 0 var(--s5);font-size:14px;">
+        Your tenant key and admin secret. Both stay in this tab only.
+      </p>
+      <form id="gate-form" autocomplete="off">
+        <label class="field">
+          <span>Tenant key</span>
+          <input id="in-key" type="text" placeholder="demo" required autocapitalize="off" spellcheck="false">
+        </label>
+        <label class="field">
+          <span>Admin secret</span>
+          <input id="in-secret" type="password" required autocomplete="current-password">
+        </label>
+        <p class="hint">
+          Held in sessionStorage, so closing the tab forgets it. It is never put
+          in the URL, where it would end up in history and server logs.
+        </p>
+        <div id="gate-error" class="note warn" role="alert" hidden style="margin-bottom:var(--s4);"></div>
+        <button class="btn btn-primary" type="submit" style="width:100%;" id="gate-go">Open</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Console -->
+  <section id="console" hidden>
+    <div id="alerts" style="margin-bottom:var(--s4);"></div>
+
+    <div class="stats" id="stats"></div>
+
+    <div class="tools">
+      <label class="sr" for="q">Search enquiries</label>
+      <input class="search" id="q" type="search" placeholder="Search name, email or message…">
+      <label class="sr" for="days">Window</label>
+      <select id="days" style="height:var(--ctl-h);border-radius:var(--r-pill);border:1px solid var(--border);background:var(--bg-card);color:var(--text-primary);padding:0 var(--s3);flex-shrink:0;">
+        <option value="7">7 days</option>
+        <option value="30" selected>30 days</option>
+        <option value="90">90 days</option>
+        <option value="365">1 year</option>
+      </select>
+      <button class="toggle" id="only-human" type="button" aria-pressed="false">Needs a human</button>
+      <button class="btn btn-sm" id="refresh" type="button">Refresh</button>
+    </div>
+
+    <p id="count" style="color:var(--text-muted);font-size:13.5px;margin:0 0 var(--s3);" aria-live="polite"></p>
+    <div class="rows" id="rows"></div>
+  </section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var $ = function (id) { return document.getElementById(id); };
+  var boot = $('boot');
+  var bootNote = $('boot-note');
+
+  /* ── Loading screen ──────────────────────────────────────────────────────
+     The screen is only ever a cover over a page that already exists. If any of
+     what follows throws, the failsafe still lifts it — a spinner that traps the
+     page forever is worse than an ugly error. */
+  var bootDone = false;
+  function endBoot(message) {
+    if (bootDone) return;
+    bootDone = true;
+    if (message) bootNote.textContent = message;
+    boot.setAttribute('data-done', '');
+    document.documentElement.removeAttribute('data-booting');
+    window.setTimeout(function () { boot.setAttribute('hidden', ''); }, 500);
+  }
+  var failsafe = window.setTimeout(function () {
+    endBoot('Took longer than expected — carrying on.');
+  }, 6000);
+
+  /* ── Theme ─────────────────────────────────────────────────────────────── */
+  try {
+    var saved = localStorage.getItem('ls-theme');
+    if (saved === 'dark' || saved === 'light') {
+      document.documentElement.setAttribute('data-theme', saved);
+    }
+  } catch (e) { /* private window: system preference still applies */ }
+
+  $('theme').addEventListener('click', function () {
+    var root = document.documentElement;
+    var isDark = root.getAttribute('data-theme') === 'dark' ||
+      (!root.getAttribute('data-theme') &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var next = isDark ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('ls-theme', next); } catch (e) {}
+  });
+
+  /* ── Credentials ───────────────────────────────────────────────────────── */
+  var auth = { key: '', secret: '' };
+  function loadAuth() {
+    try {
+      auth.key = sessionStorage.getItem('ls-key') || '';
+      auth.secret = sessionStorage.getItem('ls-secret') || '';
+    } catch (e) { auth.key = ''; auth.secret = ''; }
+    return auth.key && auth.secret;
+  }
+  function saveAuth(k, s) {
+    auth.key = k; auth.secret = s;
+    try {
+      sessionStorage.setItem('ls-key', k);
+      sessionStorage.setItem('ls-secret', s);
+    } catch (e) { /* the session still works, it just will not survive a reload */ }
+  }
+  function clearAuth() {
+    auth.key = ''; auth.secret = '';
+    try { sessionStorage.removeItem('ls-key'); sessionStorage.removeItem('ls-secret'); } catch (e) {}
+  }
+
+  /* ── Helpers ───────────────────────────────────────────────────────────── */
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function when(iso) {
+    if (!iso) return '';
+    var d = new Date(iso);
+    if (isNaN(d)) return '';
+    var mins = Math.round((Date.now() - d.getTime()) / 60000);
+    if (mins < 1) return 'just now';
+    if (mins < 60) return mins + 'm ago';
+    if (mins < 1440) return Math.round(mins / 60) + 'h ago';
+    if (mins < 10080) return Math.round(mins / 1440) + 'd ago';
+    return d.toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
+  }
+  function full(iso) {
+    var d = new Date(iso);
+    return isNaN(d) ? '—' : d.toLocaleString();
+  }
+
+  function api(path, params) {
+    var q = new URLSearchParams(params || {});
+    q.set('k', auth.key);
+    q.set('s', auth.secret);
+    return fetch(path + '?' + q.toString(), { headers: { accept: 'application/json' } })
+      .then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (body) {
+          if (!r.ok) {
+            var err = new Error(body.error || ('Request failed (' + r.status + ')'));
+            err.status = r.status;
+            throw err;
+          }
+          return body;
+        });
+      });
+  }
+
+  /* Signing out has to take the enquiries off the screen as well as out of
+     memory. Hiding the section left the previous tenant's names and messages
+     sitting in the DOM, one Inspect away on a shared laptop. */
+  function wipe() {
+    state.rows = []; state.stats = null; state.meta = null;
+    state.q = ''; state.onlyHuman = false;
+    $('q').value = '';
+    $('only-human').setAttribute('aria-pressed', 'false');
+    $('rows').innerHTML = '';
+    $('stats').innerHTML = '';
+    $('alerts').innerHTML = '';
+    $('count').textContent = '';
+  }
+
+  /* ── Screens ───────────────────────────────────────────────────────────── */
+  function showGate(message) {
+    $('console').hidden = true;
+    $('gate').hidden = false;
+    $('signout').hidden = true;
+    $('tenant-tag').hidden = true;
+    var box = $('gate-error');
+    if (message) { box.textContent = message; box.hidden = false; }
+    else { box.hidden = true; }
+    endBoot();
+  }
+  function showConsole() {
+    $('gate').hidden = true;
+    $('console').hidden = false;
+    $('signout').hidden = false;
+    var tag = $('tenant-tag');
+    tag.textContent = auth.key;
+    tag.hidden = false;
+  }
+
+  /* ── Data ──────────────────────────────────────────────────────────────── */
+  var state = { rows: [], stats: null, days: 30, q: '', onlyHuman: false, loading: false };
+
+  function load(firstRun) {
+    if (state.loading) return Promise.resolve();
+    state.loading = true;
+    $('refresh').disabled = true;
+    if (!firstRun) $('count').textContent = 'Loading…';
+
+    return Promise.all([
+      api('/api/enquiries', { days: state.days, limit: 500 }),
+      api('/api/stats', { days: state.days }).catch(function () { return null; })
+    ]).then(function (out) {
+      state.rows = (out[0] && out[0].enquiries) || [];
+      state.meta = out[0] || {};
+      state.stats = out[1];
+      showConsole();
+      render();
+      endBoot();
+    }).catch(function (err) {
+      if (err.status === 403) {
+        clearAuth();
+        wipe();
+        showGate('That key and secret were refused. Check both and try again.');
+      } else if (err.status === 503) {
+        showConsole();
+        state.rows = []; state.meta = {}; state.stats = null;
+        render('No store is configured yet, so nothing has been recorded. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY, or run locally where a file is used instead.');
+        endBoot();
+      } else if (firstRun && !auth.key) {
+        showGate();
+      } else {
+        showConsole();
+        render(err.message || 'Could not reach the server.');
+        endBoot();
+      }
+    }).then(function () {
+      state.loading = false;
+      $('refresh').disabled = false;
+    });
+  }
+
+  /* ── Render ────────────────────────────────────────────────────────────── */
+  function statCards() {
+    var s = state.stats;
+    var rows = state.rows;
+    var needs = rows.filter(function (r) { return r.needsHuman === true; }).length;
+    var cards = [
+      { n: s ? s.enquiries : rows.length, label: 'enquiries' },
+      { n: needs, label: 'needed a human' },
+      { n: s && s.handledWithoutAHuman != null ? s.handledWithoutAHuman + '%' : '—', label: 'handled without one', accent: true },
+      { n: s && s.medianScore != null ? s.medianScore : '—', label: 'median score' }
+    ];
+    $('stats').innerHTML = cards.map(function (c) {
+      return '<div class="card stat' + (c.accent ? ' accent' : '') + '">' +
+        '<b>' + esc(c.n) + '</b><span>' + esc(c.label) + '</span></div>';
+    }).join('');
+  }
+
+  function visible() {
+    var q = state.q.trim().toLowerCase();
+    return state.rows.filter(function (r) {
+      if (state.onlyHuman && r.needsHuman !== true) return false;
+      if (!q) return true;
+      return (r.name + ' ' + r.email + ' ' + r.message + ' ' + r.phone).toLowerCase().indexOf(q) > -1;
+    });
+  }
+
+  function render(errorMessage) {
+    statCards();
+
+    var alerts = [];
+    if (errorMessage) {
+      alerts.push('<div class="note warn" role="alert">' + esc(errorMessage) + '</div>');
+    }
+    if (state.meta && state.meta.truncated) {
+      alerts.push('<div class="note warn">This is the most recent slice of the window, not all of it. Narrow the range for a complete list.</div>');
+    }
+    if (state.stats && state.stats.alertsFailed) {
+      alerts.push('<div class="note">' + esc(state.stats.alertsFailed) +
+        ' alert' + (state.stats.alertsFailed === 1 ? '' : 's') +
+        ' could not be emailed. The enquiries themselves were recorded.</div>');
+    }
+    $('alerts').innerHTML = alerts.join('');
+
+    var list = visible();
+    $('count').textContent = list.length === state.rows.length
+      ? state.rows.length + (state.rows.length === 1 ? ' enquiry' : ' enquiries')
+      : list.length + ' of ' + state.rows.length + ' shown';
+
+    if (!list.length) {
+      $('rows').innerHTML = '<div class="card empty">' +
+        (state.rows.length
+          ? '<b>Nothing matches</b>Try a different search, or turn off the filter.'
+          : '<b>No enquiries yet</b>Point a form at /api/inbound and the first one will appear here.') +
+        '</div>';
+      return;
+    }
+
+    $('rows').innerHTML = list.map(function (r, i) {
+      var pills = '';
+      if (r.needsHuman === true) {
+        pills += '<span class="pill warn">Needs a human</span>';
+      } else if (r.score != null) {
+        pills += '<span class="pill' + (r.score >= 7 ? ' hot' : '') + '">Score ' + esc(r.score) + '</span>';
+      } else if (!r.scored) {
+        pills += '<span class="pill">Not scored</span>';
+      }
+
+      return '<article class="row" data-i="' + i + '">' +
+        '<button class="row-head" type="button" aria-expanded="false" aria-controls="b' + i + '">' +
+          '<span class="who">' +
+            '<b>' + esc(r.name || r.email || 'Someone') + '</b>' +
+            '<p>' + esc(r.message || '') + '</p>' +
+          '</span>' +
+          '<span class="meta">' + pills +
+            '<span class="when">' + esc(when(r.createdAt)) + '</span>' +
+            '<svg class="chev" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">' +
+              '<path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+          '</span>' +
+        '</button>' +
+        '<div class="row-body" id="b' + i + '" hidden>' +
+          '<blockquote class="quote">' + esc(r.message || '') + '</blockquote>' +
+          '<dl>' +
+            '<dt>Received</dt><dd>' + esc(full(r.createdAt)) + '</dd>' +
+            '<dt>Email</dt><dd>' + (r.email ? '<a href="mailto:' + esc(r.email) + '" style="color:inherit">' + esc(r.email) + '</a>' : '—') + '</dd>' +
+            '<dt>Phone</dt><dd>' + (r.phone ? esc(r.phone) : '—') + '</dd>' +
+            '<dt>Source</dt><dd>' + esc(r.source || '—') + '</dd>' +
+            (r.forwardedBy ? '<dt>Forwarded by</dt><dd>' + esc(r.forwardedBy) + '</dd>' : '') +
+            '<dt>Intent</dt><dd>' + esc(r.intent || '—') + '</dd>' +
+            (r.escalationReason ? '<dt>Escalated because</dt><dd>' + esc(r.escalationReason) + '</dd>' : '') +
+            '<dt>Alert emailed</dt><dd>' + (r.alertSent ? 'yes' : 'no') + '</dd>' +
+          '</dl>' +
+          (r.replyDraft
+            ? '<div class="draft"><h3>Draft reply</h3>' +
+              '<blockquote class="quote">' + esc(r.replyDraft) + '</blockquote>' +
+              '<button class="btn btn-sm" type="button" data-copy="' + i + '" style="margin-top:var(--s3)">Copy draft</button></div>'
+            : '') +
+        '</div>' +
+      '</article>';
+    }).join('');
+  }
+
+  /* ── Events ────────────────────────────────────────────────────────────── */
+  $('rows').addEventListener('click', function (ev) {
+    var copy = ev.target.closest('[data-copy]');
+    if (copy) {
+      var row = visible()[Number(copy.getAttribute('data-copy'))];
+      if (row && navigator.clipboard) {
+        navigator.clipboard.writeText(row.replyDraft).then(function () {
+          copy.textContent = 'Copied';
+          window.setTimeout(function () { copy.textContent = 'Copy draft'; }, 1600);
+        }).catch(function () { copy.textContent = 'Copy failed'; });
+      }
+      return;
+    }
+    var head = ev.target.closest('.row-head');
+    if (!head) return;
+    var article = head.closest('.row');
+    var body = article.querySelector('.row-body');
+    var open = head.getAttribute('aria-expanded') === 'true';
+    head.setAttribute('aria-expanded', open ? 'false' : 'true');
+    body.hidden = open;
+    if (open) article.removeAttribute('data-open');
+    else article.setAttribute('data-open', '');
+  });
+
+  var qTimer;
+  $('q').addEventListener('input', function (ev) {
+    state.q = ev.target.value;
+    window.clearTimeout(qTimer);
+    qTimer = window.setTimeout(render, 120);
+  });
+  $('days').addEventListener('change', function (ev) {
+    state.days = Number(ev.target.value) || 30;
+    load();
+  });
+  $('only-human').addEventListener('click', function (ev) {
+    state.onlyHuman = !state.onlyHuman;
+    ev.currentTarget.setAttribute('aria-pressed', state.onlyHuman ? 'true' : 'false');
+    render();
+  });
+  $('refresh').addEventListener('click', function () { load(); });
+  $('signout').addEventListener('click', function () {
+    clearAuth();
+    wipe();
+    // Leaving the secret in the field after signing out defeats the point.
+    $('gate-form').reset();
+    showGate();
+  });
+  // Enter should open the console. requestSubmit() rather than submit() so the
+  // handler below still runs and the browser still checks the required fields.
+  ['in-key', 'in-secret'].forEach(function (id) {
+    $(id).addEventListener('keydown', function (ev) {
+      if (ev.key !== 'Enter') return;
+      ev.preventDefault();
+      var form = $('gate-form');
+      if (form.requestSubmit) form.requestSubmit();
+      else $('gate-go').click();
+    });
+  });
+
+  $('gate-form').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var k = $('in-key').value.trim();
+    var s = $('in-secret').value;
+    if (!k || !s) return;
+    saveAuth(k, s);
+    $('gate-go').disabled = true;
+    $('gate-error').hidden = true;
+    load().then(function () { $('gate-go').disabled = false; });
+  });
+
+  /* ── Start ─────────────────────────────────────────────────────────────── */
+  if (loadAuth()) {
+    bootNote.textContent = 'Fetching enquiries…';
+    load(true).then(function () { window.clearTimeout(failsafe); });
+  } else {
+    window.clearTimeout(failsafe);
+    window.setTimeout(function () { showGate(); }, 350);
+  }
+})();
+</script>
+</body>
+</html>

@@ -130,6 +130,22 @@ Full walkthrough, including the drop-in and inbound email: [`LOCAL.md`](LOCAL.md
 
 ---
 
+## The console
+
+`/app` is where the enquiries actually get read: search, a 7/30/90/365-day
+window, a "needs a human" filter, and each enquiry expandable to the full
+message, the draft reply and why it escalated.
+
+It runs on the same tokens as the site, follows your system theme with a manual
+override, and works down to a phone. Open it locally at
+<http://localhost:3100/app> with the tenant key and `ADMIN_SECRET`.
+
+Both credentials live in `sessionStorage` and never go in the URL, where they
+would end up in browser history and server logs. Closing the tab forgets them;
+signing out clears the screen as well as the memory.
+
+---
+
 ## Repository map
 
 ```
@@ -138,6 +154,7 @@ automations.html        55 automations, filterable, including what we refuse
 details.html            the one-screen version, for pasting into a chat
 response-times.html     publishes the response-time experiment (see research/)
 setup.html              per-client onboarding page, keyed by ?k=
+app.html                the console — read the enquiries, one screen
 run-local.sh            one command to run it all — macOS, Linux, Git Bash, WSL
 run-local.ps1           the same, for PowerShell
 
@@ -176,6 +193,7 @@ no key, no credit, model down, mail bouncing — and the enquiry is still yours.
 | `POST /api/email-in?k=<key>&s=<secret>` | Inbound email. Normalises Postmark, SendGrid, Mailgun, CloudMailin and Cloudflare Email Worker payloads, then hands off to the same pipeline. |
 | `POST /api/lead` | The Lead Responder running on our own inbound. Scores 0–10, drafts a reply, escalates when it should not answer. |
 | `POST /api/audit` | Generates a personalised automation audit from a form submission. |
+| `GET /api/enquiries?k=&s=&days=&limit=` | The enquiries themselves, newest first — what the console reads. Same refusal as `/api/stats`: no `ADMIN_SECRET` set means no access, never open access, because this returns customers' names and messages. |
 | `GET /api/stats?k=&s=&days=` | The numbers behind a client's monthly performance review. Refuses every request unless `ADMIN_SECRET` is set and matches. |
 
 ### Two design decisions worth knowing

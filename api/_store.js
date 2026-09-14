@@ -28,16 +28,41 @@ const TABLE = 'enquiries';
 const LOCAL_FILE = '.local-enquiries.jsonl';
 const useLocalFile = () => !process.env.VERCEL && !storeConfigured();
 
+// Every local file operation goes through this queue, one at a time.
+//
+// localUpdate rewrites the whole file from a snapshot it read a moment earlier,
+// while localAppend appends to it. Interleave those and the rewrite drops rows
+// added since its read — and the endpoint has already answered
+// {"recorded":true}, so the loss would be both silent and contradicted by the
+// receipt.
+//
+// Honesty about this one: it has not been observed. An attempt to force it with
+// 120 concurrent record-then-update pairs lost nothing, so the window is either
+// very small or closed by something else in the path. The serialisation is here
+// because interleaving an append with a full-file rewrite is not safe to rely
+// on, not because it is known to have bitten. Local file mode only; Supabase
+// has no equivalent problem.
+let localQueue = Promise.resolve();
+function withLocalLock(fn) {
+  const run = localQueue.then(fn, fn);
+  // Keep the chain alive even when a caller's promise rejects.
+  localQueue = run.then(() => undefined, () => undefined);
+  return run;
+}
+
 async function localAppend(row) {
+  return withLocalLock(async () => {
   const { appendFile } = await import('node:fs/promises');
   const id = row.id || (globalThis.crypto?.randomUUID?.() ?? String(Date.now()) + Math.random().toString(16).slice(2));
   await appendFile(LOCAL_FILE, JSON.stringify({ ...row, id }) + '\n', 'utf8');
   return { stored: true, local: true, id };
+  });
 }
 
 // Local rows live in a file, so an update is a rewrite. Fine at laptop scale and
 // never reached in production.
 async function localUpdate(id, patch) {
+  return withLocalLock(async () => {
   const { readFile, writeFile } = await import('node:fs/promises');
   let text = '';
   try { text = await readFile(LOCAL_FILE, 'utf8'); } catch { return { updated: false, reason: 'missing' }; }
@@ -53,6 +78,7 @@ async function localUpdate(id, patch) {
   if (!found) return { updated: false, reason: 'not_found' };
   await writeFile(LOCAL_FILE, out.join('\n') + '\n', 'utf8');
   return { updated: true, local: true };
+  });
 }
 
 async function localRead(tenantKey, sinceISO, limit) {
