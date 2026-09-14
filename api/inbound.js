@@ -22,6 +22,8 @@
 // working, and restructuring it to extract helpers is a change worth making on its
 // own, not as a side effect of adding this.
 
+import { record, storeConfigured } from './_store.js';
+
 const MODEL = 'claude-sonnet-5';
 const MAX_MESSAGE = 1500;
 const MAX_BODY = 12000;
@@ -234,12 +236,35 @@ export default async function handler(req, res) {
         <p style="white-space:pre-wrap;border-left:3px solid #ddd;padding-left:12px;font-size:14px">${esc(q.reply)}</p>` : ''}
     </div>`;
 
-  await sendMail({
+  const alert = await sendMail({
     to: site.email,
     subject: `${head} — ${lead.name || lead.email || 'website enquiry'}`,
     html: alertHtml,
     text: `${head}\n\n${lead.name} ${lead.email} ${lead.phone}\n\n${lead.message}`,
     replyTo: emailOk ? lead.email : undefined
+  });
+
+  // An enquiry that exists only as an email cannot be counted at the monthly
+  // review, cannot become a case study, and is gone entirely if the mail
+  // provider has a bad minute.
+  const stored = await record({
+    tenant_key: k,
+    tenant_name: site.name || null,
+    name: lead.name || null,
+    email: lead.email || null,
+    phone: lead.phone || null,
+    message: lead.message || null,
+    extra: lead.extra && Object.keys(lead.extra).length ? lead.extra : null,
+    source: clean(body.source, 60) || 'web form',
+    forwarded_by: clean(body.forwarded_by, 200) || null,
+    scored: q.ok,
+    score: q.ok ? q.score : null,
+    intent: q.ok ? q.intent : null,
+    needs_human: q.ok ? q.needsHuman : null,
+    escalation_reason: q.ok ? (q.escalationReason || null) : null,
+    reply_draft: q.ok ? (q.reply || null) : null,
+    alert_sent: alert.ok === true,
+    created_at: lead.at
   });
 
   // Four guards, same as the Lead Responder: a usable draft, no escalation, a real
@@ -257,6 +282,17 @@ export default async function handler(req, res) {
     replied = sent.ok;
   }
 
+  // If the alert did not send and nothing was written down, the enquiry has
+  // been lost. Telling the customer it arrived would be the worst failure this
+  // endpoint has, so it says so and gives them a route that works.
+  if (!alert.ok && !stored.stored) {
+    console.error('enquiry lost', { tenant: k, alert: alert.reason, store: stored.reason });
+    return res.status(502).json({
+      ok: false,
+      error: `We could not record that just now. Please email ${site.email} directly — sorry.`
+    });
+  }
+
   // A plain HTML form posts and follows the response. Honour _redirect so the
   // customer keeps their own thank-you page.
   const redirect = clean(body._redirect, 500);
@@ -265,5 +301,5 @@ export default async function handler(req, res) {
     return res.status(303).end();
   }
 
-  return res.status(200).json({ ok: true, replied });
+  return res.status(200).json({ ok: true, replied, recorded: stored.stored });
 }

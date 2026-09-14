@@ -69,6 +69,7 @@ brand/                  the link-preview card and how to regenerate it
 | `POST /api/email-in?k=<key>&s=<secret>` | Inbound email. Normalises Postmark, SendGrid, Mailgun, CloudMailin and Cloudflare Email Worker payloads, then hands off to the same pipeline. |
 | `POST /api/lead` | The Lead Responder running on our own inbound. Scores 0–10, drafts a reply, escalates when it should not answer. |
 | `POST /api/audit` | Generates a personalised automation audit from a form submission. |
+| `GET /api/stats?k=&s=&days=` | The numbers behind a client's monthly performance review. Refuses every request unless `ADMIN_SECRET` is set and matches. |
 
 ### Two design decisions worth knowing
 
@@ -108,6 +109,8 @@ of them** — env vars only apply to new deployments.
 | `TENANTS_JSON` | the drop-in | `{"<key>":{"name","email","autoreply":false,"threshold":11}}`. Kept in an env var rather than a repo file so client addresses stay out of git history. |
 | `EMAIL_IN_SECRET` | inbound email | `openssl rand -hex 24` |
 | `LEAD_AUTOREPLY_THRESHOLD` | auto-reply | Defaults to **11 on a 0–10 scale — i.e. never**. Nothing auto-sends until it has earned it. |
+| `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | recording every enquiry | Without these nothing is written down, and the monthly performance review every job description promises cannot be produced. See [`services/RECORDING.md`](services/RECORDING.md). **Service role key bypasses all security rules — server only.** |
+| `ADMIN_SECRET` | `/api/stats` | No secret set means the endpoint refuses everything, rather than defaulting to public |
 | `FORMSPREE_ENDPOINT` | form capture | Optional |
 | `LEAD_REPLY_FROM`, `AUDIT_FROM_EMAIL` | sending identity | Optional |
 
