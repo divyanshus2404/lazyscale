@@ -5,6 +5,7 @@
   <img src="brand/repo-banner-light.svg" alt="LazyScale — stop doing work a machine can do. Every enquiry answered in under a minute: WhatsApp, Instagram, email and the web.">
 </picture>
 
+[![CI](https://img.shields.io/github/actions/workflow/status/divyanshus2404/lazyscale/ci.yml?branch=main&style=flat-square&label=tests&labelColor=111111&color=B7F34A)](https://github.com/divyanshus2404/lazyscale/actions/workflows/ci.yml)
 [![Live site](https://img.shields.io/badge/live-lazyscale.vercel.app-B7F34A?style=flat-square&labelColor=111111)](https://lazyscale.vercel.app)
 [![What we automate](https://img.shields.io/badge/55-automations-111111?style=flat-square&labelColor=111111&color=F7F7F5)](https://lazyscale.vercel.app/automations)
 [![Stack](https://img.shields.io/badge/static%20HTML-no%20build%20step-111111?style=flat-square&labelColor=111111&color=F7F7F5)](#repository-map)
@@ -164,6 +165,8 @@ app.html                the console — read the enquiries, one screen
 run-local.sh            one command to run it all — macOS, Linux, Git Bash, WSL
 run-local.ps1           the same, for PowerShell
 mac/                    double-click launchers for the console
+test/                   the suite — node --test, no dependencies
+.github/workflows/      CI: tests, endpoints parse, generated art matches source
 
 api/
   lead.js               the Lead Responder: scores, drafts, escalates
@@ -304,6 +307,21 @@ through every automated check and were caught by a human going "hang on, why is
 the lock icon enormous".
 
 ---
+
+## Tests
+
+```bash
+npm test
+```
+
+Pure `node --test`, no dependencies, about a second. Every case in it is
+something that actually broke here, or would have been expensive to get wrong:
+duplicate detection, the origin check, form-field mapping, the forwarded-email
+parser, the store round trip, and the two classes of bug that reached production
+— orphan markup left by an edit, and an animated SVG that hides its own content.
+
+CI runs the suite on every push, checks that every endpoint parses, and
+regenerates `brand/` to confirm the committed art still matches its generator.
 
 ## Contributing
 

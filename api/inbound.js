@@ -57,7 +57,7 @@ const DEFAULT_HOURLY_LIMIT = 120;
  * The rate limit below is what bounds that case. Neither control is a wall;
  * together they make abuse noisy and cheap to shut off by rotating one key.
  */
-function originAllowed(site, origin) {
+export function originAllowed(site, origin) {
   const allowed = Array.isArray(site.origins) ? site.origins : null;
   if (!allowed || !allowed.length) return { ok: true, echo: '*' };
   if (!origin) return { ok: true, echo: allowed[0] };   // no Origin: not a browser
@@ -66,7 +66,7 @@ function originAllowed(site, origin) {
   return hit ? { ok: true, echo: hit } : { ok: false };
 }
 
-function fingerprintOf(tenantKey, lead) {
+export function fingerprintOf(tenantKey, lead) {
   const basis = [
     tenantKey,
     (lead.email || '').toLowerCase(),
@@ -94,7 +94,7 @@ function tenants() {
 
 // Forms in the wild do not agree on field names. Take the first plausible match
 // rather than demanding a schema the customer has to edit their form to satisfy.
-const FIELDS = {
+export const FIELDS = {
   name:    ['name', 'your-name', 'yourname', 'fullname', 'full_name', 'firstname', 'first_name', 'contact'],
   email:   ['email', 'e-mail', 'your-email', 'youremail', 'email_address', 'emailaddress', 'mail'],
   phone:   ['phone', 'mobile', 'number', 'contact_number', 'tel', 'whatsapp'],
@@ -102,7 +102,7 @@ const FIELDS = {
   message: ['message', 'msg', 'comments', 'comment', 'enquiry', 'inquiry', 'details', 'query', 'requirement', 'description', 'body']
 };
 
-function pick(obj, names) {
+export function pick(obj, names) {
   const lower = {};
   for (const [k, v] of Object.entries(obj)) lower[k.toLowerCase().replace(/[\s_-]/g, '')] = v;
   for (const n of names) {
@@ -113,12 +113,16 @@ function pick(obj, names) {
 }
 
 // Anything we could not map is still the customer's data and may be the useful part.
-function extras(obj) {
+export function extras(obj) {
   const known = new Set(Object.values(FIELDS).flat().map((s) => s.toLowerCase().replace(/[\s_-]/g, '')));
   const out = {};
   for (const [k, v] of Object.entries(obj)) {
     const norm = k.toLowerCase().replace(/[\s_-]/g, '');
-    if (known.has(norm) || norm === '_redirect' || norm === '_gotcha' || norm === 'k') continue;
+    // norm has already had underscores stripped, so comparing it against
+    // '_redirect' and '_gotcha' never matched: the redirect URL and the
+    // honeypot were being stored as the customer's own data and emailed to the
+    // owner as extra fields. Compare against the normalised spellings.
+    if (known.has(norm) || norm === 'redirect' || norm === 'gotcha' || norm === 'honey' || norm === 'k') continue;
     if (v == null || !String(v).trim()) continue;
     out[clean(k, 60)] = clean(v, 400);
   }

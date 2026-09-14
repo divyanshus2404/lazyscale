@@ -15,6 +15,31 @@ const ADDR = /([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,})/i;
 // "Begin forwarded message", "---------- Forwarded message ---------",
 // "-----Original Message-----", and the common localisations we can cover.
 const FORWARD_MARKER = /^\s*(-{2,}\s*)?(begin forwarded message|forwarded message|original message|weitergeleitete nachricht|mensaje reenviado|message transféré)\b/im;
+// Newer Outlook forwards carry no label at all: a rule of underscores, then
+// From:/Sent:/To:/Subject:. Nothing above matches that, so those forwards fell
+// straight through to the envelope — the client's own address in reply-to,
+// which is the single failure this module exists to prevent.
+//
+// Detect the header block by its shape instead of its wording: a From: line
+// with a Sent:/Date: line and a To:/Subject: line close under it. Requiring
+// all three keeps a signature or a quoted "From the desk of" line out.
+const HEADER_LABEL = '(from|von|de|da|expediteur|expéditeur)';
+const FORWARD_BLOCK = new RegExp(
+  '^[ \t>]*' + HEADER_LABEL + '\\s*:.*(?:\\r?\\n[ \t>]*[^\\n]*){0,3}' +
+  '\\r?\\n[ \t>]*(sent|date|datum|enviado|envoyé|fecha)\\s*:',
+  'im'
+);
+function forwardStart(body) {
+  const labelled = FORWARD_MARKER.exec(body);
+  if (labelled) return labelled.index;
+  const block = FORWARD_BLOCK.exec(body);
+  if (!block) return -1;
+  // Only treat it as a forward when the block also names a recipient or a
+  // subject: a From:/Date: pair alone shows up in pasted logs.
+  const near = body.slice(block.index).split(/\r?\n/).slice(0, 8).join('\n');
+  if (!/^[ \t>]*(to|subject|an|betreff|para|asunto|à|objet)\s*:/im.test(near)) return -1;
+  return block.index;
+}
 
 // A From: line inside the forward block. Accepts "From: Name <a@b.com>",
 // "From: a@b.com", and the localised label variants.
@@ -30,7 +55,7 @@ function decodeEntities(s) {
 }
 
 export function looksForwarded(text) {
-  return FORWARD_MARKER.test(String(text || ''));
+  return forwardStart(decodeEntities(String(text || ''))) !== -1;
 }
 
 // Pull the original sender out of the forward header. Returns null when the mail
@@ -38,12 +63,12 @@ export function looksForwarded(text) {
 // should fall back to the envelope rather than guess.
 export function originalSender(text) {
   const body = decodeEntities(text);
-  const m = FORWARD_MARKER.exec(body);
-  if (!m) return null;
+  const at = forwardStart(body);
+  if (at === -1) return null;
 
   // Only look inside the header block: the first ~12 lines after the marker.
   // Searching the whole body would happily match a signature or a quoted thread.
-  const after = body.slice(m.index).split(/\r?\n/).slice(0, 14).join('\n');
+  const after = body.slice(at).split(/\r?\n/).slice(0, 14).join('\n');
   const fromLine = FROM_LINE.exec(after);
   if (!fromLine) return null;
 
@@ -59,9 +84,9 @@ export function originalSender(text) {
 
 export function originalSubject(text) {
   const body = decodeEntities(text);
-  const m = FORWARD_MARKER.exec(body);
-  if (!m) return '';
-  const after = body.slice(m.index).split(/\r?\n/).slice(0, 14).join('\n');
+  const at = forwardStart(body);
+  if (at === -1) return '';
+  const after = body.slice(at).split(/\r?\n/).slice(0, 14).join('\n');
   const s = SUBJECT_LINE.exec(after);
   return s ? s[1].trim() : '';
 }
@@ -76,7 +101,17 @@ export function messageBody(text) {
   // swallow the newline before it, which puts the match on the blank line above
   // and leaves the marker itself in the output.
   const lines = body.split('\n');
-  const markerAt = lines.findIndex((l) => FORWARD_MARKER.test(l));
+  let markerAt = lines.findIndex((l) => FORWARD_MARKER.test(l));
+  if (markerAt === -1 && forwardStart(body) !== -1) {
+    // Unlabelled Outlook block: the rule line above From:, or From: itself.
+    const fromAt = lines.findIndex((l) => /^[ \t>]*(from|von|de)\s*:/i.test(l));
+    if (fromAt !== -1) {
+      markerAt = (fromAt > 0 && /^[ \t>]*[_-]{5,}\s*$/.test(lines[fromAt - 1])) ? fromAt - 1 : fromAt;
+      // markerAt points at a line that is dropped before the header scan, so
+      // when it is the From: line itself step back one to keep it in range.
+      if (markerAt === fromAt) markerAt = Math.max(0, fromAt - 1);
+    }
+  }
   if (markerAt !== -1) {
     const rest = lines.slice(markerAt);
     // drop the marker line, then the header lines (From/To/Date/Subject/Cc...)

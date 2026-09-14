@@ -106,3 +106,22 @@ documents that decide what gets built and what gets refused.
 
 **Read [`services/README.md`](services/README.md) before changing anything that
 makes a promise to a client.** The refusals in it are not decoration.
+
+## Before you push
+
+```bash
+npm test
+```
+
+No dependencies, about a second. CI runs the same thing, plus a check that the
+generated art in `brand/` still matches `brand/make-banner.py` — edit the
+generator, never the SVGs.
+
+Two of the tests encode rules rather than behaviour, and are worth reading
+before working around them:
+
+- **A page may not contain orphan markup.** A regex edit once left a stray `">`
+  live on four pages for several days.
+- **An animated SVG may not hide its own content.** Decoration may fade in;
+  words may not. Anything that animates from `opacity: 0` shows an empty box in
+  a paused frame, a thumbnail, or a renderer that ignores CSS.

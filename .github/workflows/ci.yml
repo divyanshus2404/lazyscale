@@ -1,0 +1,35 @@
+name: CI
+
+# Every push and every pull request. The suite is pure Node with no
+# dependencies, so there is nothing to install and it finishes in seconds.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Test
+        run: npm test
+
+      - name: The generated art must match its source
+        # brand/*.svg is generated. Committing an edit to the file instead of to
+        # the generator is how the two quietly part company.
+        run: |
+          python3 brand/make-banner.py
+          if ! git diff --quiet -- brand; then
+            echo "brand/ is out of date — run: python3 brand/make-banner.py"
+            git diff --stat -- brand
+            exit 1
+          fi
+
+      - name: Endpoints must parse
+        run: for f in api/*.js; do node --check "$f" || exit 1; done

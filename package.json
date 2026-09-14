@@ -1,0 +1,11 @@
+{
+  "name": "lazyscale",
+  "private": true,
+  "type": "module",
+  "description": "Every enquiry answered in under a minute. Site, endpoints and console.",
+  "scripts": {
+    "test": "node --test test/",
+    "check": "node --test test/"
+  },
+  "engines": { "node": ">=18" }
+}
