@@ -43,21 +43,57 @@ here points at that one number. If a feature doesn't move it, it doesn't ship.
 
 ---
 
+## Install
+
+Three things, none of them a database: **Node 18 or newer**, **Git**, and the
+**Vercel CLI**. Python is only needed if you want to regenerate the artwork in
+`brand/`, and you almost certainly don't.
+
+### macOS
+
+```bash
+brew install node git            # or grab the installer from nodejs.org
+npm install -g vercel
+
+git clone https://github.com/divyanshus2404/lazyscale.git
+cd lazyscale
+./run-local.sh                   # http://localhost:3100
+```
+
+### Windows
+
+```powershell
+winget install OpenJS.NodeJS.LTS Git.Git
+npm install -g vercel
+
+git clone https://github.com/divyanshus2404/lazyscale.git
+cd lazyscale
+powershell -ExecutionPolicy Bypass -File .\run-local.ps1
+```
+
+`run-local.ps1` is the PowerShell twin of `run-local.sh` — it exists because
+`vercel dev` resolves environment from the linked Vercel project rather than
+from `.env.local`, on every platform, and both scripts work around the same
+thing. If you'd rather not run a script you haven't read, **Git Bash** ships
+with Git for Windows and runs `./run-local.sh` unchanged; so does WSL.
+
+Developed on macOS with Node 20 and Vercel CLI 54; `run-local.ps1` mirrors the
+tested bash script line for line but has not itself been run on Windows yet, so
+if it argues with you, Git Bash is the path that is known to work. The endpoints themselves
+contain nothing platform-specific — no path juggling, no shelling out — so the
+only file that cares which OS you are on is the launcher.
+
+---
+
 ## Run it in a minute
 
-No keys, no accounts, no Vercel project, no sign-up page asking for your work
-email.
+Already installed? Then: no keys, no accounts, no Vercel project, no sign-up
+page asking for your work email.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="brand/terminal-dark.svg">
   <img src="brand/terminal-light.svg" alt="A terminal session: ./run-local.sh starts the server on port 3100, a curl posts an enquiry, and the response is ok true, replied false, recorded true.">
 </picture>
-
-```bash
-git clone https://github.com/divyanshus2404/lazyscale.git
-cd lazyscale
-./run-local.sh                   # site and functions on http://localhost:3100
-```
 
 Send it an enquiry the way a client's website form would:
 
@@ -102,6 +138,8 @@ automations.html        55 automations, filterable, including what we refuse
 details.html            the one-screen version, for pasting into a chat
 response-times.html     publishes the response-time experiment (see research/)
 setup.html              per-client onboarding page, keyed by ?k=
+run-local.sh            one command to run it all — macOS, Linux, Git Bash, WSL
+run-local.ps1           the same, for PowerShell
 
 api/
   lead.js               the Lead Responder: scores, drafts, escalates

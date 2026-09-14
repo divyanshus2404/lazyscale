@@ -4,8 +4,19 @@ The whole product — site and serverless functions — on one command, with no
 accounts and no keys.
 
 ```bash
-./run-local.sh
+./run-local.sh            # macOS, Linux, Git Bash, WSL
 ```
+
+On Windows without Git Bash:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\run-local.ps1
+```
+
+The two scripts do the same job and keep the same defaults — the same `demo`
+tenant, the same port, the same admin secret — so a bug on one platform should
+reproduce on the other. The PowerShell one has not been run on Windows by the
+author; if it misbehaves, Git Bash runs the bash script unchanged.
 
 Then open <http://localhost:3100>.
 
