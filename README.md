@@ -166,6 +166,14 @@ rendered page — which is why both now happen.
 
 ---
 
+## Contributing
+
+Setup, the branch workflow, and the five rules that have each already caused a
+bug here are in [`CONTRIBUTING.md`](CONTRIBUTING.md). Paste
+[`check.js`](check.js) into the browser console after any visual change — it
+reports contrast failures, heading-order jumps, controls narrower than their own
+label, stray markup and sideways overflow, in both themes.
+
 ## Licence
 
 No licence granted. The code and the operating documents are the property of
