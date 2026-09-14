@@ -22,7 +22,7 @@
 // working, and restructuring it to extract helpers is a change worth making on its
 // own, not as a side effect of adding this.
 
-import { record, storeConfigured } from './_store.js';
+import { record, update } from './_store.js';
 
 const MODEL = 'claude-sonnet-5';
 const MAX_MESSAGE = 1500;
@@ -163,8 +163,14 @@ async function sendMail({ to, subject, html, text, replyTo }) {
   }
 }
 
-// Per-instance throttle, per tenant. Not airtight across instances; it exists to
-// blunt a stuck form looping, not to stop a determined attacker.
+// Per-instance throttle, per tenant.
+//
+// Worth being precise about how weak this is: serverless instances are created
+// and discarded constantly and several run concurrently, so this counter is not
+// shared and resets without warning. It blunts one stuck form retrying in a
+// loop. It does not stop anyone who wants to flood a client's inbox — the
+// endpoint key is visible in the client's own page source, so that is a real
+// exposure and the honest mitigation is rotating a key that gets abused.
 const recent = [];
 function tooMany(k, limit = 30, windowMs = 60000) {
   const now = Date.now();
@@ -215,6 +221,24 @@ export default async function handler(req, res) {
     .map(([kk, vv]) => `<tr><td style="padding:4px 12px 4px 0;color:#666">${esc(kk)}</td><td style="padding:4px 0">${esc(vv)}</td></tr>`)
     .join('');
 
+  // Written down first, before anything slow or fallible runs. The model call
+  // below can take thirty seconds and the mail provider can fail; neither may
+  // be a reason the enquiry stops existing.
+  const stored = await record({
+    tenant_key: k,
+    tenant_name: site.name || null,
+    name: lead.name || null,
+    email: lead.email || null,
+    phone: lead.phone || null,
+    message: lead.message || null,
+    extra: lead.extra && Object.keys(lead.extra).length ? lead.extra : null,
+    source: clean(body.source, 60) || 'web form',
+    forwarded_by: clean(body.forwarded_by, 200) || null,
+    scored: false,
+    alert_sent: false,
+    created_at: lead.at
+  });
+
   // The owner alert goes out whether or not the model ran. This is the part that
   // works on day one and the reason the product is sellable without an API key.
   const q = await qualify(lead, site);
@@ -244,27 +268,16 @@ export default async function handler(req, res) {
     replyTo: emailOk ? lead.email : undefined
   });
 
-  // An enquiry that exists only as an email cannot be counted at the monthly
-  // review, cannot become a case study, and is gone entirely if the mail
-  // provider has a bad minute.
-  const stored = await record({
-    tenant_key: k,
-    tenant_name: site.name || null,
-    name: lead.name || null,
-    email: lead.email || null,
-    phone: lead.phone || null,
-    message: lead.message || null,
-    extra: lead.extra && Object.keys(lead.extra).length ? lead.extra : null,
-    source: clean(body.source, 60) || 'web form',
-    forwarded_by: clean(body.forwarded_by, 200) || null,
+  // Attach the outcome to the row that is already safe. If this fails the
+  // enquiry is still recorded — only the annotation is lost.
+  await update(stored.id, {
     scored: q.ok,
     score: q.ok ? q.score : null,
     intent: q.ok ? q.intent : null,
     needs_human: q.ok ? q.needsHuman : null,
     escalation_reason: q.ok ? (q.escalationReason || null) : null,
     reply_draft: q.ok ? (q.reply || null) : null,
-    alert_sent: alert.ok === true,
-    created_at: lead.at
+    alert_sent: alert.ok === true
   });
 
   // Four guards, same as the Lead Responder: a usable draft, no escalation, a real

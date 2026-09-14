@@ -111,6 +111,25 @@ before the client does is the difference between a review and an invoice.
 
 ---
 
+## Order of operations
+
+The enquiry is written down **first**, before the model is called and before any
+email is attempted. Both of those are slow and fallible — the model call can take
+thirty seconds, the mail provider can have a bad minute — and neither may be a
+reason the enquiry stops existing.
+
+```
+record()  →  qualify()  →  sendMail()  →  update()
+  safe        30s max       can fail      annotation only
+```
+
+The outcome — score, intent, escalation, whether the alert sent — is attached
+afterwards. If that update fails, the enquiry is still recorded and only the
+annotation is lost.
+
+This was the wrong way round until it was measured: the model ran first, so
+anything that threw between the model call and the write lost the lead outright.
+
 ## What happens when it is not configured
 
 Nothing breaks. `record()` reports that it stored nothing and the request carries

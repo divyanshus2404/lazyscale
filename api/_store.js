@@ -30,8 +30,29 @@ const useLocalFile = () => !process.env.VERCEL && !storeConfigured();
 
 async function localAppend(row) {
   const { appendFile } = await import('node:fs/promises');
-  await appendFile(LOCAL_FILE, JSON.stringify(row) + '\n', 'utf8');
-  return { stored: true, local: true };
+  const id = row.id || (globalThis.crypto?.randomUUID?.() ?? String(Date.now()) + Math.random().toString(16).slice(2));
+  await appendFile(LOCAL_FILE, JSON.stringify({ ...row, id }) + '\n', 'utf8');
+  return { stored: true, local: true, id };
+}
+
+// Local rows live in a file, so an update is a rewrite. Fine at laptop scale and
+// never reached in production.
+async function localUpdate(id, patch) {
+  const { readFile, writeFile } = await import('node:fs/promises');
+  let text = '';
+  try { text = await readFile(LOCAL_FILE, 'utf8'); } catch { return { updated: false, reason: 'missing' }; }
+  let found = false;
+  const out = text.split('\n').filter(Boolean).map((line) => {
+    try {
+      const row = JSON.parse(line);
+      if (row.id !== id) return line;
+      found = true;
+      return JSON.stringify({ ...row, ...patch });
+    } catch { return line; }
+  });
+  if (!found) return { updated: false, reason: 'not_found' };
+  await writeFile(LOCAL_FILE, out.join('\n') + '\n', 'utf8');
+  return { updated: true, local: true };
 }
 
 async function localRead(tenantKey, sinceISO, limit) {
@@ -79,7 +100,9 @@ export async function record(row) {
         apikey: key,
         Authorization: `Bearer ${key}`,
         'content-type': 'application/json',
-        Prefer: 'return=minimal'
+        // representation rather than minimal: the id comes back so the outcome
+        // of scoring and alerting can be attached to this row afterwards.
+        Prefer: 'return=representation'
       },
       body: JSON.stringify(row)
     });
@@ -87,10 +110,48 @@ export async function record(row) {
       console.error('store rejected', res.status, (await res.text().catch(() => '')).slice(0, 200));
       return { stored: false, reason: `http_${res.status}` };
     }
-    return { stored: true };
+    const back = await res.json().catch(() => null);
+    return { stored: true, id: Array.isArray(back) ? back[0]?.id : back?.id };
   } catch (err) {
     console.error('store failed', err?.name || err);
     return { stored: false, reason: err?.name === 'AbortError' ? 'timeout' : 'network' };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
+ * Attach the outcome to an enquiry already written down. Never throws: the
+ * enquiry is already safe by this point, and losing the annotation is a far
+ * smaller problem than losing the lead.
+ */
+export async function update(id, patch) {
+  if (!id) return { updated: false, reason: 'no_id' };
+  if (useLocalFile()) {
+    try { return await localUpdate(id, patch); }
+    catch (err) { return { updated: false, reason: 'local_write' }; }
+  }
+  if (!storeConfigured()) return { updated: false, reason: 'not_configured' };
+
+  const url = process.env.SUPABASE_URL.replace(/\/+$/, '') + '/rest/v1/' + TABLE
+    + '?id=eq.' + encodeURIComponent(id);
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 4000);
+  try {
+    const res = await fetch(url, {
+      method: 'PATCH',
+      signal: ctrl.signal,
+      headers: {
+        apikey: key, Authorization: `Bearer ${key}`,
+        'content-type': 'application/json', Prefer: 'return=minimal'
+      },
+      body: JSON.stringify(patch)
+    });
+    if (!res.ok) return { updated: false, reason: `http_${res.status}` };
+    return { updated: true };
+  } catch (err) {
+    return { updated: false, reason: err?.name === 'AbortError' ? 'timeout' : 'network' };
   } finally {
     clearTimeout(timer);
   }
