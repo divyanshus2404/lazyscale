@@ -182,6 +182,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--peek", type=int, default=0, help="show the next N without recording them")
     ap.add_argument("--date", default=None, help="YYYY-MM-DD, for catching up a missed day")
+    ap.add_argument("--force", action="store_true", help="replace today's post with the next item")
     args = ap.parse_args()
 
     state = load_state()
@@ -194,10 +195,22 @@ def main():
 
     day = args.date or dt.date.today().isoformat()
     os.makedirs(OUT, exist_ok=True)
-    item = next_item(state)
 
     img = os.path.join(OUT, f"{day}.png")
     txt = os.path.join(OUT, f"{day}.txt")
+
+    # Running it twice in a morning used to overwrite the post and burn a second
+    # item from the pool — so you were left with one image and one fewer day of
+    # material. A second run now just hands back what is already there.
+    if os.path.exists(img) and os.path.exists(txt) and not args.force:
+        print(img)
+        print(txt)
+        done = state.get("history", [])
+        made = next((h["item"] for h in reversed(done) if h["date"] == day), "already made")
+        print(f"[{made}] (already generated today — --force to replace it)")
+        return
+
+    item = next_item(state)
     render(item, dt.date.fromisoformat(day).strftime("%d %b %Y"), img)
     io.open(txt, "w", encoding="utf-8").write(caption(item) + "\n")
 

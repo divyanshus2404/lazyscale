@@ -14,7 +14,15 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.." || exit 1
 
 LOG="$HOME/Library/Logs/LazyScale-Daily.log"
 mkdir -p "$(dirname "$LOG")"
-exec >> "$LOG" 2>&1
+
+# launchd has no terminal, so everything goes to the log. A person running this
+# by hand should see it happen instead of staring at a silent prompt — the first
+# manual run printed nothing at all and looked broken.
+if [ -t 1 ]; then
+  exec > >(tee -a "$LOG") 2>&1
+else
+  exec >> "$LOG" 2>&1
+fi
 echo "--- $(date '+%F %T') ---"
 
 # launchd gives a job almost no PATH, so python3 and Chrome need finding.
