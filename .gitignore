@@ -6,3 +6,9 @@
 *.local
 node_modules/
 .local-enquiries.jsonl
+
+# generated daily posts and the rotation state
+out/
+content/.posted.json
+__pycache__/
+*.pyc
