@@ -9,6 +9,7 @@
 //   SUPABASE_*     see _store.js
 
 import { readFor, storeAvailable } from './_store.js';
+import { adminGuard } from './_guard.js';
 
 const clean = (v, max = 200) => String(v ?? '').trim().slice(0, max);
 
@@ -21,12 +22,11 @@ function median(ns) {
 export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ ok: false, error: 'Method not allowed' });
 
-  const secret = process.env.ADMIN_SECRET;
   // No secret set means no access, not open access. A stats endpoint that
   // defaults to public would hand a stranger a client's entire enquiry history.
-  if (!secret || clean(req.query?.s) !== secret) {
-    return res.status(403).json({ ok: false, error: 'Forbidden' });
-  }
+  // The guard also rate limits and compares the secret in constant time.
+  const denied = adminGuard(req);
+  if (denied) return res.status(denied.status).json(denied.body);
   if (!storeAvailable()) {
     return res.status(503).json({ ok: false, error: 'No store configured — nothing has been recorded yet.' });
   }

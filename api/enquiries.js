@@ -9,6 +9,7 @@
 //   SUPABASE_*     see _store.js
 
 import { readFor, storeAvailable } from './_store.js';
+import { adminGuard } from './_guard.js';
 
 const clean = (v, max = 200) => String(v ?? '').trim().slice(0, max);
 
@@ -17,12 +18,11 @@ export default async function handler(req, res) {
     return res.status(405).json({ ok: false, error: 'Method not allowed' });
   }
 
-  const secret = process.env.ADMIN_SECRET;
   // Same rule as /api/stats: no secret configured means no access, never open
-  // access. This endpoint returns customers' names, addresses and messages.
-  if (!secret || clean(req.query?.s) !== secret) {
-    return res.status(403).json({ ok: false, error: 'Forbidden' });
-  }
+  // access. This endpoint returns customers' names, addresses and messages, so
+  // the guard also rate limits and compares the secret in constant time.
+  const denied = adminGuard(req);
+  if (denied) return res.status(denied.status).json(denied.body);
 
   if (!storeAvailable()) {
     return res.status(503).json({
