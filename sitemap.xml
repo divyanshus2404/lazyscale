@@ -1,33 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- full.html is deliberately absent: it is the previous design, kept for
+     reference, unlinked and marked noindex so it cannot compete in search. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://lazyscale.vercel.app/</loc>
-    <lastmod>2026-08-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://lazyscale.vercel.app/privacy.html</loc>
-    <lastmod>2026-08-19</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://lazyscale.vercel.app/terms.html</loc>
-    <lastmod>2026-08-19</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://lazyscale.vercel.app/automations.html</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://lazyscale.vercel.app/details</loc>
-    <lastmod>2026-09-16</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
+  <url><loc>https://lazyscale.vercel.app/</loc><priority>1.0</priority></url>
+  <url><loc>https://lazyscale.vercel.app/pricing.html</loc><priority>0.9</priority></url>
+  <url><loc>https://lazyscale.vercel.app/automations.html</loc><priority>0.8</priority></url>
+  <url><loc>https://lazyscale.vercel.app/faq.html</loc><priority>0.7</priority></url>
+  <url><loc>https://lazyscale.vercel.app/about.html</loc><priority>0.6</priority></url>
+  <url><loc>https://lazyscale.vercel.app/details</loc><priority>0.4</priority></url>
+  <url><loc>https://lazyscale.vercel.app/privacy.html</loc><priority>0.2</priority></url>
+  <url><loc>https://lazyscale.vercel.app/terms.html</loc><priority>0.2</priority></url>
 </urlset>

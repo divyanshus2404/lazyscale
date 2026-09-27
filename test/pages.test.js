@@ -105,3 +105,16 @@ test('nothing claims a customer we do not have', () => {
     }
   }
 });
+
+test('no page claims we do not store data, or an audit we have not had', () => {
+  // api/inbound.js records name, email, phone and message for every enquiry —
+  // capture-before-spend is the whole design. The old FAQ said the opposite,
+  // in the visible copy and in the FAQPage structured data Google reads.
+  const lies = [/never store your customer data/i, /we do not store (any )?customer data/i,
+                /SOC ?2 (certified|compliant)/i, /follow SOC ?2 practices/i,
+                /live in 48 hours/i];
+  for (const page of readdirSync('.').filter((f) => f.endsWith('.html'))) {
+    const html = readFileSync(page, 'utf8');
+    for (const re of lies) assert.equal(re.test(html), false, `${page} matches ${re}`);
+  }
+});

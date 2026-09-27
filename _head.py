@@ -43,7 +43,8 @@ def nav(active=""):
     def link(href, label):
         style = ' style="color:var(--text)"' if label.lower() == active else ''
         return f'<a href="{href}"{style}>{label}</a>'
-    return f"""<header id="hdr">
+    return f"""<a class="skip" href="#main">Skip to content</a>
+<header id="hdr">
   <div class="wrap">
     <div class="nav">
       <a class="brand" href="/">{MARK} LazyScale</a>
@@ -69,6 +70,7 @@ FOOTER = """<footer>
     <span>© 2026 LazyScale</span>
     <a href="/automations.html">What we automate</a>
     <a href="/pricing.html">Pricing</a>
+    <a href="/faq.html">Questions</a>
     <a href="/about.html">About</a>
     <a href="https://github.com/divyanshus2404/lazyscale" target="_blank" rel="noopener">Source</a>
     <a href="/privacy.html">Privacy</a>

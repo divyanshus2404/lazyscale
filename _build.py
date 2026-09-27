@@ -49,6 +49,45 @@ HOW = [("01", "Connect", "Point an existing form, inbox or WhatsApp number at us
        ("02", "Choose", "Pick the AI employee for the job. Each one arrives with a written job description and a probation period."),
        ("03", "Run", "It works the queue. You get the ones worth your time, and a monthly review of what it actually did.")]
 
+# ── FAQ ────────────────────────────────────────────────────────────────────
+# Carried over from the old page, with four answers corrected. The old versions
+# are listed against each one, because two of them were not true.
+FAQ = [
+ ("What tools do you connect to?",
+  "Slack, Gmail, Notion, Airtable, HubSpot, Calendly, Stripe, Shopify, WhatsApp, Instagram and Google Sheets. If your enquiries arrive somewhere else, forwarding one kind of email is usually enough to get started."),
+
+ # Was: "Most workflows go live in 48 hours." Nothing has ever been delivered to
+ # a client, so there is no delivery time to promise.
+ ("How long does setup take?",
+  "The drop-in — where your existing form posts to us and every enquiry gets captured and alerted — is the fast part. A full build, with qualification criteria written around your business, takes longer. You will see it running on your own enquiries before it answers anyone."),
+
+ ("What if I want to cancel?",
+  "Stop whenever you like. No contract, no exit fee, and nothing to migrate back out of, because nothing moved in the first place. Ask and we delete what we hold."),
+
+ ("Do I need to be technical?",
+  "No. You describe what should happen in plain language, and the connecting, building and maintaining is the job you are paying for."),
+
+ ("Will it make mistakes?",
+  "Yes, sometimes — so it is built to fail in the cheap direction. Anything it should not answer goes to a person instead, and nothing irreversible happens without someone approving it. Complaints, price negotiations and questions about existing orders are escalated by default."),
+
+ # Was: "Most startups on Growth never hit the cap." There are no customers, so
+ # there is no distribution to describe.
+ ("What counts as an AI action?",
+  "One action is one thing an AI employee does on your behalf: reading an enquiry, drafting a reply, scoring a lead, sending a reminder. A busy month for a small business usually runs to a few hundred."),
+
+ ("Can I change plans later?",
+  "Up or down, any time, effective from your next billing cycle. No penalty either way."),
+
+ # Was: "We never store your customer data... We use encrypted connections and
+ # follow SOC 2 practices." Both false. Every enquiry is recorded — name, email,
+ # phone and message — because that is how the monthly review is produced and
+ # how a failure downstream never costs you the lead. SOC 2 is an audit nobody
+ # here has been through.
+ ("What happens to my customers' data?",
+  "We do store it, and it is worth being exact about that. Every enquiry is recorded — name, email, phone and message — before anything else is attempted, which is what stops a failure further down the line from losing you the lead, and what the monthly review is built from. It lives in a Supabase database that only the server can reach, one tenant's records are never readable by another, and we have not been through a SOC 2 audit so we do not claim one. Ask for your data and we hand it over or delete it."),
+]
+
+
 TOOLS = ["WhatsApp", "Instagram", "Gmail", "Slack", "Google Sheets", "HubSpot",
          "Airtable", "Notion", "Shopify", "Stripe", "Razorpay", "Calendly"]
 
@@ -100,7 +139,7 @@ def build_index():
     return head("LazyScale — AI employees for repetitive work",
                 "LazyScale gives your team AI employees that handle repetitive sales, support and operations work automatically.",
                 "https://lazyscale.vercel.app/") + nav("product") + f"""
-<main>
+<main id="main">
 
   <!-- 1. Hero -->
   <section class="sec hero">
@@ -250,7 +289,7 @@ def build_pricing():
     return head("Pricing — LazyScale",
                 "Pay for what you automate. Starter, Growth and Scale — no long contracts, cancel any time.",
                 "https://lazyscale.vercel.app/pricing.html") + nav("pricing") + f"""
-<main>
+<main id="main">
   <section class="sec">
     <div class="wrap">
       <div class="eyebrow">Pricing</div>
@@ -275,7 +314,7 @@ def build_about():
     return head("About — LazyScale",
                 "One person, building enquiry response for small businesses in India. What LazyScale is, and what it refuses to build.",
                 "https://lazyscale.vercel.app/about.html") + nav("about") + f"""
-<main>
+<main id="main">
   <section class="sec">
     <div class="wrap" style="max-width:760px">
       <div class="eyebrow">About</div>
@@ -305,8 +344,54 @@ def build_about():
 """ + FOOTER
 
 
+def build_faq():
+    items = "".join(
+        f'''<details class="qa reveal"><summary><span>{q}</span><i aria-hidden="true">+</i></summary><p>{a}</p></details>'''
+        for q, a in FAQ)
+    return head("Questions — LazyScale",
+                "What LazyScale connects to, how long setup takes, what happens to your customers' data, and what it will not do.",
+                "https://lazyscale.vercel.app/faq.html") + nav("") + f"""
+<main id="main">
+  <section class="sec">
+    <div class="wrap" style="max-width:780px">
+      <div class="eyebrow">Questions</div>
+      <h1 style="font-size:clamp(32px,4vw,48px)">The ones people actually ask.</h1>
+      <p class="lede">If yours is not here, email it and the answer will end up on this page.</p>
+      <div class="qas">{items}</div>
+      <div style="margin-top:var(--s7);display:flex;gap:var(--s4);flex-wrap:wrap">
+        <a class="btn" href="{GET_STARTED}" target="_blank" rel="noopener">Get Started</a>
+        <a class="btn btn-ghost" href="mailto:divyanshus2404@gmail.com">Ask something else</a>
+      </div>
+    </div>
+  </section>
+</main>
+""" + FOOTER
+
+
+def build_404():
+    return head("Not found — LazyScale", "That page does not exist.",
+                "https://lazyscale.vercel.app/404.html") + nav("") + """
+<main id="main">
+  <section class="sec" style="text-align:center">
+    <div class="wrap" style="max-width:520px">
+      <div class="eyebrow">404</div>
+      <h1 style="font-size:clamp(30px,3.6vw,44px)">That page isn't here.</h1>
+      <p class="lede" style="margin-left:auto;margin-right:auto">It may have moved while the site was being rebuilt. The useful ones are below.</p>
+      <div style="margin-top:var(--s6);display:flex;gap:var(--s3);justify-content:center;flex-wrap:wrap">
+        <a class="btn" href="/">Home</a>
+        <a class="btn btn-ghost" href="/automations.html">What we automate</a>
+        <a class="btn btn-ghost" href="/pricing.html">Pricing</a>
+      </div>
+    </div>
+  </section>
+</main>
+""" + FOOTER
+
+
 if __name__ == "__main__":
-    for name, fn in (("index.html", build_index), ("pricing.html", build_pricing), ("about.html", build_about)):
+    for name, fn in (("index.html", build_index), ("pricing.html", build_pricing),
+                     ("about.html", build_about), ("faq.html", build_faq),
+                     ("404.html", build_404)):
         html = fn()
         io.open(name, "w", encoding="utf-8").write(html)
         print(f"wrote {name} ({len(html):,} bytes)")
