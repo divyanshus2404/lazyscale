@@ -127,7 +127,7 @@ def build_index():
         + ('<div class="step-arrow" aria-hidden="true">→</div>' if i < len(STEPS) - 1 else '')
         for i, (n, d) in enumerate(STEPS))
     how = "".join(
-        f'<div class="reveal"><div class="how-n">{n}</div><h3>{t}</h3><p class="lede" style="font-size:15.5px;margin-top:8px">{d}</p></div>'
+        f'<div class="reveal"><div class="how-n">{n}</div><h3>{t}</h3><p class="how-p">{d}</p></div>'
         for n, t, d in HOW)
     tools = "".join(f'<div class="tool">{t}</div>' for t in TOOLS)
     tiers = "".join(
@@ -145,7 +145,7 @@ def build_index():
   <section class="sec hero">
     <div class="wrap">
       <h1>AI employees for<br>repetitive work.</h1>
-      <p class="lede" style="font-size:19px;max-width:32em">LazyScale gives your team AI employees that handle repetitive sales, support and operations work automatically.</p>
+      <p class="lede" style="max-width:32em">LazyScale gives your team AI employees that handle repetitive sales, support and operations work automatically.</p>
       <div class="hero-ctas">
         <a class="btn btn-lg" href="{GET_STARTED}" target="_blank" rel="noopener">Get Started</a>
         <a class="link" href="#demo">See how it works <span>→</span></a>
@@ -253,7 +253,7 @@ def build_index():
     <div class="wrap founder">
       <div class="reveal">
         <div class="eyebrow">Who builds it</div>
-        <h2 style="font-size:clamp(24px,2.6vw,32px)">Built by Divyanshu Singh</h2>
+        <h2 style="font-size:var(--t-h3)">Built by Divyanshu Singh</h2>
         <p class="lede">“I'm building LazyScale to give small teams the leverage of a much larger operations team.”</p>
         <p style="margin-top:var(--s5)"><a class="link" href="/about.html">More about why <span>→</span></a></p>
       </div>
@@ -293,7 +293,7 @@ def build_pricing():
   <section class="sec">
     <div class="wrap">
       <div class="eyebrow">Pricing</div>
-      <h1 style="font-size:clamp(34px,4.4vw,52px)">Pay for what you automate.</h1>
+      <h1 style="font-size:var(--t-h1)">Pay for what you automate.</h1>
       <p class="lede">No long contracts. Cancel any time. Start with one AI employee and add more when the first has proved itself.</p>
       <div class="grid-3 ptiers">{tiers}</div>
       <div class="card notes">
@@ -318,7 +318,7 @@ def build_about():
   <section class="sec">
     <div class="wrap" style="max-width:760px">
       <div class="eyebrow">About</div>
-      <h1 style="font-size:clamp(32px,4vw,48px)">There is one person behind this.</h1>
+      <h1 style="font-size:var(--t-h1)">There is one person behind this.</h1>
       <div class="prose">
         <p>My name is Divyanshu Singh. I build the automations, I connect them to your tools, and when one breaks at 2am it is my phone that goes off. There is no team behind me and no support queue in front of me — the person you talk to is the person doing the work.</p>
         <p>LazyScale exists because most businesses here don't lose customers on price. They lose them because someone was asleep, or on a call, or the message landed on WhatsApp while everyone was watching email. The enquiry was fine. The timing wasn't.</p>
@@ -355,7 +355,7 @@ def build_faq():
   <section class="sec">
     <div class="wrap" style="max-width:780px">
       <div class="eyebrow">Questions</div>
-      <h1 style="font-size:clamp(32px,4vw,48px)">The ones people actually ask.</h1>
+      <h1 style="font-size:var(--t-h1)">The ones people actually ask.</h1>
       <p class="lede">If yours is not here, email it and the answer will end up on this page.</p>
       <div class="qas">{items}</div>
       <div style="margin-top:var(--s7);display:flex;gap:var(--s4);flex-wrap:wrap">
@@ -375,7 +375,7 @@ def build_404():
   <section class="sec" style="text-align:center">
     <div class="wrap" style="max-width:520px">
       <div class="eyebrow">404</div>
-      <h1 style="font-size:clamp(30px,3.6vw,44px)">That page isn't here.</h1>
+      <h1 style="font-size:var(--t-h1)">That page isn't here.</h1>
       <p class="lede" style="margin-left:auto;margin-right:auto">It may have moved while the site was being rebuilt. The useful ones are below.</p>
       <div style="margin-top:var(--s6);display:flex;gap:var(--s3);justify-content:center;flex-wrap:wrap">
         <a class="btn" href="/">Home</a>
