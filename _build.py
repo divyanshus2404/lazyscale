@@ -231,7 +231,7 @@ def build_index():
   </section>
 
   <!-- 4. Product demonstration -->
-  <section class="sec" id="demo">
+  <section class="sec sec-soft" id="demo">
     <div class="wrap">
       <div class="eyebrow">How the work moves</div>
       <h2>See it work.</h2>
@@ -296,7 +296,7 @@ def build_index():
   </section>
 
   <!-- 10. Final CTA -->
-  <section class="sec cta">
+  <section class="sec sec-soft cta">
     <div class="wrap">
       <h2>Stop doing work a machine can do.</h2>
       <p class="lede" style="margin-left:auto;margin-right:auto;text-align:center">Deploy your first AI employee today.</p>

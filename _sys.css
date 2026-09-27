@@ -64,8 +64,18 @@ h1 { font-size: var(--t-h1); }
 h2 { font-size: var(--t-h2); }
 h3 { font-size: var(--t-h3); letter-spacing: -0.02em; }
 p { margin: 0; }
-.wrap { max-width: var(--w); margin: 0 auto; padding: 0 28px; }
+/* The gutter has to grow with the viewport, not sit at a fixed 28px. At any
+   width between the container's 1120px and about 1250px the page was pinned to
+   both edges with a thin margin, which reads as broken rather than full-bleed —
+   and that is the range a 13-inch laptop actually sits in. */
+.wrap { max-width: var(--w); margin: 0 auto; padding: 0 clamp(20px, 4.5vw, 72px); }
 .sec { padding: var(--s9) 0; border-top: 1px solid var(--line); }
+/* Every section on the same white with a hairline above it reads flat over a
+   long scroll. Two sections sit on the soft ground instead — the demonstration
+   and the closing call — which gives the page a shape without adding a single
+   box, gradient or divider. */
+.sec-soft { background: var(--bg-soft); border-top: 0; }
+.sec-soft + .sec { border-top: 0; }
 .sec + .sec { border-top: 1px solid var(--line); }
 .sec:first-of-type { border-top: 0; }
 .eyebrow {
