@@ -44,6 +44,11 @@ export default async function handler(req, res) {
   const scored = rows.filter((r) => r.scored);
   const escalated = rows.filter((r) => r.needs_human === true);
   const lost = rows.filter((r) => r.alert_sent === false);
+  // Genuinely handled without a human means the AI actually replied to the
+  // customer, not merely that the enquiry was never flagged. Rows from before
+  // this was persisted have no auto_replied field and correctly count as not
+  // auto-handled, because we cannot claim what we never recorded.
+  const autoReplied = rows.filter((r) => r.auto_replied === true);
 
   // Which escalation reasons keep coming back — the one number that tells you
   // what to fix next, and the thing the review is supposed to surface.
@@ -72,7 +77,11 @@ export default async function handler(req, res) {
     scored: scored.length,
     medianScore: median(scored.map((r) => Number(r.score)).filter(Number.isFinite)),
     escalated: escalated.length,
-    handledWithoutAHuman: rows.length ? +(((rows.length - escalated.length) / rows.length) * 100).toFixed(1) : null,
+    autoReplied: autoReplied.length,
+    // The share the AI answered end to end with no human in the loop. Based on
+    // replies that actually went out — not on the absence of an escalation,
+    // which previously reported 100% for a month where nothing was answered.
+    handledWithoutAHuman: rows.length ? +((autoReplied.length / rows.length) * 100).toFixed(1) : null,
     alertsFailed: lost.length,
     topEscalationReasons: Object.entries(reasons).sort((a, b) => b[1] - a[1]).slice(0, 5)
       .map(([reason, count]) => ({ reason, count })),

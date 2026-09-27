@@ -362,18 +362,6 @@ export default async function handler(req, res) {
     replyTo: emailOk ? lead.email : undefined
   });
 
-  // Attach the outcome to the row that is already safe. If this fails the
-  // enquiry is still recorded — only the annotation is lost.
-  await update(stored.id, {
-    scored: q.ok,
-    score: q.ok ? q.score : null,
-    intent: q.ok ? q.intent : null,
-    needs_human: q.ok ? q.needsHuman : null,
-    escalation_reason: q.ok ? (q.escalationReason || null) : null,
-    reply_draft: q.ok ? (q.reply || null) : null,
-    alert_sent: alert.ok === true
-  });
-
   // Four guards, same as the Lead Responder: a usable draft, no escalation, a real
   // address, and a score the tenant has explicitly chosen to trust.
   const threshold = Number.isFinite(Number(site.threshold)) ? Number(site.threshold) : DEFAULT_THRESHOLD;
@@ -388,6 +376,21 @@ export default async function handler(req, res) {
     });
     replied = sent.ok;
   }
+
+  // Attach the outcome to the row that is already safe. If this fails the
+  // enquiry is still recorded — only the annotation is lost. auto_replied is
+  // persisted so the monthly review can report what was actually handled,
+  // rather than inferring it from the absence of an escalation.
+  await update(stored.id, {
+    scored: q.ok,
+    score: q.ok ? q.score : null,
+    intent: q.ok ? q.intent : null,
+    needs_human: q.ok ? q.needsHuman : null,
+    escalation_reason: q.ok ? (q.escalationReason || null) : null,
+    reply_draft: q.ok ? (q.reply || null) : null,
+    alert_sent: alert.ok === true,
+    auto_replied: replied
+  });
 
   // If the alert did not send and nothing was written down, the enquiry has
   // been lost. Telling the customer it arrived would be the worst failure this
