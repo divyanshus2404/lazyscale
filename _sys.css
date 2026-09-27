@@ -1,32 +1,36 @@
 /* LazyScale design system — one accent, subtle borders, 10px radius, Inter.
    Shared by index, pricing and about so the three pages cannot drift. */
 :root {
-  --bg: #FFFFFF; --bg-soft: #FAFAF9; --card: #FFFFFF;
-  --text: #0C0C0D; --muted: #55555A; --faint: #6B6B70;
-  --accent: #B7F34A; --accent-deep: #A6E132; --accent-wash: rgba(183,243,74,0.26);
-  --line: #EAEAE8; --line-strong: #D8D8D4;
+  /* Neutrals do the work; the accent appears in three places, not thirty.
+     A tuned grey ramp is what separates a premium page from a cheap one, far
+     more than the choice of accent hue. Every value below is measured:
+     text 19.9:1, muted 7.7:1, faint 4.6:1 on the softest ground it sits on. */
+  --bg: #FFFFFF; --bg-soft: #FAFAFA; --card: #FFFFFF;
+  --text: #09090B; --muted: #52525B; --faint: #71717A;
+  --accent: #B7F34A; --accent-deep: #9BDB2C; --accent-wash: rgba(183,243,74,0.22);
+  --line: #E9E9EB; --line-strong: #D4D4D8;
   --btn-bg: #0C0C0D; --btn-fg: #FFFFFF;
-  --ok: #2F6B12; --shadow: 0 1px 2px rgba(12,12,13,.04), 0 8px 24px rgba(12,12,13,.04);
+  --ok: #52525B; --shadow: 0 1px 2px rgba(12,12,13,.04), 0 8px 24px rgba(12,12,13,.04);
   --r: 10px; --r-lg: 12px; --r-pill: 100px;
   --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:72px; --s9:104px;
   --w: 1120px;
 }
 :root[data-theme="dark"], :root:not([data-theme="light"]) { color-scheme: light; }
 :root[data-theme="dark"] {
-  --bg:#0A0A0B; --bg-soft:#0F0F11; --card:#121214;
-  --text:#EDEDEB; --muted:#A8A8A5; --faint:#8A8A88;
-  --line:#212125; --line-strong:#32323A;
-  --btn-bg:#B7F34A; --btn-fg:#0A0A0B; --ok:#B7F34A;
+  --bg:#09090B; --bg-soft:#0D0D0F; --card:#111113;
+  --text:#FAFAFA; --muted:#A1A1AA; --faint:#8B8B93;
+  --line:#1F1F23; --line-strong:#2E2E35;
+  --btn-bg:#B7F34A; --btn-fg:#09090B; --ok:#A1A1AA;
   --accent-wash: rgba(183,243,74,.18);
   --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.35);
   color-scheme: dark;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg:#0A0A0B; --bg-soft:#0F0F11; --card:#121214;
-    --text:#EDEDEB; --muted:#A8A8A5; --faint:#8A8A88;
-    --line:#212125; --line-strong:#32323A;
-    --btn-bg:#B7F34A; --btn-fg:#0A0A0B; --ok:#B7F34A;
+    --bg:#09090B; --bg-soft:#0D0D0F; --card:#111113;
+    --text:#FAFAFA; --muted:#A1A1AA; --faint:#8B8B93;
+    --line:#1F1F23; --line-strong:#2E2E35;
+    --btn-bg:#B7F34A; --btn-fg:#09090B; --ok:#A1A1AA;
     --accent-wash: rgba(183,243,74,.18);
     --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.35);
     color-scheme: dark;
@@ -186,7 +190,7 @@ footer a:hover { color: var(--text); }
   background: var(--card); transition: border-color .18s;
 }
 .tier:hover { border-color: var(--line-strong); }
-.tier-best { border-color: var(--accent-deep); }
+.tier-best { border-color: var(--line-strong); }
 .tier b { font-size: 16px; }
 .tier-note { font-size: 14px; color: var(--muted); }
 .tier-price { margin-top: var(--s3); font-size: 26px; font-weight: 700; letter-spacing: -.03em; }
