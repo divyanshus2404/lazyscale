@@ -303,7 +303,7 @@ footer a:hover { color: var(--text); }
   margin-left: auto; font-size: var(--t-micro); font-weight: 600;
   letter-spacing: .08em; text-transform: uppercase; color: var(--faint);
 }
-.app-body { display: grid; grid-template-columns: 232px 1fr; }
+.app-body { display: grid; grid-template-columns: 250px minmax(0, 1fr); }
 .queue { border-right: 1px solid var(--line); background: var(--bg-soft); }
 .queue-head {
   padding: var(--s3) var(--s4); font-size: var(--t-micro); font-weight: 600;
@@ -311,7 +311,7 @@ footer a:hover { color: var(--text); }
   border-bottom: 1px solid var(--line);
 }
 .q-item {
-  display: grid; grid-template-columns: 1fr auto; gap: var(--s1) var(--s3);
+  display: grid; grid-template-columns: minmax(0,1fr) auto; gap: var(--s1) var(--s3);
   padding: var(--s3) var(--s4); border-bottom: 1px solid var(--line);
   font-size: var(--t-sm);
 }
@@ -319,13 +319,28 @@ footer a:hover { color: var(--text); }
 .q-on { background: var(--card); box-shadow: inset 2px 0 0 var(--accent); }
 .q-ch { grid-column: 1; font-size: var(--t-micro); color: var(--faint); letter-spacing: .04em; text-transform: uppercase; }
 .q-t { grid-column: 2; grid-row: 1 / span 2; align-self: center; font-size: var(--t-micro); color: var(--faint); }
-.q-who { grid-column: 1; font-weight: 600; color: var(--text); }
-.detail { padding: var(--s5); display: flex; flex-direction: column; gap: var(--s3); }
-.d-quote { font-size: var(--t-lede); letter-spacing: -.015em; max-width: 30ch; }
-.d-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s3) var(--s5); margin-top: var(--s2); }
-.d-grid > div { display: flex; flex-direction: column; gap: var(--s1); }
+.q-who { grid-column: 1; font-weight: 600; color: var(--text); font-size: var(--t-meta); overflow: hidden; text-overflow: ellipsis; }
+.detail { padding: var(--s5); display: flex; flex-direction: column; gap: var(--s5); }
+.d-step { display: flex; flex-direction: column; gap: var(--s2); }
+.d-label {
+  font-size: var(--t-micro); font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--faint);
+}
+.d-quote { font-size: var(--t-lede); letter-spacing: -.015em; max-width: 46ch; }
+.d-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s3) var(--s4); }
+.d-grid > div { display: flex; flex-direction: column; gap: var(--s1); min-width: 0; }
 .d-grid .k { font-size: var(--t-micro); letter-spacing: .06em; text-transform: uppercase; color: var(--faint); }
 .d-grid .v { font-size: var(--t-sm); font-weight: 500; }
+.d-score { display: flex; align-items: baseline; gap: var(--s3); flex-wrap: wrap; }
+.d-why { font-size: var(--t-sm); color: var(--muted); }
+/* The reply is the product's actual output, so it gets the accent rule the way
+   a quoted answer would in the console. */
+.d-reply {
+  font-size: var(--t-sm); color: var(--text); background: var(--bg-soft);
+  border-left: 2px solid var(--accent); border-radius: 0 var(--r-xs) var(--r-xs) 0;
+  padding: var(--s3) var(--s4); max-width: 62ch;
+}
+.d-dones { display: flex; flex-direction: column; gap: var(--s2); }
 .app-foot {
   border-top: 1px solid var(--line); padding: var(--s3) var(--s4);
   font-size: var(--t-meta); color: var(--faint);
@@ -337,6 +352,7 @@ footer a:hover { color: var(--text); }
   .q-item:nth-child(n+4) { display: none; }
   .app-tab { display: none; }
   .d-grid { grid-template-columns: 1fr 1fr; }
+  .app-body { grid-template-columns: 1fr; }
 }
 
 /* ── solutions catalogue ─────────────────────────────────────────────────── */

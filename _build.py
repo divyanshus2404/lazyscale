@@ -152,9 +152,10 @@ def build_index():
       </div>
       <p class="hero-meta">No migration · no new software to learn · no passwords change hands</p>
 
-      <!-- The product is the visual. A queue on the left and the handled
-           enquiry on the right reads as software; a single list of rows read
-           as a marketing card. -->
+      <!-- The product is the visual. Left: what came in, across channels.
+           Right: what LazyScale did with it, in the order it did it — including
+           the reply itself, which the previous version never showed. A visitor
+           should be able to understand the product from this block alone. -->
       <div class="app">
         <div class="app-bar">
           <span class="pip"></span><b>Lead Responder</b>
@@ -166,43 +167,67 @@ def build_index():
             <div class="queue-head">Today · 4 handled</div>
             <div class="q-item q-on">
               <span class="q-ch">WhatsApp</span>
-              <span class="q-who">Rahul</span>
+              <span class="q-who">Karthik · CTO, 40-person SaaS</span>
               <span class="q-t">11:41 pm</span>
             </div>
             <div class="q-item">
-              <span class="q-ch">Instagram</span>
-              <span class="q-who">Meera</span>
-              <span class="q-t">10:02 pm</span>
-            </div>
-            <div class="q-item">
               <span class="q-ch">Web form</span>
-              <span class="q-who">Arjun</span>
-              <span class="q-t">7:18 pm</span>
+              <span class="q-who">Priya · agency, API work</span>
+              <span class="q-t">9:04 pm</span>
             </div>
             <div class="q-item">
               <span class="q-ch">Email</span>
-              <span class="q-who">Sana</span>
+              <span class="q-who">Dev · student, asking rates</span>
+              <span class="q-t">7:18 pm</span>
+            </div>
+            <div class="q-item">
+              <span class="q-ch">Instagram</span>
+              <span class="q-who">Anon · “is this AI?”</span>
               <span class="q-t">4:55 pm</span>
             </div>
           </div>
 
           <div class="detail">
-            <div class="d-quote">“Looking for a 3BHK in Whitefield, need to move in 2 months.”</div>
-            <div class="d-grid">
-              <div><span class="k">Budget</span><span class="v">₹1.2 Cr</span></div>
-              <div><span class="k">Location</span><span class="v">Whitefield</span></div>
-              <div><span class="k">Timeline</span><span class="v">2 months</span></div>
-              <div><span class="k">Qualified</span><span class="v"><span class="score">9 / 10</span></span></div>
+            <div class="d-step">
+              <span class="d-label">1 — Came in</span>
+              <div class="d-quote">“We need an internal dashboard over our Postgres. 40-person team, live before the March audit. What would you charge?”</div>
             </div>
-            <div class="hr"></div>
-            <div class="done">{TICK}Replied in 41 seconds, at 11:41 pm</div>
-            <div class="done">{TICK}Recorded before the model was called</div>
-            <div class="done">{TICK}Flagged for a callback in the morning</div>
+
+            <div class="d-step">
+              <span class="d-label">2 — Understood</span>
+              <div class="d-grid">
+                <div><span class="k">Need</span><span class="v">Internal dashboard</span></div>
+                <div><span class="k">Stack</span><span class="v">Postgres</span></div>
+                <div><span class="k">Deadline</span><span class="v">Before March audit</span></div>
+                <div><span class="k">Team size</span><span class="v">40</span></div>
+              </div>
+            </div>
+
+            <div class="d-step">
+              <span class="d-label">3 — Scored</span>
+              <div class="d-score">
+                <span class="score">9 / 10</span>
+                <span class="d-why">Named a deadline and a decision-maker. No budget yet — worth asking.</span>
+              </div>
+            </div>
+
+            <div class="d-step">
+              <span class="d-label">4 — Replied, 41 seconds later</span>
+              <div class="d-reply">“Yes — we've built dashboards on Postgres before. Before I quote: is the March audit a hard date, and roughly what budget are you working to? I can send two options tomorrow morning.”</div>
+            </div>
+
+            <div class="d-step">
+              <span class="d-label">5 — Then</span>
+              <div class="d-dones">
+                <div class="done">{TICK}Recorded before the model was called</div>
+                <div class="done">{TICK}Flagged for your 9am callback list</div>
+                <div class="done">{TICK}“Is this AI?” on Instagram sent to you, unanswered</div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="app-foot">An example of the Lead Responder's output. Anything it should not answer — a complaint, a price negotiation, a question about an existing order — goes to a person instead.</div>
+        <div class="app-foot">An example of the Lead Responder's output. It never negotiates price, never promises a date, and hands anything awkward to a person — the fourth message above is one it deliberately did not answer.</div>
       </div>
-    </div>
   </section>
 
   <!-- 2. Problem -->
