@@ -18,6 +18,7 @@
 // Capture happens before anything else. A lead is never lost to a failure further down.
 
 import { record } from './_store.js';
+import { modelBudgetOk } from './_budget.js';
 
 const MODEL = 'claude-sonnet-5';
 const MAX_MESSAGE = 1500;
@@ -77,6 +78,10 @@ async function capture(payload) {
 async function qualify(lead) {
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) return { ok: false, reason: 'no_api_key' };
+
+  // Never spend before we have proven we are under the day's ceiling.
+  const budget = await modelBudgetOk();
+  if (!budget.ok) return { ok: false, reason: budget.reason };
 
   // Attacker-controlled text. Capped and fenced, and the model is told it is data.
   const content =

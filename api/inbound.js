@@ -24,6 +24,7 @@
 
 import { createHash } from 'node:crypto';
 import { record, update, findRecent, countSince } from './_store.js';
+import { modelBudgetOk } from './_budget.js';
 
 const MODEL = 'claude-sonnet-5';
 const MAX_MESSAGE = 1500;
@@ -143,6 +144,10 @@ function parseBody(req) {
 async function qualify(lead, tenant) {
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) return { ok: false, reason: 'no_api_key' };
+
+  // Never spend before we have proven we are under the day's ceiling.
+  const budget = await modelBudgetOk();
+  if (!budget.ok) return { ok: false, reason: budget.reason };
 
   const system = `You are the Lead Responder for ${tenant.name}. A new enquiry has arrived through their website. Do three jobs and return ONLY a JSON object.
 1. SCORE it 0-10 on how likely it is to become real paying business for ${tenant.name}. Be honest — most enquiries are not a 9. A vague "tell me more" is a 4.

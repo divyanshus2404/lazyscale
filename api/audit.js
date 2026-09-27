@@ -16,6 +16,7 @@
 // is still captured and the visitor still gets a sensible message.
 
 import { record } from './_store.js';
+import { modelBudgetOk } from './_budget.js';
 
 const MODEL = 'claude-sonnet-5';
 const MAX_MESSAGE_CHARS = 1500;
@@ -87,6 +88,10 @@ function toHtml(markdown) {
 async function writeAudit({ name, startup, teamSize, painPoints }) {
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) return { ok: false, reason: 'no_api_key' };
+
+  // Never spend before we have proven we are under the day's ceiling.
+  const budget = await modelBudgetOk();
+  if (!budget.ok) return { ok: false, reason: budget.reason };
 
   // The free-text field is attacker-controlled, so it is capped and fenced.
   const userContent =

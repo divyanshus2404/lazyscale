@@ -153,6 +153,43 @@ export async function record(row) {
  * reached" — a store that is down may not become a reason to reject real
  * enquiries.
  */
+/**
+ * Count every row across all tenants since a time. Used by the daily model-spend
+ * cap, which must bound total spend, not one tenant's. Returns null when it
+ * cannot tell, and the caller treats that as "do not spend".
+ */
+export async function countAllSince(sinceISO) {
+  if (useLocalFile()) {
+    try {
+      const { readFile } = await import('node:fs/promises');
+      let text = '';
+      try { text = await readFile(LOCAL_FILE, 'utf8'); } catch { return 0; }
+      return text.split('\n').filter(Boolean).map((l) => { try { return JSON.parse(l); } catch { return null; } })
+        .filter((r) => r && String(r.created_at || '') >= sinceISO).length;
+    } catch { return null; }
+  }
+  if (!storeConfigured()) return null;
+
+  const base = process.env.SUPABASE_URL.replace(/\/+$/, '') + '/rest/v1/' + TABLE;
+  const qs = new URLSearchParams({ created_at: 'gte.' + sinceISO, select: 'id' });
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 3000);
+  try {
+    const res = await fetch(`${base}?${qs}`, {
+      signal: ctrl.signal,
+      headers: { apikey: key, Authorization: `Bearer ${key}`, Prefer: 'count=exact', Range: '0-0' }
+    });
+    if (!res.ok) return null;
+    const total = parseInt((res.headers.get('content-range') || '').split('/')[1], 10);
+    return Number.isFinite(total) ? total : null;
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 export async function countSince(tenantKey, sinceISO) {
   if (useLocalFile()) {
     try {

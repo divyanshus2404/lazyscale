@@ -14,11 +14,19 @@ Budget: about 20 minutes, and roughly ₹3–5 per audit generated.
 1. Go to <https://console.anthropic.com> → **API Keys** → create one.
 2. **Set a monthly spend limit before you leave the page.** Billing → Limits. Start at
    ₹1,000. A public endpoint attached to a paid model is exactly the thing that gets
-   abused, and this is the only guard that caps the damage.
+   abused, and this is your outer backstop.
+   There is now a second guard in the code itself: `MODEL_DAILY_CAP` (default 300)
+   caps paid model calls per day, counted in the store so it survives restarts and
+   holds across every serverless instance — unlike the per-request rate limit,
+   which resets on each cold start. If the store cannot be reached to check the
+   day's count, the model is skipped rather than risk an unmetered bill; the
+   enquiry is still captured and you are still alerted. Set `MODEL_DAILY_CAP=0` to
+   turn the paid model off entirely and run capture-and-alert for free.
 3. In Vercel → your project → **Settings → Environment Variables**, add:
 
    ```
    ANTHROPIC_API_KEY = sk-ant-...
+   MODEL_DAILY_CAP   = 300          # or 0 to run free, capture-and-alert only
    ```
 
 4. **Redeploy.** Environment variables only apply to new deployments — Deployments →
@@ -110,6 +118,8 @@ Designed so a failure never costs you the lead.
 | Situation | What happens |
 |---|---|
 | No `ANTHROPIC_API_KEY` | Lead captured, honest "being put together" message. Site unchanged from today. |
+| Daily cap hit, or `MODEL_DAILY_CAP=0` | Lead captured and you are alerted; the paid draft is skipped. No spend. |
+| Store unreachable when checking budget | Same: captured, alerted, no paid call. Fails toward not spending. |
 | Model unreachable or times out | Same. Lead is already forwarded before the call. |
 | Model returns something too short | Treated as failure. Nothing dubious is sent. |
 | No `RESEND_API_KEY` | Audit shows on the page, no email. Copy adapts to say so. |
