@@ -328,3 +328,33 @@ footer a:hover { color: var(--text); }
   .app-tab { display: none; }
   .d-grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* ── solutions catalogue ─────────────────────────────────────────────────── */
+.chips { display: flex; flex-wrap: wrap; gap: var(--s2); margin-top: var(--s6); }
+.chip {
+  border: 1px solid var(--line); background: transparent; color: var(--muted);
+  border-radius: var(--r-pill); padding: var(--s2) var(--s4);
+  font: inherit; font-size: var(--t-sm); cursor: pointer;
+}
+.chip:hover { color: var(--text); border-color: var(--line-strong); }
+/* Hovering the selected chip used to inherit .chip:hover's colour and paint
+   near-black text on the near-black pill — the label disappeared under the
+   cursor. The selected state owns both. */
+.chip-on, .chip-on:hover { background: var(--text); border-color: var(--text); color: var(--bg); font-weight: 600; }
+.chip:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.count { margin-top: var(--s4); font-size: var(--t-meta); color: var(--faint); }
+.tier-head { margin-top: var(--s8); }
+.tier-head h2 { font-size: var(--t-h3); }
+.tier-head .lede { font-size: var(--t-sm); margin-top: var(--s2); }
+.cat-list { margin-top: var(--s5); border-top: 1px solid var(--line); }
+.cat-row {
+  display: grid; grid-template-columns: 132px 1fr; gap: var(--s5);
+  padding: var(--s4) 0; border-bottom: 1px solid var(--line);
+}
+.cat-tag { font-size: var(--t-micro); letter-spacing: .08em; text-transform: uppercase; color: var(--faint); padding-top: var(--s1); }
+.cat-row b { font-size: var(--t-body); font-weight: 600; }
+.cat-row p { margin-top: var(--s1); font-size: var(--t-sm); color: var(--muted); max-width: 70ch; }
+@media (max-width: 900px) {
+  .cat-row { grid-template-columns: 1fr; gap: var(--s2); }
+  .cat-tag { padding-top: 0; }
+}

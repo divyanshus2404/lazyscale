@@ -57,7 +57,7 @@ test('colours are tokens, not literals', () => {
 });
 
 test('pages carry no inline styling that dodges the system', () => {
-  const pages = readdirSync('.').filter((f) => /^(index|pricing|about|faq|404)\.html$/.test(f));
+  const pages = readdirSync('.').filter((f) => /^(index|pricing|about|faq|404|automations)\.html$/.test(f));
   for (const page of pages) {
     const html = readFileSync(page, 'utf8');
     const inline = [...html.matchAll(/style="([^"]*)"/g)].map((m) => m[1]);

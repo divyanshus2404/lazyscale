@@ -16,30 +16,28 @@ ROOT = os.path.dirname(HERE)
 
 
 def catalogue():
-    """The 55 automations, straight out of automations.html.
+    """The catalogue, from data/automations.json.
 
-    Parsed rather than copied: a second copy of this list would drift from the
-    page within a month, and the post would start advertising something the
-    site no longer offers.
+    This used to scrape ITEMS out of automations.html. That page is generated
+    now, so the scrape would have broken the moment the page was rebuilt — and
+    the daily post would have died quietly at 8am.
     """
-    html = io.open(os.path.join(ROOT, "automations.html"), encoding="utf-8").read()
-    start = html.find("const ITEMS = [")
-    if start == -1:
-        raise SystemExit("automations.html no longer contains ITEMS — check the page before posting")
-    block = html[start:html.find("];", start)]
-    rows = re.findall(r'\["([^"]*)","([^"]*)","([^"]*)","([^"]*)"\]', block)
+    import json
+    path = os.path.join(ROOT, "data", "automations.json")
+    try:
+        data = json.load(io.open(path, encoding="utf-8"))
+    except OSError:
+        raise SystemExit("data/automations.json is missing — the post has nothing to draw on")
+    rows = data.get("items", [])
     if not rows:
-        raise SystemExit("ITEMS found but nothing parsed — the format changed")
-    out = []
-    for cat, tier, title, body in rows:
-        out.append({
-            "kind": "refuse" if tier == "no" else "automation",
-            "category": unescape(cat),
-            "tier": tier,
-            "title": unescape(title),
-            "body": unescape(body),
-        })
-    return out
+        raise SystemExit("data/automations.json has no items")
+    return [{
+        "kind": "refuse" if r["tier"] == "no" else "automation",
+        "category": r["category"],
+        "tier": r["tier"],
+        "title": r["title"],
+        "body": r["body"],
+    } for r in rows]
 
 
 def unescape(s):

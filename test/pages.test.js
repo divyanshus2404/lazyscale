@@ -81,9 +81,10 @@ test('the generated pages match their builder', async () => {
   // index, pricing and about are written by _build.py. Editing the HTML by hand
   // works until the next build silently throws it away.
   const { execFileSync } = await import('node:child_process');
-  const before = ['index.html', 'pricing.html', 'about.html'].map((f) => readFileSync(f, 'utf8'));
+  const generated = ['index.html', 'pricing.html', 'about.html', 'faq.html', '404.html', 'automations.html'];
+  const before = generated.map((f) => readFileSync(f, 'utf8'));
   execFileSync('python3', ['_build.py'], { stdio: 'pipe' });
-  const after = ['index.html', 'pricing.html', 'about.html'].map((f) => readFileSync(f, 'utf8'));
+  const after = generated.map((f) => readFileSync(f, 'utf8'));
   for (let i = 0; i < before.length; i++) {
     assert.equal(after[i], before[i], 'a generated page was edited by hand — change _build.py instead');
   }

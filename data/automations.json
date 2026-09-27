@@ -1,0 +1,344 @@
+{
+ "items": [
+  {
+   "category": "Sales",
+   "tier": "yes",
+   "title": "Lead capture across channels",
+   "body": "Web form, WhatsApp, Instagram, IndiaMART and your sales inbox into one pipeline. Almost always the first thing we build."
+  },
+  {
+   "category": "Sales",
+   "tier": "yes",
+   "title": "Instant first response",
+   "body": "Under sixty seconds, personalised, referring to what they actually asked."
+  },
+  {
+   "category": "Sales",
+   "tier": "yes",
+   "title": "Qualification and scoring",
+   "body": "Against criteria we work out with you on the kickoff call. This is where most of the value sits."
+  },
+  {
+   "category": "Sales",
+   "tier": "yes",
+   "title": "Routing and assignment",
+   "body": "Right person, right territory, right product line."
+  },
+  {
+   "category": "Sales",
+   "tier": "yes",
+   "title": "Meeting booking",
+   "body": "The reply carries a booking link, or proposes slots directly."
+  },
+  {
+   "category": "Sales",
+   "tier": "yes",
+   "title": "Follow-up on enquiries that went quiet",
+   "body": "Two or three nudges, then it stops. Only people who contacted you first."
+  },
+  {
+   "category": "Sales",
+   "tier": "yes",
+   "title": "Quote and proposal drafting",
+   "body": "From your rate card and past jobs. You approve before anything sends."
+  },
+  {
+   "category": "Sales",
+   "tier": "yes",
+   "title": "Proposal chasing",
+   "body": "Quote sent, silence. Polite follow-up that escalates with the days."
+  },
+  {
+   "category": "Sales",
+   "tier": "later",
+   "title": "CRM hygiene",
+   "body": "Deduplicate, enrich, fill the fields people skip, fix stages that drifted. Dull and valuable, and it needs proper API access to your CRM."
+  },
+  {
+   "category": "Sales",
+   "tier": "later",
+   "title": "Deal updates from email threads",
+   "body": "Reads the thread, updates the stage and next step. You confirm each one until it earns trust."
+  },
+  {
+   "category": "Sales",
+   "tier": "later",
+   "title": "Renewal and expiry reminders",
+   "body": "Straightforward when the dates live somewhere we can query."
+  },
+  {
+   "category": "Sales",
+   "tier": "later",
+   "title": "Churn-risk flagging",
+   "body": "Usage or engagement drops and someone is told. Needs real data behind it to mean anything."
+  },
+  {
+   "category": "Support",
+   "tier": "yes",
+   "title": "Ticket and inbox triage",
+   "body": "Classify, tag, prioritise, route. Safe, because nothing is sent to anyone."
+  },
+  {
+   "category": "Support",
+   "tier": "yes",
+   "title": "Answering the same fifteen questions",
+   "body": "Instantly, from a knowledge base we build with you."
+  },
+  {
+   "category": "Support",
+   "tier": "yes",
+   "title": "Drafting replies to routine tickets",
+   "body": "Your agent reviews and sends. Cuts handling time without risking the relationship."
+  },
+  {
+   "category": "Support",
+   "tier": "yes",
+   "title": "Escalation routing",
+   "body": "Anger, cancellation intent, legal words, important accounts — straight to a person."
+  },
+  {
+   "category": "Support",
+   "tier": "yes",
+   "title": "Out-of-hours acknowledgement",
+   "body": "An honest holding reply with a real timeframe. Stops the second, angrier message."
+  },
+  {
+   "category": "Support",
+   "tier": "later",
+   "title": "SLA breach alerts",
+   "body": "Needs your ticket system to expose timestamps properly."
+  },
+  {
+   "category": "Support",
+   "tier": "later",
+   "title": "Finding the gaps in your knowledge base",
+   "body": "What got escalated, clustered monthly. Tells you what to answer next."
+  },
+  {
+   "category": "Support",
+   "tier": "later",
+   "title": "Post-resolution follow-up and review requests",
+   "body": "Timing matters more than wording here."
+  },
+  {
+   "category": "Operations",
+   "tier": "yes",
+   "title": "Client onboarding",
+   "body": "Deal won, and the workspace, documents, kickoff and welcome all just happen."
+  },
+  {
+   "category": "Operations",
+   "tier": "yes",
+   "title": "Chasing missing documents",
+   "body": "Missing KYC, missing brief, missing assets. Nobody enjoys this and everybody needs it."
+  },
+  {
+   "category": "Operations",
+   "tier": "yes",
+   "title": "Appointment reminders",
+   "body": "Measurable reduction in no-shows. The easiest number to prove."
+  },
+  {
+   "category": "Operations",
+   "tier": "yes",
+   "title": "Order and delivery updates",
+   "body": "Status pushed to the customer before they think to ask."
+  },
+  {
+   "category": "Operations",
+   "tier": "later",
+   "title": "Meeting notes into tasks",
+   "body": "Transcript in, tasks out, assigned in your tracker. Needs a transcription source."
+  },
+  {
+   "category": "Operations",
+   "tier": "later",
+   "title": "Approval routing",
+   "body": "Discounts, refunds, purchase orders. Worth it depending on how painful your current chain is."
+  },
+  {
+   "category": "Operations",
+   "tier": "later",
+   "title": "Vendor and supplier chasing",
+   "body": "The same shape as payment chasing, pointed outward."
+  },
+  {
+   "category": "Operations",
+   "tier": "later",
+   "title": "Inventory and threshold alerts",
+   "body": "Only if the stock data is trustworthy. Often it is not, and we will say so."
+  },
+  {
+   "category": "Finance",
+   "tier": "yes",
+   "title": "Payment reminders by invoice age",
+   "body": "Polite, escalating with the age of the invoice, and it stops the moment you are paid."
+  },
+  {
+   "category": "Finance",
+   "tier": "yes",
+   "title": "Invoice generation and dispatch",
+   "body": "From a trigger you approve. Generating an invoice is fine; taking the money is not."
+  },
+  {
+   "category": "Finance",
+   "tier": "later",
+   "title": "Receipt and expense capture",
+   "body": "Photo or email in, categorised row out. Popular, moderately fiddly."
+  },
+  {
+   "category": "Finance",
+   "tier": "later",
+   "title": "Reconciliation flagging",
+   "body": "Mismatches surfaced for a person. Never resolved automatically."
+  },
+  {
+   "category": "Finance",
+   "tier": "later",
+   "title": "GST return preparation",
+   "body": "Prepared and presented. A person files it. We check your Tally or Zoho plan actually exposes the API before quoting."
+  },
+  {
+   "category": "Finance",
+   "tier": "no",
+   "title": "Anything that moves money",
+   "body": "Payments, transfers, trades. One bug ends a business. We do not build it."
+  },
+  {
+   "category": "Marketing",
+   "tier": "yes",
+   "title": "Ad lead forms into your pipeline",
+   "body": "Meta and Google lead forms straight into scoring and an instant reply."
+  },
+  {
+   "category": "Marketing",
+   "tier": "yes",
+   "title": "Review requests and monitoring",
+   "body": "Asked at the right moment, with an alert on anything under three stars."
+  },
+  {
+   "category": "Marketing",
+   "tier": "later",
+   "title": "Content repurposing",
+   "body": "One long piece into posts, a newsletter, clips. It works, within limits."
+  },
+  {
+   "category": "Marketing",
+   "tier": "later",
+   "title": "Competitor and mention monitoring",
+   "body": "Cheap to build and easy to show. Honestly, modest real value."
+  },
+  {
+   "category": "Marketing",
+   "tier": "careful",
+   "title": "Social content at volume",
+   "body": "We will usually talk you out of this. The output is commoditised, quality complaints are constant, and it rarely survives three months."
+  },
+  {
+   "category": "Marketing",
+   "tier": "no",
+   "title": "Cold outbound at scale",
+   "body": "Deliverability damage, legal exposure, and it would make us the spam vendor. We build reply handling for outbound you send yourself."
+  },
+  {
+   "category": "Hiring",
+   "tier": "yes",
+   "title": "Application screening",
+   "body": "Against criteria you set. With the application volumes here, this is genuinely worth it."
+  },
+  {
+   "category": "Hiring",
+   "tier": "yes",
+   "title": "Interview scheduling and reminders",
+   "body": "Calendar tetris nobody wants to play."
+  },
+  {
+   "category": "Hiring",
+   "tier": "yes",
+   "title": "Candidate communication",
+   "body": "Acknowledgements, status updates, and kind rejections. The rejections matter more than people think."
+  },
+  {
+   "category": "Hiring",
+   "tier": "later",
+   "title": "Offer and document generation",
+   "body": "Templated, and a person approves."
+  },
+  {
+   "category": "Hiring",
+   "tier": "later",
+   "title": "Internal employee FAQ",
+   "body": "Leave policy, reimbursements, IT requests. Internal-facing, so a mistake is cheap."
+  },
+  {
+   "category": "Reporting",
+   "tier": "yes",
+   "title": "Weekly numbers, every Monday",
+   "body": "Pulled from your tools, written up, outliers called out."
+  },
+  {
+   "category": "Reporting",
+   "tier": "yes",
+   "title": "Anomaly alerts",
+   "body": "Revenue drop, ticket spike, conversion fall. The value is in choosing the threshold, not the plumbing."
+  },
+  {
+   "category": "Reporting",
+   "tier": "later",
+   "title": "Sync between tools",
+   "body": "Sheets to CRM to Notion. Boring, a little brittle, sometimes exactly what you need."
+  },
+  {
+   "category": "Reporting",
+   "tier": "later",
+   "title": "Standup and status summaries",
+   "body": "For engineering teams. Small, easy, useful."
+  },
+  {
+   "category": "Reporting",
+   "tier": "later",
+   "title": "Incident alert routing",
+   "body": "Grouped, deduplicated, summarised, sent to the right person."
+  },
+  {
+   "category": "Anywhere",
+   "tier": "no",
+   "title": "WhatsApp broadcast to bought lists",
+   "body": "It gets your number banned and breaks WhatsApp's rules. Opt-in lists through approved templates only."
+  },
+  {
+   "category": "Anywhere",
+   "tier": "no",
+   "title": "Anything irreversible with nobody checking",
+   "body": "Unless you ask for it in writing and understand exactly what you are accepting."
+  },
+  {
+   "category": "Anywhere",
+   "tier": "no",
+   "title": "Scraping behind a login",
+   "body": "Including anything that needs a CAPTCHA solved. It puts your accounts at risk, not ours."
+  },
+  {
+   "category": "Anywhere",
+   "tier": "no",
+   "title": "Medical, legal or financial advice",
+   "body": "Generated by a model and sent to your customers. Not something we will build."
+  },
+  {
+   "category": "Anywhere",
+   "tier": "no",
+   "title": "Replacing a person's judgement",
+   "body": "Where being wrong is expensive and nobody is checking the output."
+  }
+ ],
+ "categories": [
+  "Anywhere",
+  "Finance",
+  "Hiring",
+  "Marketing",
+  "Operations",
+  "Reporting",
+  "Sales",
+  "Support"
+ ]
+}

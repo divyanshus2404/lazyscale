@@ -423,10 +423,114 @@ def build_404():
 """ + FOOTER
 
 
+# ── Solutions: the catalogue, on the design system ─────────────────────────
+TIER_LABEL = {
+    "yes":     ("We build this", "Recurring, countable, and a person can approve anything that matters."),
+    "later":   ("Worth it later", "Real value, but a longer build. Better once the first one is running."),
+    "careful": ("We will push back", "Sells easily and disappoints often. We will probably talk you out of it."),
+    "no":      ("We refuse", "Not negotiable, at any price."),
+}
+TIER_ORDER = ["yes", "later", "careful", "no"]
+
+
+def build_automations():
+    import json
+    data = json.load(io.open("data/automations.json", encoding="utf-8"))
+    items, cats = data["items"], data["categories"]
+
+    chips = "".join(
+        f'<button class="chip{" chip-on" if c == "All" else ""}" type="button" data-cat="{c}">{c}</button>'
+        for c in ["All"] + cats)
+
+    rows = []
+    for tier in TIER_ORDER:
+        group = [i for i in items if i["tier"] == tier]
+        if not group:
+            continue
+        label, note = TIER_LABEL[tier]
+        rows.append(
+            f'''<div class="tier-head" data-tier="{tier}">
+                 <h2>{label}</h2><p class="lede">{note}</p>
+               </div>''')
+        rows.append('<div class="cat-list">')
+        for i in group:
+            rows.append(
+                f'''<div class="cat-row" data-cat="{i["category"]}" data-tier="{tier}">
+                     <span class="cat-tag">{i["category"]}</span>
+                     <div><b>{i["title"]}</b><p>{i["body"]}</p></div>
+                   </div>''')
+        rows.append('</div>')
+
+    return head("What we automate — LazyScale",
+                "Fifty-five things we automate for small businesses in India, and the seven we refuse to build.",
+                "https://lazyscale.vercel.app/automations.html") + nav("solutions") + f"""
+<main id="main">
+  <section class="sec">
+    <div class="wrap">
+      <div class="eyebrow">Solutions</div>
+      <h1>What we automate —<br>and what we refuse.</h1>
+      <p class="lede">Most agencies will tell you everything is automatable. Here is the honest version: {len(items)} things we build, in the order we would build them, and the seven we will not build at any price.</p>
+
+      <div class="chips" role="group" aria-label="Filter by area">{chips}</div>
+      <p class="count" id="count" aria-live="polite"></p>
+
+      <div id="list">{"".join(rows)}</div>
+
+      <div class="card notes" style="margin-top:var(--s8)">
+        <h3>How we decide</h3>
+        <p>Four questions, and two failures means we tell you it is not worth building: does it happen weekly or more, can you name what it costs you, can someone approve it before anything irreversible happens, and do you already own the tools?</p>
+      </div>
+
+      <div style="margin-top:var(--s7);display:flex;gap:var(--s4);flex-wrap:wrap">
+        <a class="btn" href="{GET_STARTED}" target="_blank" rel="noopener">Get Started</a>
+        <a class="btn btn-ghost" href="/pricing.html">See pricing</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {{
+  var list = document.getElementById('list');
+  var count = document.getElementById('count');
+  var rows = [].slice.call(list.querySelectorAll('.cat-row'));
+  var heads = [].slice.call(list.querySelectorAll('.tier-head'));
+  var groups = [].slice.call(list.querySelectorAll('.cat-list'));
+
+  function apply(cat) {{
+    rows.forEach(function (r) {{
+      r.hidden = !(cat === 'All' || r.getAttribute('data-cat') === cat);
+    }});
+    // A heading with nothing under it is worse than no heading.
+    heads.forEach(function (h, i) {{
+      var any = groups[i] && [].slice.call(groups[i].children).some(function (c) {{ return !c.hidden; }});
+      h.hidden = !any;
+      if (groups[i]) groups[i].hidden = !any;
+    }});
+    var shown = rows.filter(function (r) {{ return !r.hidden; }}).length;
+    count.textContent = cat === 'All'
+      ? rows.length + ' in total'
+      : shown + ' in ' + cat;
+  }}
+
+  list.parentNode.querySelectorAll('.chip').forEach(function (b) {{
+    b.addEventListener('click', function () {{
+      list.parentNode.querySelectorAll('.chip').forEach(function (x) {{ x.classList.remove('chip-on'); }});
+      b.classList.add('chip-on');
+      apply(b.getAttribute('data-cat'));
+    }});
+  }});
+  apply('All');
+}})();
+</script>
+""" + FOOTER
+
+
 if __name__ == "__main__":
     for name, fn in (("index.html", build_index), ("pricing.html", build_pricing),
                      ("about.html", build_about), ("faq.html", build_faq),
-                     ("404.html", build_404)):
+                     ("404.html", build_404),
+                     ("automations.html", build_automations)):
         html = fn()
         io.open(name, "w", encoding="utf-8").write(html)
         print(f"wrote {name} ({len(html):,} bytes)")
