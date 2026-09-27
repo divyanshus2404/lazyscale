@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/_sys.css?v=0c71396a">
+<link rel="stylesheet" href="/_sys.css?v=01b2ca0b">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -59,10 +59,10 @@
       </div>
       <p class="hero-meta">No migration · no new software to learn · no passwords change hands</p>
 
-      <!-- The product is the visual. Left: what came in, across channels.
-           Right: what LazyScale did with it, in order, including
-           the reply itself, which the previous version never showed. A visitor
-           should be able to understand the product from this block alone. -->
+      <!-- The product is the visual. Kept to three moves: what came in, what
+           went out, and what it did about it. An earlier version walked five
+           labelled steps and a four-field grid, which was more than a hero can
+           carry. The detail lives on the product page. -->
       <div class="app">
         <div class="app-bar">
           <span class="pip"></span><b>Lead Responder</b>
@@ -73,67 +73,37 @@
           <div class="queue">
             <div class="queue-head">Today · 4 handled</div>
             <div class="q-item q-on">
-              <span class="q-ch">WhatsApp</span>
-              <span class="q-who">Karthik · CTO, 40-person SaaS</span>
-              <span class="q-t">11:41 pm</span>
+              <span class="q-ch">WhatsApp</span><span class="q-who">Karthik</span><span class="q-t">11:41 pm</span>
             </div>
             <div class="q-item">
-              <span class="q-ch">Web form</span>
-              <span class="q-who">Priya · agency, API work</span>
-              <span class="q-t">9:04 pm</span>
+              <span class="q-ch">Web form</span><span class="q-who">Priya</span><span class="q-t">9:04 pm</span>
             </div>
             <div class="q-item">
-              <span class="q-ch">Email</span>
-              <span class="q-who">Dev · student, asking rates</span>
-              <span class="q-t">7:18 pm</span>
+              <span class="q-ch">Email</span><span class="q-who">Dev</span><span class="q-t">7:18 pm</span>
             </div>
             <div class="q-item">
-              <span class="q-ch">Instagram</span>
-              <span class="q-who">Anon · “is this AI?”</span>
-              <span class="q-t">4:55 pm</span>
+              <span class="q-ch">Instagram</span><span class="q-who">Anon</span><span class="q-t">4:55 pm</span>
             </div>
           </div>
 
           <div class="detail">
             <div class="d-step">
-              <span class="d-label">01 Came in</span>
-              <div class="d-quote">“We need an internal dashboard over our Postgres. 40-person team, live before the March audit. What would you charge?”</div>
+              <span class="d-label">In · WhatsApp, 11:41 pm</span>
+              <div class="d-quote">“We need an internal dashboard over our Postgres. Live before the March audit. What would you charge?”</div>
             </div>
 
             <div class="d-step">
-              <span class="d-label">02 Understood</span>
-              <div class="d-grid">
-                <div><span class="k">Need</span><span class="v">Internal dashboard</span></div>
-                <div><span class="k">Stack</span><span class="v">Postgres</span></div>
-                <div><span class="k">Deadline</span><span class="v">Before March audit</span></div>
-                <div><span class="k">Team size</span><span class="v">40</span></div>
-              </div>
+              <span class="d-label">Out · 41 seconds later</span>
+              <div class="d-reply">“Yes, we have built dashboards on Postgres before. Is the audit a hard date, and what budget are you working to? I can send two options tomorrow.”</div>
             </div>
 
-            <div class="d-step">
-              <span class="d-label">03 Scored</span>
-              <div class="d-score">
-                <span class="score">9 / 10</span>
-                <span class="d-why">Named a deadline and a decision-maker. No budget yet, so worth asking.</span>
-              </div>
-            </div>
-
-            <div class="d-step">
-              <span class="d-label">04 Replied, 41 seconds later</span>
-              <div class="d-reply">“Yes, we have built dashboards on Postgres before. Before I quote: is the March audit a hard date, and roughly what budget are you working to? I can send two options tomorrow morning.”</div>
-            </div>
-
-            <div class="d-step">
-              <span class="d-label">05 Then</span>
-              <div class="d-dones">
-                <div class="done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Recorded before the model was called</div>
-                <div class="done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Flagged for your 9am callback list</div>
-                <div class="done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>“Is this AI?” on Instagram sent to you, unanswered</div>
-              </div>
+            <div class="d-foot">
+              <span class="score">9 / 10</span>
+              <span class="d-why">Recorded before the model ran. Flagged for your 9am callbacks. No price quoted.</span>
             </div>
           </div>
         </div>
-        <div class="app-foot">An example of the Lead Responder's output. It never negotiates price, never promises a date, and hands anything awkward to a person. The fourth message above is one it deliberately did not answer.</div>
+        <div class="app-foot">It never negotiates price and never promises a date. The Instagram message above asked “is this AI?”, so it went to a person unanswered.</div>
       </div>
   </section>
 

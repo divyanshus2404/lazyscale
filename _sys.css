@@ -311,7 +311,7 @@ footer a:hover { color: var(--text); }
   border-bottom: 1px solid var(--line);
 }
 .q-item {
-  display: grid; grid-template-columns: minmax(0,1fr) auto; gap: var(--s1) var(--s3);
+  display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 2px var(--s3);
   padding: var(--s3) var(--s4); border-bottom: 1px solid var(--line);
   font-size: var(--t-sm);
 }
@@ -320,13 +320,13 @@ footer a:hover { color: var(--text); }
 .q-ch { grid-column: 1; font-size: var(--t-micro); color: var(--faint); letter-spacing: .04em; text-transform: uppercase; }
 .q-t { grid-column: 2; grid-row: 1 / span 2; align-self: center; font-size: var(--t-micro); color: var(--faint); }
 .q-who { grid-column: 1; font-weight: 600; color: var(--text); font-size: var(--t-meta); overflow: hidden; text-overflow: ellipsis; }
-.detail { padding: var(--s5); display: flex; flex-direction: column; gap: var(--s5); }
+.detail { padding: var(--s5); display: flex; flex-direction: column; gap: var(--s5); justify-content: center; }
 .d-step { display: flex; flex-direction: column; gap: var(--s2); }
 .d-label {
   font-size: var(--t-micro); font-weight: 600; letter-spacing: .1em;
   text-transform: uppercase; color: var(--faint);
 }
-.d-quote { font-size: var(--t-lede); letter-spacing: -.015em; max-width: 46ch; }
+.d-quote { font-size: var(--t-lede); letter-spacing: -.015em; max-width: 44ch; }
 .d-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s3) var(--s4); }
 .d-grid > div { display: flex; flex-direction: column; gap: var(--s1); min-width: 0; }
 .d-grid .k { font-size: var(--t-micro); letter-spacing: .06em; text-transform: uppercase; color: var(--faint); }
@@ -341,6 +341,7 @@ footer a:hover { color: var(--text); }
   padding: var(--s3) var(--s4); max-width: 62ch;
 }
 .d-dones { display: flex; flex-direction: column; gap: var(--s2); }
+.d-foot { display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap; padding-top: var(--s4); border-top: 1px solid var(--line); }
 .app-foot {
   border-top: 1px solid var(--line); padding: var(--s3) var(--s4);
   font-size: var(--t-meta); color: var(--faint);
