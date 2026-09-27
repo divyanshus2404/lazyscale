@@ -4,7 +4,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 
-const PAGES = ['index.html', 'app.html', 'automations.html', 'details.html', 'setup.html', 'privacy.html'];
+const PAGES = ['index.html', 'full.html', 'app.html', 'automations.html', 'details.html', 'setup.html', 'privacy.html'];
 
 for (const page of PAGES) {
   const html = readFileSync(page, 'utf8');
