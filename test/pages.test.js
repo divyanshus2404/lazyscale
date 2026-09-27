@@ -4,7 +4,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 
-const PAGES = ['index.html', 'full.html', 'app.html', 'automations.html', 'details.html', 'setup.html', 'privacy.html'];
+const PAGES = ['index.html', 'pricing.html', 'about.html', 'full.html', 'app.html', 'automations.html', 'details.html', 'setup.html', 'privacy.html'];
 
 for (const page of PAGES) {
   const html = readFileSync(page, 'utf8');
@@ -73,6 +73,35 @@ test('no animated SVG hides its own content', () => {
         isKeyframeStep || decorative,
         `${f}: a base rule sets opacity 0 on something that is not decorative:\n${rule.trim().slice(0, 120)}`
       );
+    }
+  }
+});
+
+test('the generated pages match their builder', async () => {
+  // index, pricing and about are written by _build.py. Editing the HTML by hand
+  // works until the next build silently throws it away.
+  const { execFileSync } = await import('node:child_process');
+  const before = ['index.html', 'pricing.html', 'about.html'].map((f) => readFileSync(f, 'utf8'));
+  execFileSync('python3', ['_build.py'], { stdio: 'pipe' });
+  const after = ['index.html', 'pricing.html', 'about.html'].map((f) => readFileSync(f, 'utf8'));
+  for (let i = 0; i < before.length; i++) {
+    assert.equal(after[i], before[i], 'a generated page was edited by hand — change _build.py instead');
+  }
+});
+
+test('nothing claims a customer we do not have', () => {
+  // Every version of this site has drifted toward invented proof. These are the
+  // phrases that showed up last time.
+  // Positive claims only. The first version of this test flagged the word
+  // "testimonials" inside the sentence saying there are none, which is the
+  // opposite of the thing worth catching.
+  const banned = [/trusted by \d/i, /\d+\+? (happy )?(clients|customers)/i,
+                  /what our (clients|customers) say/i, /join \d[\d,]* businesses/i,
+                  /rated \d(\.\d)? stars/i, /loved by/i];
+  for (const page of ['index.html', 'pricing.html', 'about.html']) {
+    const html = readFileSync(page, 'utf8');
+    for (const re of banned) {
+      assert.equal(re.test(html), false, `${page} matches ${re}`);
     }
   }
 });
