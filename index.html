@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/_sys.css">
+<link rel="stylesheet" href="/_sys.css?v=e817aefe">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -52,27 +52,62 @@
   <section class="sec hero">
     <div class="wrap">
       <h1>AI employees for<br>repetitive work.</h1>
-      <p class="lede" style="max-width:32em">LazyScale gives your team AI employees that handle repetitive sales, support and operations work automatically.</p>
+      <p class="lede">LazyScale gives your team AI employees that handle repetitive sales, support and operations work automatically.</p>
       <div class="hero-ctas">
         <a class="btn btn-lg" href="https://cal.com/lazy_scale/15min" target="_blank" rel="noopener">Get Started</a>
         <a class="link" href="#demo">See how it works <span>→</span></a>
       </div>
+      <p class="hero-meta">No migration · no new software to learn · no passwords change hands</p>
 
-      <div class="hero-ui">
-        <div class="ui">
-          <div class="ui-bar"><span class="pip"></span>Lead Responder<span class="st">Active</span></div>
-          <div class="ui-body">
-            <div class="row"><span class="k">New lead</span><span class="v">Rahul — WhatsApp · 11:41 pm</span></div>
-            <div class="row"><span class="k">Asked</span><span class="v">“Looking for a 3BHK in Whitefield, need to move in 2 months.”</span></div>
-            <div class="row"><span class="k">Budget</span><span class="v">₹1.2 Cr</span></div>
-            <div class="row"><span class="k">Qualified</span><span class="v"><span class="score">9 / 10</span></span></div>
-            <div class="hr"></div>
-            <div class="done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Reply sent — 41 seconds after it arrived</div>
-            <div class="done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Recorded before the model was called</div>
-            <div class="done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Flagged for a human callback</div>
-          </div>
-          <div class="ui-foot">An example of the Lead Responder's output. Anything it should not answer goes to a person instead.</div>
+      <!-- The product is the visual. A queue on the left and the handled
+           enquiry on the right reads as software; a single list of rows read
+           as a marketing card. -->
+      <div class="app">
+        <div class="app-bar">
+          <span class="pip"></span><b>Lead Responder</b>
+          <span class="app-tab">Inbox</span>
+          <span class="st">Active</span>
         </div>
+        <div class="app-body">
+          <div class="queue">
+            <div class="queue-head">Today · 4 handled</div>
+            <div class="q-item q-on">
+              <span class="q-ch">WhatsApp</span>
+              <span class="q-who">Rahul</span>
+              <span class="q-t">11:41 pm</span>
+            </div>
+            <div class="q-item">
+              <span class="q-ch">Instagram</span>
+              <span class="q-who">Meera</span>
+              <span class="q-t">10:02 pm</span>
+            </div>
+            <div class="q-item">
+              <span class="q-ch">Web form</span>
+              <span class="q-who">Arjun</span>
+              <span class="q-t">7:18 pm</span>
+            </div>
+            <div class="q-item">
+              <span class="q-ch">Email</span>
+              <span class="q-who">Sana</span>
+              <span class="q-t">4:55 pm</span>
+            </div>
+          </div>
+
+          <div class="detail">
+            <div class="d-quote">“Looking for a 3BHK in Whitefield, need to move in 2 months.”</div>
+            <div class="d-grid">
+              <div><span class="k">Budget</span><span class="v">₹1.2 Cr</span></div>
+              <div><span class="k">Location</span><span class="v">Whitefield</span></div>
+              <div><span class="k">Timeline</span><span class="v">2 months</span></div>
+              <div><span class="k">Qualified</span><span class="v"><span class="score">9 / 10</span></span></div>
+            </div>
+            <div class="hr"></div>
+            <div class="done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Replied in 41 seconds, at 11:41 pm</div>
+            <div class="done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Recorded before the model was called</div>
+            <div class="done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Flagged for a callback in the morning</div>
+          </div>
+        </div>
+        <div class="app-foot">An example of the Lead Responder's output. Anything it should not answer — a complaint, a price negotiation, a question about an existing order — goes to a person instead.</div>
       </div>
     </div>
   </section>

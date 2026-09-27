@@ -1,3 +1,17 @@
+import hashlib
+import io
+import os
+
+def _css_version():
+    here = os.path.dirname(os.path.abspath(__file__))
+    try:
+        raw = io.open(os.path.join(here, "_sys.css"), "rb").read()
+    except OSError:
+        return "0"
+    return hashlib.sha256(raw).hexdigest()[:8]
+
+CSS_V = _css_version()
+
 # Shared head + nav + footer, so the three pages cannot drift apart.
 MARK = ('<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
  '<rect x="2.5" y="2.5" width="43" height="43" rx="13" fill="#B7F34A" stroke="#111111" stroke-width="2.6"/>'
@@ -34,7 +48,7 @@ def head(title, desc, canonical):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/_sys.css">
+<link rel="stylesheet" href="/_sys.css?v={CSS_V}">
 </head>
 <body>
 """
