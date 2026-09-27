@@ -1,137 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Privacy Policy — LazyScale</title>
-<meta name="description" content="How LazyScale collects, uses and protects the information you share with us.">
-<meta name="robots" content="index, follow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy · LazyScale</title>
+<meta name="description" content="What LazyScale collects, who else handles it, how long it is kept, and how to have it deleted.">
 <link rel="canonical" href="https://lazyscale.vercel.app/privacy.html">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23F4EFE2'/><path d='M8 10h5v14H8z' fill='%2316202B'/><path d='M21 10h4v14h-4z' fill='%231B4067'/></svg>">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Privacy · LazyScale">
+<meta property="og:description" content="What LazyScale collects, who else handles it, how long it is kept, and how to have it deleted.">
+<meta property="og:url" content="https://lazyscale.vercel.app/privacy.html">
+<meta property="og:image" content="https://lazyscale.vercel.app/og-image.png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:alt" content="LazyScale. AI employees for repetitive work.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Privacy · LazyScale">
+<meta name="twitter:description" content="What LazyScale collects, who else handles it, how long it is kept, and how to have it deleted.">
+<meta name="twitter:image" content="https://lazyscale.vercel.app/og-image.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='2.5' y='2.5' width='43' height='43' rx='13' fill='%23B7F34A' stroke='%23111111' stroke-width='2.6'/%3E%3Cg transform='translate(-1.6,0)' fill='none' stroke='%23111111' stroke-width='4.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 13.2 V29.6 a4.6 4.6 0 0 0 4.6 4.6 h1.2'/%3E%3Cpath d='M35.4 19.4 C35.4 16 32.9 13.9 29.9 13.9 C26.9 13.9 24.6 15.8 24.6 18.3 C24.6 23.9 35.8 22.2 35.8 28.6 C35.8 31.9 33.1 34.4 29.9 34.4 C26.7 34.4 24.2 32.4 24.2 29.3'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #F4EFE2; --bg-card: #FFFCF3; --bg-raised: #E9E1CE;
-    --text-primary: #16202B; --text-secondary: #4B5563; --text-muted: #8A8677;
-    --accent: #1B4067; --accent-light: #E3E9F0;
-    --border: rgba(22,32,43,0.16); --max-w: 760px;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #141B24; --bg-card: #202B37; --bg-raised: #1C2530;
-      --text-primary: #F4EFE2; --text-secondary: #B3BCC6; --text-muted: #7C8792;
-      --accent: #8FB4D6; --accent-light: rgba(143,180,214,0.14);
-      --border: rgba(244,239,226,0.18);
-    }
-  }
-  /* explicit choice from the main site wins over the OS setting */
-  :root[data-theme="dark"] {
-    --bg: #141B24; --bg-card: #202B37; --bg-raised: #1C2530;
-    --text-primary: #F4EFE2; --text-secondary: #B3BCC6; --text-muted: #7C8792;
-    --accent: #8FB4D6; --accent-light: rgba(143,180,214,0.14);
-    --border: rgba(244,239,226,0.18);
-  }
-  :root[data-theme="light"] {
-    --bg: #F4EFE2; --bg-card: #FFFCF3; --bg-raised: #E9E1CE;
-    --text-primary: #16202B; --text-secondary: #4B5563; --text-muted: #8A8677;
-    --accent: #1B4067; --accent-light: #E3E9F0;
-    --border: rgba(22,32,43,0.16);
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif;
-    background: var(--bg); color: var(--text-primary);
-    line-height: 1.7; -webkit-font-smoothing: antialiased;
-  }
-  .wrap { max-width: var(--max-w); margin: 0 auto; padding: 56px 24px 96px; }
-  .back {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-size: 14px; font-weight: 600; color: var(--text-secondary);
-    text-decoration: none; margin-bottom: 40px; transition: color 0.2s;
-  }
-  .back:hover { color: var(--accent); }
-  h1, h2 { font-family: 'Bitter','Iowan Old Style',Georgia,serif; font-weight: 800; }
-  h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; }
-  .updated { color: var(--text-muted); font-size: 14px; margin-top: 10px; margin-bottom: 40px; }
-  h2 {
-    font-size: 20px; font-weight: 800; letter-spacing: -0.022em;
-    margin-top: 40px; margin-bottom: 12px; color: var(--text-primary);
-  }
-  p, li { color: var(--text-secondary); font-size: 15.5px; }
-  p { margin-bottom: 14px; }
-  ul { margin: 0 0 16px 20px; }
-  li { margin-bottom: 8px; }
-  strong { color: var(--text-primary); font-weight: 650; }
-  a { color: var(--accent); }
-  .lead {
-    font-size: 17px; color: var(--text-secondary);
-    padding: 20px 24px; background: var(--bg-card);
-    border: 1px solid var(--border); border-radius: 14px; margin-bottom: 8px;
-  }
-  table { width: 100%; border-collapse: collapse; margin: 8px 0 20px; font-size: 14.5px; }
-  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
-  th { color: var(--text-primary); font-weight: 650; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
-  td { color: var(--text-secondary); }
-  .foot {
-    margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border);
-    font-size: 14px; color: var(--text-muted);
-  }
-  .foot a { margin-right: 16px; }
-</style>
-<script>
-  // match whichever theme the visitor picked on the main site
-  try {
-    var t = localStorage.getItem('theme');
-    if (t) document.documentElement.setAttribute('data-theme', t);
-  } catch (e) {}
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/_sys.css?v=78bc49a1">
 </head>
 <body>
-<div class="wrap">
-  <a class="back" href="/">← Back to LazyScale</a>
+<a class="skip" href="#main">Skip to content</a>
+<header id="hdr">
+  <div class="wrap">
+    <div class="nav">
+      <a class="brand" href="/"><svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2.5" y="2.5" width="43" height="43" rx="13" fill="#B7F34A" stroke="#111111" stroke-width="2.6"/><g transform="translate(-1.6,0)" fill="none" stroke="#111111" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17 13.2 V29.6 a4.6 4.6 0 0 0 4.6 4.6 h1.2"/><path d="M35.4 19.4 C35.4 16 32.9 13.9 29.9 13.9 C26.9 13.9 24.6 15.8 24.6 18.3 C24.6 23.9 35.8 22.2 35.8 28.6 C35.8 31.9 33.1 34.4 29.9 34.4 C26.7 34.4 24.2 32.4 24.2 29.3"/></g></svg> LazyScale</a>
+      <nav class="nav-mid">
+        <a href="/#employees">Product</a>
+        <a href="/automations.html">Solutions</a>
+        <a href="/pricing.html">Pricing</a>
+        <a href="/about.html">About</a>
+      </nav>
+      <span class="sp"></span>
+      <div class="nav-end">
+        <button class="tog" id="tog" type="button" aria-label="Switch colour theme">◐</button>
+        <a class="quiet" href="/app.html">Log in</a>
+        <a class="btn" href="https://cal.com/lazy_scale/15min" target="_blank" rel="noopener">Get Started</a>
+      </div>
+    </div>
+  </div>
+</header>
 
+<main id="main">
+  <section class="sec">
+    <div class="wrap" style="max-width:760px">
+      <div class="eyebrow">Privacy</div>
+      <div class="prose legal">
   <h1>Privacy Policy</h1>
-  <p class="updated">Last updated 19 August 2026</p>
-
-  <p class="lead">LazyScale is a small automation studio. We collect the details you type into our forms so we can reply to you — nothing more. We do not sell your data, and we do not run advertising trackers on this site.</p>
-
+  <p>Last updated 19 August 2026</p>
+  <p>LazyScale is a small automation studio. We collect the details you type into our forms so we can reply to you, and nothing more. We do not sell your data, and we do not run advertising trackers on this site.</p>
   <h2>Who we are</h2>
-  <p>LazyScale builds AI automation workflows for startups. For anything relating to this policy or your data, contact <a href="mailto:divyanshus2404@gmail.com">divyanshus2404@gmail.com</a>.</p>
-
+  <p>LazyScale answers customer enquiries for small businesses in India. For anything relating to this policy or your data, contact <a href="mailto:divyanshus2404@gmail.com">divyanshus2404@gmail.com</a>.</p>
   <h2>What we collect</h2>
   <p>Only what you choose to give us, plus the standard technical information any website receives.</p>
   <table>
     <tr><th>What</th><th>Where it comes from</th><th>Why</th></tr>
     <tr><td>Name and email address</td><td>Audit form, contact form</td><td>To reply to your enquiry</td></tr>
-    <tr><td>Startup name, team size</td><td>Audit form</td><td>To size our recommendations</td></tr>
+    <tr><td>Business name, team size</td><td>Audit form</td><td>To size our recommendations</td></tr>
     <tr><td>What you want automated, and your message</td><td>Audit form, contact form</td><td>To prepare a useful response</td></tr>
     <tr><td>IP address, browser and device type, pages visited</td><td>Automatically, via our host</td><td>Serving the site and basic security</td></tr>
   </table>
   <p>We do not ask for payment card details, identity documents, or any special category data on this website. Please don't send them to us through these forms.</p>
-
   <h2>Cookies and local storage</h2>
-  <p>This site sets <strong>no advertising or tracking cookies</strong>, and there is nothing here to consent to. We store one item in your browser's local storage — your light or dark theme preference — so the site looks the same when you return. It stays on your device, is never sent to us, and clearing your browser data removes it.</p>
-  <p>We use <strong>Vercel Web Analytics</strong> to see which pages get visited and which buttons get used. It is cookieless, does not follow you across sites, and does not collect anything that identifies you personally. See <a href="https://vercel.com/docs/analytics/privacy-policy" target="_blank" rel="noopener">how it handles data</a>.</p>
-
+  <p>This site sets <strong>no advertising or tracking cookies</strong>, and there is nothing here to consent to. We store one item in your browser's local storage, your light or dark theme preference, so the site looks the same when you return. It stays on your device, is never sent to us, and clearing your browser data removes it.</p>
+  <p>We use <strong>Vercel Web Analytics</strong> to see which pages get visited and which buttons get used. It is cookieless, does not follow you across sites, and does not collect anything that identifies you personally. See <a href="https://vercel.com/docs/analytics/privacy-policy">how it handles data</a>.</p>
   <h2>Who else handles your data</h2>
   <p>We use a small number of third parties to run the site. Each receives only what it needs to do its job.</p>
   <table>
     <tr><th>Service</th><th>What it handles</th><th>Their policy</th></tr>
-    <tr><td>Formspree</td><td>Delivers our form submissions to our inbox</td><td><a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener">Privacy policy</a></td></tr>
-    <tr><td>Vercel</td><td>Hosts and serves this website</td><td><a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener">Privacy policy</a></td></tr>
-    <tr><td>Cal.com</td><td>Booking, if you schedule a call</td><td><a href="https://cal.com/privacy" target="_blank" rel="noopener">Privacy policy</a></td></tr>
-    <tr><td>Vercel Web Analytics</td><td>Anonymous, cookieless page and click statistics</td><td><a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener">Privacy policy</a></td></tr>
+    <tr><td>Formspree</td><td>Delivers our form submissions to our inbox</td><td><a href="https://formspree.io/legal/privacy-policy">Privacy policy</a></td></tr>
+    <tr><td>Vercel</td><td>Hosts and serves this website</td><td><a href="https://vercel.com/legal/privacy-policy">Privacy policy</a></td></tr>
+    <tr><td>Cal.com</td><td>Booking, if you schedule a call</td><td><a href="https://cal.com/privacy">Privacy policy</a></td></tr>
+    <tr><td>Vercel Web Analytics</td><td>Anonymous, cookieless page and click statistics</td><td><a href="https://vercel.com/legal/privacy-policy">Privacy policy</a></td></tr>
   </table>
   <p>Some of these providers process data outside India, including in the United States. If you message us on WhatsApp using the button on our site, that conversation is governed by WhatsApp's own privacy policy.</p>
   <p>We do not sell your personal data, and we do not share it with advertisers or data brokers.</p>
-
   <h2>How long we keep it</h2>
   <p>Enquiries are kept for <strong>24 months</strong> from your last contact with us, so we have context if you come back. If you become a client, we keep records for as long as our engagement lasts and for any period we're required to afterwards. You can ask us to delete your data sooner at any time.</p>
-
   <h2>Your rights</h2>
-  <p>Under India's Digital Personal Data Protection Act, 2023 — and comparable laws elsewhere — you can ask us to:</p>
+  <p>Under India's Digital Personal Data Protection Act, 2023, and comparable laws elsewhere, you can ask us to:</p>
   <ul>
     <li>Tell you what personal data of yours we hold</li>
     <li>Correct anything inaccurate or incomplete</li>
@@ -140,19 +92,68 @@
     <li>Nominate someone to exercise these rights on your behalf</li>
   </ul>
   <p>Email <a href="mailto:divyanshus2404@gmail.com">divyanshus2404@gmail.com</a> and we'll action it within 30 days. There's no charge. If you're unhappy with how we've handled a request, you can raise it with the Data Protection Board of India.</p>
-
   <h2>Security</h2>
   <p>The site is served over HTTPS and form submissions are encrypted in transit. We keep the number of people and systems that can reach your data as small as we practically can. That said, no method of transmission over the internet is completely secure, and we can't guarantee absolute security.</p>
-
   <h2>Children</h2>
   <p>This site is meant for people running or working at businesses. It isn't directed at children, and we don't knowingly collect data from anyone under 18.</p>
-
   <h2>Changes</h2>
   <p>If we change this policy we'll update the date at the top. If a change materially affects how we handle data you've already given us, we'll email you where we reasonably can.</p>
-
-  <div class="foot">
-    <a href="/">Home</a><a href="/terms.html">Terms of Service</a><a href="mailto:divyanshus2404@gmail.com">Contact</a>
+    <a href="/">Home</a><a href="/terms.html">Terms of Service</a><a href="mailto:divyanshus2404@gmail.com">Contact</a></div>
+      <p class="legal-foot">Questions about any of this go to
+        <a href="mailto:divyanshus2404@gmail.com">divyanshus2404@gmail.com</a>.</p>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 LazyScale</span>
+    <a href="/automations.html">What we automate</a>
+    <a href="/pricing.html">Pricing</a>
+    <a href="/faq.html">Questions</a>
+    <a href="/about.html">About</a>
+    <a href="https://github.com/divyanshus2404/lazyscale" target="_blank" rel="noopener">Source</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <span class="sp"></span>
+    <a href="mailto:divyanshus2404@gmail.com">divyanshus2404@gmail.com</a>
   </div>
-</div>
+</footer>
+
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('ls-theme');
+    if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+  var tog = document.getElementById('tog');
+  if (tog) tog.addEventListener('click', function () {
+    var r = document.documentElement;
+    var dark = r.getAttribute('data-theme') === 'dark' ||
+      (!r.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches);
+    var next = dark ? 'light' : 'dark';
+    r.setAttribute('data-theme', next);
+    try { localStorage.setItem('ls-theme', next); } catch (e) {}
+  });
+
+  // Subtle only: a border under the nav once you leave the top, and one fade
+  // per section. Everything is visible without this running.
+  var hdr = document.getElementById('hdr');
+  if (hdr) addEventListener('scroll', function () {
+    hdr.classList.toggle('stuck', scrollY > 8);
+  }, { passive: true });
+
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(function (e) { e.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function (e) { io.observe(e); });
+    // Failsafe: nothing may stay hidden because an observer never fired.
+    setTimeout(function () { els.forEach(function (e) { e.classList.add('in'); }); }, 2500);
+  }
+})();
+</script>
 </body>
 </html>

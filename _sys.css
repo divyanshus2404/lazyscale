@@ -385,3 +385,16 @@ footer a:hover { color: var(--text); }
   .cat-row { grid-template-columns: 1fr; gap: var(--s2); }
   .cat-tag { padding-top: 0; }
 }
+
+/* legal pages */
+.legal h1 { font-size: var(--t-h2); margin-bottom: var(--s5); }
+.legal h2 { font-size: var(--t-h3); margin-top: var(--s7); }
+.legal h3 { font-size: var(--t-body); margin-top: var(--s5); }
+.legal ul, .legal ol { margin: var(--s4) 0 0; padding-left: var(--s5); color: var(--muted); font-size: var(--t-body); }
+.legal li { margin-top: var(--s2); max-width: 68ch; }
+.legal table { width: 100%; border-collapse: collapse; margin-top: var(--s5); font-size: var(--t-sm); }
+.legal th, .legal td { text-align: left; padding: var(--s3) var(--s4) var(--s3) 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.legal th { font-size: var(--t-micro); letter-spacing: .08em; text-transform: uppercase; color: var(--faint); font-weight: 600; }
+.legal td { color: var(--muted); }
+.legal-foot { margin-top: var(--s8); padding-top: var(--s5); border-top: 1px solid var(--line); font-size: var(--t-sm); color: var(--faint); }
+.legal-foot a { color: var(--text); }

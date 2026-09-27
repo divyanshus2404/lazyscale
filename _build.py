@@ -521,11 +521,41 @@ def build_automations():
 """ + FOOTER
 
 
+def build_legal(slug, title, desc, heading):
+    """Privacy and Terms, on the design system.
+
+    The wording is not touched. data/legal/*.html holds the content extracted
+    from the old pages; only the shell and the styling change, because the one
+    thing you must not do to a legal page is quietly reword it.
+    """
+    body = io.open(f"data/legal/{slug}.html", encoding="utf-8").read()
+    return head(title, desc, f"https://lazyscale.vercel.app/{slug}.html") + nav("") + f"""
+<main id="main">
+  <section class="sec">
+    <div class="wrap" style="max-width:760px">
+      <div class="eyebrow">{heading}</div>
+      <div class="prose legal">{body}</div>
+      <p class="legal-foot">Questions about any of this go to
+        <a href="mailto:divyanshus2404@gmail.com">divyanshus2404@gmail.com</a>.</p>
+    </div>
+  </section>
+</main>
+""" + FOOTER
+
+
 if __name__ == "__main__":
     for name, fn in (("index.html", build_index), ("pricing.html", build_pricing),
                      ("about.html", build_about), ("faq.html", build_faq),
                      ("404.html", build_404),
-                     ("automations.html", build_automations)):
+                     ("automations.html", build_automations),
+                     ("privacy.html", lambda: build_legal(
+                         "privacy", "Privacy · LazyScale",
+                         "What LazyScale collects, who else handles it, how long it is kept, and how to have it deleted.",
+                         "Privacy")),
+                     ("terms.html", lambda: build_legal(
+                         "terms", "Terms · LazyScale",
+                         "The terms that apply to using this website and to any work LazyScale does for you.",
+                         "Terms"))):
         html = fn()
         io.open(name, "w", encoding="utf-8").write(html)
         print(f"wrote {name} ({len(html):,} bytes)")

@@ -81,7 +81,7 @@ test('the generated pages match their builder', async () => {
   // index, pricing and about are written by _build.py. Editing the HTML by hand
   // works until the next build silently throws it away.
   const { execFileSync } = await import('node:child_process');
-  const generated = ['index.html', 'pricing.html', 'about.html', 'faq.html', '404.html', 'automations.html'];
+  const generated = ['index.html', 'pricing.html', 'about.html', 'faq.html', '404.html', 'automations.html', 'privacy.html', 'terms.html'];
   const before = generated.map((f) => readFileSync(f, 'utf8'));
   execFileSync('python3', ['_build.py'], { stdio: 'pipe' });
   const after = generated.map((f) => readFileSync(f, 'utf8'));
@@ -133,7 +133,7 @@ test('the copy does not read as machine-written', () => {
     { re: /\b(empower|elevate|unlock|supercharge|delve)\b/i, why: 'generated-copy verb' },
     { re: /\bin today'?s .{0,20}(world|landscape|market)\b/i, why: '"in today\'s fast-moving world"' },
   ];
-  for (const page of ['index.html', 'pricing.html', 'about.html', 'faq.html', '404.html', 'automations.html']) {
+  for (const page of ['index.html', 'pricing.html', 'about.html', 'faq.html', '404.html', 'automations.html', 'privacy.html', 'terms.html']) {
     const html = readFileSync(page, 'utf8');
     const text = html.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<!--[\s\S]*?-->/g, '');
     for (const { re, why } of tells) {
