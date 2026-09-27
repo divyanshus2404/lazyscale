@@ -44,3 +44,26 @@ export async function modelBudgetOk() {
   if (used >= cap) return { ok: false, reason: 'daily_cap', used, cap };
   return { ok: true, used, cap };
 }
+
+/**
+ * May we send an email right now? Same durable, fail-closed pattern as the model
+ * cap. Even though the email tier is free with no card, this stops the code ever
+ * hammering the provider or blowing a free daily allowance under a flood.
+ *
+ * EMAIL_DAILY_CAP defaults to 90, just under Resend's free 100-a-day. Set it to
+ * 0 to stop sending entirely (enquiries are still captured; you read them in the
+ * console).
+ */
+export function emailCap() {
+  const raw = Number(process.env.EMAIL_DAILY_CAP);
+  return Number.isFinite(raw) && raw >= 0 ? Math.floor(raw) : 90;
+}
+
+export async function emailBudgetOk() {
+  const cap = emailCap();
+  if (cap === 0) return { ok: false, reason: 'email_disabled' };
+  const used = await countAllSince(startOfUtcDay());
+  if (used === null) return { ok: false, reason: 'budget_unknown' }; // fail closed
+  if (used >= cap) return { ok: false, reason: 'email_cap', used, cap };
+  return { ok: true, used, cap };
+}

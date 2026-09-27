@@ -50,3 +50,14 @@ test('the default ceiling is a sane 300, not unbounded', async () => {
   const { dailyCap } = await import('../api/_budget.js?c');
   assert.equal(dailyCap(), 300);
 });
+
+test('the email cap works the same way as the model cap', async () => {
+  process.env.EMAIL_DAILY_CAP = '0';
+  const { emailBudgetOk } = await import('../api/_budget.js?e0');
+  assert.equal((await emailBudgetOk()).reason, 'email_disabled');
+
+  process.env.EMAIL_DAILY_CAP = '90';
+  const { emailCap } = await import('../api/_budget.js?e1');
+  assert.equal(emailCap(), 90);
+  delete process.env.EMAIL_DAILY_CAP;
+});

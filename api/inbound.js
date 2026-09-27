@@ -24,7 +24,7 @@
 
 import { createHash } from 'node:crypto';
 import { record, update, findRecent, countSince } from './_store.js';
-import { modelBudgetOk } from './_budget.js';
+import { modelBudgetOk, emailBudgetOk } from './_budget.js';
 
 const MODEL = 'claude-sonnet-5';
 const MAX_MESSAGE = 1500;
@@ -203,6 +203,11 @@ Return exactly this and nothing else:
 async function sendMail({ to, subject, html, text, replyTo }) {
   const key = process.env.RESEND_API_KEY;
   if (!key || !to) return { ok: false, reason: 'not_configured' };
+
+  // Never send past the day's ceiling. Free tier or not, the code will not
+  // hammer the provider; if it cannot verify it is under budget it does not send.
+  const budget = await emailBudgetOk();
+  if (!budget.ok) return { ok: false, reason: budget.reason };
   try {
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
