@@ -119,3 +119,25 @@ test('no page claims we do not store data, or an audit we have not had', () => {
     for (const re of lies) assert.equal(re.test(html), false, `${page} matches ${re}`);
   }
 });
+
+test('the copy does not read as machine-written', () => {
+  // Em dashes wedged mid-sentence are the loudest tell, and there were fifty
+  // across the site. The rest of this list is the vocabulary that shows up in
+  // generated marketing copy and nowhere else.
+  const tells = [
+    { re: /—/, why: 'em dash: split the sentence in two instead' },
+    { re: /\bit'?s not just\b/i, why: '"it\'s not just X, it\'s Y"' },
+    { re: /\bisn'?t just\b/i, why: '"isn\'t just X"' },
+    { re: /\bhere'?s the thing\b/i, why: '"here\'s the thing"' },
+    { re: /\b(seamless|robust|game-?changer|cutting-?edge|revolutioni[sz]e)\b/i, why: 'vendor adjective' },
+    { re: /\b(empower|elevate|unlock|supercharge|delve)\b/i, why: 'generated-copy verb' },
+    { re: /\bin today'?s .{0,20}(world|landscape|market)\b/i, why: '"in today\'s fast-moving world"' },
+  ];
+  for (const page of ['index.html', 'pricing.html', 'about.html', 'faq.html', '404.html', 'automations.html']) {
+    const html = readFileSync(page, 'utf8');
+    const text = html.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<!--[\s\S]*?-->/g, '');
+    for (const { re, why } of tells) {
+      assert.equal(re.test(text), false, `${page}: ${why}`);
+    }
+  }
+});

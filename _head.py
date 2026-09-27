@@ -39,7 +39,7 @@ def head(title, desc, canonical):
 <meta property="og:image" content="https://lazyscale.vercel.app/og-image.png">
 <meta property="og:image:width" content="2400">
 <meta property="og:image:height" content="1260">
-<meta property="og:image:alt" content="LazyScale — AI employees for repetitive work.">
+<meta property="og:image:alt" content="LazyScale. AI employees for repetitive work.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{title}">
 <meta name="twitter:description" content="{desc}">

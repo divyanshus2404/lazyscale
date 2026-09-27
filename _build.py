@@ -19,16 +19,16 @@ TICK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width=
 # ── 4 AI employees: one card per job description that actually exists ───────
 EMPLOYEES = [
     dict(name="Lead Responder", job="Captures, qualifies and follows up with every inbound lead.",
-         status="Active", ui=[("New lead", "Rahul — WhatsApp"), ("Budget", "₹1.2 Cr"), ("Location", "Whitefield")],
+         status="Active", ui=[("New lead", "Rahul, on WhatsApp"), ("Budget", "₹1.2 Cr"), ("Location", "Whitefield")],
          score="9 / 10", done=["Reply sent", "Recorded", "Sales notified"]),
     dict(name="WhatsApp Agent", job="Answers repetitive questions on the channel your customers actually use.",
          status="Active", ui=[("Asked", "“Open on Sunday?”"), ("Channel", "WhatsApp"), ("Time", "11:41 pm")],
          score="Routine", done=["Answered in 40s", "Thread logged"]),
     dict(name="Collections Clerk", job="Follows up on overdue invoices, politely and on schedule.",
-         status="Active", ui=[("Invoice", "#2291 — ₹48,000"), ("Overdue", "12 days"), ("Attempt", "2 of 3")],
+         status="Active", ui=[("Invoice", "#2291, ₹48,000"), ("Overdue", "12 days"), ("Attempt", "2 of 3")],
          score="Due today", done=["Reminder sent", "Owner copied"]),
     dict(name="Onboarding Coordinator", job="Keeps a new customer moving through the steps after they sign.",
-         status="Active", ui=[("Customer", "Meera Interiors"), ("Step", "3 of 5 — documents"), ("Waiting on", "Customer")],
+         status="Active", ui=[("Customer", "Meera Interiors"), ("Step", "3 of 5, documents"), ("Waiting on", "Customer")],
          score="On track", done=["Nudge sent", "Checklist updated"]),
 ]
 
@@ -59,7 +59,7 @@ FAQ = [
  # Was: "Most workflows go live in 48 hours." Nothing has ever been delivered to
  # a client, so there is no delivery time to promise.
  ("How long does setup take?",
-  "The drop-in — where your existing form posts to us and every enquiry gets captured and alerted — is the fast part. A full build, with qualification criteria written around your business, takes longer. You will see it running on your own enquiries before it answers anyone."),
+  "The drop-in is quick. Your existing form posts to us, every enquiry gets captured, and you get alerted. A full build takes longer, because the qualification criteria have to be written around how your business actually works. Either way you will see it running on your own enquiries before it answers anyone."),
 
  ("What if I want to cancel?",
   "Stop whenever you like. No contract, no exit fee, and nothing to migrate back out of, because nothing moved in the first place. Ask and we delete what we hold."),
@@ -68,7 +68,7 @@ FAQ = [
   "No. You describe what should happen in plain language, and the connecting, building and maintaining is the job you are paying for."),
 
  ("Will it make mistakes?",
-  "Yes, sometimes — so it is built to fail in the cheap direction. Anything it should not answer goes to a person instead, and nothing irreversible happens without someone approving it. Complaints, price negotiations and questions about existing orders are escalated by default."),
+  "Yes, sometimes. So it is built to fail in the cheap direction. Anything it should not answer goes to a person instead, and nothing irreversible happens without someone approving it. Complaints, price negotiations and questions about existing orders are escalated by default."),
 
  # Was: "Most startups on Growth never hit the cap." There are no customers, so
  # there is no distribution to describe.
@@ -84,7 +84,7 @@ FAQ = [
  # how a failure downstream never costs you the lead. SOC 2 is an audit nobody
  # here has been through.
  ("What happens to my customers' data?",
-  "We do store it, and it is worth being exact about that. Every enquiry is recorded — name, email, phone and message — before anything else is attempted, which is what stops a failure further down the line from losing you the lead, and what the monthly review is built from. It lives in a Supabase database that only the server can reach, one tenant's records are never readable by another, and we have not been through a SOC 2 audit so we do not claim one. Ask for your data and we hand it over or delete it."),
+  "We do store it, and it is worth being exact about that. Every enquiry is recorded before anything else is attempted: name, email, phone and message. That is what stops a failure further down the line from losing you the lead, and it is what the monthly review is built from. It lives in a Supabase database only the server can reach, and one tenant's records are never readable by another. We have not been through a SOC 2 audit, so we do not claim one. Ask for your data and we hand it over or delete it."),
 ]
 
 
@@ -136,7 +136,7 @@ def build_index():
           <span class="tier-price">{t['price']}<small>/month</small></span>
         </a>''' for t in TIERS)
 
-    return head("LazyScale — AI employees for repetitive work",
+    return head("AI employees for repetitive work · LazyScale",
                 "LazyScale gives your team AI employees that handle repetitive sales, support and operations work automatically.",
                 "https://lazyscale.vercel.app/") + nav("product") + f"""
 <main id="main">
@@ -153,7 +153,7 @@ def build_index():
       <p class="hero-meta">No migration · no new software to learn · no passwords change hands</p>
 
       <!-- The product is the visual. Left: what came in, across channels.
-           Right: what LazyScale did with it, in the order it did it — including
+           Right: what LazyScale did with it, in order, including
            the reply itself, which the previous version never showed. A visitor
            should be able to understand the product from this block alone. -->
       <div class="app">
@@ -189,12 +189,12 @@ def build_index():
 
           <div class="detail">
             <div class="d-step">
-              <span class="d-label">1 — Came in</span>
+              <span class="d-label">01 Came in</span>
               <div class="d-quote">“We need an internal dashboard over our Postgres. 40-person team, live before the March audit. What would you charge?”</div>
             </div>
 
             <div class="d-step">
-              <span class="d-label">2 — Understood</span>
+              <span class="d-label">02 Understood</span>
               <div class="d-grid">
                 <div><span class="k">Need</span><span class="v">Internal dashboard</span></div>
                 <div><span class="k">Stack</span><span class="v">Postgres</span></div>
@@ -204,20 +204,20 @@ def build_index():
             </div>
 
             <div class="d-step">
-              <span class="d-label">3 — Scored</span>
+              <span class="d-label">03 Scored</span>
               <div class="d-score">
                 <span class="score">9 / 10</span>
-                <span class="d-why">Named a deadline and a decision-maker. No budget yet — worth asking.</span>
+                <span class="d-why">Named a deadline and a decision-maker. No budget yet, so worth asking.</span>
               </div>
             </div>
 
             <div class="d-step">
-              <span class="d-label">4 — Replied, 41 seconds later</span>
-              <div class="d-reply">“Yes — we've built dashboards on Postgres before. Before I quote: is the March audit a hard date, and roughly what budget are you working to? I can send two options tomorrow morning.”</div>
+              <span class="d-label">04 Replied, 41 seconds later</span>
+              <div class="d-reply">“Yes, we have built dashboards on Postgres before. Before I quote: is the March audit a hard date, and roughly what budget are you working to? I can send two options tomorrow morning.”</div>
             </div>
 
             <div class="d-step">
-              <span class="d-label">5 — Then</span>
+              <span class="d-label">05 Then</span>
               <div class="d-dones">
                 <div class="done">{TICK}Recorded before the model was called</div>
                 <div class="done">{TICK}Flagged for your 9am callback list</div>
@@ -226,7 +226,7 @@ def build_index():
             </div>
           </div>
         </div>
-        <div class="app-foot">An example of the Lead Responder's output. It never negotiates price, never promises a date, and hands anything awkward to a person — the fourth message above is one it deliberately did not answer.</div>
+        <div class="app-foot">An example of the Lead Responder's output. It never negotiates price, never promises a date, and hands anything awkward to a person. The fourth message above is one it deliberately did not answer.</div>
       </div>
   </section>
 
@@ -249,7 +249,7 @@ def build_index():
     <div class="wrap">
       <div class="eyebrow">AI employees</div>
       <h2>One AI employee. One job.<br>Zero busywork.</h2>
-      <p class="lede">Each one arrives with a written job description, a probation period and a monthly performance review — so you can tell whether it is earning its keep.</p>
+      <p class="lede">Each one arrives with a written job description, a probation period and a monthly performance review, so you can tell whether it is earning its keep.</p>
       <div class="emp-grid">{cards}</div>
       <a class="link" href="/automations.html" style="margin-top:var(--s6)">Explore all AI employees <span>→</span></a>
     </div>
@@ -260,7 +260,7 @@ def build_index():
     <div class="wrap">
       <div class="eyebrow">How the work moves</div>
       <h2>See it work.</h2>
-      <p class="lede">One enquiry, from arrival to answer. The highlighted step is the one that matters: everything after it can fail and the enquiry is still yours.</p>
+      <p class="lede">One enquiry, from arrival to answer. The highlighted step is the one that matters. Everything after it can fail and the enquiry is still yours.</p>
       <div class="steps">{steps}</div>
     </div>
   </section>
@@ -284,7 +284,7 @@ def build_index():
     </div>
   </section>
 
-  <!-- 7. What we publish — no testimonials, because there are none -->
+  <!-- 7. What we publish. No testimonials, because there are none. -->
   <section class="sec">
     <div class="wrap">
       <div class="eyebrow">What we publish</div>
@@ -314,7 +314,7 @@ def build_index():
       <div class="reveal">
         <div class="eyebrow">Who builds it</div>
         <h2 style="font-size:var(--t-h3)">Built by Divyanshu Singh</h2>
-        <p class="lede">“I'm building LazyScale to give small teams the leverage of a much larger operations team.”</p>
+        <p class="lede">“I am building LazyScale so a business with four people can answer enquiries like a business with forty.”</p>
         <p style="margin-top:var(--s5)"><a class="link" href="/about.html">More about why <span>→</span></a></p>
       </div>
     </div>
@@ -346,8 +346,8 @@ def build_pricing():
           <a class="btn{'' if t.get('best') else ' btn-ghost'}" href="{GET_STARTED}" target="_blank" rel="noopener" style="width:100%">Get Started</a>
         </div>"""
     tiers = "".join(tier(t) for t in TIERS)
-    return head("Pricing — LazyScale",
-                "Pay for what you automate. Starter, Growth and Scale — no long contracts, cancel any time.",
+    return head("Pricing · LazyScale",
+                "Pay for what you automate. Starter, Growth and Scale, with no long contracts and no notice period.",
                 "https://lazyscale.vercel.app/pricing.html") + nav("pricing") + f"""
 <main id="main">
   <section class="sec">
@@ -358,11 +358,11 @@ def build_pricing():
       <div class="grid-3 ptiers">{tiers}</div>
       <div class="card notes">
         <h3>What "AI actions" means</h3>
-        <p>One action is one thing an AI employee does on your behalf — reading an enquiry, drafting a reply, scoring a lead, sending a reminder. A busy month for a small business is usually a few hundred.</p>
+        <p>One action is one thing an AI employee does on your behalf. Reading an enquiry, drafting a reply, scoring a lead, sending a reminder. A busy month for a small business is usually a few hundred.</p>
         <h3 style="margin-top:var(--s5)">What the setup fee covers</h3>
         <p>Connecting your channels, writing the qualification criteria with you, and running the first week alongside you before anything answers on its own.</p>
         <h3 style="margin-top:var(--s5)">What happens if it doesn't work</h3>
-        <p>Every AI employee has a probation period. If it hasn't earned its keep by the first monthly review, stop it — there is no contract to exit.</p>
+        <p>Every AI employee has a probation period. If it has not earned its keep by the first monthly review, stop it. There is no contract to exit.</p>
       </div>
     </div>
   </section>
@@ -371,7 +371,7 @@ def build_pricing():
 
 
 def build_about():
-    return head("About — LazyScale",
+    return head("About · LazyScale",
                 "One person, building enquiry response for small businesses in India. What LazyScale is, and what it refuses to build.",
                 "https://lazyscale.vercel.app/about.html") + nav("about") + f"""
 <main id="main">
@@ -380,18 +380,18 @@ def build_about():
       <div class="eyebrow">About</div>
       <h1 style="font-size:var(--t-h1)">There is one person behind this.</h1>
       <div class="prose">
-        <p>My name is Divyanshu Singh. I build the automations, I connect them to your tools, and when one breaks at 2am it is my phone that goes off. There is no team behind me and no support queue in front of me — the person you talk to is the person doing the work.</p>
+        <p>My name is Divyanshu Singh. I build the automations, I connect them to your tools, and when one breaks at 2am it is my phone that goes off. There is no team behind me and no support queue in front of me. The person you talk to is the person doing the work.</p>
         <p>LazyScale exists because most businesses here don't lose customers on price. They lose them because someone was asleep, or on a call, or the message landed on WhatsApp while everyone was watching email. The enquiry was fine. The timing wasn't.</p>
-        <p>So this isn't “AI for your business”. It is <strong>response time</strong>, and everything I build points at that one number.</p>
+        <p>What I am selling is <strong>response time</strong>. Everything I build points at that one number.</p>
 
         <h2>Sold as employees, not software</h2>
-        <p>Each AI employee arrives with a written job description, a probation period and a monthly performance review. That sounds like a gimmick until you have been sold software that does forty things and none of them well. A job description says what a thing will do and — more usefully — what it won't.</p>
+        <p>Each AI employee arrives with a written job description, a probation period and a monthly performance review. That sounds like a gimmick until you have been sold software that does forty things and none of them well. A job description says what a thing will do, and more usefully what it will not.</p>
 
         <h2>What I won't build</h2>
-        <p>Seven things, published in full next to the fifty-five I will. Nothing that moves money on its own. Nothing that pretends to be a person. No cold outbound at scale, and no scraping behind a login. The list is on the <a href="/automations.html">catalogue page</a>, with the reason under each one.</p>
+        <p>Seven things, published in full next to the fifty-five I will. Nothing that moves money on its own, nothing that pretends to be a person, no cold outbound at scale, no scraping behind a login. The list is on the <a href="/automations.html">catalogue page</a>, with the reason under each one.</p>
 
         <h2>What I can't claim yet</h2>
-        <p>No case studies, no testimonials and no customer count — because there are none. When there are, they will appear with real numbers attached. Until then the page that was built to publish response times sits empty rather than filled with something plausible.</p>
+        <p>No case studies, no testimonials and no customer count, because there are none. When there are, they will appear with real numbers attached. Until then the page built to publish response times sits empty rather than filled with something plausible.</p>
         <p>The whole thing is <a href="https://github.com/divyanshus2404/lazyscale" target="_blank" rel="noopener">public on GitHub</a>, including the endpoints that do the work and the tests that keep them honest.</p>
       </div>
       <div style="margin-top:var(--s7);display:flex;gap:var(--s4);flex-wrap:wrap">
@@ -408,7 +408,7 @@ def build_faq():
     items = "".join(
         f'''<details class="qa reveal"><summary><span>{q}</span><i aria-hidden="true">+</i></summary><p>{a}</p></details>'''
         for q, a in FAQ)
-    return head("Questions — LazyScale",
+    return head("Questions · LazyScale",
                 "What LazyScale connects to, how long setup takes, what happens to your customers' data, and what it will not do.",
                 "https://lazyscale.vercel.app/faq.html") + nav("") + f"""
 <main id="main">
@@ -429,7 +429,7 @@ def build_faq():
 
 
 def build_404():
-    return head("Not found — LazyScale", "That page does not exist.",
+    return head("Not found · LazyScale", "That page does not exist.",
                 "https://lazyscale.vercel.app/404.html") + nav("") + """
 <main id="main">
   <section class="sec" style="text-align:center">
@@ -486,14 +486,14 @@ def build_automations():
                    </div>''')
         rows.append('</div>')
 
-    return head("What we automate — LazyScale",
+    return head("What we automate · LazyScale",
                 "Fifty-five things we automate for small businesses in India, and the seven we refuse to build.",
                 "https://lazyscale.vercel.app/automations.html") + nav("solutions") + f"""
 <main id="main">
   <section class="sec">
     <div class="wrap">
       <div class="eyebrow">Solutions</div>
-      <h1>What we automate —<br>and what we refuse.</h1>
+      <h1>What we automate,<br>and what we refuse.</h1>
       <p class="lede">Most agencies will tell you everything is automatable. Here is the honest version: {len(items)} things we build, in the order we would build them, and the seven we will not build at any price.</p>
 
       <div class="chips" role="group" aria-label="Filter by area">{chips}</div>
