@@ -32,18 +32,6 @@ EMPLOYEES = [
          score="On track", done=["Nudge sent", "Checklist updated"]),
 ]
 
-CHORES = ["Qualifying leads", "Answering the same question again",
-          "Updating the CRM", "Sending follow-ups",
-          "Chasing overdue payments", "Putting the weekly report together"]
-
-# Order matters and is not cosmetic: the enquiry is recorded BEFORE the model is
-# called, so a failure further down never costs the lead. Showing "Record" last
-# would contradict both the product and the sentence above it.
-STEPS = [("Lead", "A message arrives on any channel"),
-         ("Record", "Written down before anything else is tried"),
-         ("AI", "Reads what was actually asked"),
-         ("Decision", "Scores it against your criteria"),
-         ("Action", "Replies, or hands it to a person")]
 
 HOW = [("01", "Connect", "Point an existing form, inbox or WhatsApp number at us. No migration, and no passwords change hands."),
        ("02", "Choose", "Pick the AI employee for the job. Each one arrives with a written job description and a probation period."),
@@ -121,15 +109,10 @@ def employee_card(e):
 
 def build_index():
     cards = "\n".join(employee_card(e) for e in EMPLOYEES)
-    chores = "".join(f'<li>{c}</li>' for c in CHORES)
-    steps = "".join(
-        f'<div class="step reveal"><span class="step-n">{i+1:02d}</span><b>{n}</b><span>{d}</span></div>'
-        + ('<div class="step-arrow" aria-hidden="true">→</div>' if i < len(STEPS) - 1 else '')
-        for i, (n, d) in enumerate(STEPS))
     how = "".join(
         f'<div class="reveal"><div class="how-n">{n}</div><h3>{t}</h3><p class="how-p">{d}</p></div>'
         for n, t, d in HOW)
-    tools = "".join(f'<div class="tool">{t}</div>' for t in TOOLS)
+    tools = "".join(f'<span>{t}</span>' for t in TOOLS)
     tiers = "".join(
         f'''<a class="tier{' tier-best' if t.get('best') else ''} reveal" href="/pricing.html">
           <b>{t['name']}</b><span class="tier-note">{t['note']}</span>
@@ -141,205 +124,122 @@ def build_index():
                 "https://lazyscale.vercel.app/") + nav("product") + f"""
 <main id="main">
 
-  <!-- 1. Hero -->
-  <section class="sec hero">
+  <!-- 1. Hero. Centred, and the product sits directly under the headline:
+       the interactive demo is the hero visual, not a picture of one.
+       It runs entirely in the browser (see /demo.js), so it costs nothing. -->
+  <section class="sec hero hero-c">
     <div class="wrap">
+      <a class="pill" href="#demo"><span class="dot"></span>Early access · Lead Responder is live</a>
       <h1>AI employees for<br>repetitive work.</h1>
       <p class="lede">LazyScale gives your team AI employees that handle repetitive sales, support and operations work automatically.</p>
       <div class="hero-ctas">
         <a class="btn btn-lg" href="{GET_STARTED}" target="_blank" rel="noopener">Get Started</a>
-        <a class="link" href="#demo">See how it works <span>→</span></a>
+        <a class="btn btn-lg btn-ghost" href="#demo">Try the demo</a>
       </div>
       <p class="hero-meta">No migration · no new software to learn · no passwords change hands</p>
 
-      <!-- The product is the visual. Kept to three moves: what came in, what
-           went out, and what it did about it. An earlier version walked five
-           labelled steps and a four-field grid, which was more than a hero can
-           carry. The detail lives on the product page. -->
-      <div class="app">
-        <div class="app-bar">
-          <span class="pip"></span><b>Lead Responder</b>
-          <span class="app-tab">Inbox</span>
-          <span class="st">Active</span>
+      <div class="demo card" id="lazyscale-demo">
+        <span class="demo-anchor" id="demo"></span>
+        <div class="demo-top">
+          <span class="lab">Try it · paste a customer enquiry</span>
+          <span class="demo-note">Runs in your browser. Nothing is sent.</span>
         </div>
-        <div class="app-body">
-          <div class="queue">
-            <div class="queue-head">Today · 4 handled</div>
-            <div class="q-item q-on">
-              <span class="q-ch">WhatsApp</span><span class="q-who">Karthik</span><span class="q-t">11:41 pm</span>
-            </div>
-            <div class="q-item">
-              <span class="q-ch">Web form</span><span class="q-who">Priya</span><span class="q-t">9:04 pm</span>
-            </div>
-            <div class="q-item">
-              <span class="q-ch">Email</span><span class="q-who">Dev</span><span class="q-t">7:18 pm</span>
-            </div>
-            <div class="q-item">
-              <span class="q-ch">Instagram</span><span class="q-who">Anon</span><span class="q-t">4:55 pm</span>
-            </div>
-          </div>
-
-          <div class="detail">
-            <div class="d-step">
-              <span class="d-label">In · WhatsApp, 11:41 pm</span>
-              <div class="d-quote">“We need an internal dashboard over our Postgres. Live before the March audit. What would you charge?”</div>
-            </div>
-
-            <div class="d-step">
-              <span class="d-label">Out · 41 seconds later</span>
-              <div class="d-reply">“Yes, we have built dashboards on Postgres before. Is the audit a hard date, and what budget are you working to? I can send two options tomorrow.”</div>
-            </div>
-
-            <div class="d-foot">
-              <span class="score">9 / 10</span>
-              <span class="d-why">Recorded before the model ran. Flagged for your 9am callbacks. No price quoted.</span>
-            </div>
-          </div>
-        </div>
-        <div class="app-foot">It never negotiates price and never promises a date. The Instagram message above asked “is this AI?”, so it went to a person unanswered.</div>
-      </div>
-  </section>
-
-  <!-- 2. Problem -->
-  <section class="sec">
-    <div class="wrap grid-2 problem">
-      <div class="reveal">
-        <div class="eyebrow">The problem</div>
-        <h2>Your team is busy.<br>Your AI employees aren't.</h2>
-      </div>
-      <div class="reveal">
-        <p class="lede" style="margin-top:0">Nobody was hired to do these. They are the work that fills a day and leaves nothing behind.</p>
-        <ul class="chores">{chores}</ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3. AI employees -->
-  <section class="sec" id="employees">
-    <div class="wrap">
-      <div class="eyebrow">AI employees</div>
-      <h2>One AI employee. One job.<br>Zero busywork.</h2>
-      <p class="lede">Each one arrives with a written job description, a probation period and a monthly performance review, so you can tell whether it is earning its keep.</p>
-      <div class="emp-grid">{cards}</div>
-      <a class="link" href="/automations.html" style="margin-top:var(--s6)">Explore all AI employees <span>→</span></a>
-    </div>
-  </section>
-
-  <!-- 4. Product demonstration -->
-  <!-- Interactive, and entirely in the browser (see /demo.js): no model call,
-       nothing recorded, so it costs nothing and needs no API key. Each panel is
-       a mount point that one module in demo.js renders into. The analyzer in
-       demo.js is the single seam to swap for the real /api/lead call. -->
-  <section class="sec sec-soft" id="demo">
-    <div class="wrap">
-      <div class="eyebrow">Product demo</div>
-      <h2>See LazyScale in action</h2>
-      <p class="lede">Paste a customer enquiry and see how LazyScale handles it.</p>
-
-      <div class="demo" id="lazyscale-demo">
-        <div class="demo-main card">
-          <div id="demo-input"></div>
-          <div id="demo-progress"></div>
-          <div id="demo-result"></div>
-        </div>
-        <div class="demo-side">
-          <div class="card demo-panel" id="demo-inbox"></div>
-          <div class="card demo-panel" id="demo-rules"></div>
-        </div>
+        <div id="demo-input"></div>
+        <div id="demo-progress"></div>
+        <div id="demo-result"></div>
       </div>
       <noscript><p class="demo-note">The demo needs JavaScript. Everything else on this page works without it.</p></noscript>
 
-      <div class="hitl">
-        <div class="hitl-head">
-          <h3>AI handles the repetitive work. You stay in control.</h3>
-          <p class="demo-note">Every enquiry is sorted into one of two lanes before anything is sent.</p>
-        </div>
-        <div class="hitl-lanes">
-          <div class="hitl-lane">
-            <span class="lab">Safe to automate</span>
-            <b>AI can handle</b>
-            <ul><li>Simple enquiry</li><li>Availability question</li><li>Brochure or details request</li></ul>
-          </div>
-          <div class="hitl-lane hitl-human">
-            <span class="lab">Needs a human</span>
-            <b>Owner reviews</b>
-            <ul><li>Price negotiation</li><li>Complaint</li><li>Refund request</li><li>Existing order issue</li></ul>
-          </div>
-        </div>
+      <div class="works">
+        <span class="lab">Works with the tools you already use</span>
+        <div class="works-row">{tools}</div>
       </div>
-
-      <p class="try-foot">One enquiry, from arrival to answer. The step that matters is the one where it is written down. Everything after that can fail and the enquiry is still yours.</p>
-      <div class="steps">{steps}</div>
     </div>
   </section>
 
-  <script src="/demo.js" defer></script>
+  <!-- 2. AI employees -->
+  <section class="sec" id="employees">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">AI employees</div>
+        <h2>One AI employee. One job.</h2>
+        <p class="lede">Each one arrives with a written job description, a probation period and a monthly performance review, so you can tell whether it is earning its keep.</p>
+      </div>
+      <div class="emp-grid">{cards}</div>
+      <div class="sec-more"><a class="link" href="/automations.html">Explore all AI employees <span>→</span></a></div>
+    </div>
+  </section>
 
-  <!-- 5. How it works -->
+  <!-- 3. Control. The line that makes the rest believable. -->
+  <section class="sec sec-soft">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">You stay in control</div>
+        <h2>AI handles the repetitive work.<br>You handle the rest.</h2>
+        <p class="lede">Every enquiry is written down first, then sorted into one of two lanes before anything is sent.</p>
+      </div>
+      <div class="hitl-lanes">
+        <div class="hitl-lane reveal">
+          <span class="lab">Safe to automate</span>
+          <b>AI can handle</b>
+          <ul><li>Simple enquiry</li><li>Availability question</li><li>Brochure or details request</li></ul>
+        </div>
+        <div class="hitl-lane hitl-human reveal">
+          <span class="lab">Needs a human</span>
+          <b>Owner reviews</b>
+          <ul><li>Price negotiation</li><li>Complaint</li><li>Refund request</li><li>Existing order issue</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. How it works -->
   <section class="sec">
     <div class="wrap">
-      <div class="eyebrow">Getting started</div>
-      <h2>Three steps, and none of them are a migration.</h2>
+      <div class="sec-head">
+        <div class="eyebrow">Getting started</div>
+        <h2>Three steps, and none of them are a migration.</h2>
+      </div>
       <div class="grid-3 how">{how}</div>
     </div>
   </section>
 
-  <!-- 6. Integrations -->
+  <!-- 5. Pricing preview -->
   <section class="sec">
     <div class="wrap">
-      <div class="eyebrow">Integrations</div>
-      <h2>Keep the tools you already use.</h2>
-      <p class="lede">We work around your stack rather than asking you to move to ours.</p>
-      <div class="tools">{tools}</div>
-    </div>
-  </section>
-
-  <!-- 7. What we publish. No testimonials, because there are none. -->
-  <section class="sec">
-    <div class="wrap">
-      <div class="eyebrow">What we publish</div>
-      <h2>No case studies yet.<br>Here is what you can check instead.</h2>
-      <div class="grid-3 proof">
-        <a class="card proof-cell reveal" href="/automations.html"><span class="n">55</span><b>things we automate</b><p>Listed in full, with what each one is actually worth.</p></a>
-        <a class="card proof-cell reveal" href="/automations.html"><span class="n">7</span><b>things we refuse to build</b><p>Nothing that moves money. Nothing that pretends to be a person.</p></a>
-        <a class="card proof-cell reveal" href="https://github.com/divyanshus2404/lazyscale" target="_blank" rel="noopener"><span class="n">↗</span><b>The source, in public</b><p>The endpoints that do the work, and the tests that keep them honest.</p></a>
+      <div class="sec-head">
+        <div class="eyebrow">Pricing</div>
+        <h2>Pay for what you automate.</h2>
+        <p class="lede">No long contracts, cancel any time. Start with one AI employee and add more when the first one has proved itself.</p>
       </div>
-    </div>
-  </section>
-
-  <!-- 8. Pricing preview -->
-  <section class="sec">
-    <div class="wrap">
-      <div class="eyebrow">Pricing</div>
-      <h2>Pay for what you automate.</h2>
-      <p class="lede">No long contracts, cancel any time. Start with one AI employee and add more when the first one has proved itself.</p>
       <div class="grid-3 tiers">{tiers}</div>
-      <a class="link" href="/pricing.html" style="margin-top:var(--s6)">View full pricing <span>→</span></a>
+      <div class="sec-more"><a class="link" href="/pricing.html">View full pricing <span>→</span></a></div>
     </div>
   </section>
 
-  <!-- 9. Founder -->
+  <!-- 6. Founder. No testimonials, because there are none yet. -->
   <section class="sec">
     <div class="wrap founder">
       <div class="reveal">
         <div class="eyebrow">Who builds it</div>
         <h2 style="font-size:var(--t-h3)">Built by Divyanshu Singh</h2>
         <p class="lede">“I am building LazyScale so a business with four people can answer enquiries like a business with forty.”</p>
-        <p style="margin-top:var(--s5)"><a class="link" href="/about.html">More about why <span>→</span></a></p>
+        <p class="founder-links"><a class="link" href="/about.html">More about why <span>→</span></a><a class="link" href="https://github.com/divyanshus2404/lazyscale" target="_blank" rel="noopener">The source is public <span>↗</span></a></p>
       </div>
     </div>
   </section>
 
-  <!-- 10. Final CTA -->
+  <!-- 7. Final CTA -->
   <section class="sec sec-soft cta">
     <div class="wrap">
       <h2>Stop doing work a machine can do.</h2>
       <p class="lede" style="margin-left:auto;margin-right:auto;text-align:center">Deploy your first AI employee today.</p>
-      <div style="margin-top:var(--s6)"><a class="btn btn-lg" href="{GET_STARTED}" target="_blank" rel="noopener">Get Started</a></div>
+      <div class="hero-ctas" style="justify-content:center"><a class="btn btn-lg" href="{GET_STARTED}" target="_blank" rel="noopener">Get Started</a><a class="btn btn-lg btn-ghost" href="#demo">Try the demo</a></div>
     </div>
   </section>
 
 </main>
+<script src="/demo.js" defer></script>
 """ + FOOTER
 
 

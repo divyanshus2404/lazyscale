@@ -6,6 +6,8 @@
 *.local
 node_modules/
 .local-enquiries.jsonl
+.local-leads.jsonl
+.local-tenants.jsonl
 
 # generated daily posts and the rotation state
 out/

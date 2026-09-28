@@ -3,7 +3,47 @@
 // field silently dropped, an origin check that lets anyone post.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { fingerprintOf, originAllowed, pick, extras, FIELDS } from '../api/inbound.js';
+import { fingerprintOf, originAllowed, pick, extras, FIELDS, leadInput } from '../api/inbound.js';
+
+// The capture -> lead -> sequence wiring. leadInput is the pure seam the handler
+// hands to newLead, so the contract that starts (or does not start) a sequence
+// is pinned here rather than buried in the endpoint.
+const cap = { name: 'Meera', email: 'meera@example.com', phone: '', message: 'hair transplant cost?', source: 'whatsapp', at: '2026-03-02T05:00:00.000Z' };
+
+test('a captured enquiry becomes a lead linked back to its enquiry', () => {
+  const q = { ok: true, score: 8, intent: 'new_business', needsHuman: false, reply: 'Hi Meera, ...' };
+  const li = leadInput('glow', cap, q, 'enq-123');
+  assert.equal(li.tenant_key, 'glow');
+  assert.equal(li.enquiry_id, 'enq-123');
+  assert.equal(li.channel, 'whatsapp');
+  assert.equal(li.score, 8);
+  assert.equal(li.needs_human, false);
+  assert.equal(li.reply_draft, 'Hi Meera, ...');
+  // the sequence starts from when the enquiry arrived
+  assert.equal(li.sequence_start_at, cap.at);
+  assert.equal(li.created_at, cap.at);
+});
+
+test('an escalated enquiry starts a lead that will not be chased', () => {
+  const q = { ok: true, score: 3, intent: 'support', needsHuman: true, reply: '' };
+  const li = leadInput('glow', cap, q, 'enq-9');
+  assert.equal(li.needs_human, true);   // newLead turns this into handed_to_human
+  assert.equal(li.reply_draft, null);
+});
+
+test('an unscored enquiry (no API key) still starts a lead, safely', () => {
+  const q = { ok: false, reason: 'no_api_key' };
+  const li = leadInput('glow', cap, q, 'enq-1');
+  assert.equal(li.score, null);
+  assert.equal(li.intent, null);
+  assert.equal(li.needs_human, false); // unknown is not an escalation, it is chased
+  assert.equal(li.channel, 'whatsapp');
+});
+
+test('leadInput defaults a missing channel to the web form', () => {
+  const li = leadInput('glow', { ...cap, source: '' }, { ok: false }, 'e');
+  assert.equal(li.channel, 'web form');
+});
 
 test('the same enquiry twice makes the same fingerprint', () => {
   const lead = { email: 'A@Example.com', phone: '+91 76682 29271', message: 'Need  30  chairs ' };

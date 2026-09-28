@@ -4,10 +4,9 @@
  * works. The live product runs the same shape through api/lead.js.
  *
  * Layout of this file:
- *   1. Data           scenarios, inbox leads, default business rules
+ *   1. Data           scenarios and the default business rules
  *   2. Analyzer       the ONE seam to replace with a real API (see apiAnalyzer)
- *   3. Components     EnquiryInput, AnalysisProgress, LeadAnalysis, AIResponse,
- *                     InboxPreview, BusinessRules
+ *   3. Components     EnquiryInput, AnalysisProgress, LeadAnalysis, AIResponse
  *   4. LazyScaleDemo  wires them together
  */
 (function () {
@@ -72,36 +71,6 @@
     }
   };
 
-  // Inbox entries point at a scenario, or carry their own text and result.
-  var INBOX = [
-    { id: 'rahul', who: 'Rahul Sharma', sub: '3BHK · Whitefield · ₹1.2 Cr', scenario: 'realestate' },
-    {
-      id: 'priya', who: 'Priya Mehta', sub: 'Website redesign', kind: 'agency',
-      text: 'Hi, how much would a website redesign cost? We are a 6 person design studio.',
-      result: {
-        score: 6, name: 'Priya',
-        fields: [['Customer intent', 'Website redesign'], ['Company', '6 person studio'], ['Budget', 'Not stated'], ['Timeline', 'Not stated']],
-        budgetL: null, location: '',
-        why: ['Clear requirement', 'Asked about price'],
-        against: ['No budget or timeline yet'],
-        action: 'Reply today with a price range, follow up tomorrow',
-        reply: "Hi Priya, thanks for reaching out. Redesigns for a studio your size usually depend on the number of pages and whether you need a CMS. Could you share your current site and when you'd like it live? I can send a clear quote after that."
-      }
-    },
-    {
-      id: 'anon', who: 'Anonymous', sub: 'General enquiry', kind: 'agency',
-      text: 'what do you do exactly',
-      result: {
-        score: 2, name: '',
-        fields: [['Customer intent', 'Unclear'], ['Budget', 'Not stated'], ['Timeline', 'Not stated'], ['Contact', 'Not given']],
-        budgetL: null, location: '',
-        why: [], against: ['No clear requirement', 'No contact details'],
-        forceHuman: 'Too vague to answer well, so a person decides.',
-        action: '', reply: ''
-      }
-    }
-  ];
-
   var RULES = {
     realestate: { minBudgetL: 50, budgetOptions: [0, 25, 50, 100, 200],
                   locations: { Whitefield: true, Indiranagar: true, HSR: true, Koramangala: false } },
@@ -128,7 +97,6 @@
     analyze: function (text, kind, rules) {
       var t = text.trim(), found = null;
       Object.keys(SCENARIOS).forEach(function (k) { if (SCENARIOS[k].text === t) found = SCENARIOS[k].result; });
-      INBOX.forEach(function (l) { if (l.text === t) found = l.result; });
       return Promise.resolve(applyRules(clone(found || readText(t, kind)), t, kind, rules));
     }
   };
@@ -301,28 +269,33 @@
     };
   }
 
-  // LeadAnalysis: the scored card, as markup.
+  // LeadAnalysis: the left pane. Verdict, score, extracted fields and why.
   function LeadAnalysis(a) {
     var fields = a.fields.map(function (f) {
       return '<div><span class="lab">' + esc(f[0]) + '</span><span class="v">' + esc(f[1]) + '</span></div>';
     }).join('');
     var why = a.why.map(function (w) { return '<li><span class="mk">✓</span>' + esc(w) + '</li>'; }).join('') +
       a.against.map(function (w) { return '<li class="neg"><span class="mk neg">–</span>' + esc(w) + '</li>'; }).join('');
-    var rules = a.rulesUsed.length ? '<p class="rules-used">Your rules: ' + a.rulesUsed.map(esc).join(' · ') + '</p>' : '';
-    return '<div class="res-head">' +
+    var rules = a.rulesUsed.length ? '<p class="rules-used">Checked against your rules: ' + a.rulesUsed.map(esc).join(' · ') + '</p>' : '';
+    return '<div class="res-a">' +
+      '<div class="res-head">' +
         '<div><span class="lab">Lead analysis</span>' +
         '<span class="verdict t-' + a.tone + '"><span class="dot"></span>' + esc(a.verdict) + '</span></div>' +
         '<span class="res-score">' + a.score + '<small>/10</small></span>' +
       '</div>' +
       '<div class="fields">' + fields + '</div>' +
       '<div><span class="lab">Why this score?</span><ul class="why">' + why + '</ul>' + rules + '</div>' +
-      '<div><span class="lab">Recommended action</span><p class="action">' + esc(a.action) + '</p>' +
-      (a.needsHuman ? '<p class="demo-note">' + esc(a.reason) + ' No reply is drafted, on purpose.</p>' : '') +
       '</div>';
   }
 
-  // AIResponse: the draft, with Edit and Approve & Send. Appends into `mount`.
+  // AIResponse: the right pane. Recommended action, then the draft with Edit
+  // and Approve & Send. When a person must handle it, no draft is shown.
   function AIResponse(mount, a) {
+    var pane = document.createElement('div');
+    pane.className = 'res-b';
+    pane.innerHTML = '<div><span class="lab">Recommended action</span><p class="action">' + esc(a.action) + '</p>' +
+      (a.needsHuman ? '<p class="demo-note">' + esc(a.reason) + ' No reply is drafted, on purpose. It waits for you.</p>' : '') + '</div>';
+    mount.appendChild(pane);
     if (a.needsHuman) return;
     var wrap = document.createElement('div');
     wrap.innerHTML = '<span class="lab">AI draft response</span>' +
@@ -331,7 +304,7 @@
       '<button class="btn btn-ghost" type="button" data-act="edit">Edit</button>' +
       '<button class="btn" type="button" data-act="send">Approve &amp; Send</button>' +
       '</div>';
-    mount.appendChild(wrap);
+    pane.appendChild(wrap);
     var reply = wrap.querySelector('.reply');
     var edit = wrap.querySelector('[data-act=edit]');
     var btns = wrap.querySelector('.reply-btns');
@@ -348,128 +321,38 @@
     });
   }
 
-  // InboxPreview: a small queue. Clicking a lead opens it in the main panel.
-  function InboxPreview(mount, onOpen) {
-    mount.innerHTML = '<span class="lab">LazyScale inbox</span>' +
-      '<div class="inbox-stats">' +
-      '<div><b>12</b><span>enquiries today</span></div>' +
-      '<div><b>8</b><span>qualified</span></div>' +
-      '<div><b>3</b><span>hot leads</span></div>' +
-      '</div>' +
-      '<ul class="inbox-list"></ul>';
-    var list = mount.querySelector('.inbox-list');
-    INBOX.forEach(function (l) {
-      var src = l.scenario ? SCENARIOS[l.scenario] : l;
-      var r = src.result;
-      var need = !!r.forceHuman;
-      var tone = need ? 'need' : r.score >= 8 ? 'hot' : r.score >= 5 ? 'warm' : 'cool';
-      var li = document.createElement('li');
-      li.innerHTML = '<button class="inbox-item" type="button">' +
-        '<span class="sc t-' + tone + '"><span class="dot"></span>' + r.score + '/10</span>' +
-        '<b>' + esc(l.who) + '</b>' +
-        '<span class="sub">' + esc(l.sub) + '</span>' +
-        '<span class="st">' + (need ? 'Needs human review' : 'AI draft ready') + '</span>' +
-        '</button>';
-      var b = li.firstChild;
-      b.addEventListener('click', function () {
-        each(list.querySelectorAll('.inbox-item'), function (x) { x.classList.toggle('sel', x === b); });
-        onOpen(src.text, src.kind);
-      });
-      list.appendChild(li);
-    });
-    return { clearSelection: function () { each(list.querySelectorAll('.sel'), function (x) { x.classList.remove('sel'); }); } };
-  }
-
-  // BusinessRules: editable rules for the selected business type.
-  function BusinessRules(mount, rules, onChange) {
-    var kind = 'realestate';
-    function render() {
-      var kr = rules[kind];
-      var html = '<span class="lab">My business rules · ' + esc(SCENARIOS[kind].label) + '</span><div class="rules">';
-      if (kr.budgetOptions) {
-        html += '<div><label class="lab" for="rule-budget">Minimum budget</label>' +
-          '<select id="rule-budget" class="rule-sel">' + kr.budgetOptions.map(function (v) {
-            return '<option value="' + v + '"' + (v === kr.minBudgetL ? ' selected' : '') + '>' + (v === 0 ? 'No minimum' : fmtLakh(v)) + '</option>';
-          }).join('') + '</select></div>';
-      }
-      if (kr.locations) {
-        html += '<div><span class="lab">Preferred locations</span><div class="rule-chips" role="group" aria-label="Preferred locations">' +
-          Object.keys(kr.locations).map(function (l) {
-            return '<button type="button" class="pick' + (kr.locations[l] ? ' pick-on' : '') + '" data-loc="' + l + '" aria-pressed="' + kr.locations[l] + '">' + esc(l) + '</button>';
-          }).join('') + '</div></div>';
-      }
-      html += '<div><span class="lab">Always escalate</span><div class="rule-list">' +
-        rules.escalate.map(function (e, i) {
-          return '<label class="rule-tog"><input type="checkbox" data-esc="' + i + '"' + (e.on ? ' checked' : '') + '>' + esc(e.label) + '</label>';
-        }).join('') + '</div></div>';
-      html += '<p class="demo-note">Change a rule and the open enquiry is re-scored against it.</p></div>';
-      mount.innerHTML = html;
-
-      var sel = mount.querySelector('#rule-budget');
-      if (sel) sel.addEventListener('change', function () { kr.minBudgetL = +sel.value; onChange(); });
-      each(mount.querySelectorAll('[data-loc]'), function (b) {
-        b.addEventListener('click', function () {
-          var l = b.getAttribute('data-loc');
-          kr.locations[l] = !kr.locations[l];
-          b.classList.toggle('pick-on', kr.locations[l]);
-          b.setAttribute('aria-pressed', String(kr.locations[l]));
-          onChange();
-        });
-      });
-      each(mount.querySelectorAll('[data-esc]'), function (c) {
-        c.addEventListener('change', function () { rules.escalate[+c.getAttribute('data-esc')].on = c.checked; onChange(); });
-      });
-    }
-    render();
-    return { show: function (k) { if (k !== kind) { kind = k; render(); } } };
-  }
-
   // ── 4. LazyScaleDemo ───────────────────────────────────────────────────────
   function LazyScaleDemo(root) {
-    var state = { kind: 'realestate', text: '', analyzed: false, run: 0 };
+    var state = { kind: 'realestate', run: 0 };
     var result = root.querySelector('#demo-result');
     var progress = AnalysisProgress(root.querySelector('#demo-progress'));
-    var input, rules, inbox;
+    var input;
 
-    function reset() { state.run++; progress.clear(); result.innerHTML = ''; state.analyzed = false; input.busy(false); input.hint(); }
+    function reset() { state.run++; progress.clear(); result.innerHTML = ''; input.busy(false); input.hint(); }
 
-    function analyze(text, animate) {
+    function analyze(text) {
       if (text.trim().length < 10) { input.hint('Type a line or two first.'); return; }
       var run = ++state.run;
-      state.text = text;
       input.busy(true);
-      if (animate) result.innerHTML = '';
+      result.innerHTML = '';
       var p = analyzer.analyze(text, state.kind, RULES);
-      function show() {
+      progress.run(function () {
         p.then(function (a) {
           if (run !== state.run) return;
           result.innerHTML = '<div class="res">' + LeadAnalysis(a) + '</div>';
           AIResponse(result.firstChild, a);
-          state.analyzed = true;
-          input.hint('Done. Now try changing a business rule.');
+          input.hint('Done. Try another example, or paste your own.');
         }).catch(function () {
           if (run !== state.run) return;
           result.innerHTML = '<p class="demo-note">Could not analyze that one. In the live product it would go to a person.</p>';
         }).then(function () { if (run === state.run) input.busy(false); });
-      }
-      if (animate) progress.run(show); else { progress.clear(); show(); }
+      });
     }
 
     input = EnquiryInput(root.querySelector('#demo-input'), {
-      onKind: function (k) { state.kind = k; rules.show(k); inbox.clearSelection(); reset(); },
-      onSubmit: function (text) { inbox.clearSelection(); analyze(text, true); }
+      onKind: function (k) { state.kind = k; reset(); },
+      onSubmit: analyze
     });
-    rules = BusinessRules(root.querySelector('#demo-rules'), RULES, function () {
-      if (state.analyzed) analyze(state.text, false);
-    });
-    inbox = InboxPreview(root.querySelector('#demo-inbox'), function (text, kind) {
-      state.kind = kind;
-      input.set(text, kind);
-      rules.show(kind);
-      analyze(text, false);
-      if (window.innerWidth < 960) root.querySelector('.demo-main').scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
-    });
-
     input.set(SCENARIOS.realestate.text, 'realestate');
   }
 

@@ -25,6 +25,8 @@
 import { createHash } from 'node:crypto';
 import { record, update, findRecent, countSince } from './_store.js';
 import { modelBudgetOk, emailBudgetOk } from './_budget.js';
+import { resolveTenantConfig, buildSystemPrompt } from './_tenants.js';
+import { newLead } from './_leads.js';
 
 const MODEL = 'claude-sonnet-5';
 const MAX_MESSAGE = 1500;
@@ -141,6 +143,31 @@ function parseBody(req) {
   return out;
 }
 
+// Shape a captured enquiry into a lead that starts a follow-up sequence. Pure,
+// so the wiring is testable without standing up the whole handler. `enquiryId`
+// links the lead back to its durable enquiry record: the enquiry is the receipt,
+// the lead is the living thing worked on top of it. A qualification that flagged
+// needs_human hands the lead straight to a person, so it is captured but never
+// chased.
+export function leadInput(tenantKey, lead, q, enquiryId) {
+  const scored = !!(q && q.ok);
+  return {
+    tenant_key: tenantKey,
+    enquiry_id: enquiryId || null,
+    name: lead.name || null,
+    email: lead.email || null,
+    phone: lead.phone || null,
+    channel: lead.source || 'web form',
+    message: lead.message || null,
+    score: scored ? q.score : null,
+    intent: scored ? q.intent : null,
+    needs_human: scored ? q.needsHuman === true : false,
+    reply_draft: scored ? (q.reply || null) : null,
+    created_at: lead.at,
+    sequence_start_at: lead.at
+  };
+}
+
 async function qualify(lead, tenant) {
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) return { ok: false, reason: 'no_api_key' };
@@ -149,14 +176,16 @@ async function qualify(lead, tenant) {
   const budget = await modelBudgetOk();
   if (!budget.ok) return { ok: false, reason: budget.reason };
 
-  const system = `You are the Lead Responder for ${tenant.name}. A new enquiry has arrived through their website. Do three jobs and return ONLY a JSON object.
-1. SCORE it 0-10 on how likely it is to become real paying business for ${tenant.name}. Be honest — most enquiries are not a 9. A vague "tell me more" is a 4.
-2. DECIDE whether a person must handle it. Set needs_human true when ANY apply: it is a complaint or the tone is angry; they want to negotiate price or terms; it concerns an existing order, account or invoice; they ask for a human; you are not confident you can answer well.
-3. DRAFT the first reply, unless needs_human is true, in which case leave it empty.
-Reply rules: use their first name if given; answer the SPECIFIC thing asked; one clear next step; 80-130 words; Indian English; no emoji, no exclamation marks, no "I hope this email finds you well".
-Never, in any reply: quote or commit to a price, negotiate or discount, promise a delivery date, or give legal, medical or financial advice. You do not know ${tenant.name}'s prices — if asked, say a person will confirm.
-Return exactly this and nothing else:
-{"score": <0-10>, "summary": "<one line, max 15 words>", "intent": "<new_business|support|jobseeker|vendor_pitch|spam|other>", "needs_human": <true|false>, "escalation_reason": "<short reason, empty if none>", "reply": "<email body, no subject, no signature>"}`;
+  // The prompt now comes from the tenant's resolved config, so the same code
+  // serves a clinic, a developer or a general business, and a vertical's safety
+  // rules (a clinic never diagnoses, never quotes a procedure) are enforced here
+  // rather than living in one hardcoded string. vertical and config are optional
+  // on the tenant; a plain tenant resolves to the safe general pack.
+  const cfg = resolveTenantConfig({
+    vertical: tenant.vertical,
+    config: { displayName: tenant.name, ...(tenant.config || {}) }
+  });
+  const system = buildSystemPrompt(cfg);
 
   // Attacker-controlled text. Capped and fenced, and the model is told it is data.
   const content =
@@ -298,6 +327,7 @@ export default async function handler(req, res) {
     company: clean(pick(body, FIELDS.company), 120),
     message: clean(pick(body, FIELDS.message), MAX_MESSAGE),
     extra: extras(body),
+    source: clean(body.source, 60) || 'web form',
     at: new Date().toISOString()
   };
 
@@ -401,6 +431,17 @@ export default async function handler(req, res) {
     alert_sent: alert.ok === true,
     auto_replied: replied
   });
+
+  // Start the follow-up sequence. The enquiry is already the durable receipt
+  // above; this creates the living lead the engine works, linked back to it.
+  // Best-effort by design: newLead never throws, and if it cannot persist (no
+  // leads store configured) the enquiry and the alert have still gone out, so
+  // the customer is not affected. A needs_human lead is created handed to a
+  // person and is never chased.
+  if (stored.stored !== false) {
+    const created = await newLead(leadInput(k, lead, q, stored.id));
+    if (!created.ok) console.warn('lead not started', { tenant: k, reason: created.reason });
+  }
 
   // If the alert did not send and nothing was written down, the enquiry has
   // been lost. Telling the customer it arrived would be the worst failure this
