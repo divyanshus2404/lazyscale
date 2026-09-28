@@ -1,268 +1,482 @@
-/* LazyScale interactive demo — runs entirely in the browser.
+/* LazyScale product demo. Runs entirely in the browser.
  *
- * It never calls the model and never records anything, so it costs nothing and
- * works with no API key. It reads whatever is typed and extracts the same things
- * the live Lead Responder does (see api/lead.js): a score, the fields it could
- * pull out, why, a recommended action, and a first-draft reply. The live product
- * runs the real model over api/lead.js and writes the enquiry down before it
- * spends anything. This is a faithful preview of the shape, not the model itself.
+ * No model call, nothing recorded, no API key: it costs nothing and always
+ * works. The live product runs the same shape through api/lead.js.
+ *
+ * Layout of this file:
+ *   1. Data           scenarios, inbox leads, default business rules
+ *   2. Analyzer       the ONE seam to replace with a real API (see apiAnalyzer)
+ *   3. Components     EnquiryInput, AnalysisProgress, LeadAnalysis, AIResponse,
+ *                     InboxPreview, BusinessRules
+ *   4. LazyScaleDemo  wires them together
  */
 (function () {
   'use strict';
 
-  var EXAMPLES = {
-    realestate: "Hi, I'm Rahul. Looking for a 3BHK in Whitefield around 1.2 crore. Need to move in within 2 months. Can you call me?",
-    agency: "Hey, we're a D2C skincare brand. Our website looks dated and we want a redesign plus better checkout. Budget is roughly 3 lakh, hoping to launch before Diwali.",
-    clinic: "Hello, do you do teeth cleaning and whitening? What does it cost and is Saturday morning possible this week?"
-  };
-
-  var CITIES = ['whitefield','indiranagar','hsr','koramangala','jayanagar','marathahalli',
-    'bengaluru','bangalore','mumbai','delhi','gurgaon','gurugram','noida','pune','hyderabad',
-    'chennai','kolkata','ahmedabad','jaipur'];
-
-  var $ = function (id) { return document.getElementById(id); };
-  var esc = function (s) {
-    return String(s).replace(/[&<>"']/g, function (c) {
-      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+  // ── helpers ────────────────────────────────────────────────────────────────
+  var TICK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>';
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
-  };
-  var cap = function (s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; };
-  var reduced = function () {
+  }
+  function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+  function each(list, fn) { Array.prototype.forEach.call(list, fn); }
+  function reducedMotion() {
     try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
+  }
+  function fmtLakh(l) { return l >= 100 ? '₹' + (+(l / 100).toFixed(2)) + ' Cr' : '₹' + l + 'L'; }
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+
+  // ── 1. Data ────────────────────────────────────────────────────────────────
+  // Each scenario carries a fixed, hand-written result so the demo reads
+  // exactly as intended. `budgetL` (in lakhs) and `location` are what the
+  // business rules are checked against.
+  var SCENARIOS = {
+    realestate: {
+      kind: 'realestate', label: 'Real Estate',
+      text: "Hi, I'm Rahul. I'm looking for a 3BHK in Whitefield around ₹1.2 crore. I need it within the next 2 months.",
+      result: {
+        score: 9, name: 'Rahul',
+        fields: [['Customer intent', 'Buying a 3BHK'], ['Location', 'Whitefield'], ['Budget', '₹1.2 Cr'], ['Timeline', '2 months']],
+        budgetL: 120, location: 'Whitefield',
+        why: ['Clear requirement', 'Budget provided', 'Specific location', 'Short purchase timeline'],
+        action: 'Call within 15 minutes',
+        reply: "Hi Rahul, thanks for reaching out. We have several 3BHK options in Whitefield that may fit your requirements. I'd be happy to share the available options and arrange a viewing. Would you be available for a quick call today?"
+      }
+    },
+    agency: {
+      kind: 'agency', label: 'Agency',
+      text: 'Need a website for my startup. Budget is around ₹2 lakh. Can you deliver it this month?',
+      result: {
+        score: 8, name: '',
+        fields: [['Customer intent', 'New website'], ['Project', 'Startup website'], ['Budget', '₹2L'], ['Timeline', 'This month']],
+        budgetL: 2, location: '',
+        why: ['Clear requirement', 'Budget provided', 'Short timeline, ready to start'],
+        action: 'Reply within the hour and book a scoping call',
+        reply: "Hi, thanks for getting in touch. A startup website within ₹2 lakh is very doable, and this month can work if we start this week. Could you share what the site needs to do and a few sites you like? I can then send a short plan and set up a 20 minute call."
+      }
+    },
+    clinic: {
+      kind: 'clinic', label: 'Clinic',
+      text: 'Do you have appointments available tomorrow for a general consultation?',
+      result: {
+        score: 6, name: '',
+        fields: [['Customer intent', 'Book a consultation'], ['Service', 'General consultation'], ['Timeline', 'Tomorrow'], ['Contact', 'Not given']],
+        budgetL: null, location: '',
+        why: ['Clear service requested', 'Wants it tomorrow'],
+        against: ['No name or contact details'],
+        action: "Reply with tomorrow's open slots",
+        reply: "Hi, thanks for getting in touch. Yes, we have general consultation slots tomorrow morning and late afternoon. Could you share your name and a preferred time? I'll hold the slot for you as soon as you confirm."
+      }
+    }
   };
 
-  function extractName(t) {
-    var m = t.match(/\b(?:i am|i'?m|this is|myself|name is)\s+([A-Z][a-z]+)/i);
-    return m ? cap(m[1]) : '';
-  }
+  // Inbox entries point at a scenario, or carry their own text and result.
+  var INBOX = [
+    { id: 'rahul', who: 'Rahul Sharma', sub: '3BHK · Whitefield · ₹1.2 Cr', scenario: 'realestate' },
+    {
+      id: 'priya', who: 'Priya Mehta', sub: 'Website redesign', kind: 'agency',
+      text: 'Hi, how much would a website redesign cost? We are a 6 person design studio.',
+      result: {
+        score: 6, name: 'Priya',
+        fields: [['Customer intent', 'Website redesign'], ['Company', '6 person studio'], ['Budget', 'Not stated'], ['Timeline', 'Not stated']],
+        budgetL: null, location: '',
+        why: ['Clear requirement', 'Asked about price'],
+        against: ['No budget or timeline yet'],
+        action: 'Reply today with a price range, follow up tomorrow',
+        reply: "Hi Priya, thanks for reaching out. Redesigns for a studio your size usually depend on the number of pages and whether you need a CMS. Could you share your current site and when you'd like it live? I can send a clear quote after that."
+      }
+    },
+    {
+      id: 'anon', who: 'Anonymous', sub: 'General enquiry', kind: 'agency',
+      text: 'what do you do exactly',
+      result: {
+        score: 2, name: '',
+        fields: [['Customer intent', 'Unclear'], ['Budget', 'Not stated'], ['Timeline', 'Not stated'], ['Contact', 'Not given']],
+        budgetL: null, location: '',
+        why: [], against: ['No clear requirement', 'No contact details'],
+        forceHuman: 'Too vague to answer well, so a person decides.',
+        action: '', reply: ''
+      }
+    }
+  ];
 
-  function extractBudget(t) {
-    var m = t.match(/(?:₹|rs\.?|inr)?\s*(\d+(?:\.\d+)?)\s*(crore|cr|lakh|lakhs|lac|l|k|thousand)\b/i);
+  var RULES = {
+    realestate: { minBudgetL: 50, budgetOptions: [0, 25, 50, 100, 200],
+                  locations: { Whitefield: true, Indiranagar: true, HSR: true, Koramangala: false } },
+    agency:     { minBudgetL: 1, budgetOptions: [0, 1, 2, 5, 10], locations: null },
+    clinic:     { minBudgetL: null, budgetOptions: null, locations: null },
+    escalate: [
+      { label: 'Complaints', on: true, re: /\b(complain|complaint|terrible|worst|unacceptable|not happy|disappointed|angry|cheated)\b/i },
+      { label: 'Refund requests', on: true, re: /\b(refund|money back|chargeback)\b/i },
+      { label: 'Price negotiations', on: true, re: /\b(discount|negotiate|too expensive|best price|lower (the )?price|reduce (the )?price)\b/i },
+      { label: 'Existing customers', on: true, re: /\b(my order|already paid|my booking|invoice|existing customer|my account)\b/i }
+    ]
+  };
+
+  // ── 2. Analyzer ────────────────────────────────────────────────────────────
+  // Contract: analyze(text, kind, rules) -> Promise<Analysis>.
+  //
+  // mockAnalyzer returns the scenario result when the text is an example and
+  // otherwise reads the text with simple rules. Business rules are applied on
+  // top either way, so changing a rule visibly changes the outcome.
+  //
+  // To go live, set `analyzer = apiAnalyzer`. It calls the existing preview
+  // mode of api/lead.js, which never records and never emails.
+  var mockAnalyzer = {
+    analyze: function (text, kind, rules) {
+      var t = text.trim(), found = null;
+      Object.keys(SCENARIOS).forEach(function (k) { if (SCENARIOS[k].text === t) found = SCENARIOS[k].result; });
+      INBOX.forEach(function (l) { if (l.text === t) found = l.result; });
+      return Promise.resolve(applyRules(clone(found || readText(t, kind)), t, kind, rules));
+    }
+  };
+
+  var apiAnalyzer = {
+    analyze: function (text, kind, rules) {
+      return fetch('/api/lead', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ preview: true, message: text })
+      }).then(function (r) { return r.json(); }).then(function (p) {
+        if (!p.ok) throw new Error(p.error || 'Could not analyze');
+        return applyRules({
+          score: p.score, name: '', fields: [['Customer intent', p.summary]],
+          budgetL: null, location: '', why: [], against: [],
+          forceHuman: p.needsHuman ? (p.escalationReason || 'Needs a person.') : '',
+          action: '', reply: p.reply || ''
+        }, text, kind, rules);
+      });
+    }
+  };
+
+  var analyzer = mockAnalyzer;
+  void apiAnalyzer;
+
+  function readText(t, kind) {
+    var name = (t.match(/\b(?:I am|I'?m|this is|myself|name is)\s+([A-Z][a-z]+)/) || [])[1] || '';
+    var budgetL = null, budget = '';
+    var m = t.match(/(\d+(?:\.\d+)?)\s*(crore|cr|lakhs?|lacs?|l)\b/i);
     if (m) {
-      var n = m[1], unit = m[2].toLowerCase();
-      if (unit === 'crore' || unit === 'cr') return '₹' + n + ' Cr';
-      if (unit[0] === 'l') return '₹' + n + ' L';
-      if (unit === 'k' || unit === 'thousand') return '₹' + n + 'K';
+      var n = parseFloat(m[1]);
+      budgetL = /^c/i.test(m[2]) ? n * 100 : n;
+      budget = fmtLakh(budgetL);
     }
-    var big = t.match(/(?:₹|rs\.?|inr)\s*([\d,]{4,})/i);
-    return big ? '₹' + big[1] : '';
-  }
+    var tm = t.match(/\b(\d+)\s*(days?|weeks?|months?)\b/i);
+    var soon = t.match(/\b(asap|urgent|immediately|today|tomorrow|this week|this month)\b/i);
+    var timeline = tm ? tm[1] + ' ' + tm[2].toLowerCase() : soon ? cap(soon[1].toLowerCase()) : '';
+    var loc = '';
+    ['Whitefield', 'Indiranagar', 'HSR', 'Koramangala', 'Jayanagar', 'Bengaluru', 'Bangalore', 'Mumbai', 'Pune', 'Delhi', 'Hyderabad']
+      .some(function (c) { if (t.toLowerCase().indexOf(c.toLowerCase()) !== -1) { loc = c; return true; } return false; });
 
-  function extractTimeline(t) {
-    var m = t.match(/\b(\d+)\s*(day|days|week|weeks|month|months)\b/i);
-    if (m) return m[1] + ' ' + m[2].toLowerCase();
-    if (/\b(asap|urgent|immediately|right away|today|this week)\b/i.test(t)) return 'As soon as possible';
-    if (/\b(before|by)\s+(diwali|christmas|march|april|may|june|july|august|september|october|november|december|new year|month end)\b/i.test(t)) {
-      return cap(t.match(/\b(before|by)\s+([a-z ]+)/i)[0].trim());
-    }
-    return '';
-  }
+    var why = [], against = [], score = 3;
+    if (t.length > 50) { score += 1; why.push('Specific about what they need'); } else { against.push('Very little detail'); }
+    if (budget) { score += 2; why.push('Budget provided'); } else { against.push('No budget stated'); }
+    if (timeline) { score += 2; why.push('Timeline given'); }
+    if (loc) { score += 1; why.push('Specific location'); }
+    if (/\b(call|visit|book|appointment|meet|schedule)\b/i.test(t)) { score += 1; why.push('Wants to talk or book'); }
+    if (/\b(hiring|internship|job|resume|vacancy)\b/i.test(t)) { score = 1; against.push('Looks like a job enquiry'); }
 
-  function extractLocation(t) {
-    var low = t.toLowerCase();
-    for (var i = 0; i < CITIES.length; i++) {
-      if (low.indexOf(CITIES[i]) !== -1) return cap(CITIES[i]);
-    }
-    return '';
-  }
+    var intent = kind === 'realestate' ? 'Property enquiry' : kind === 'clinic' ? 'Appointment enquiry' : 'Project enquiry';
+    var fields = [['Customer intent', intent]];
+    if (kind === 'realestate') fields.push(['Location', loc || 'Not stated']);
+    fields.push(['Budget', budget || 'Not stated'], ['Timeline', timeline || 'Not stated']);
+    if (kind !== 'realestate') fields.push(['Contact', name || 'Not given']);
 
-  function analyze(kind, text) {
-    var t = text.trim();
-    var low = t.toLowerCase();
-    var name = extractName(t);
-    var budget = extractBudget(t);
-    var timeline = extractTimeline(t);
-    var location = extractLocation(t);
-
-    var angry = /\b(complaint|refund|angry|terrible|worst|cheated|scam|not happy|disappointed)\b/i.test(t);
-    var negotiate = /\b(discount|too expensive|lower price|negotiate|best price)\b/i.test(t);
-    var existing = /\b(my order|already paid|invoice|existing|account number|my booking)\b/i.test(t);
-    var jobseeker = /\b(hiring|job|internship|resume|vacancy|are you hiring)\b/i.test(t);
-    var wantsCall = /\b(call|phone|whatsapp|reach me|contact me|book|appointment|visit|schedule)\b/i.test(t);
-    var asksPrice = /\b(cost|price|charge|how much|quote|rate|fees?)\b/i.test(t);
-
-    var why = [];
-    var score = 3;
-    if (budget) { score += 2; why.push('Budget stated'); }
-    if (timeline) { score += 2; why.push('Clear timeline'); }
-    if (location) { score += 1; why.push('Location given'); }
-    if (t.length > 60 && !jobseeker) { score += 1; why.push('Specific about what they need'); }
-    if (wantsCall) { score += 1; why.push('Wants to talk or book'); }
-    if (asksPrice && !negotiate) { score += 1; why.push('Asked about price, ready to buy'); }
-    if (jobseeker) { score -= 3; }
-    if (t.length < 25) { score -= 1; }
-
-    var needsHuman = angry || negotiate || existing;
-    var reason = angry ? 'Complaint or unhappy tone'
-      : negotiate ? 'Wants to negotiate price'
-      : existing ? 'Concerns an existing order or account' : '';
-
-    if (jobseeker && !needsHuman) { reason = 'Looks like a job enquiry, not a customer'; }
-
-    score = Math.max(1, Math.min(10, score));
-
-    var intent = jobseeker ? 'Job seeker'
-      : angry ? 'Complaint'
-      : negotiate ? 'Price negotiation'
-      : kind === 'realestate' ? 'Property enquiry'
-      : kind === 'agency' ? 'Project enquiry'
-      : 'Service enquiry';
-
-    var verdict, tone;
-    if (needsHuman) { verdict = 'Escalated to you'; tone = 'warn'; }
-    else if (score >= 8) { verdict = 'Hot lead'; tone = 'hot'; }
-    else if (score >= 5) { verdict = 'Worth a reply'; tone = 'warm'; }
-    else { verdict = 'Low priority'; tone = 'cool'; }
-
-    var action = needsHuman ? 'A person should take this one'
-      : score >= 8 ? 'Call within 15 minutes'
-      : score >= 5 ? 'Reply today, then follow up tomorrow'
-      : 'Acknowledge, keep it in the queue';
+    var hi = 'Hi ' + (name || 'there') + ', thanks for reaching out. ';
+    var reply = kind === 'realestate'
+      ? hi + 'We have options' + (loc ? ' in ' + loc : '') + (budget ? ' around ' + budget : '') + ' that may suit you. Could you share a good time for a quick call? I can shortlist a few before we speak.'
+      : kind === 'clinic'
+        ? hi + 'We can help with that. Could you share your name and a preferred day and time? I will confirm a slot as soon as I hear back.'
+        : hi + 'This sounds like something we can take on. Could you share a little more about the scope' + (timeline ? '' : ' and your timeline') + '? I can then send a short plan and a rough estimate.';
 
     return {
-      kind: kind, name: name, budget: budget, timeline: timeline, location: location,
-      intent: intent, score: score, why: why.length ? why : ['Not much to go on yet'],
-      needsHuman: needsHuman, reason: reason, verdict: verdict, tone: tone, action: action,
-      reply: draftReply(kind, { name: name, budget: budget, timeline: timeline, location: location, asksPrice: asksPrice, wantsCall: wantsCall }, needsHuman)
+      score: Math.max(1, Math.min(10, score)), name: name, fields: fields,
+      budgetL: budgetL, location: loc, why: why, against: against, action: '', reply: reply
     };
   }
 
-  function draftReply(kind, f, needsHuman) {
-    if (needsHuman) return '';
-    var hi = 'Hi ' + (f.name || 'there') + ',\n\n';
-    if (kind === 'realestate') {
-      return hi + 'Thanks for reaching out. We have options'
-        + (f.location ? ' in and around ' + f.location : '')
-        + (f.budget ? ' within ' + f.budget : '') + ' that could suit you'
-        + (f.timeline ? ', and moving in around ' + f.timeline + ' is workable' : '') + '.\n\n'
-        + 'Could you confirm a good time to call? I can shortlist two or three and send them across before we speak.';
-    }
-    if (kind === 'agency') {
-      return hi + 'Thanks for the note. A redesign with a cleaner checkout is well within what we do'
-        + (f.budget ? ', and ' + f.budget + ' is a realistic range for that scope' : '') + '.'
-        + (f.timeline ? ' ' + cap(f.timeline) + ' is doable if we start soon.' : '') + '\n\n'
-        + 'Shall I send two approaches with rough timelines? A short call this week would help me scope it properly.';
-    }
-    return hi + 'Yes, we offer that.'
-      + (f.asksPrice ? ' I will share exact pricing once I know a little more about what you need.' : '')
-      + (f.timeline ? ' ' + cap(f.timeline) + ' should be possible.' : ' We usually have slots within the week.') + '\n\n'
-      + 'What day suits you? I can hold a slot as soon as you confirm.';
+  function actionFor(score) {
+    return score >= 8 ? 'Call within 15 minutes' : score >= 5 ? 'Reply today, follow up tomorrow' : 'Acknowledge, keep it in the queue';
   }
 
-  function cap2(s) { return cap(s); }
+  function applyRules(r, text, kind, rules) {
+    var orig = r.score;
+    r.against = r.against || [];
+    r.rulesUsed = [];
+    var kr = rules[kind] || {};
 
-  function render(out, a) {
-    var fields = [];
-    fields.push(['Intent', a.intent]);
-    if (a.kind === 'realestate') {
-      fields.push(['Location', a.location || 'Not stated']);
-      fields.push(['Budget', a.budget || 'Not stated']);
-      fields.push(['Timeline', a.timeline ? cap2(a.timeline) : 'Not stated']);
-    } else if (a.kind === 'agency') {
-      fields.push(['Budget', a.budget || 'Not stated']);
-      fields.push(['Timeline', a.timeline ? cap2(a.timeline) : 'Not stated']);
-      fields.push(['Contact', a.name || 'Not given']);
-    } else {
-      fields.push(['Timeline', a.timeline ? cap2(a.timeline) : 'Not stated']);
-      fields.push(['Contact', a.name || 'Not given']);
-      fields.push(['Budget', a.budget || 'On request']);
+    if (kr.minBudgetL && r.budgetL != null) {
+      if (r.budgetL >= kr.minBudgetL) r.rulesUsed.push('Budget meets your ' + fmtLakh(kr.minBudgetL) + ' minimum');
+      else { r.score -= 3; r.against.push('Below your minimum budget of ' + fmtLakh(kr.minBudgetL)); }
+    }
+    if (kr.locations && r.location) {
+      var match = Object.keys(kr.locations).filter(function (l) { return l.toLowerCase() === r.location.toLowerCase(); })[0];
+      if (match && kr.locations[match]) r.rulesUsed.push(match + ' is a preferred location');
+      else { r.score -= 2; r.against.push(r.location + ' is not one of your preferred locations'); }
     }
 
-    var grid = fields.map(function (f) {
-      return '<div class="out-cell"><span class="k">' + esc(f[0]) + '</span>'
-        + '<span class="v">' + esc(f[1]) + '</span></div>';
-    }).join('');
+    var hit = rules.escalate.filter(function (e) { return e.on && e.re.test(text); })[0];
+    r.needsHuman = !!(hit || r.forceHuman);
+    r.reason = hit ? 'Your rules say a person handles ' + hit.label.toLowerCase() + '.' : (r.forceHuman || '');
+    if (hit) r.rulesUsed.push('Always escalate ' + hit.label.toLowerCase());
 
-    var why = a.why.map(function (w) { return '<li>+ ' + esc(w) + '</li>'; }).join('');
-
-    var replyBlock = a.needsHuman
-      ? '<div class="out-block"><span class="lab">Why it stopped</span>'
-        + '<p class="out-action">' + esc(a.reason) + '</p>'
-        + '<p class="out-note">The live version would not answer this one. It goes to you, unanswered, on purpose.</p></div>'
-      : '<div class="out-block"><span class="lab">Draft reply</span>'
-        + '<div class="out-reply" id="out-reply">' + esc(a.reply) + '</div>'
-        + '<div class="out-btns">'
-        + '<button class="btn btn-ghost" id="out-edit" type="button">Edit</button>'
-        + '<button class="btn" id="out-approve" type="button">Approve &amp; send</button>'
-        + '</div>'
-        + '<p class="out-note" id="out-msg"></p></div>';
-
-    out.innerHTML =
-      '<div class="out-head">'
-      + '<span class="score">' + a.score + ' / 10</span>'
-      + '<span class="out-verdict">' + esc(a.verdict) + '</span>'
-      + '</div>'
-      + '<div class="out-grid">' + grid + '</div>'
-      + '<div class="out-block"><span class="lab">Why</span><ul class="out-why">' + why + '</ul></div>'
-      + '<div class="out-block"><span class="lab">Recommended action</span>'
-      + '<p class="out-action">' + esc(a.action) + '</p></div>'
-      + replyBlock;
-
-    var edit = $('out-edit'), approve = $('out-approve');
-    if (edit) edit.addEventListener('click', function () {
-      var r = $('out-reply');
-      var on = r.getAttribute('contenteditable') === 'true';
-      r.setAttribute('contenteditable', on ? 'false' : 'true');
-      edit.textContent = on ? 'Edit' : 'Done';
-      if (!on) r.focus();
-    });
-    if (approve) approve.addEventListener('click', function () {
-      var msg = $('out-msg');
-      if (msg) msg.textContent = 'In the live version this sends the reply and records the lead. This preview does neither, so nothing left your browser.';
-    });
+    r.score = Math.max(1, Math.min(10, r.score));
+    r.tone = r.needsHuman ? 'need' : r.score >= 8 ? 'hot' : r.score >= 5 ? 'warm' : 'cool';
+    r.verdict = r.needsHuman ? 'Needs you' : r.score >= 8 ? 'Hot lead' : r.score >= 5 ? 'Warm lead' : 'Low priority';
+    if (r.needsHuman) { r.action = 'Owner reviews before anything is sent'; r.reply = ''; }
+    else if (!r.action || r.score !== orig) r.action = actionFor(r.score);
+    return r;
   }
 
-  function run() {
-    var out = $('try-out'), stage = $('try-stage'), text = $('try-msg').value;
-    if (text.trim().length < 12) {
-      stage.textContent = 'Type a line or two first.';
-      return;
+  // ── 3. Components ──────────────────────────────────────────────────────────
+
+  // EnquiryInput: example chips, the enquiry box and the analyze button.
+  function EnquiryInput(mount, opts) {
+    mount.innerHTML =
+      '<div class="try-pick" role="group" aria-label="Load an example enquiry">' +
+      Object.keys(SCENARIOS).map(function (k, i) {
+        return '<button class="pick' + (i === 0 ? ' pick-on' : '') + '" type="button" data-kind="' + k + '" aria-pressed="' + (i === 0) + '">' + esc(SCENARIOS[k].label) + '</button>';
+      }).join('') +
+      '</div>' +
+      '<textarea id="demo-msg" class="try-text" rows="4" spellcheck="false" aria-label="Customer enquiry"></textarea>' +
+      '<div class="try-actions">' +
+      '<button class="btn" id="demo-run" type="button">Analyze enquiry →</button>' +
+      '<span class="demo-note" id="demo-hint" aria-live="polite"></span>' +
+      '</div>';
+
+    var box = mount.querySelector('#demo-msg');
+    var btn = mount.querySelector('#demo-run');
+    var hint = mount.querySelector('#demo-hint');
+    var chips = mount.querySelectorAll('.pick');
+    var IDLE = 'Or paste your own. Ctrl + Enter works too.';
+    hint.textContent = IDLE;
+
+    function select(kind) {
+      each(chips, function (c) {
+        var on = c.getAttribute('data-kind') === kind;
+        c.classList.toggle('pick-on', on);
+        c.setAttribute('aria-pressed', String(on));
+      });
     }
-    var a = analyze(currentKind, text);
-    var steps = ['Captured', 'Understood', 'Extracted requirements', 'Scored ' + a.score + '/10', 'Drafted reply'];
-    out.hidden = true;
-
-    if (reduced()) {
-      stage.textContent = 'Done.';
-      render(out, a); out.hidden = false;
-      return;
-    }
-    var run = $('try-run');
-    run.disabled = true;
-    var i = 0;
-    (function tick() {
-      if (i < steps.length) {
-        stage.textContent = steps[i] + ' …';
-        i++;
-        setTimeout(tick, 460);
-      } else {
-        stage.textContent = 'Done in under a second.';
-        render(out, a);
-        out.hidden = false;
-        run.disabled = false;
-      }
-    })();
-  }
-
-  var currentKind = 'realestate';
-
-  document.addEventListener('DOMContentLoaded', function () {
-    var msg = $('try-msg');
-    if (!msg) return;
-    msg.value = EXAMPLES[currentKind];
-
-    Array.prototype.forEach.call(document.querySelectorAll('.pick'), function (btn) {
-      btn.addEventListener('click', function () {
-        document.querySelectorAll('.pick').forEach(function (b) { b.classList.remove('pick-on'); });
-        btn.classList.add('pick-on');
-        currentKind = btn.getAttribute('data-ex');
-        msg.value = EXAMPLES[currentKind];
-        var out = $('try-out'); if (out) out.hidden = true;
-        var stage = $('try-stage'); if (stage) stage.textContent = '';
+    each(chips, function (c) {
+      c.addEventListener('click', function () {
+        var kind = c.getAttribute('data-kind');
+        select(kind);
+        box.value = SCENARIOS[kind].text;
+        opts.onKind(kind);
       });
     });
+    btn.addEventListener('click', function () { opts.onSubmit(box.value); });
+    box.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); opts.onSubmit(box.value); }
+    });
 
-    var runBtn = $('try-run');
-    if (runBtn) runBtn.addEventListener('click', run);
-  });
+    return {
+      set: function (text, kind) { box.value = text; if (kind) select(kind); },
+      busy: function (on) { btn.disabled = on; btn.textContent = on ? 'Analyzing…' : 'Analyze enquiry →'; },
+      hint: function (msg) { hint.textContent = msg || IDLE; }
+    };
+  }
+
+  // AnalysisProgress: five steps animating in, about 2.8 seconds in total.
+  function AnalysisProgress(mount) {
+    var STEPS = ['Capturing enquiry', 'Understanding customer intent', 'Extracting requirements', 'Scoring lead', 'Drafting response'];
+    var timer = null;
+    return {
+      run: function (done) {
+        clearTimeout(timer);
+        if (reducedMotion()) { mount.innerHTML = ''; done(); return; }
+        mount.innerHTML = '<ol class="prog" aria-label="Analysis progress">' + STEPS.map(function (s) {
+          return '<li><span class="mk"></span>' + esc(s) + '</li>';
+        }).join('') + '</ol>';
+        var items = mount.querySelectorAll('li'), i = 0;
+        (function step() {
+          if (i > 0) { items[i - 1].className = 'done'; items[i - 1].querySelector('.mk').innerHTML = TICK; }
+          if (i < items.length) { items[i].className = 'on'; i++; timer = setTimeout(step, 480); }
+          else timer = setTimeout(function () { mount.innerHTML = ''; done(); }, 350);
+        })();
+      },
+      clear: function () { clearTimeout(timer); mount.innerHTML = ''; }
+    };
+  }
+
+  // LeadAnalysis: the scored card, as markup.
+  function LeadAnalysis(a) {
+    var fields = a.fields.map(function (f) {
+      return '<div><span class="lab">' + esc(f[0]) + '</span><span class="v">' + esc(f[1]) + '</span></div>';
+    }).join('');
+    var why = a.why.map(function (w) { return '<li><span class="mk">✓</span>' + esc(w) + '</li>'; }).join('') +
+      a.against.map(function (w) { return '<li class="neg"><span class="mk neg">–</span>' + esc(w) + '</li>'; }).join('');
+    var rules = a.rulesUsed.length ? '<p class="rules-used">Your rules: ' + a.rulesUsed.map(esc).join(' · ') + '</p>' : '';
+    return '<div class="res-head">' +
+        '<div><span class="lab">Lead analysis</span>' +
+        '<span class="verdict t-' + a.tone + '"><span class="dot"></span>' + esc(a.verdict) + '</span></div>' +
+        '<span class="res-score">' + a.score + '<small>/10</small></span>' +
+      '</div>' +
+      '<div class="fields">' + fields + '</div>' +
+      '<div><span class="lab">Why this score?</span><ul class="why">' + why + '</ul>' + rules + '</div>' +
+      '<div><span class="lab">Recommended action</span><p class="action">' + esc(a.action) + '</p>' +
+      (a.needsHuman ? '<p class="demo-note">' + esc(a.reason) + ' No reply is drafted, on purpose.</p>' : '') +
+      '</div>';
+  }
+
+  // AIResponse: the draft, with Edit and Approve & Send. Appends into `mount`.
+  function AIResponse(mount, a) {
+    if (a.needsHuman) return;
+    var wrap = document.createElement('div');
+    wrap.innerHTML = '<span class="lab">AI draft response</span>' +
+      '<div class="reply" role="textbox" aria-multiline="true" aria-label="Draft reply">' + esc(a.reply) + '</div>' +
+      '<div class="reply-btns">' +
+      '<button class="btn btn-ghost" type="button" data-act="edit">Edit</button>' +
+      '<button class="btn" type="button" data-act="send">Approve &amp; Send</button>' +
+      '</div>';
+    mount.appendChild(wrap);
+    var reply = wrap.querySelector('.reply');
+    var edit = wrap.querySelector('[data-act=edit]');
+    var btns = wrap.querySelector('.reply-btns');
+    edit.addEventListener('click', function () {
+      var on = reply.getAttribute('contenteditable') === 'true';
+      reply.setAttribute('contenteditable', on ? 'false' : 'true');
+      edit.textContent = on ? 'Edit' : 'Done editing';
+      if (!on) reply.focus();
+    });
+    wrap.querySelector('[data-act=send]').addEventListener('click', function () {
+      reply.setAttribute('contenteditable', 'false');
+      btns.innerHTML = '<span class="approved" role="status"><span class="t-hot"><span class="dot"></span></span>✓ Response approved</span>' +
+        '<span class="demo-note">In the live product this sends the reply and logs it. Here, nothing left your browser.</span>';
+    });
+  }
+
+  // InboxPreview: a small queue. Clicking a lead opens it in the main panel.
+  function InboxPreview(mount, onOpen) {
+    mount.innerHTML = '<span class="lab">LazyScale inbox</span>' +
+      '<div class="inbox-stats">' +
+      '<div><b>12</b><span>enquiries today</span></div>' +
+      '<div><b>8</b><span>qualified</span></div>' +
+      '<div><b>3</b><span>hot leads</span></div>' +
+      '</div>' +
+      '<ul class="inbox-list"></ul>';
+    var list = mount.querySelector('.inbox-list');
+    INBOX.forEach(function (l) {
+      var src = l.scenario ? SCENARIOS[l.scenario] : l;
+      var r = src.result;
+      var need = !!r.forceHuman;
+      var tone = need ? 'need' : r.score >= 8 ? 'hot' : r.score >= 5 ? 'warm' : 'cool';
+      var li = document.createElement('li');
+      li.innerHTML = '<button class="inbox-item" type="button">' +
+        '<span class="sc t-' + tone + '"><span class="dot"></span>' + r.score + '/10</span>' +
+        '<b>' + esc(l.who) + '</b>' +
+        '<span class="sub">' + esc(l.sub) + '</span>' +
+        '<span class="st">' + (need ? 'Needs human review' : 'AI draft ready') + '</span>' +
+        '</button>';
+      var b = li.firstChild;
+      b.addEventListener('click', function () {
+        each(list.querySelectorAll('.inbox-item'), function (x) { x.classList.toggle('sel', x === b); });
+        onOpen(src.text, src.kind);
+      });
+      list.appendChild(li);
+    });
+    return { clearSelection: function () { each(list.querySelectorAll('.sel'), function (x) { x.classList.remove('sel'); }); } };
+  }
+
+  // BusinessRules: editable rules for the selected business type.
+  function BusinessRules(mount, rules, onChange) {
+    var kind = 'realestate';
+    function render() {
+      var kr = rules[kind];
+      var html = '<span class="lab">My business rules · ' + esc(SCENARIOS[kind].label) + '</span><div class="rules">';
+      if (kr.budgetOptions) {
+        html += '<div><label class="lab" for="rule-budget">Minimum budget</label>' +
+          '<select id="rule-budget" class="rule-sel">' + kr.budgetOptions.map(function (v) {
+            return '<option value="' + v + '"' + (v === kr.minBudgetL ? ' selected' : '') + '>' + (v === 0 ? 'No minimum' : fmtLakh(v)) + '</option>';
+          }).join('') + '</select></div>';
+      }
+      if (kr.locations) {
+        html += '<div><span class="lab">Preferred locations</span><div class="rule-chips" role="group" aria-label="Preferred locations">' +
+          Object.keys(kr.locations).map(function (l) {
+            return '<button type="button" class="pick' + (kr.locations[l] ? ' pick-on' : '') + '" data-loc="' + l + '" aria-pressed="' + kr.locations[l] + '">' + esc(l) + '</button>';
+          }).join('') + '</div></div>';
+      }
+      html += '<div><span class="lab">Always escalate</span><div class="rule-list">' +
+        rules.escalate.map(function (e, i) {
+          return '<label class="rule-tog"><input type="checkbox" data-esc="' + i + '"' + (e.on ? ' checked' : '') + '>' + esc(e.label) + '</label>';
+        }).join('') + '</div></div>';
+      html += '<p class="demo-note">Change a rule and the open enquiry is re-scored against it.</p></div>';
+      mount.innerHTML = html;
+
+      var sel = mount.querySelector('#rule-budget');
+      if (sel) sel.addEventListener('change', function () { kr.minBudgetL = +sel.value; onChange(); });
+      each(mount.querySelectorAll('[data-loc]'), function (b) {
+        b.addEventListener('click', function () {
+          var l = b.getAttribute('data-loc');
+          kr.locations[l] = !kr.locations[l];
+          b.classList.toggle('pick-on', kr.locations[l]);
+          b.setAttribute('aria-pressed', String(kr.locations[l]));
+          onChange();
+        });
+      });
+      each(mount.querySelectorAll('[data-esc]'), function (c) {
+        c.addEventListener('change', function () { rules.escalate[+c.getAttribute('data-esc')].on = c.checked; onChange(); });
+      });
+    }
+    render();
+    return { show: function (k) { if (k !== kind) { kind = k; render(); } } };
+  }
+
+  // ── 4. LazyScaleDemo ───────────────────────────────────────────────────────
+  function LazyScaleDemo(root) {
+    var state = { kind: 'realestate', text: '', analyzed: false, run: 0 };
+    var result = root.querySelector('#demo-result');
+    var progress = AnalysisProgress(root.querySelector('#demo-progress'));
+    var input, rules, inbox;
+
+    function reset() { state.run++; progress.clear(); result.innerHTML = ''; state.analyzed = false; input.busy(false); input.hint(); }
+
+    function analyze(text, animate) {
+      if (text.trim().length < 10) { input.hint('Type a line or two first.'); return; }
+      var run = ++state.run;
+      state.text = text;
+      input.busy(true);
+      if (animate) result.innerHTML = '';
+      var p = analyzer.analyze(text, state.kind, RULES);
+      function show() {
+        p.then(function (a) {
+          if (run !== state.run) return;
+          result.innerHTML = '<div class="res">' + LeadAnalysis(a) + '</div>';
+          AIResponse(result.firstChild, a);
+          state.analyzed = true;
+          input.hint('Done. Now try changing a business rule.');
+        }).catch(function () {
+          if (run !== state.run) return;
+          result.innerHTML = '<p class="demo-note">Could not analyze that one. In the live product it would go to a person.</p>';
+        }).then(function () { if (run === state.run) input.busy(false); });
+      }
+      if (animate) progress.run(show); else { progress.clear(); show(); }
+    }
+
+    input = EnquiryInput(root.querySelector('#demo-input'), {
+      onKind: function (k) { state.kind = k; rules.show(k); inbox.clearSelection(); reset(); },
+      onSubmit: function (text) { inbox.clearSelection(); analyze(text, true); }
+    });
+    rules = BusinessRules(root.querySelector('#demo-rules'), RULES, function () {
+      if (state.analyzed) analyze(state.text, false);
+    });
+    inbox = InboxPreview(root.querySelector('#demo-inbox'), function (text, kind) {
+      state.kind = kind;
+      input.set(text, kind);
+      rules.show(kind);
+      analyze(text, false);
+      if (window.innerWidth < 960) root.querySelector('.demo-main').scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'start' });
+    });
+
+    input.set(SCENARIOS.realestate.text, 'realestate');
+  }
+
+  function start() {
+    var root = document.getElementById('lazyscale-demo');
+    if (root) LazyScaleDemo(root);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
 })();

@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/_sys.css?v=7a1ae50f">
+<link rel="stylesheet" href="/_sys.css?v=135ca86b">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -184,30 +184,46 @@
   </section>
 
   <!-- 4. Product demonstration -->
-  <!-- The demo runs entirely in the browser (see /demo.js). It never calls the
-       model and never records anything, so it costs nothing and always works.
-       The live product runs the same shape on real enquiries through /api/lead. -->
+  <!-- Interactive, and entirely in the browser (see /demo.js): no model call,
+       nothing recorded, so it costs nothing and needs no API key. Each panel is
+       a mount point that one module in demo.js renders into. The analyzer in
+       demo.js is the single seam to swap for the real /api/lead call. -->
   <section class="sec sec-soft" id="demo">
     <div class="wrap">
-      <div class="eyebrow">See it work</div>
-      <h2>Paste an enquiry.<br>Watch it get handled.</h2>
-      <p class="lede">This runs in your browser, on whatever you type. The live product does the same on your real enquiries, and writes each one down before it spends anything.</p>
+      <div class="eyebrow">Product demo</div>
+      <h2>See LazyScale in action</h2>
+      <p class="lede">Paste a customer enquiry and see how LazyScale handles it.</p>
 
-      <div class="try card reveal">
-        <div class="try-in">
-          <div class="try-pick" role="group" aria-label="Pick an example business">
-            <button class="pick pick-on" type="button" data-ex="realestate">Real estate</button>
-            <button class="pick" type="button" data-ex="agency">Agency</button>
-            <button class="pick" type="button" data-ex="clinic">Clinic</button>
+      <div class="demo" id="lazyscale-demo">
+        <div class="demo-main card">
+          <div id="demo-input"></div>
+          <div id="demo-progress"></div>
+          <div id="demo-result"></div>
+        </div>
+        <div class="demo-side">
+          <div class="card demo-panel" id="demo-inbox"></div>
+          <div class="card demo-panel" id="demo-rules"></div>
+        </div>
+      </div>
+      <noscript><p class="demo-note">The demo needs JavaScript. Everything else on this page works without it.</p></noscript>
+
+      <div class="hitl">
+        <div class="hitl-head">
+          <h3>AI handles the repetitive work. You stay in control.</h3>
+          <p class="demo-note">Every enquiry is sorted into one of two lanes before anything is sent.</p>
+        </div>
+        <div class="hitl-lanes">
+          <div class="hitl-lane">
+            <span class="lab">Safe to automate</span>
+            <b>AI can handle</b>
+            <ul><li>Simple enquiry</li><li>Availability question</li><li>Brochure or details request</li></ul>
           </div>
-          <label class="try-label" for="try-msg">Customer message</label>
-          <textarea id="try-msg" class="try-text" rows="4" spellcheck="false"></textarea>
-          <div class="try-actions">
-            <button class="btn" id="try-run" type="button">Run LazyScale</button>
-            <span class="try-stage" id="try-stage" aria-live="polite"></span>
+          <div class="hitl-lane hitl-human">
+            <span class="lab">Needs a human</span>
+            <b>Owner reviews</b>
+            <ul><li>Price negotiation</li><li>Complaint</li><li>Refund request</li><li>Existing order issue</li></ul>
           </div>
         </div>
-        <div class="try-out" id="try-out" hidden></div>
       </div>
 
       <p class="try-foot">One enquiry, from arrival to answer. The step that matters is the one where it is written down. Everything after that can fail and the enquiry is still yours.</p>
