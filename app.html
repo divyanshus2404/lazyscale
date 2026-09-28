@@ -197,7 +197,7 @@
     if (!supabase) return;
     await supabase.auth.signInWithOAuth({
       provider: b.dataset.provider,
-      options: { redirectTo: location.origin + '/app.html' }
+      options: { redirectTo: location.origin + location.pathname }
     });
   }));
 
@@ -208,7 +208,7 @@
     const msg = $('email-msg');
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)) { msg.className = 'msg err'; msg.textContent = 'Enter a valid email.'; return; }
     if (!supabase) { msg.className = 'msg err'; msg.textContent = 'Email sign-in is not set up yet.'; return; }
-    const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: location.origin + '/app.html' } });
+    const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: location.origin + location.pathname } });
     msg.className = error ? 'msg err' : 'msg ok';
     msg.textContent = error ? error.message : 'Check your email for a sign-in link.';
   });
