@@ -398,3 +398,41 @@ footer a:hover { color: var(--text); }
 .legal td { color: var(--muted); }
 .legal-foot { margin-top: var(--s8); padding-top: var(--s5); border-top: 1px solid var(--line); font-size: var(--t-sm); color: var(--faint); }
 .legal-foot a { color: var(--text); }
+
+/* ── Interactive demo (#demo). Client-side only; see /demo.js. Reuses .btn,
+   .card and .score, so it adds no new accent use and no off-scale sizes. ── */
+.try { margin-top: var(--s6); padding: var(--s5); display: grid; gap: var(--s5); }
+.try-pick { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.pick {
+  border: 1px solid var(--line-strong); background: transparent; color: var(--muted);
+  border-radius: var(--r-pill); padding: 6px 14px; font-size: var(--t-sm);
+  font-weight: 500; cursor: pointer; font-family: inherit;
+}
+.pick:hover { color: var(--text); }
+.pick-on, .pick-on:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+.try-label { display: block; margin-top: var(--s3); font-size: var(--t-micro); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+.try-text {
+  width: 100%; margin-top: var(--s2); resize: vertical; font-family: inherit;
+  font-size: var(--t-body); color: var(--text); background: var(--bg);
+  border: 1px solid var(--line-strong); border-radius: var(--r); padding: var(--s3) var(--s4); line-height: 1.5;
+}
+.try-text:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.try-actions { display: flex; align-items: center; gap: var(--s4); margin-top: var(--s4); flex-wrap: wrap; }
+.try-stage { font-size: var(--t-sm); color: var(--muted); }
+.try-out { border-top: 1px solid var(--line); padding-top: var(--s5); display: grid; gap: var(--s4); }
+.try-out[hidden] { display: none; }
+.out-head { display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap; }
+.out-verdict { font-size: var(--t-body); font-weight: 600; }
+.out-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s3) var(--s5); }
+.out-cell .k { display: block; font-size: var(--t-micro); letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+.out-cell .v { font-size: var(--t-body); color: var(--text); font-weight: 500; }
+.out-why { list-style: none; padding: 0; display: grid; gap: 6px; }
+.out-why li { font-size: var(--t-sm); color: var(--muted); }
+.out-block .lab { font-size: var(--t-micro); letter-spacing: .1em; text-transform: uppercase; color: var(--faint); font-weight: 600; }
+.out-action { margin-top: 4px; font-size: var(--t-body); font-weight: 600; color: var(--text); }
+.out-reply { margin-top: var(--s2); border: 1px solid var(--line); border-radius: var(--r); padding: var(--s4); background: var(--bg-soft); font-size: var(--t-body); color: var(--text); line-height: 1.55; white-space: pre-wrap; }
+.out-reply[contenteditable="true"] { outline: 2px solid var(--text); outline-offset: 2px; background: var(--bg); }
+.out-btns { display: flex; gap: var(--s3); flex-wrap: wrap; }
+.out-note { font-size: var(--t-sm); color: var(--faint); }
+.try-foot { margin-top: var(--s7); font-size: var(--t-sm); color: var(--muted); max-width: 40em; }
+@media (max-width: 560px) { .out-grid { grid-template-columns: 1fr; } }

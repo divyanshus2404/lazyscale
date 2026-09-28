@@ -226,14 +226,38 @@ def build_index():
   </section>
 
   <!-- 4. Product demonstration -->
+  <!-- The demo runs entirely in the browser (see /demo.js). It never calls the
+       model and never records anything, so it costs nothing and always works.
+       The live product runs the same shape on real enquiries through /api/lead. -->
   <section class="sec sec-soft" id="demo">
     <div class="wrap">
-      <div class="eyebrow">How the work moves</div>
-      <h2>See it work.</h2>
-      <p class="lede">One enquiry, from arrival to answer. The highlighted step is the one that matters. Everything after it can fail and the enquiry is still yours.</p>
+      <div class="eyebrow">See it work</div>
+      <h2>Paste an enquiry.<br>Watch it get handled.</h2>
+      <p class="lede">This runs in your browser, on whatever you type. The live product does the same on your real enquiries, and writes each one down before it spends anything.</p>
+
+      <div class="try card reveal">
+        <div class="try-in">
+          <div class="try-pick" role="group" aria-label="Pick an example business">
+            <button class="pick pick-on" type="button" data-ex="realestate">Real estate</button>
+            <button class="pick" type="button" data-ex="agency">Agency</button>
+            <button class="pick" type="button" data-ex="clinic">Clinic</button>
+          </div>
+          <label class="try-label" for="try-msg">Customer message</label>
+          <textarea id="try-msg" class="try-text" rows="4" spellcheck="false"></textarea>
+          <div class="try-actions">
+            <button class="btn" id="try-run" type="button">Run LazyScale</button>
+            <span class="try-stage" id="try-stage" aria-live="polite"></span>
+          </div>
+        </div>
+        <div class="try-out" id="try-out" hidden></div>
+      </div>
+
+      <p class="try-foot">One enquiry, from arrival to answer. The step that matters is the one where it is written down. Everything after that can fail and the enquiry is still yours.</p>
       <div class="steps">{steps}</div>
     </div>
   </section>
+
+  <script src="/demo.js" defer></script>
 
   <!-- 5. How it works -->
   <section class="sec">
