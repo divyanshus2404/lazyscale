@@ -53,73 +53,95 @@
   .center { text-align: center; padding: var(--s8) 0; }
   [hidden] { display: none !important; }
   @media (max-width: 560px) { .stats { grid-template-columns: 1fr 1fr; } }
+
+  /* New Auth Split Layout */
+  .auth-layout { display: flex; min-height: 100vh; width: 100vw; position: absolute; top: 0; left: 0; background: var(--bg); z-index: 100; }
+  .auth-left { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 40px; max-width: 500px; margin: 0 auto; width: 100%; }
+  .auth-right { flex: 1; background: #fafafa; border-left: 1px solid var(--line); display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px; }
+  @media(min-width: 900px) { .auth-right { display: flex; } .auth-left { margin: 0; padding: 60px 80px; max-width: 600px; } }
+  
+  .auth-brand-top { margin-bottom: 60px; display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 16px; }
+  
+  .preview-card { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.04); width: 100%; max-width: 540px; overflow: hidden; }
+  .preview-head { padding: 16px 24px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 12px; font-weight: 600; }
+  .preview-body { padding: 24px; display: grid; gap: 16px; }
+  .preview-stat { border: 1px solid var(--line-strong); padding: 16px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+  
+  .auth-pane h1 { font-size: 32px; letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 12px; }
+  .auth-pane .auth-sub { font-size: 16px; color: var(--muted); margin: 0 0 40px; }
+  
+  /* Make oauth buttons look cleaner */
+  .oauth { justify-content: flex-start; padding: 0 20px; font-weight: 500; height: 48px; }
+  .oauth svg { margin-right: 8px; }
+  
+  .trust-badge { margin-top: 32px; text-align: center; color: var(--muted); font-size: 13px; font-weight: 500; }
+  
+  /* Hide the auth layout when inbox is showing */
+  body[data-view="inbox"] .auth-layout { display: none; }
+  body[data-view="signin"] .app-wrap { display: none; }
+  body[data-view="onboard"] .app-wrap { display: none; }
+
 </style>
 </head>
 <body>
 
-<div class="app-wrap">
-  <!-- Sign in -->
-  <section id="signin" class="auth" hidden>
-    <div class="auth-brand">
-      <a href="/" style="position:absolute; top:24px; left:24px; color:var(--muted); text-decoration:none; font-size:14px; font-weight:500; display:flex; align-items:center; gap:6px;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        Back to home
-      </a>
-      <svg viewBox="0 0 48 48" style="width:26px; height:26px;" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2.5" y="2.5" width="43" height="43" rx="13" fill="#B7F34A" stroke="#111111" stroke-width="2.6"/><g transform="translate(-1.6,0)" fill="none" stroke="#111111" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17 13.2 V29.6 a4.6 4.6 0 0 0 4.6 4.6 h1.2"/><path d="M35.4 19.4 C35.4 16 32.9 13.9 29.9 13.9 C26.9 13.9 24.6 15.8 24.6 18.3 C24.6 23.9 35.8 22.2 35.8 28.6 C35.8 31.9 33.1 34.4 29.9 34.4 C26.7 34.4 24.2 32.4 24.2 29.3"/></g></svg>
+
+<!-- Auth Layout (Split Screen) -->
+<div id="auth-layout" class="auth-layout" hidden>
+  <div class="auth-left">
+    <div class="auth-brand-top">
+      <svg viewBox="0 0 48 48" style="width:28px; height:28px;" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2.5" y="2.5" width="43" height="43" rx="13" fill="#B7F34A" stroke="#111111" stroke-width="2.6"/><g transform="translate(-1.6,0)" fill="none" stroke="#111111" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17 13.2 V29.6 a4.6 4.6 0 0 0 4.6 4.6 h1.2"/><path d="M35.4 19.4 C35.4 16 32.9 13.9 29.9 13.9 C26.9 13.9 24.6 15.8 24.6 18.3 C24.6 23.9 35.8 22.2 35.8 28.6 C35.8 31.9 33.1 34.4 29.9 34.4 C26.7 34.4 24.2 32.4 24.2 29.3"/></g></svg>
       LazyScale
     </div>
-    <h1>Sign in to your business account</h1>
-    <p class="auth-sub" id="auth-sub">Answer every enquiry in under a minute.</p>
 
-    <div class="auth-card">
-      <div id="social" class="auth-card" style="margin:0">
+    <!-- Sign In Pane -->
+    <section id="signin" class="auth-pane" hidden>
+      <h1>Scale your business<br>without the busywork.</h1>
+      <p class="auth-sub">Answer every enquiry in under a minute.</p>
+      
+      <div id="social" style="display:grid;gap:12px;">
         <button class="oauth" type="button" data-provider="google">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z"/></svg>
           Continue with Google
         </button>
         <button class="oauth" type="button" data-provider="apple">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.36 12.6c.02 2.3 2.02 3.06 2.04 3.07-.02.05-.32 1.1-1.06 2.18-.64.94-1.3 1.87-2.35 1.89-1.02.02-1.35-.6-2.52-.6-1.17 0-1.54.58-2.5.62-1 .04-1.77-1.01-2.42-1.94-1.32-1.92-2.33-5.42-.97-7.79.67-1.17 1.88-1.92 3.19-1.94 1-.02 1.94.67 2.55.67.61 0 1.76-.83 2.96-.71.5.02 1.92.2 2.83 1.53-.07.05-1.69.99-1.68 2.96zM14.5 5.52c.54-.66.9-1.57.8-2.48-.78.03-1.72.52-2.28 1.18-.5.58-.94 1.51-.82 2.4.87.07 1.76-.44 2.3-1.1z"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.36 12.6c.02 2.3 2.02 3.06 2.04 3.07-.02.05-.32 1.1-1.06 2.18-.64.94-1.3 1.87-2.35 1.89-1.02.02-1.35-.6-2.52-.6-1.17 0-1.54.58-2.5.62-1 .04-1.77-1.01-2.42-1.94-1.32-1.92-2.33-5.42-.97-7.79.67-1.17 1.88-1.92 3.19-1.94 1-.02 1.94.67 2.55.67.61 0 1.76-.83 2.96-.71.5.02 1.92.2 2.83 1.53-.07.05-1.69.99-1.68 2.96zM14.5 5.52c.54-.66.9-1.57.8-2.48-.78.03-1.72.52-2.28 1.18-.5.58-.94 1.51-.82 2.4.87.07 1.76-.44 2.3-1.1z"/></svg>
           Continue with Apple
         </button>
         <button class="oauth" type="button" data-provider="github">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.5a10.5 10.5 0 0 0-3.32 20.47c.53.1.72-.23.72-.5v-1.8c-2.92.64-3.54-1.25-3.54-1.25-.48-1.22-1.17-1.54-1.17-1.54-.96-.65.07-.64.07-.64 1.06.08 1.62 1.09 1.62 1.09.94 1.61 2.47 1.15 3.07.88.1-.68.37-1.15.67-1.42-2.33-.27-4.78-1.17-4.78-5.2 0-1.15.41-2.09 1.09-2.82-.11-.27-.47-1.34.1-2.8 0 0 .88-.28 2.88 1.08a10 10 0 0 1 5.24 0c2-1.36 2.88-1.08 2.88-1.08.57 1.46.21 2.53.1 2.8.68.73 1.09 1.67 1.09 2.82 0 4.04-2.46 4.92-4.8 5.18.38.33.72.97.72 1.96v2.9c0 .28.19.61.73.5A10.5 10.5 0 0 0 12 1.5z"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.5a10.5 10.5 0 0 0-3.32 20.47c.53.1.72-.23.72-.5v-1.8c-2.92.64-3.54-1.25-3.54-1.25-.48-1.22-1.17-1.54-1.17-1.54-.96-.65.07-.64.07-.64 1.06.08 1.62 1.09 1.62 1.09.94 1.61 2.47 1.15 3.07.88.1-.68.37-1.15.67-1.42-2.33-.27-4.78-1.17-4.78-5.2 0-1.15.41-2.09 1.09-2.82-.11-.27-.47-1.34.1-2.8 0 0 .88-.28 2.88 1.08a10 10 0 0 1 5.24 0c2-1.36 2.88-1.08 2.88-1.08.57 1.46.21 2.53.1 2.8.68.73 1.09 1.67 1.09 2.82 0 4.04-2.46 4.92-4.8 5.18.38.33.72.97.72 1.96v2.9c0 .28.19.61.73.5A10.5 10.5 0 0 0 12 1.5z"/></svg>
           Continue with GitHub
         </button>
-        <div class="divider">or</div>
+        <div class="divider">OR</div>
       </div>
 
-      <form id="email-form">
-        <label class="field-label" for="email">Email</label>
-        <input id="email" class="field" type="email" autocomplete="email" placeholder="you@company.com">
+      <form id="email-form" style="display:grid;gap:12px;margin-top:12px;">
+        <input id="email" class="field" type="email" autocomplete="email" placeholder="Enter your email to continue">
         <p class="msg" id="email-msg" aria-live="polite"></p>
         <button class="btn btn-full" type="submit" id="email-btn">Continue</button>
       </form>
 
-      <!-- Access-key fallback: works today, no provider setup needed -->
-      <form id="key-form" hidden>
-        <label class="field-label" for="key">Access key</label>
+      <form id="key-form" hidden style="display:grid;gap:12px;margin-top:12px;">
         <input id="key" class="field" type="password" autocomplete="off" spellcheck="false" placeholder="yourbusiness.xxxxxxxx">
         <p class="msg" id="key-msg" aria-live="polite"></p>
         <button class="btn btn-full" type="submit">Sign in</button>
       </form>
-    </div>
+      
+      <p style="text-align:center; margin-top:16px;">
+        <button class="link-btn muted" id="toggle-key" type="button" style="font-size:13px;">Use an access key</button>
+      </p>
 
-    <p class="auth-foot">
-      <button class="link-btn" id="toggle-key" type="button">Sign in with an access key</button>
-    </p>
-  </section>
+      <div class="trust-badge">
+        Built for teams that want to scale smarter.
+      </div>
+    </section>
 
-  <!-- Onboarding / Setup -->
-  <section id="onboard" class="auth" hidden>
-    <div class="auth-brand">
-      <svg viewBox="0 0 48 48" style="width:26px; height:26px;" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2.5" y="2.5" width="43" height="43" rx="13" fill="#B7F34A" stroke="#111111" stroke-width="2.6"/><g transform="translate(-1.6,0)" fill="none" stroke="#111111" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17 13.2 V29.6 a4.6 4.6 0 0 0 4.6 4.6 h1.2"/><path d="M35.4 19.4 C35.4 16 32.9 13.9 29.9 13.9 C26.9 13.9 24.6 15.8 24.6 18.3 C24.6 23.9 35.8 22.2 35.8 28.6 C35.8 31.9 33.1 34.4 29.9 34.4 C26.7 34.4 24.2 32.4 24.2 29.3"/></g></svg>
-      LazyScale
-    </div>
-    <h1>Create your business account</h1>
-    <p class="auth-sub">Welcome! Tell us a bit about your business to get started.</p>
-    
-    <div class="auth-card">
-      <form id="onboard-form" style="display:grid;gap:var(--s3);">
+    <!-- Onboard Pane -->
+    <section id="onboard" class="auth-pane" hidden>
+      <h1>Create your account</h1>
+      <p class="auth-sub">Tell us a bit about your business to get started.</p>
+      
+      <form id="onboard-form" style="display:grid;gap:16px;">
         <div>
           <label class="field-label" for="onboard-name">Business Name</label>
           <input id="onboard-name" class="field" type="text" required placeholder="e.g. Acme Corp">
@@ -134,11 +156,36 @@
           </select>
         </div>
         <p class="msg" id="onboard-msg" aria-live="polite"></p>
-        <button class="btn btn-full" type="submit" id="onboard-btn" style="margin-top:var(--s2);">Complete setup</button>
+        <button class="btn btn-full" type="submit" id="onboard-btn" style="margin-top:8px;">Complete setup</button>
       </form>
-    </div>
-  </section>
+    </section>
+  </div>
 
+  <div class="auth-right">
+    <div class="preview-card">
+      <div class="preview-head">
+        <svg viewBox="0 0 48 48" style="width:20px; height:20px;" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2.5" y="2.5" width="43" height="43" rx="13" fill="#B7F34A" stroke="#111111" stroke-width="2.6"/><g transform="translate(-1.6,0)" fill="none" stroke="#111111" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17 13.2 V29.6 a4.6 4.6 0 0 0 4.6 4.6 h1.2"/><path d="M35.4 19.4 C35.4 16 32.9 13.9 29.9 13.9 C26.9 13.9 24.6 15.8 24.6 18.3 C24.6 23.9 35.8 22.2 35.8 28.6 C35.8 31.9 33.1 34.4 29.9 34.4 C26.7 34.4 24.2 32.4 24.2 29.3"/></g></svg>
+        Dashboard Preview
+      </div>
+      <div class="preview-body">
+        <div class="preview-stat">
+          <div><b style="font-size:24px;display:block;margin-bottom:4px;">124</b><span class="muted">Enquiries</span></div>
+          <span class="pill hot">Hot leads</span>
+        </div>
+        <div class="preview-stat" style="opacity:0.7">
+          <div><b style="font-size:24px;display:block;margin-bottom:4px;">89%</b><span class="muted">Automated Replies</span></div>
+          <span class="pill">Replied</span>
+        </div>
+        <div class="preview-stat" style="opacity:0.4">
+          <div><b style="font-size:24px;display:block;margin-bottom:4px;">12</b><span class="muted">Needs human review</span></div>
+          <span class="pill human">Needs you</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="app-wrap">
   <!-- Inbox -->
   <section id="inbox" hidden>
     <div class="app-top">
@@ -154,7 +201,6 @@
     <div id="list"></div>
     <p id="empty" class="center muted" hidden>No enquiries yet. When one arrives, it appears here in seconds.</p>
   </section>
-
   <p id="loading" class="center muted">Loading…</p>
 </div>
 
@@ -167,7 +213,12 @@
   let token = null;
 
   function view(v) {
+    document.body.setAttribute('data-view', v);
     $('loading').hidden = true;
+    
+    const authLayout = $('auth-layout');
+    if (authLayout) authLayout.hidden = (v === 'inbox');
+    
     $('signin').hidden = v !== 'signin';
     $('onboard').hidden = v !== 'onboard';
     $('inbox').hidden = v !== 'inbox';
