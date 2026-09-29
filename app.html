@@ -58,38 +58,66 @@
   .auth-layout { display: flex; min-height: 100vh; width: 100vw; position: absolute; top: 0; left: 0; background: var(--bg); z-index: 100; }
   .auth-left { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 40px; max-width: 500px; margin: 0 auto; width: 100%; }
   
-  .auth-right { flex: 1.2; background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, var(--bg) 100%); border-left: 1px solid var(--line); display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px; position: relative; overflow: hidden; }
-  .auth-right::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(#333 1px, transparent 1px); background-size: 24px 24px; opacity: 0.3; }
+    .auth-right { flex: 1.2; background: radial-gradient(circle at 50% 50%, #151515 0%, var(--bg) 100%); border-left: 1px solid var(--line); display: none; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .auth-right::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(#333 1px, transparent 1px); background-size: 32px 32px; opacity: 0.2; }
   
-  @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
-  .preview-wrapper { position: relative; z-index: 10; animation: float 6s ease-in-out infinite; display: flex; flex-direction: column; align-items: center; gap: 32px; }
+  .hero-visual { position: relative; width: 500px; height: 500px; display: flex; align-items: center; justify-content: center; perspective: 1000px; }
   
-  .auth-right h2 { font-size: 28px; font-weight: 600; text-align: center; margin: 0; background: linear-gradient(135deg, #fff 0%, #aaa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .auth-right p.sub { color: var(--muted); text-align: center; margin: 0; font-size: 16px; max-width: 400px; }
+  @keyframes float-3d {
+    0% { transform: translateY(0px) rotateX(15deg) rotateY(-15deg); }
+    50% { transform: translateY(-20px) rotateX(20deg) rotateY(-5deg); }
+    100% { transform: translateY(0px) rotateX(15deg) rotateY(-15deg); }
+  }
+  
+  .logo-3d {
+    width: 160px;
+    height: 160px;
+    position: relative;
+    z-index: 10;
+    animation: float-3d 6s ease-in-out infinite;
+    transform-style: preserve-3d;
+    filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6));
+  }
+  
+  .logo-3d::after {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    background: radial-gradient(circle, rgba(183,243,74,0.4) 0%, transparent 60%);
+    filter: blur(20px);
+    z-index: -1;
+    transform: translateZ(-10px);
+  }
 
-  @media(min-width: 900px) { .auth-right { display: flex; } .auth-left { margin: 0; padding: 60px 80px; max-width: 600px; } }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+  .revolving-text {
+    position: absolute;
+    width: 380px;
+    height: 380px;
+    animation: spin 24s linear infinite;
+    z-index: 5;
+    opacity: 0.7;
+  }
   
-  .auth-brand-top { margin-bottom: 60px; display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 16px; }
-  
-  .preview-card { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.04); width: 100%; max-width: 540px; overflow: hidden; }
-  .preview-head { padding: 16px 24px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 12px; font-weight: 600; }
-  .preview-body { padding: 24px; display: grid; gap: 16px; }
-  .preview-stat { border: 1px solid var(--line-strong); padding: 16px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
-  
-  .auth-pane h1 { font-size: 32px; letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 12px; }
-  .auth-pane .auth-sub { font-size: 16px; color: var(--muted); margin: 0 0 40px; }
+  .glow-orb {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(183,243,74,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 1;
+    animation: float-3d 8s ease-in-out infinite reverse;
+  }
   
   /* Make oauth buttons look cleaner */
   .oauth { justify-content: flex-start; padding: 0 20px; font-weight: 500; height: 48px; }
   .oauth svg { margin-right: 8px; }
-  
   .trust-badge { margin-top: 32px; text-align: center; color: var(--muted); font-size: 13px; font-weight: 500; }
   
   /* Hide the auth layout when inbox is showing */
   body[data-view="inbox"] .auth-layout { display: none; }
   body[data-view="signin"] .app-wrap { display: none; }
   body[data-view="onboard"] .app-wrap { display: none; }
-
 </style>
 </head>
 <body>
@@ -166,31 +194,28 @@
   </div>
 
   <div class="auth-right">
-    <div class="preview-wrapper">
-      <div style="text-align:center;">
-        <h2>Your AI agent is waiting.</h2>
-        <p class="sub" style="margin-top:12px;">Sign in to watch it instantly handle your leads, qualify prospects, and book meetings 24/7.</p>
-      </div>
+    <div class="hero-visual">
+      <div class="glow-orb"></div>
       
-      <div class="preview-card" style="box-shadow: 0 30px 60px rgba(0,0,0,0.4); border: 1px solid #333;">
-        <div class="preview-head" style="border-bottom: 1px solid #333;">
-          <svg viewBox="0 0 48 48" style="width:20px; height:20px;" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2.5" y="2.5" width="43" height="43" rx="13" fill="#B7F34A" stroke="#111111" stroke-width="2.6"/><g transform="translate(-1.6,0)" fill="none" stroke="#111111" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17 13.2 V29.6 a4.6 4.6 0 0 0 4.6 4.6 h1.2"/><path d="M35.4 19.4 C35.4 16 32.9 13.9 29.9 13.9 C26.9 13.9 24.6 15.8 24.6 18.3 C24.6 23.9 35.8 22.2 35.8 28.6 C35.8 31.9 33.1 34.4 29.9 34.4 C26.7 34.4 24.2 32.4 24.2 29.3"/></g></svg>
-          Live Inbox Preview
-        </div>
-        <div class="preview-body">
-          <div class="preview-stat" style="border-color:#333; background:var(--bg-soft);">
-            <div><b style="font-size:24px;display:block;margin-bottom:4px;">124</b><span class="muted">Enquiries</span></div>
-            <span class="pill hot">Hot leads</span>
-          </div>
-          <div class="preview-stat" style="opacity:0.8; border-color:#333; background:var(--bg-soft);">
-            <div><b style="font-size:24px;display:block;margin-bottom:4px;">89%</b><span class="muted">Automated Replies</span></div>
-            <span class="pill">Replied</span>
-          </div>
-          <div class="preview-stat" style="opacity:0.5; border-color:#333; background:var(--bg-soft);">
-            <div><b style="font-size:24px;display:block;margin-bottom:4px;">12</b><span class="muted">Needs human review</span></div>
-            <span class="pill human">Needs you</span>
-          </div>
-        </div>
+      <div class="revolving-text">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path id="circlePath" d="M 100, 100 m -75, 0 a 75,75 0 1,1 150,0 a 75,75 0 1,1 -150,0" fill="none"/>
+          <text font-family="system-ui, sans-serif" font-size="11.5" font-weight="600" fill="#a0a0a0" letter-spacing="6px">
+            <textPath href="#circlePath" startOffset="0%">
+              AUTOMATE YOUR INBOX • QUALIFY LEADS • BOOK MEETINGS • SCALE FASTER • 
+            </textPath>
+          </text>
+        </svg>
+      </div>
+
+      <div class="logo-3d">
+        <svg viewBox="0 0 48 48" style="width:100%; height:100%; border-radius:14px; box-shadow:inset 0 0 0 1px rgba(255,255,255,0.1), 0 20px 40px rgba(0,0,0,0.5);" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="0" y="0" width="48" height="48" rx="14" fill="#B7F34A"/>
+          <g transform="translate(-1.6,0)" fill="none" stroke="#111111" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 13.2 V29.6 a4.6 4.6 0 0 0 4.6 4.6 h1.2"/>
+            <path d="M35.4 19.4 C35.4 16 32.9 13.9 29.9 13.9 C26.9 13.9 24.6 15.8 24.6 18.3 C24.6 23.9 35.8 22.2 35.8 28.6 C35.8 31.9 33.1 34.4 29.9 34.4 C26.7 34.4 24.2 32.4 24.2 29.3"/>
+          </g>
+        </svg>
       </div>
     </div>
   </div></div>
