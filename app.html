@@ -118,6 +118,12 @@
   body[data-view="inbox"] .auth-layout { display: none; }
   body[data-view="signin"] .app-wrap { display: none; }
   body[data-view="onboard"] .app-wrap { display: none; }
+
+  /* Left Alignment Fixes */
+  .auth-pane h1 { text-align: left; font-size: clamp(32px, 5vw, 42px); letter-spacing: -0.03em; line-height: 1.1; margin: 0 0 12px; }
+  .auth-pane .auth-sub { text-align: left; font-size: 16px; margin: 0 0 40px; }
+  .trust-badge { text-align: left; font-size: 14px; opacity: 0.6; }
+  #toggle-key { margin-left: 0; text-align: left; }
 </style>
 </head>
 <body>
@@ -159,7 +165,7 @@
         <button class="btn btn-full" type="submit">Sign in</button>
       </form>
       
-      <p style="text-align:center; margin-top:16px;">
+      <p style="margin-top:16px;">
         <button class="link-btn muted" id="toggle-key" type="button" style="font-size:13px;">Use an access key</button>
       </p>
 
