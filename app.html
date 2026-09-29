@@ -57,7 +57,16 @@
   /* New Auth Split Layout */
   .auth-layout { display: flex; min-height: 100vh; width: 100vw; position: absolute; top: 0; left: 0; background: var(--bg); z-index: 100; }
   .auth-left { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 40px; max-width: 500px; margin: 0 auto; width: 100%; }
-  .auth-right { flex: 1; background: #fafafa; border-left: 1px solid var(--line); display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px; }
+  
+  .auth-right { flex: 1.2; background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, var(--bg) 100%); border-left: 1px solid var(--line); display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px; position: relative; overflow: hidden; }
+  .auth-right::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(#333 1px, transparent 1px); background-size: 24px 24px; opacity: 0.3; }
+  
+  @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+  .preview-wrapper { position: relative; z-index: 10; animation: float 6s ease-in-out infinite; display: flex; flex-direction: column; align-items: center; gap: 32px; }
+  
+  .auth-right h2 { font-size: 28px; font-weight: 600; text-align: center; margin: 0; background: linear-gradient(135deg, #fff 0%, #aaa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .auth-right p.sub { color: var(--muted); text-align: center; margin: 0; font-size: 16px; max-width: 400px; }
+
   @media(min-width: 900px) { .auth-right { display: flex; } .auth-left { margin: 0; padding: 60px 80px; max-width: 600px; } }
   
   .auth-brand-top { margin-bottom: 60px; display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 16px; }
@@ -157,27 +166,34 @@
   </div>
 
   <div class="auth-right">
-    <div class="preview-card">
-      <div class="preview-head">
-        <svg viewBox="0 0 48 48" style="width:20px; height:20px;" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2.5" y="2.5" width="43" height="43" rx="13" fill="#B7F34A" stroke="#111111" stroke-width="2.6"/><g transform="translate(-1.6,0)" fill="none" stroke="#111111" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17 13.2 V29.6 a4.6 4.6 0 0 0 4.6 4.6 h1.2"/><path d="M35.4 19.4 C35.4 16 32.9 13.9 29.9 13.9 C26.9 13.9 24.6 15.8 24.6 18.3 C24.6 23.9 35.8 22.2 35.8 28.6 C35.8 31.9 33.1 34.4 29.9 34.4 C26.7 34.4 24.2 32.4 24.2 29.3"/></g></svg>
-        Dashboard Preview
+    <div class="preview-wrapper">
+      <div style="text-align:center;">
+        <h2>Your AI agent is waiting.</h2>
+        <p class="sub" style="margin-top:12px;">Sign in to watch it instantly handle your leads, qualify prospects, and book meetings 24/7.</p>
       </div>
-      <div class="preview-body">
-        <div class="preview-stat">
-          <div><b style="font-size:24px;display:block;margin-bottom:4px;">124</b><span class="muted">Enquiries</span></div>
-          <span class="pill hot">Hot leads</span>
+      
+      <div class="preview-card" style="box-shadow: 0 30px 60px rgba(0,0,0,0.4); border: 1px solid #333;">
+        <div class="preview-head" style="border-bottom: 1px solid #333;">
+          <svg viewBox="0 0 48 48" style="width:20px; height:20px;" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2.5" y="2.5" width="43" height="43" rx="13" fill="#B7F34A" stroke="#111111" stroke-width="2.6"/><g transform="translate(-1.6,0)" fill="none" stroke="#111111" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17 13.2 V29.6 a4.6 4.6 0 0 0 4.6 4.6 h1.2"/><path d="M35.4 19.4 C35.4 16 32.9 13.9 29.9 13.9 C26.9 13.9 24.6 15.8 24.6 18.3 C24.6 23.9 35.8 22.2 35.8 28.6 C35.8 31.9 33.1 34.4 29.9 34.4 C26.7 34.4 24.2 32.4 24.2 29.3"/></g></svg>
+          Live Inbox Preview
         </div>
-        <div class="preview-stat" style="opacity:0.7">
-          <div><b style="font-size:24px;display:block;margin-bottom:4px;">89%</b><span class="muted">Automated Replies</span></div>
-          <span class="pill">Replied</span>
-        </div>
-        <div class="preview-stat" style="opacity:0.4">
-          <div><b style="font-size:24px;display:block;margin-bottom:4px;">12</b><span class="muted">Needs human review</span></div>
-          <span class="pill human">Needs you</span>
+        <div class="preview-body">
+          <div class="preview-stat" style="border-color:#333; background:var(--bg-soft);">
+            <div><b style="font-size:24px;display:block;margin-bottom:4px;">124</b><span class="muted">Enquiries</span></div>
+            <span class="pill hot">Hot leads</span>
+          </div>
+          <div class="preview-stat" style="opacity:0.8; border-color:#333; background:var(--bg-soft);">
+            <div><b style="font-size:24px;display:block;margin-bottom:4px;">89%</b><span class="muted">Automated Replies</span></div>
+            <span class="pill">Replied</span>
+          </div>
+          <div class="preview-stat" style="opacity:0.5; border-color:#333; background:var(--bg-soft);">
+            <div><b style="font-size:24px;display:block;margin-bottom:4px;">12</b><span class="muted">Needs human review</span></div>
+            <span class="pill human">Needs you</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </div></div>
 </div>
 
 <div class="app-wrap">
