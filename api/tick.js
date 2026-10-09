@@ -19,6 +19,9 @@
 import { listCandidates, patchLead } from './_leads.js';
 import { planFollowUp, afterFollowUp } from './_followup.js';
 import { getTenant } from './_tenants.js';
+import { deliver } from './_send.js';
+
+const nowMs = (n) => (n instanceof Date ? n.getTime() : new Date(n).getTime());
 
 // A follow-up, one per attempt. Indian English, no pressure, one clear ask, and
 // it never invents a price or a date. Later this becomes a model call, gated by
@@ -66,9 +69,24 @@ export async function runTick(now = new Date(), opts = {}) {
 
     if (plan.action === 'follow_up') {
       const draft = chaseDraft(lead, plan.attempt, cfg);
-      // send(lead, draft) — channel adapter goes here.
-      await patchLead(lead.id, { ...afterFollowUp(lead, now), last_draft: draft });
-      actions.push({ id: lead.id, action: 'follow_up', attempt: plan.attempt, of: plan.of });
+      const sent = await (opts.deliver || deliver)(lead, draft, cfg, opts);
+
+      if (sent.ok) {
+        // Delivered, or a safe no-op (no email channel / no provider): the
+        // sequence advances and the draft is recorded either way.
+        await patchLead(lead.id, {
+          ...afterFollowUp(lead, now),
+          last_draft: draft,
+          last_delivery: sent.delivered ? 'sent' : sent.reason,
+          ...(sent.delivered ? { last_sent_at: new Date(nowMs(now)).toISOString() } : {})
+        });
+        actions.push({ id: lead.id, action: 'follow_up', attempt: plan.attempt, of: plan.of, delivered: sent.delivered });
+      } else {
+        // Transient (budget cap, network): do NOT advance. Record why and let
+        // the next tick retry this same attempt.
+        await patchLead(lead.id, { last_error: sent.reason });
+        actions.push({ id: lead.id, action: 'retry', attempt: plan.attempt, reason: sent.reason });
+      }
     } else if (plan.action === 'stop') {
       // Only exhausted needs writing back; the other stops are already terminal
       // states the lead carries, so re-stamping them would be noise.
